@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC06 油脂・無機質・ビタミン drill</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--primary:#ea580c;--primary-light:#fed7aa;--primary-dark:#c2410c;--bg:#fff7ed;--card:#fff;--text:#1c1917;--text-sub:#78716c;--border:#e7e5e4;--correct:#16a34a;--wrong:#dc2626;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'BIZ UDPGothic',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  header{background:var(--primary);color:white;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+  header .back{color:white;text-decoration:none;font-size:20px;}
+  header h1{font-size:17px;font-weight:700;line-height:1.3;}
+  header .badge{margin-left:auto;background:rgba(255,255,255,0.25);border-radius:20px;padding:3px 10px;font-size:12px;}
+  .container{max-width:680px;margin:0 auto;padding:20px 16px 40px;}
+  .progress-text{font-size:12px;color:var(--text-sub);margin-bottom:6px;}
+  .progress-bar{background:var(--primary-light);border-radius:20px;height:8px;margin-bottom:14px;overflow:hidden;}
+  .progress-fill{background:var(--primary);height:100%;border-radius:20px;transition:width 0.4s;}
+  .q-card{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08);border:2px solid var(--border);margin-bottom:12px;}
+  .q-num{font-size:12px;color:var(--primary);font-weight:700;margin-bottom:8px;}
+  .q-text{font-size:15px;line-height:1.8;margin-bottom:14px;white-space:pre-wrap;}
+  .choices{display:flex;flex-direction:column;gap:8px;}
+  .choice-btn{background:white;border:2px solid var(--border);border-radius:10px;padding:11px 14px;text-align:left;font-size:13px;cursor:pointer;font-family:inherit;line-height:1.5;transition:border-color 0.15s;}
+  .choice-btn:hover:not(:disabled){border-color:var(--primary);background:var(--bg);}
+  .choice-btn.correct{border-color:var(--correct);background:#f0fdf4;color:var(--correct);font-weight:700;}
+  .choice-btn.wrong{border-color:var(--wrong);background:#fef2f2;color:var(--wrong);}
+  .feedback{display:none;margin-top:10px;padding:12px 14px;border-radius:8px;font-size:13px;line-height:1.8;}
+  .feedback.show{display:block;}
+  .feedback.ok{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;}
+  .feedback.ng{background:#fef2f2;color:#991b1b;border:1px solid #fecaca;}
+  .kw-d{display:inline-block;background:#fff7ed;border:2px solid var(--primary);border-radius:6px;padding:1px 8px;color:var(--primary-dark);font-weight:700;font-size:14px;}
+  .blank{display:inline-block;min-width:80px;border-bottom:2px solid var(--primary);padding:0 6px;color:var(--primary);font-weight:700;text-align:center;font-size:14px;cursor:pointer;}
+  .word-pool{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+  .word-chip{background:white;border:2px solid var(--primary);border-radius:20px;padding:5px 14px;font-size:13px;cursor:pointer;transition:all 0.15s;font-family:inherit;}
+  .word-chip:hover{background:var(--primary);color:white;}
+  .word-chip.used{opacity:0.35;pointer-events:none;}
+  .word-btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  .word-challenge-btn{background:var(--primary);color:white;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
+  .word-judge-btn{background:#059669;color:white;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:none;}
+  .word-ans-btn{background:white;color:var(--primary);border:2px solid var(--primary);border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:none;}
+  .score-card{background:var(--card);border-radius:14px;padding:28px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.08);display:none;}
+  .score-card.show{display:block;}
+  .score-big{font-size:56px;font-weight:700;color:var(--primary);}
+  .score-label{font-size:14px;color:var(--text-sub);margin-bottom:16px;}
+  .score-msg{font-size:16px;font-weight:700;margin-bottom:24px;}
+  .nav-btn{display:block;width:100%;background:var(--primary);color:white;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;margin-top:12px;}
+  .nav-btn-outline{display:block;width:100%;background:white;color:var(--primary);border:2px solid var(--primary);border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;margin-top:10px;}
+  .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;animation:fall 2.5s ease-out forwards;}
+  @keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+</style>
+</head>
+<body>
+<header>
+  <a href="SC06_intro.html" class="back">←</a>
+  <h1>SC06 食品の成分と性質<br>③ 油脂・無機質・ビタミン</h1>
+  <span class="badge">drill</span>
+</header>
+<div class="container">
+  <div class="progress-text" id="prog-text">問題 1 / 8</div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:12.5%"></div></div>
+  <div id="quiz-area"></div>
+  <div class="score-card" id="score-card">
+    <div class="score-big" id="sc-score"></div>
+    <div class="score-label" id="sc-label"></div>
+    <div class="score-msg" id="sc-msg"></div>
+    <a href="SC06_check.html" class="nav-btn">まとめチェックに進む →</a>
+    <button class="nav-btn-outline" onclick="restart()">もう一度チャレンジ</button>
+    <a href="SC06_intro.html" class="nav-btn-outline">解説を見直す</a>
+  </div>
+</div>
+<script>
+var questions = [
+  {type:'mc',num:1,text:'油脂（脂質）の構造として正しいものはどれか。',choices:['グルコースが多数つながった高分子化合物','グリセリン1分子と脂肪酸3分子が結合した化合物','アミノ酸がペプチド結合でつながった高分子化合物','グリセリン3分子と脂肪酸1分子が結合した化合物'],correct:1,explanation:'油脂＝グリセリン1分子＋脂肪酸3分子。グルコースがつながるのはデンプン、アミノ酸がつながるのはタンパク質。'},
+  {type:'mc',num:2,text:'常温（約15℃）で固体の油脂を何というか。',choices:['脂肪油','グリセリン','脂肪','モノグリセリド'],correct:2,explanation:'固体の油脂→脂肪（バターなど）。液体の油脂→脂肪油（サラダ油など）。'},
+  {type:'mc',num:3,text:'油脂を分解する消化酵素はどれか。',choices:['アミラーゼ','ペプシン','トリプシン','リパーゼ'],correct:3,explanation:'リパーゼはすい液に含まれる油脂の消化酵素。アミラーゼ=デンプン、ペプシン・トリプシン=タンパク質を分解。'},
+  {type:'mc',num:4,text:'油脂がリパーゼで分解されると何になるか。',choices:['グルコースとアミノ酸','モノグリセリド1分子と脂肪酸2分子','グリセリン3分子と脂肪酸1分子','アミノ酸とグリセリン'],correct:1,explanation:'油脂→リパーゼ→モノグリセリド1分子＋脂肪酸2分子。この状態で小腸から吸収されます。'},
+  {type:'mc',num:5,text:'亜鉛（Zn）が不足すると起こる欠乏症はどれか。',choices:['骨粗しょう症','貧血','夜盲症','味覚障害'],correct:3,explanation:'Zn不足→味覚障害。Ca不足→骨粗しょう症、Fe不足→貧血、ビタミンA不足→夜盲症。'},
+  {type:'mc',num:6,text:'ビタミンについて正しいものはどれか。',choices:['体内で十分に合成できる','毎日大量に摂取する必要がある','微量でからだの機能を調節し、不足すると欠乏症が起こる','炭素・水素・酸素・窒素のみからなる化合物である'],correct:2,explanation:'ビタミンは少量でからだの機能を調節。体内でほとんど合成できないため食品から摂取が必要。不足すると種類ごとの欠乏症が起きます。'},
+  {type:'word',num:7,text:'ビタミンの欠乏症を完成させよ。',
+   sentence:'ビタミンAが不足すると[b1]、ビタミンB₁が不足すると[b2]、ビタミンCが不足すると[b3]が起こる。',
+   blanks:{b1:'夜盲症',b2:'脚気',b3:'壊血病'},
+   pool:['夜盲症','脚気','壊血病','骨粗しょう症','貧血'],
+   explanation:'ビタミンA→夜盲症、B₁→脚気、C→壊血病。骨粗しょう症はCa不足、貧血はFe不足。'},
+  {type:'mc',num:8,text:'脂溶性ビタミンの組み合わせとして正しいものはどれか。',choices:['ビタミンB₁・B₂・C','ビタミンA・D・E・K','ビタミンC・D・K','ビタミンB群・C・D'],correct:1,explanation:'脂溶性ビタミン=A・D・E・K（脂に溶ける）。水溶性ビタミン=B群・C（水に溶ける）。'}
+];
+
+var current=0,score=0;
+var wState={},wRunning=false,wSelChip=null,wSelBlank=null,wAns={};
+
+function render(){
+  if(current>=questions.length){showScore();return;}
+  const q=questions[current];
+  document.getElementById('prog-text').textContent=`問題 ${current+1} / ${questions.length}`;
+  document.getElementById('prog-fill').style.width=`${((current+1)/questions.length)*100}%`;
+  let html=`<div class="q-card"><div class="q-num">問 ${q.num}</div><div class="q-text">${q.text}</div>`;
+  if(q.type==='mc'){
+    html+=`<div class="choices" id="choices">`;
+    q.choices.forEach((c,i)=>{html+=`<button class="choice-btn" onclick="checkMC(this,${i},${q.correct},'${q.explanation.replace(/'/g,"&apos;")}')">${['①','②','③','④'][i]} ${c}</button>`;});
+    html+=`</div><div class="feedback" id="q-fb"></div>`;
+  } else {
+    wState={};wAns=q.blanks;Object.keys(q.blanks).forEach(k=>{wState[k]=null;});
+    wRunning=false;wSelChip=null;wSelBlank=null;
+    let sent=q.sentence;
+    Object.keys(q.blanks).forEach(k=>{sent=sent.replace(`[${k}]`,`<span class="kw-d" id="kw_${k}">${q.blanks[k]}</span>`);});
+    html+=`<div><div class="q-text" id="wsent">${sent}</div>
+      <div class="word-pool" id="wpool" style="display:none">`;
+    q.pool.forEach(w=>{html+=`<span class="word-chip" data-word="${w}" onclick="wDTap(this)">${w}</span>`;});
+    html+=`</div><div class="word-btn-row">
+      <button class="word-challenge-btn" id="wchbtn" onclick="startDChallenge()">チャレンジ</button>
+      <button class="word-judge-btn" id="wjbtn" onclick="judgeDWord('${q.explanation.replace(/'/g,"&apos;")}')">判定する</button>
+      <button class="word-ans-btn" id="wabtn" onclick="showDAns()">お手本</button>
+    </div><div class="feedback" id="q-fb"></div></div>`;
+  }
+  html+=`</div>`;
+  document.getElementById('quiz-area').innerHTML=html;
+}
+
+function checkMC(btn,idx,correct,explanation){
+  const btns=document.getElementById('choices').querySelectorAll('.choice-btn');
+  btns.forEach(b=>b.disabled=true);
+  const ok=idx===correct;
+  if(ok){btn.classList.add('correct');score++;confetti();}
+  else{btn.classList.add('wrong');btns[correct].classList.add('correct');}
+  const fb=document.getElementById('q-fb');
+  fb.classList.add('show',ok?'ok':'ng');
+  fb.innerHTML=(ok?'<b>正解！</b>　':'<b>不正解。</b>　')+explanation;
+  setTimeout(()=>{current++;render();},2200);
+}
+
+function startDChallenge(){
+  wRunning=true;wSelChip=null;wSelBlank=null;
+  Object.keys(wAns).forEach(k=>{
+    wState[k]=null;
+    const el=document.getElementById('kw_'+k);
+    el.className='blank';el.id=k;el.textContent='';
+    el.onclick=()=>dBlankTap(k);
+  });
+  document.querySelectorAll('#wpool .word-chip').forEach(c=>{c.classList.remove('used');c.style.outline='';c.style.background='';c.style.color='';});
+  document.getElementById('wpool').style.display='flex';
+  document.getElementById('wchbtn').style.display='none';
+  document.getElementById('wjbtn').style.display='inline-block';
+  document.getElementById('wabtn').style.display='inline-block';
+}
+
+function wDTap(chip){
+  if(!wRunning)return;
+  if(wSelChip===chip){dClearChip();return;}
+  if(wSelBlank){dPlaceWord(chip,wSelBlank);dClearBlank();return;}
+  dClearChip();
+  wSelChip=chip;chip.style.outline='3px solid #ea580c';chip.style.background='#ea580c';chip.style.color='white';
+}
+
+function dBlankTap(bid){
+  if(!wRunning)return;
+  if(wSelChip){dPlaceWord(wSelChip,bid);dClearChip();return;}
+  if(wState[bid])dReturnPool(bid);
+  dClearBlank();
+  wSelBlank=bid;
+  const el=document.getElementById(bid);
+  el.style.borderBottom='3px solid #ea580c';el.style.background='#fff7ed';
+}
+
+function dPlaceWord(chip,bid){
+  Object.keys(wState).forEach(k=>{if(wState[k]===chip){wState[k]=null;const el=document.getElementById(k);el.textContent='';el.style.borderBottom='';el.style.background='';}});
+  if(wState[bid])dReturnPool(bid);
+  wState[bid]=chip;
+  const el=document.getElementById(bid);
+  el.textContent=chip.dataset.word;el.style.borderBottom='';el.style.background='';
+  chip.classList.add('used');
+}
+
+function dReturnPool(bid){
+  const chip=wState[bid];
+  if(chip){chip.classList.remove('used');chip.style.outline='';chip.style.background='';chip.style.color='';}
+  wState[bid]=null;
+  const el=document.getElementById(bid);
+  el.textContent='';el.style.borderBottom='';el.style.background='';
+}
+
+function dClearChip(){if(wSelChip){wSelChip.style.outline='';wSelChip.style.background='';wSelChip.style.color='';wSelChip=null;}}
+function dClearBlank(){if(wSelBlank){const e=document.getElementById(wSelBlank);if(e){e.style.borderBottom='';e.style.background='';}wSelBlank=null;}}
+
+function judgeDWord(explanation){
+  dClearChip();dClearBlank();
+  let allOk=true;
+  Object.keys(wAns).forEach(k=>{if(!wState[k]||wState[k].dataset.word!==wAns[k])allOk=false;});
+  const fb=document.getElementById('q-fb');fb.classList.add('show');
+  if(allOk){
+    fb.classList.add('ok');fb.innerHTML='<b>正解！</b>　'+explanation;
+    score++;confetti();setTimeout(()=>{current++;render();},2200);
+  } else {
+    fb.classList.add('ng');fb.innerHTML='<b>もう一度！</b>　間違った語句を語群に戻しました。';
+    Object.keys(wAns).forEach(k=>{if(!wState[k]||wState[k].dataset.word!==wAns[k])dReturnPool(k);});
+  }
+}
+
+function showDAns(){
+  Object.keys(wAns).forEach(k=>{
+    if(wState[k]){wState[k].classList.remove('used');}
+    wState[k]=null;
+    const el=document.getElementById(k);
+    el.textContent=wAns[k];el.className='kw-d';el.onclick=null;
+    el.style.borderBottom='';el.style.background='';
+  });
+  document.getElementById('wpool').style.display='none';
+  document.getElementById('wjbtn').style.display='none';
+  document.getElementById('wabtn').style.display='none';
+  const btn=document.getElementById('wchbtn');
+  btn.textContent='もう一度チャレンジ';btn.style.display='inline-block';
+  wRunning=false;dClearChip();dClearBlank();
+}
+
+function showScore(){
+  document.getElementById('quiz-area').innerHTML='';
+  const card=document.getElementById('score-card');card.classList.add('show');
+  const pct=Math.round(score/questions.length*100);
+  document.getElementById('sc-score').textContent=`${score} / ${questions.length}`;
+  document.getElementById('sc-label').textContent=`正解率 ${pct}%`;
+  document.getElementById('sc-msg').textContent=pct>=80?'🎉 すばらしい！':pct>=60?'👍 もう少し！':'📖 introで確認してからもう一度！';
+  if(pct>=80)confettiBig();
+}
+
+function restart(){current=0;score=0;document.getElementById('score-card').classList.remove('show');render();}
+function confetti(){const colors=['#ea580c','#fb923c','#fcd34d','#4ade80','#60a5fa'];for(let i=0;i<30;i++){const el=document.createElement('div');el.className='confetti-piece';el.style.cssText=`left:${Math.random()*100}vw;top:-10px;background:${colors[i%colors.length]};animation-delay:${Math.random()*0.5}s;animation-duration:${1.5+Math.random()}s`;document.body.appendChild(el);setTimeout(()=>el.remove(),3000);}}
+function confettiBig(){for(let i=0;i<5;i++)setTimeout(()=>confetti(),i*200);}
+render();
+</script>
+</body>
+</html>

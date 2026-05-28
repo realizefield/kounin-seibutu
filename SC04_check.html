@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC04 食品の成分 ① check</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #ea580c;
+    --primary-light: #fed7aa;
+    --primary-dark: #c2410c;
+    --bg: #fff7ed;
+    --card: #ffffff;
+    --text: #1c1917;
+    --text-sub: #78716c;
+    --border: #e7e5e4;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'BIZ UDPGothic', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  header {
+    background: var(--primary);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  header .back { color: white; text-decoration: none; font-size: 20px; }
+  header h1 { font-size: 17px; font-weight: 700; line-height: 1.3; }
+  header .badge { margin-left: auto; background: rgba(255,255,255,0.25); border-radius: 20px; padding: 3px 10px; font-size: 12px; }
+
+  .container { max-width: 680px; margin: 0 auto; padding: 20px 16px 40px; }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    background: var(--primary);
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .section-label.past { background: var(--primary-dark); }
+
+  .progress-bar { background: var(--primary-light); border-radius: 20px; height: 8px; margin-bottom: 6px; overflow: hidden; }
+  .progress-fill { background: var(--primary); height: 100%; border-radius: 20px; transition: width 0.4s; }
+  .progress-text { font-size: 12px; color: var(--text-sub); margin-bottom: 14px; }
+
+  .q-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border: 2px solid var(--border);
+    margin-bottom: 12px;
+  }
+  .q-card.past-q { border-color: var(--primary-dark); }
+  .q-num { font-size: 12px; color: var(--primary); font-weight: 700; margin-bottom: 8px; }
+  .q-num.past { color: var(--primary-dark); }
+  .q-text { font-size: 15px; line-height: 1.8; margin-bottom: 14px; }
+
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice-btn {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    line-height: 1.5;
+    transition: border-color 0.15s;
+  }
+  .choice-btn:hover:not(:disabled) { border-color: var(--primary); background: var(--bg); }
+  .choice-btn.correct { border-color: var(--correct); background: #f0fdf4; color: var(--correct); font-weight: 700; }
+  .choice-btn.wrong { border-color: var(--wrong); background: #fef2f2; color: var(--wrong); }
+
+  .feedback {
+    display: none;
+    margin-top: 10px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+  .feedback.ng { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+  /* 結果画面 */
+  .result-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: none;
+  }
+  .result-card.show { display: block; }
+  .result-score { font-size: 60px; font-weight: 700; color: var(--primary); }
+  .result-label { font-size: 14px; color: var(--text-sub); margin-bottom: 8px; }
+  .result-bar-wrap { background: var(--primary-light); border-radius: 20px; height: 12px; margin: 12px 0 20px; overflow: hidden; }
+  .result-bar { background: var(--primary); height: 100%; border-radius: 20px; transition: width 1s; }
+  .result-msg { font-size: 17px; font-weight: 700; margin-bottom: 24px; }
+  .result-breakdown { font-size: 13px; color: var(--text-sub); margin-bottom: 20px; line-height: 2; }
+
+  .nav-btn {
+    display: block;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+  .nav-btn-outline {
+    display: block;
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+
+  .confetti-piece {
+    position: fixed; width: 10px; height: 10px; border-radius: 2px;
+    pointer-events: none; animation: fall 2.5s ease-out forwards;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="SC04_drill.html" class="back">←</a>
+  <h1>SC04 食品の成分と性質<br>① まとめチェック</h1>
+  <span class="badge">check</span>
+</header>
+
+<div class="container">
+  <div class="progress-text" id="prog-text">問題 1 / 9</div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:11.1%"></div></div>
+
+  <div id="quiz-area"></div>
+
+  <div class="result-card" id="result-card">
+    <div class="result-score" id="r-score"></div>
+    <div class="result-label">/ 9問</div>
+    <div class="result-bar-wrap"><div class="result-bar" id="r-bar" style="width:0%"></div></div>
+    <div class="result-msg" id="r-msg"></div>
+    <div class="result-breakdown" id="r-break"></div>
+    <a href="../gamba_kounin.html" class="nav-btn">メニューに戻る</a>
+    <button class="nav-btn-outline" onclick="restart()">もう一度チャレンジ</button>
+    <a href="SC04_intro.html" class="nav-btn-outline">解説を見直す</a>
+  </div>
+</div>
+
+<script src="../gamba_support.js"></script>
+<script>
+// ======= 問題データ =======
+// 基礎問5問 + 過去問類題4問
+var questions = [
+  // ===== 基礎問 =====
+  {
+    type: 'mc', section: 'basic', num: 1,
+    text: '五大栄養素に含まれないものはどれか。',
+    choices: ['炭水化物', 'ビタミン', '無機質（ミネラル）', '水'],
+    correct: 3,
+    explanation: '五大栄養素は炭水化物・タンパク質・脂質・無機質・ビタミン。水は栄養素ではありません。'
+  },
+  {
+    type: 'mc', section: 'basic', num: 2,
+    text: 'マルトース（麦芽糖）は単糖類・二糖類・多糖類のどれか。',
+    choices: ['単糖類', '二糖類', '多糖類', 'どれでもない'],
+    correct: 1,
+    explanation: 'マルトースはグルコース2分子が結合した二糖類。グルコース自体は単糖類、デンプンは多糖類。'
+  },
+  {
+    type: 'mc', section: 'basic', num: 3,
+    text: 'デンプン＋だ液（40℃）の試験管にヨウ素液を加えるとどうなるか。',
+    choices: [
+      '青紫色に変わる',
+      '変化しない',
+      '赤褐色になる',
+      '無色になる'
+    ],
+    correct: 1,
+    explanation: 'だ液中のアミラーゼ（40℃で活性）がデンプンを分解するため、デンプンが残らず青紫色の変化は起きません。'
+  },
+  {
+    type: 'mc', section: 'basic', num: 4,
+    text: '消化酵素アミラーゼはどこに含まれているか。正しい組み合わせを選べ。',
+    choices: [
+      'だ液のみ',
+      'すい液のみ',
+      'だ液とすい液の両方',
+      '胃液'
+    ],
+    correct: 2,
+    explanation: 'アミラーゼはだ液とすい液の両方に含まれています。デンプン→マルトースへの分解に働きます。'
+  },
+  {
+    type: 'mc', section: 'basic', num: 5,
+    text: 'アミラーゼが高温で働かなくなる理由として正しいものはどれか。',
+    choices: [
+      '高温ではデンプンが溶けてしまうから',
+      'アミラーゼは脂質でできているため変形するから',
+      'アミラーゼはタンパク質でできているため変性・凝固（失活）するから',
+      '高温では水分が蒸発するから'
+    ],
+    correct: 2,
+    explanation: '消化酵素はタンパク質でできているため、高温（80℃以上）で変性・凝固して構造が崩れ、失活します。'
+  },
+  // ===== 過去問類題 =====
+  {
+    type: 'mc', section: 'past', num: 6,
+    text: '次のア〜ウは、ある栄養素について述べたものである。ア〜ウのすべてに当てはまる栄養素を最も多く含む食品として適切なものはどれか。\n\nア 消化器官で単糖にまで分解されたのち、体内に吸収される。\nイ 生命活動のエネルギー源となるほか、グリコーゲンとして体内の器官に蓄えられる。\nウ だ液の中に含まれるアミラーゼにより分解される。',
+    choices: ['魚', '海藻', 'パン', 'チーズ'],
+    correct: 2,
+    explanation: 'ア〜ウはすべて炭水化物（デンプン）の特徴。デンプンを最も多く含む食品はパン（穀物）。魚・チーズはタンパク質・脂質が主、海藻はミネラル・食物繊維が主。'
+  },
+  {
+    type: 'mc', section: 'past', num: 7,
+    text: '栄養素の説明として適切でないものを選べ。',
+    choices: [
+      '油脂は体内に吸収されたのちにエネルギー源となる。',
+      '炭水化物は炭素・水素・酸素・窒素の4種類の元素から構成されている。',
+      'ビタミンには少量でからだの機能を調節するはたらきがある。',
+      'タンパク質は約20種類のアミノ酸で構成されている。'
+    ],
+    correct: 1,
+    explanation: '炭水化物は炭素C・水素H・酸素Oの3元素からなる化合物。窒素Nは含まれません（窒素を含むのはタンパク質）。'
+  },
+  {
+    type: 'mc', section: 'past', num: 8,
+    text: 'デンプンに関する記述として正しいものはどれか。',
+    choices: [
+      'デンプンはヨウ素ヨウ化カリウム水溶液を加えても色の変化を示さない。',
+      'デンプンは多数のグルコースが直鎖状に結合しているアミロースのみからなる。',
+      'デンプンは隣り合うグルコース分子の一部から水分子が取れて結合して構成される。',
+      'デンプンがグルコースやマルトースに分解される反応をフェーリング反応という。'
+    ],
+    correct: 2,
+    explanation: 'デンプンはグルコースどうしが水分子を外しながら（縮合）結合した多糖類。①ヨウ素反応で青紫になる。②アミロースだけでなくアミロペクチンもある。④フェーリング反応は糖の検出反応（デンプン分解とは別）。'
+  },
+  {
+    type: 'mc', section: 'past', num: 9,
+    text: '食物を消化するためには酵素が使われる。酵素について述べた文として正しいものを選べ。',
+    choices: [
+      '酵素の本体はおもに油脂である。',
+      'アミラーゼが分解する物質はタンパク質である。',
+      'それぞれの酵素には、最もよくはたらく温度やpHがある。',
+      '炭水化物を分解する酵素はペプシンとリパーゼである。'
+    ],
+    correct: 2,
+    explanation: '③が正しい。①酵素はタンパク質でできている。②アミラーゼはデンプンを分解する（タンパク質はペプシン等）。④ペプシンはタンパク質分解酵素、リパーゼは脂質分解酵素。'
+  }
+];
+
+var current = 0;
+var score = 0;
+var basicScore = 0;
+var pastScore = 0;
+
+function render() {
+  if (current >= questions.length) { showResult(); return; }
+  const q = questions[current];
+  const pct = ((current+1) / questions.length * 100).toFixed(1);
+  document.getElementById('prog-text').textContent = `問題 ${current+1} / ${questions.length}`;
+  document.getElementById('prog-fill').style.width = pct + '%';
+
+  const isPast = q.section === 'past';
+  let html = `<div class="q-card ${isPast ? 'past-q' : ''}">`;
+  html += `<div class="section-label ${isPast ? 'past' : ''}">${isPast ? '過去問類題' : '基礎問題'} ${q.num - (isPast ? 5 : 0)} / ${isPast ? 4 : 5}</div>`;
+  html += `<div class="q-num ${isPast ? 'past' : ''}">問 ${q.num}</div>`;
+  html += `<div class="q-text" style="white-space:pre-wrap">${q.text}</div>`;
+  html += `<div class="choices" id="choices">`;
+  q.choices.forEach((c, i) => {
+    html += `<button class="choice-btn" onclick="check(this,${i},${q.correct},'${q.explanation.replace(/'/g,"&apos;").replace(/\n/g,"\\n")}','${q.section}')">${['①','②','③','④'][i]} ${c}</button>`;
+  });
+  html += `</div><div class="feedback" id="q-fb"></div></div>`;
+  document.getElementById('quiz-area').innerHTML = html;
+}
+
+function check(btn, idx, correct, explanation, section) {
+  const btns = document.getElementById('choices').querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = true);
+  const ok = idx === correct;
+  if (ok) {
+    btn.classList.add('correct');
+    score++;
+    if (section === 'basic') basicScore++;
+    else pastScore++;
+    confetti();
+  } else {
+    btn.classList.add('wrong');
+    btns[correct].classList.add('correct');
+  }
+  const fb = document.getElementById('q-fb');
+  fb.classList.add('show', ok ? 'ok' : 'ng');
+  fb.innerHTML = (ok ? '<b>正解！</b>　' : '<b>不正解。</b>　') + explanation.replace(/\\n/g, '<br>');
+  setTimeout(() => { current++; render(); }, 2400);
+}
+
+function showResult() {
+  document.getElementById('quiz-area').innerHTML = '';
+  const card = document.getElementById('result-card');
+  card.classList.add('show');
+  const pct = Math.round(score / questions.length * 100);
+  document.getElementById('r-score').textContent = score;
+  setTimeout(() => { document.getElementById('r-bar').style.width = pct + '%'; }, 100);
+  let msg = pct >= 89 ? '🎉 完璧！よく理解できています！' : pct >= 67 ? '👍 もう少しで完璧！' : '📖 introでもう一度確認しましょう！';
+  document.getElementById('r-msg').textContent = msg;
+  document.getElementById('r-break').innerHTML =
+    `基礎問題：${basicScore} / 5　　過去問類題：${pastScore} / 4`;
+  if (pct >= 89) {
+    confettiBig();
+    markPassed('SC04');
+  }
+}
+
+function restart() {
+  current = 0; score = 0; basicScore = 0; pastScore = 0;
+  document.getElementById('result-card').classList.remove('show');
+  document.getElementById('r-bar').style.width = '0%';
+  render();
+}
+
+function confetti() {
+  const colors = ['#ea580c','#fb923c','#fcd34d','#4ade80','#60a5fa','#c084fc'];
+  for (let i = 0; i < 35; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `left:${Math.random()*100}vw;top:-10px;background:${colors[i%colors.length]};animation-delay:${Math.random()*0.6}s;animation-duration:${1.5+Math.random()*1.2}s`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3200);
+  }
+}
+function confettiBig() {
+  for (let i = 0; i < 6; i++) setTimeout(() => confetti(), i * 200);
+}
+
+render();
+</script>
+</body>
+</html>

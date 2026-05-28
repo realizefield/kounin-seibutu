@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC05 タンパク質 check</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--primary:#ea580c;--primary-light:#fed7aa;--primary-dark:#c2410c;--bg:#fff7ed;--card:#fff;--text:#1c1917;--text-sub:#78716c;--border:#e7e5e4;--correct:#16a34a;--wrong:#dc2626;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'BIZ UDPGothic',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  header{background:var(--primary);color:white;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+  header .back{color:white;text-decoration:none;font-size:20px;}
+  header h1{font-size:17px;font-weight:700;line-height:1.3;}
+  header .badge{margin-left:auto;background:rgba(255,255,255,0.25);border-radius:20px;padding:3px 10px;font-size:12px;}
+  .container{max-width:680px;margin:0 auto;padding:20px 16px 40px;}
+  .section-label{font-size:12px;font-weight:700;color:white;background:var(--primary);display:inline-block;padding:3px 12px;border-radius:20px;margin-bottom:10px;}
+  .section-label.past{background:var(--primary-dark);}
+  .progress-bar{background:var(--primary-light);border-radius:20px;height:8px;margin-bottom:6px;overflow:hidden;}
+  .progress-fill{background:var(--primary);height:100%;border-radius:20px;transition:width 0.4s;}
+  .progress-text{font-size:12px;color:var(--text-sub);margin-bottom:14px;}
+  .q-card{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08);border:2px solid var(--border);margin-bottom:12px;}
+  .q-card.past-q{border-color:var(--primary-dark);}
+  .q-num{font-size:12px;color:var(--primary);font-weight:700;margin-bottom:8px;}
+  .q-num.past{color:var(--primary-dark);}
+  .q-text{font-size:15px;line-height:1.8;margin-bottom:14px;white-space:pre-wrap;}
+  .choices{display:flex;flex-direction:column;gap:8px;}
+  .choice-btn{background:white;border:2px solid var(--border);border-radius:10px;padding:11px 14px;text-align:left;font-size:13px;cursor:pointer;font-family:inherit;line-height:1.5;transition:border-color 0.15s;}
+  .choice-btn:hover:not(:disabled){border-color:var(--primary);background:var(--bg);}
+  .choice-btn.correct{border-color:var(--correct);background:#f0fdf4;color:var(--correct);font-weight:700;}
+  .choice-btn.wrong{border-color:var(--wrong);background:#fef2f2;color:var(--wrong);}
+  .feedback{display:none;margin-top:10px;padding:12px 14px;border-radius:8px;font-size:13px;line-height:1.8;}
+  .feedback.show{display:block;}
+  .feedback.ok{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;}
+  .feedback.ng{background:#fef2f2;color:#991b1b;border:1px solid #fecaca;}
+  .result-card{background:var(--card);border-radius:14px;padding:28px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.08);display:none;}
+  .result-card.show{display:block;}
+  .result-score{font-size:60px;font-weight:700;color:var(--primary);}
+  .result-label{font-size:14px;color:var(--text-sub);margin-bottom:8px;}
+  .result-bar-wrap{background:var(--primary-light);border-radius:20px;height:12px;margin:12px 0 20px;overflow:hidden;}
+  .result-bar{background:var(--primary);height:100%;border-radius:20px;transition:width 1s;}
+  .result-msg{font-size:17px;font-weight:700;margin-bottom:24px;}
+  .result-breakdown{font-size:13px;color:var(--text-sub);margin-bottom:20px;line-height:2;}
+  .nav-btn{display:block;background:var(--primary);color:white;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;margin-top:10px;}
+  .nav-btn-outline{display:block;background:white;color:var(--primary);border:2px solid var(--primary);border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;margin-top:10px;}
+  .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;animation:fall 2.5s ease-out forwards;}
+  @keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+</style>
+</head>
+<body>
+<header>
+  <a href="SC05_drill.html" class="back">←</a>
+  <h1>SC05 食品の成分と性質<br>② まとめチェック</h1>
+  <span class="badge">check</span>
+</header>
+<div class="container">
+  <div class="progress-text" id="prog-text">問題 1 / 9</div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:11.1%"></div></div>
+  <div id="quiz-area"></div>
+  <div class="result-card" id="result-card">
+    <div class="result-score" id="r-score"></div>
+    <div class="result-label">/ 9問</div>
+    <div class="result-bar-wrap"><div class="result-bar" id="r-bar" style="width:0%"></div></div>
+    <div class="result-msg" id="r-msg"></div>
+    <div class="result-breakdown" id="r-break"></div>
+    <a href="../gamba_kounin.html" class="nav-btn">メニューに戻る</a>
+    <button class="nav-btn-outline" onclick="restart()">もう一度チャレンジ</button>
+    <a href="SC05_intro.html" class="nav-btn-outline">解説を見直す</a>
+  </div>
+</div>
+<script src="../gamba_support.js"></script>
+<script>
+var questions = [
+  // 基礎5問
+  { type:'mc', section:'basic', num:1, text:'タンパク質を構成するアミノ酸について、体内で合成できないため食品から摂取しなければならないものを何というか。', choices:['構造アミノ酸','必須アミノ酸','重要アミノ酸','不斉アミノ酸'], correct:1, explanation:'必須アミノ酸はヒトが体内で合成できない（または微量しかできない）アミノ酸で9種類。食品から摂取が必要です。' },
+  { type:'mc', section:'basic', num:2, text:'タンパク質はアミノ酸が多数結合したものである。この結合を何というか。', choices:['水素結合','ペプチド結合','エステル結合','二重結合'], correct:1, explanation:'アミノ酸どうしはアミノ基（-NH₂）とカルボキシ基（-COOH）が脱水縮合したペプチド（アミド）結合でつながります。' },
+  { type:'mc', section:'basic', num:3, text:'タンパク質に濃硝酸を加えると何色になるか。また、この反応を何というか。', choices:['赤紫色　ビュレット反応','黄色　キサントプロテイン反応','青紫色　ヨウ素デンプン反応','赤褐色　フェーリング反応'], correct:1, explanation:'キサントプロテイン反応：タンパク質＋濃硝酸→黄色。ビュレット反応は水酸化ナトリウム＋硫酸銅(Ⅱ)で赤紫色。' },
+  { type:'mc', section:'basic', num:4, text:'タンパク質の消化に関わる消化酵素として誤っているものはどれか。', choices:['ペプシン（胃液）','トリプシン（すい液）','ペプチダーゼ（腸液）','アミラーゼ（だ液）'], correct:3, explanation:'アミラーゼはデンプン（炭水化物）を分解する酵素。タンパク質の消化酵素はペプシン・トリプシン・ペプチダーゼです。' },
+  { type:'mc', section:'basic', num:5, text:'タンパク質は熱や酸などにより分子構造が変化して元に戻らなくなることがある。これを何というか。', choices:['硬化','分解','変性','可塑'], correct:2, explanation:'タンパク質の変性は熱・強酸・アルカリ・金属イオンで起こります。ゆで卵（加熱で固まる）がその典型例。' },
+  // 過去問類題4問
+  { type:'mc', section:'past', num:6, text:'私たちの体は主にタンパク質でできている。タンパク質について正しいものはどれか。', choices:['タンパク質は炭素・水素・酸素のみからなる。','タンパク質はアミノ酸がペプチド結合をして長くつながった構造をしている。','ヒトのからだをつくるタンパク質は、体内で合成されるアミノ酸のみからなる。','タンパク質はグルコースが多数つながってできた高分子化合物である。'], correct:1, explanation:'②が正しい。①タンパク質は窒素Nも含む。③必須アミノ酸は体内で合成できないので食品から摂取が必要。④グルコースがつながるのはデンプン（多糖類）。' },
+  { type:'mc', section:'past', num:7, text:'タンパク質を含む水溶液に水酸化ナトリウム水溶液を加えたのち、少量の硫酸銅（Ⅱ）水溶液を加えると何色になるか。', choices:['赤紫色','橙黄色','青緑色','黒褐色'], correct:0, explanation:'ビュレット反応（水酸化ナトリウム＋硫酸銅(Ⅱ)）でタンパク質は赤紫色に変化します。' },
+  { type:'mc', section:'past', num:8, text:'次のア〜ウのうち、アミノ酸分子に必ず存在する2つの原子団（基）の組み合わせとして正しいものを選べ。\n\nア アミノ基（-NH₂）とカルボキシ基（-COOH）\nイ アミノ基（-NH₂）とヒドロキシ基（-OH）\nウ ヒドロキシ基（-OH）とカルボキシ基（-COOH）', choices:['ア','イ','ウ','アとイの両方'], correct:0, explanation:'アミノ酸はアミノ基（-NH₂）とカルボキシ基（-COOH）を必ず持ちます。この2つが結合してペプチド結合となり、タンパク質が形成されます。' },
+  { type:'mc', section:'past', num:9, text:'栄養素の説明として適切でないものを選べ。', choices:['タンパク質は約20種類のアミノ酸で構成されている。','タンパク質が熱によって固まる現象を変性という。','炭水化物は炭素・水素・酸素・窒素の4種類の元素から構成されている。','油脂は体内に吸収された後にエネルギー源となる。'], correct:2, explanation:'③が誤り。炭水化物はC・H・Oの3元素のみ。窒素Nを含むのはタンパク質です。' }
+];
+
+var current=0, score=0, basicScore=0, pastScore=0;
+
+function render() {
+  if (current >= questions.length) { showResult(); return; }
+  const q = questions[current];
+  document.getElementById('prog-text').textContent = `問題 ${current+1} / ${questions.length}`;
+  document.getElementById('prog-fill').style.width = `${(current+1)/questions.length*100}%`;
+  const isPast = q.section === 'past';
+  let html = `<div class="q-card ${isPast?'past-q':''}">
+    <div class="section-label ${isPast?'past':''}">${isPast?'過去問類題 '+(q.num-5)+' / 4':'基礎問題 '+q.num+' / 5'}</div>
+    <div class="q-num ${isPast?'past':''}">問 ${q.num}</div>
+    <div class="q-text">${q.text}</div>
+    <div class="choices" id="choices">`;
+  q.choices.forEach((c,i) => { html += `<button class="choice-btn" onclick="check(this,${i},${q.correct},'${q.explanation.replace(/'/g,"&apos;").replace(/\n/g,"\\n")}','${q.section}')">${['①','②','③','④'][i]} ${c}</button>`; });
+  html += `</div><div class="feedback" id="q-fb"></div></div>`;
+  document.getElementById('quiz-area').innerHTML = html;
+}
+
+function check(btn, idx, correct, explanation, section) {
+  const btns = document.getElementById('choices').querySelectorAll('.choice-btn');
+  btns.forEach(b=>b.disabled=true);
+  const ok = idx===correct;
+  if(ok){btn.classList.add('correct');score++;if(section==='basic')basicScore++;else pastScore++;confetti();}
+  else{btn.classList.add('wrong');btns[correct].classList.add('correct');}
+  const fb=document.getElementById('q-fb');
+  fb.classList.add('show',ok?'ok':'ng');
+  fb.innerHTML=(ok?'<b>正解！</b>　':'<b>不正解。</b>　')+explanation.replace(/\\n/g,'<br>');
+  setTimeout(()=>{current++;render();},2400);
+}
+
+function showResult() {
+  document.getElementById('quiz-area').innerHTML='';
+  const card=document.getElementById('result-card'); card.classList.add('show');
+  const pct=Math.round(score/questions.length*100);
+  document.getElementById('r-score').textContent=score;
+  setTimeout(()=>{document.getElementById('r-bar').style.width=pct+'%';},100);
+  document.getElementById('r-msg').textContent=pct>=89?'🎉 完璧！よく理解できています！':pct>=67?'👍 もう少しで完璧！':'📖 introでもう一度確認しましょう！';
+  document.getElementById('r-break').innerHTML=`基礎問題：${basicScore} / 5　　過去問類題：${pastScore} / 4`;
+  if(pct>=89){confettiBig();markPassed('SC05');}
+}
+
+function restart(){current=0;score=0;basicScore=0;pastScore=0;document.getElementById('result-card').classList.remove('show');document.getElementById('r-bar').style.width='0%';render();}
+
+function confetti(){const colors=['#ea580c','#fb923c','#fcd34d','#4ade80','#60a5fa','#c084fc'];for(let i=0;i<35;i++){const el=document.createElement('div');el.className='confetti-piece';el.style.cssText=`left:${Math.random()*100}vw;top:-10px;background:${colors[i%colors.length]};animation-delay:${Math.random()*0.6}s;animation-duration:${1.5+Math.random()*1.2}s`;document.body.appendChild(el);setTimeout(()=>el.remove(),3200);}}
+function confettiBig(){for(let i=0;i<6;i++)setTimeout(()=>confetti(),i*200);}
+
+render();
+</script>
+</body>
+</html>

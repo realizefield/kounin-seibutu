@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC05 タンパク質 drill</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --primary:#ea580c; --primary-light:#fed7aa; --primary-dark:#c2410c; --bg:#fff7ed; --card:#fff; --text:#1c1917; --text-sub:#78716c; --border:#e7e5e4; --correct:#16a34a; --wrong:#dc2626; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'BIZ UDPGothic',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  header{background:var(--primary);color:white;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+  header .back{color:white;text-decoration:none;font-size:20px;}
+  header h1{font-size:17px;font-weight:700;line-height:1.3;}
+  header .badge{margin-left:auto;background:rgba(255,255,255,0.25);border-radius:20px;padding:3px 10px;font-size:12px;}
+  .container{max-width:680px;margin:0 auto;padding:20px 16px 40px;}
+  .progress-text{font-size:12px;color:var(--text-sub);margin-bottom:6px;}
+  .progress-bar{background:var(--primary-light);border-radius:20px;height:8px;margin-bottom:14px;overflow:hidden;}
+  .progress-fill{background:var(--primary);height:100%;border-radius:20px;transition:width 0.4s;}
+  .q-card{background:var(--card);border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08);border:2px solid var(--border);margin-bottom:12px;}
+  .q-num{font-size:12px;color:var(--primary);font-weight:700;margin-bottom:8px;}
+  .q-text{font-size:15px;line-height:1.8;margin-bottom:14px;}
+  .choices{display:flex;flex-direction:column;gap:8px;}
+  .choice-btn{background:white;border:2px solid var(--border);border-radius:10px;padding:11px 14px;text-align:left;font-size:13px;cursor:pointer;font-family:inherit;line-height:1.5;transition:border-color 0.15s;}
+  .choice-btn:hover:not(:disabled){border-color:var(--primary);background:var(--bg);}
+  .choice-btn.correct{border-color:var(--correct);background:#f0fdf4;color:var(--correct);font-weight:700;}
+  .choice-btn.wrong{border-color:var(--wrong);background:#fef2f2;color:var(--wrong);}
+  .feedback{display:none;margin-top:10px;padding:12px 14px;border-radius:8px;font-size:13px;line-height:1.8;}
+  .feedback.show{display:block;}
+  .feedback.ok{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;}
+  .feedback.ng{background:#fef2f2;color:#991b1b;border:1px solid #fecaca;}
+  /* 語群タップ */
+  .kw-d{display:inline-block;background:#fff7ed;border:2px solid var(--primary);border-radius:6px;padding:1px 8px;color:var(--primary-dark);font-weight:700;font-size:14px;}
+  .blank{display:inline-block;min-width:80px;border-bottom:2px solid var(--primary);padding:0 6px;color:var(--primary);font-weight:700;text-align:center;font-size:14px;cursor:pointer;}
+  .word-pool{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+  .word-chip{background:white;border:2px solid var(--primary);border-radius:20px;padding:5px 14px;font-size:13px;cursor:pointer;transition:all 0.15s;font-family:inherit;}
+  .word-chip:hover{background:var(--primary);color:white;}
+  .word-chip.used{opacity:0.35;pointer-events:none;}
+  .word-btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  .word-challenge-btn{background:var(--primary);color:white;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
+  .word-judge-btn{background:#059669;color:white;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:none;}
+  .word-ans-btn{background:white;color:var(--primary);border:2px solid var(--primary);border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:none;}
+  /* スコア */
+  .score-card{background:var(--card);border-radius:14px;padding:28px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.08);display:none;}
+  .score-card.show{display:block;}
+  .score-big{font-size:56px;font-weight:700;color:var(--primary);}
+  .score-label{font-size:14px;color:var(--text-sub);margin-bottom:16px;}
+  .score-msg{font-size:16px;font-weight:700;margin-bottom:24px;}
+  .nav-btn{display:block;width:100%;background:var(--primary);color:white;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;margin-top:12px;}
+  .nav-btn-outline{display:block;width:100%;background:white;color:var(--primary);border:2px solid var(--primary);border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;margin-top:10px;}
+  .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;animation:fall 2.5s ease-out forwards;}
+  @keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+</style>
+</head>
+<body>
+<header>
+  <a href="SC05_intro.html" class="back">←</a>
+  <h1>SC05 食品の成分と性質<br>② タンパク質</h1>
+  <span class="badge">drill</span>
+</header>
+<div class="container">
+  <div class="progress-text" id="prog-text">問題 1 / 8</div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:12.5%"></div></div>
+  <div id="quiz-area"></div>
+  <div class="score-card" id="score-card">
+    <div class="score-big" id="sc-score"></div>
+    <div class="score-label" id="sc-label"></div>
+    <div class="score-msg" id="sc-msg"></div>
+    <a href="SC05_check.html" class="nav-btn">まとめチェックに進む →</a>
+    <button class="nav-btn-outline" onclick="restart()">もう一度チャレンジ</button>
+    <a href="SC05_intro.html" class="nav-btn-outline">解説を見直す</a>
+  </div>
+</div>
+<script>
+var questions = [
+  { type:'mc', num:1, text:'タンパク質の元素組成として正しいものはどれか。', choices:['炭素・水素・酸素のみ','炭素・水素・酸素・窒素（硫黄を含む場合も）','炭素・水素のみ','窒素・リン・酸素'], correct:1, explanation:'タンパク質はC・H・O＋窒素Nを含みます。硫黄Sを含む場合もあります。炭水化物・油脂にはNが含まれません。' },
+  { type:'mc', num:2, text:'アミノ酸どうしが結合するときにできる結合を何というか。', choices:['エステル結合','イオン結合','アミド結合（ペプチド結合）','水素結合'], correct:2, explanation:'アミノ基（-NH₂）とカルボキシ基（-COOH）が脱水縮合してできる結合をアミド結合（ペプチド結合）といいます。' },
+  { type:'mc', num:3, text:'必須アミノ酸とはどれか。', choices:['体内で大量に合成できるアミノ酸','体内で合成できないため食品から摂取が必要なアミノ酸（9種類）','最も多く含まれるアミノ酸','アミノ基を2個持つアミノ酸'], correct:1, explanation:'必須アミノ酸はヒトが体内で合成できない（または微量しかできない）アミノ酸で9種類あります。食品から摂取する必要があります。' },
+  { type:'mc', num:4, text:'生卵を加熱するとゆで卵になる。これはタンパク質のどのような性質によるか。', choices:['加水分解','変性','酸化','還元'], correct:1, explanation:'タンパク質は熱・強酸・強アルカリ・金属イオンなどで分子構造が変化し元に戻らなくなります。これを変性といい、ゆで卵はその典型例です。' },
+  { type:'mc', num:5, text:'タンパク質に水酸化ナトリウム水溶液と少量の硫酸銅（Ⅱ）水溶液を加えると何色になるか。', choices:['黄色','青色','赤紫色','無色'], correct:2, explanation:'ビュレット反応はタンパク質に水酸化ナトリウム＋硫酸銅(Ⅱ)を加えると赤紫色になります。' },
+  { type:'mc', num:6, text:'キサントプロテイン反応について正しいものはどれか。', choices:['デンプンに濃硝酸を加えると青紫色になる','タンパク質に濃硝酸を加えると黄色になる','アミノ酸にベネジクト液を加えると赤褐色になる','タンパク質にニンヒドリン液を加えると赤紫色になる'], correct:1, explanation:'キサントプロテイン反応：タンパク質＋濃硝酸→黄色。ニンヒドリン反応はアミノ酸検出（赤紫色）。' },
+  {
+    type:'word', num:7,
+    text:'タンパク質の消化経路を完成させよ。',
+    sentence:'タンパク質は[b1]（胃液）によって分解され、次に[b2]（すい液）によって分解され、最後に[b3]（腸液）によってアミノ酸まで分解されて小腸で吸収される。',
+    blanks:{ b1:'ペプシン', b2:'トリプシン', b3:'ペプチダーゼ' },
+    pool:['ペプシン','トリプシン','ペプチダーゼ','アミラーゼ','リパーゼ'],
+    explanation:'ペプシン（胃液）→トリプシン（すい液）→ペプチダーゼ（腸液）→アミノ酸→小腸吸収。'
+  },
+  { type:'mc', num:8, text:'アミノ酸を検出するのに使う反応はどれか。', choices:['ビュレット反応','キサントプロテイン反応','ニンヒドリン反応','ヨウ素デンプン反応'], correct:2, explanation:'ニンヒドリン反応はアミノ酸の検出（赤紫色）。ビュレット・キサントプロテインはタンパク質の検出です。' }
+];
+
+var current=0, score=0;
+var wState={}, wRunning=false, wSelChip=null, wSelBlank=null, wAns={};
+
+function render() {
+  if (current >= questions.length) { showScore(); return; }
+  const q = questions[current];
+  document.getElementById('prog-text').textContent = `問題 ${current+1} / ${questions.length}`;
+  document.getElementById('prog-fill').style.width = `${((current+1)/questions.length)*100}%`;
+  let html = `<div class="q-card"><div class="q-num">問 ${q.num}</div><div class="q-text">${q.text}</div>`;
+  if (q.type === 'mc') {
+    html += `<div class="choices" id="choices">`;
+    q.choices.forEach((c,i) => { html += `<button class="choice-btn" onclick="checkMC(this,${i},${q.correct},'${q.explanation.replace(/'/g,"&apos;")}')">${['①','②','③','④'][i]} ${c}</button>`; });
+    html += `</div><div class="feedback" id="q-fb"></div>`;
+  } else {
+    wState={}; wAns=q.blanks; Object.keys(q.blanks).forEach(k=>{wState[k]=null;});
+    wRunning=false; wSelChip=null; wSelBlank=null;
+    let sent = q.sentence;
+    Object.keys(q.blanks).forEach(k => { sent=sent.replace(`[${k}]`,`<span class="kw-d" id="kw_${k}">${q.blanks[k]}</span>`); });
+    html += `<div><div class="q-text" id="wsent">${sent}</div>
+      <div class="word-pool" id="wpool" style="display:none">`;
+    q.pool.forEach(w => { html += `<span class="word-chip" data-word="${w}" onclick="wDTap(this)">${w}</span>`; });
+    html += `</div><div class="word-btn-row">
+      <button class="word-challenge-btn" id="wchbtn" onclick="startDChallenge()">チャレンジ</button>
+      <button class="word-judge-btn" id="wjbtn" onclick="judgeDWord('${q.explanation.replace(/'/g,"&apos;")}')">判定する</button>
+      <button class="word-ans-btn" id="wabtn" onclick="showDAns()">お手本</button>
+    </div><div class="feedback" id="q-fb"></div></div>`;
+  }
+  html += `</div>`;
+  document.getElementById('quiz-area').innerHTML = html;
+}
+
+function checkMC(btn, idx, correct, explanation) {
+  const btns = document.getElementById('choices').querySelectorAll('.choice-btn');
+  btns.forEach(b=>b.disabled=true);
+  const ok = idx===correct;
+  if(ok){btn.classList.add('correct');score++;confetti();}
+  else{btn.classList.add('wrong');btns[correct].classList.add('correct');}
+  const fb=document.getElementById('q-fb');
+  fb.classList.add('show',ok?'ok':'ng');
+  fb.innerHTML=(ok?'<b>正解！</b>　':'<b>不正解。</b>　')+explanation;
+  setTimeout(()=>{current++;render();},2200);
+}
+
+function startDChallenge() {
+  wRunning=true; wSelChip=null; wSelBlank=null;
+  Object.keys(wAns).forEach(k=>{
+    wState[k]=null;
+    const el=document.getElementById('kw_'+k);
+    el.className='blank'; el.id=k; el.textContent='';
+    el.onclick=()=>dBlankTap(k);
+  });
+  document.getElementById('wpool').style.display='flex';
+  document.getElementById('wchbtn').style.display='none';
+  document.getElementById('wjbtn').style.display='inline-block';
+  document.getElementById('wabtn').style.display='inline-block';
+}
+
+function wDTap(chip) {
+  if(!wRunning) return;
+  const word=chip.dataset.word;
+  if(wSelChip===chip){chip.style.outline='';chip.style.background='';chip.style.color='';wSelChip=null;return;}
+  if(wSelBlank){dPlaceWord(word,wSelBlank);dClearBlank();return;}
+  if(wSelChip){wSelChip.style.outline='';wSelChip.style.background='';wSelChip.style.color='';}
+  wSelChip=chip; chip.style.outline='3px solid #ea580c'; chip.style.background='#ea580c'; chip.style.color='white';
+}
+
+function dBlankTap(bid) {
+  if(!wRunning) return;
+  if(wSelChip){dPlaceWord(wSelChip.dataset.word,bid);dClearChip();return;}
+  if(wState[bid]) dReturnPool(bid);
+  if(wSelBlank) dClearBlank();
+  wSelBlank=bid;
+  const el=document.getElementById(bid);
+  el.style.borderBottom='3px solid #ea580c'; el.style.background='#fff7ed';
+}
+
+function dPlaceWord(word, bid) {
+  Object.keys(wState).forEach(k=>{if(wState[k]===word){wState[k]=null;document.getElementById(k).textContent='';}});
+  if(wState[bid]) dReturnPool(bid);
+  wState[bid]=word;
+  const el=document.getElementById(bid);
+  el.textContent=word; el.style.borderBottom=''; el.style.background='';
+  dUpdateChips();
+}
+
+function dReturnPool(bid) {
+  const w=wState[bid]; wState[bid]=null; document.getElementById(bid).textContent=''; dUpdateChips();
+}
+
+function dUpdateChips() {
+  const used=Object.values(wState).filter(Boolean);
+  document.querySelectorAll('#wpool .word-chip').forEach(c=>c.classList.toggle('used',used.includes(c.dataset.word)));
+}
+
+function dClearChip(){if(wSelChip){wSelChip.style.outline='';wSelChip.style.background='';wSelChip.style.color='';wSelChip=null;}}
+function dClearBlank(){if(wSelBlank){const e=document.getElementById(wSelBlank);if(e){e.style.borderBottom='';e.style.background='';}wSelBlank=null;}}
+
+function judgeDWord(explanation) {
+  dClearChip(); dClearBlank();
+  let allOk=true;
+  Object.keys(wAns).forEach(k=>{if(wState[k]!==wAns[k])allOk=false;});
+  const fb=document.getElementById('q-fb');
+  fb.classList.add('show');
+  if(allOk){
+    fb.classList.add('ok'); fb.innerHTML='<b>正解！</b>　'+explanation;
+    score++; confetti();
+    setTimeout(()=>{current++;render();},2200);
+  } else {
+    fb.classList.add('ng'); fb.innerHTML='<b>もう一度！</b>　間違った語句を語群に戻しました。';
+    Object.keys(wAns).forEach(k=>{if(wState[k]!==wAns[k])dReturnPool(k);});
+  }
+}
+
+function showDAns() {
+  Object.keys(wAns).forEach(k=>{
+    wState[k]=wAns[k];
+    const el=document.getElementById(k);
+    el.textContent=wAns[k]; el.className='kw-d'; el.onclick=null;
+    el.style.borderBottom=''; el.style.background='';
+  });
+  document.getElementById('wpool').style.display='none';
+  document.getElementById('wjbtn').style.display='none';
+  document.getElementById('wabtn').style.display='none';
+  const btn=document.getElementById('wchbtn');
+  btn.textContent='もう一度チャレンジ'; btn.style.display='inline-block';
+  wRunning=false; dClearChip(); dClearBlank();
+}
+
+function showScore() {
+  document.getElementById('quiz-area').innerHTML='';
+  const card=document.getElementById('score-card'); card.classList.add('show');
+  const pct=Math.round(score/questions.length*100);
+  document.getElementById('sc-score').textContent=`${score} / ${questions.length}`;
+  document.getElementById('sc-label').textContent=`正解率 ${pct}%`;
+  document.getElementById('sc-msg').textContent=pct>=80?'🎉 すばらしい！':pct>=60?'👍 もう少し！':'📖 introで確認してからもう一度！';
+  if(pct>=80) confettiBig();
+}
+
+function restart(){current=0;score=0;document.getElementById('score-card').classList.remove('show');render();}
+
+function confetti(){const colors=['#ea580c','#fb923c','#fcd34d','#4ade80','#60a5fa'];for(let i=0;i<30;i++){const el=document.createElement('div');el.className='confetti-piece';el.style.cssText=`left:${Math.random()*100}vw;top:-10px;background:${colors[i%colors.length]};animation-delay:${Math.random()*0.5}s;animation-duration:${1.5+Math.random()}s`;document.body.appendChild(el);setTimeout(()=>el.remove(),3000);}}
+function confettiBig(){for(let i=0;i<5;i++)setTimeout(()=>confetti(),i*200);}
+
+render();
+</script>
+</body>
+</html>

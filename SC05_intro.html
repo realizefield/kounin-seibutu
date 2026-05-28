@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC05 食品の成分と性質 ② タンパク質</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #ea580c;
+    --primary-light: #fed7aa;
+    --primary-dark: #c2410c;
+    --bg: #fff7ed;
+    --card: #ffffff;
+    --text: #1c1917;
+    --text-sub: #78716c;
+    --border: #e7e5e4;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'BIZ UDPGothic', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  header { background: var(--primary); color: white; padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+  header .back { color: white; text-decoration: none; font-size: 20px; }
+  header h1 { font-size: 17px; font-weight: 700; line-height: 1.3; }
+  header .badge { margin-left: auto; background: rgba(255,255,255,0.25); border-radius: 20px; padding: 3px 10px; font-size: 12px; }
+  .container { max-width: 680px; margin: 0 auto; padding: 20px 16px 40px; }
+  .section-title { font-size: 18px; font-weight: 700; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 12px; margin: 28px 0 16px; }
+  .card { background: var(--card); border-radius: 12px; padding: 18px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); border: 1px solid var(--border); }
+  .card h3 { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+  .card p { font-size: 14px; line-height: 1.8; }
+  .memo-box { background: #fff3ea; border-left: 4px solid var(--primary); padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 10px; font-size: 13px; line-height: 1.8; }
+  .key-word { font-weight: 700; color: var(--primary); }
+
+  /* 検出反応テーブル */
+  .detect-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+  .detect-table th { background: var(--primary); color: white; padding: 8px 10px; text-align: center; }
+  .detect-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: center; line-height: 1.5; }
+  .detect-table tr:nth-child(even) td { background: var(--bg); }
+
+  /* 消化フロー */
+  .digest-flow { display: flex; align-items: flex-start; gap: 4px; flex-wrap: wrap; margin-top: 12px; }
+  .flow-col { display: flex; flex-direction: column; align-items: center; }
+  .flow-box { background: var(--primary); color: white; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 700; text-align: center; min-width: 60px; }
+  .flow-box.light { background: var(--primary-light); color: var(--primary-dark); }
+  .flow-arrow { font-size: 14px; color: var(--text-sub); padding-top: 8px; }
+  .flow-enzyme { font-size: 10px; color: var(--text-sub); text-align: center; margin-top: 3px; max-width: 70px; }
+
+  /* ミニテスト */
+  .mini-quiz { background: #fff3ea; border: 2px solid var(--primary); border-radius: 12px; padding: 16px; margin-top: 16px; }
+  .mini-quiz h4 { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+  .mini-quiz .q-text { font-size: 14px; margin-bottom: 10px; line-height: 1.8; }
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice-btn { background: white; border: 2px solid var(--border); border-radius: 8px; padding: 10px 14px; text-align: left; font-size: 13px; cursor: pointer; font-family: inherit; line-height: 1.5; transition: border-color 0.15s; }
+  .choice-btn:hover:not(:disabled) { border-color: var(--primary); }
+  .choice-btn.correct { border-color: var(--correct); background: #f0fdf4; color: var(--correct); font-weight: 700; }
+  .choice-btn.wrong { border-color: var(--wrong); background: #fef2f2; color: var(--wrong); }
+  .feedback { display: none; margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 13px; line-height: 1.7; }
+  .feedback.show { display: block; }
+  .feedback.ok { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+  .feedback.ng { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+  /* 語群タップ */
+  .kw { display: inline-block; background: var(--primary-light); border: 2px solid var(--primary); border-radius: 6px; padding: 1px 8px; color: var(--primary-dark); font-weight: 700; font-size: 14px; }
+  .blank { display: inline-block; min-width: 80px; border-bottom: 2px solid var(--primary); padding: 0 6px; color: var(--primary); font-weight: 700; text-align: center; font-size: 14px; cursor: pointer; }
+  .word-pool { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .word-chip { background: white; border: 2px solid var(--primary); border-radius: 20px; padding: 5px 14px; font-size: 13px; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+  .word-chip:hover { background: var(--primary); color: white; }
+  .word-chip.used { opacity: 0.35; pointer-events: none; }
+  .word-btn-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .word-challenge { background: var(--primary); color: white; border: none; border-radius: 8px; padding: 10px 20px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
+  .word-submit { background: #059669; color: white; border: none; border-radius: 8px; padding: 10px 20px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; display: none; }
+  .word-answer { background: white; color: var(--primary); border: 2px solid var(--primary); border-radius: 8px; padding: 10px 20px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; display: none; }
+
+  /* ナビ */
+  .nav-row { display: flex; gap: 10px; margin-top: 32px; }
+  .nav-btn { flex: 1; display: block; background: var(--primary); color: white; border: none; border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit; text-align: center; text-decoration: none; }
+  .nav-btn-sub { flex: 1; display: block; background: var(--primary-light); color: var(--primary-dark); border: none; border-radius: 12px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; text-align: center; text-decoration: none; }
+
+  .confetti-piece { position: fixed; width: 10px; height: 10px; border-radius: 2px; pointer-events: none; animation: fall 2.5s ease-out forwards; }
+  @keyframes fall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+</style>
+</head>
+<body>
+<header>
+  <a href="../gamba_kounin.html" class="back">←</a>
+  <h1>SC05 食品の成分と性質<br>② タンパク質</h1>
+  <span class="badge">intro</span>
+</header>
+<div class="container">
+
+  <!-- セクション1: タンパク質の構造 -->
+  <div class="section-title">1. タンパク質の構造</div>
+  <div class="card">
+    <h3>タンパク質とアミノ酸</h3>
+    <p>タンパク質は生物の体を構成する重要な高分子化合物です。ヒトの皮膚・筋肉・毛・酵素などを作っています。</p>
+    <div class="memo-box" style="margin-top:10px">
+      <b>元素組成</b>：炭素C・水素H・酸素O に加え、<span class="key-word">窒素N</span>（さらに硫黄Sを含む場合も）<br>
+      → 炭水化物・油脂と違い<b>窒素Nを含む</b>のが特徴！
+    </div>
+    <p style="margin-top:12px">タンパク質は<span class="key-word">アミノ酸</span>が多数つながった（縮合重合）高分子化合物です。</p>
+    <!-- アミノ酸構造SVG -->
+    <svg viewBox="0 0 340 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:360px;display:block;margin:14px auto 0">
+      <!-- アミノ酸1個 -->
+      <rect x="10" y="30" width="140" height="70" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+      <text x="80" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#ea580c" font-family="BIZ UDPGothic,sans-serif">アミノ酸</text>
+      <!-- NH2 -->
+      <rect x="18" y="48" width="52" height="24" rx="6" fill="#fbbf24" opacity="0.7"/>
+      <text x="44" y="64" text-anchor="middle" font-size="13" font-weight="bold" fill="#78350f" font-family="monospace">-NH₂</text>
+      <text x="44" y="85" text-anchor="middle" font-size="10" fill="#92400e" font-family="BIZ UDPGothic,sans-serif">アミノ基</text>
+      <!-- C -->
+      <text x="80" y="68" text-anchor="middle" font-size="16" font-weight="bold" fill="#374151" font-family="monospace">C</text>
+      <!-- COOH -->
+      <rect x="90" y="48" width="52" height="24" rx="6" fill="#86efac" opacity="0.7"/>
+      <text x="116" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d" font-family="monospace">-COOH</text>
+      <text x="116" y="85" text-anchor="middle" font-size="10" fill="#166534" font-family="BIZ UDPGothic,sans-serif">カルボキシ基</text>
+      <!-- ペプチド結合矢印 -->
+      <text x="165" y="68" text-anchor="middle" font-size="22" fill="#ea580c">+</text>
+      <!-- アミノ酸2個目 -->
+      <rect x="185" y="30" width="140" height="70" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="2" stroke-dasharray="5,3"/>
+      <text x="255" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#ea580c" font-family="BIZ UDPGothic,sans-serif">アミノ酸</text>
+      <rect x="193" y="48" width="52" height="24" rx="6" fill="#fbbf24" opacity="0.7"/>
+      <text x="219" y="64" text-anchor="middle" font-size="13" font-weight="bold" fill="#78350f" font-family="monospace">-NH₂</text>
+      <text x="255" y="68" text-anchor="middle" font-size="16" font-weight="bold" fill="#374151" font-family="monospace">C</text>
+      <rect x="265" y="48" width="52" height="24" rx="6" fill="#86efac" opacity="0.7"/>
+      <text x="291" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d" font-family="monospace">-COOH</text>
+      <!-- ペプチド結合説明 -->
+      <text x="170" y="115" text-anchor="middle" font-size="11" fill="#ea580c" font-weight="bold" font-family="BIZ UDPGothic,sans-serif">↑ アミド（ペプチド）結合でH₂Oがとれてつながる</text>
+    </svg>
+    <div class="memo-box">
+      アミノ基（-NH₂）とカルボキシ基（-COOH）が結合する際にH₂Oが外れる → これを<span class="key-word">アミド結合（ペプチド結合）</span>といい、多数つながったものが<span class="key-word">タンパク質</span>。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>アミノ酸の種類と必須アミノ酸</h3>
+    <div class="memo-box">
+      アミノ酸は約<span class="key-word">20種類</span>あります。<br>
+      そのうち体内で合成できず、食品から摂取しなければならないものを<span class="key-word">必須アミノ酸</span>（9種類）といいます。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>タンパク質の変性</h3>
+    <p>タンパク質は熱・強酸・強アルカリ・金属イオンなどにより分子構造が変化して、元には戻らなくなります。これを<span class="key-word">変性</span>といいます。</p>
+    <div class="memo-box">
+      例：生卵を加熱すると固まる（ゆで卵）→ タンパク質の<b>変性</b>
+    </div>
+  </div>
+
+  <!-- ミニテスト1 -->
+  <div class="mini-quiz">
+    <h4>✏️ ミニテスト①</h4>
+    <div class="q-text">タンパク質の説明として正しいものはどれか。</div>
+    <div class="choices" id="q1">
+      <button class="choice-btn" onclick="checkChoice(this,'q1',false)">① タンパク質は炭素・水素・酸素のみからなる。</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q1',false)">② タンパク質は脂肪酸が多数つながった高分子化合物である。</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q1',true)">③ タンパク質はアミノ酸がペプチド結合でつながった高分子化合物である。</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q1',false)">④ アミノ酸は体内でほとんど合成できない。</button>
+    </div>
+    <div class="feedback" id="q1-fb">
+      <b>正解③</b>　タンパク質はアミノ酸がアミド（ペプチド）結合でつながった高分子。炭水化物・油脂と違い<b>窒素N</b>を含みます。
+    </div>
+  </div>
+
+  <!-- セクション2: 消化吸収 -->
+  <div class="section-title">2. タンパク質の消化と吸収</div>
+  <div class="card">
+    <h3>消化酵素の順番</h3>
+    <p>タンパク質はそのままでは吸収できません。3種の消化酵素で段階的に分解されます。</p>
+    <div class="digest-flow">
+      <div class="flow-col">
+        <div class="flow-box">タンパク質</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-arrow">→</div>
+        <div class="flow-enzyme">ペプシン<br>（胃液）</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-box light">ポリペプ<br>チド</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-arrow">→</div>
+        <div class="flow-enzyme">トリプシン<br>（すい液）</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-box light">ペプチド</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-arrow">→</div>
+        <div class="flow-enzyme">ペプチ<br>ダーゼ<br>（腸液）</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-box">アミノ酸</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-arrow">→</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-box light">小腸で吸収</div>
+      </div>
+    </div>
+    <div class="memo-box">
+      <b>語呂合わせ</b>：<span class="key-word">「胃でペプシン、すいでトリプシン、腸でペプチダーゼ」</span>
+    </div>
+  </div>
+
+  <!-- ミニテスト2 -->
+  <div class="mini-quiz">
+    <h4>✏️ ミニテスト②</h4>
+    <div class="q-text">タンパク質を分解する消化酵素と、それが含まれる消化液の組み合わせとして正しいものはどれか。</div>
+    <div class="choices" id="q2">
+      <button class="choice-btn" onclick="checkChoice(this,'q2',false)">① ペプシン（すい液）・トリプシン（胃液）</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q2',true)">② ペプシン（胃液）・トリプシン（すい液）・ペプチダーゼ（腸液）</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q2',false)">③ アミラーゼ（だ液）・リパーゼ（すい液）</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q2',false)">④ トリプシン（胃液）・ペプシン（腸液）</button>
+    </div>
+    <div class="feedback" id="q2-fb">
+      <b>正解②</b>　ペプシン＝胃液、トリプシン＝すい液、ペプチダーゼ＝腸液。アミラーゼはデンプン分解、リパーゼは油脂分解の酵素です。
+    </div>
+  </div>
+
+  <!-- セクション3: 検出反応 -->
+  <div class="section-title">3. タンパク質・アミノ酸の検出反応</div>
+  <div class="card">
+    <h3>3つの検出反応</h3>
+    <table class="detect-table">
+      <tr>
+        <th>反応名</th><th>試薬</th><th>検出対象</th><th>色の変化</th>
+      </tr>
+      <tr>
+        <td><b>ビュレット反応</b></td>
+        <td>水酸化ナトリウム＋硫酸銅(Ⅱ)水溶液</td>
+        <td>タンパク質</td>
+        <td><span style="color:#9f1239;font-weight:bold">赤紫色</span></td>
+      </tr>
+      <tr>
+        <td><b>キサントプロテイン反応</b></td>
+        <td>濃硝酸</td>
+        <td>タンパク質</td>
+        <td><span style="color:#92400e;font-weight:bold">黄色</span></td>
+      </tr>
+      <tr>
+        <td><b>ニンヒドリン反応</b></td>
+        <td>ニンヒドリン溶液（加熱）</td>
+        <td>アミノ酸</td>
+        <td><span style="color:#9f1239;font-weight:bold">赤紫色</span></td>
+      </tr>
+    </table>
+    <div class="memo-box">
+      <span class="key-word">ポイント</span>：ビュレットとキサントプロテインは<b>タンパク質</b>の検出。ニンヒドリンは<b>アミノ酸</b>の検出。
+    </div>
+  </div>
+
+  <!-- ミニテスト3: 語群タップ -->
+  <div class="mini-quiz">
+    <h4>✏️ ミニテスト③　語群タップ</h4>
+    <div id="wq3-text" class="q-text">
+      タンパク質の検出反応には2つある。水酸化ナトリウムと硫酸銅(Ⅱ)水溶液を加えると
+      <span class="kw" id="c1">赤紫色</span>
+      になる<span class="kw" id="c2">ビュレット</span>反応、
+      濃硝酸を加えると<span class="kw" id="c3">黄色</span>になる
+      <span class="kw" id="c4">キサントプロテイン</span>反応がある。
+      アミノ酸の検出にはニンヒドリン溶液を加えて加熱すると
+      <span class="kw" id="c5">赤紫色</span>
+      になる<span class="kw" id="c6">ニンヒドリン</span>反応がある。
+    </div>
+    <div class="word-pool" id="word-pool3" style="display:none">
+      <span class="word-chip" data-word="赤紫色" data-idx="0" onclick="wtChip(this)">赤紫色</span>
+      <span class="word-chip" data-word="ビュレット" data-idx="1" onclick="wtChip(this)">ビュレット</span>
+      <span class="word-chip" data-word="黄色" data-idx="2" onclick="wtChip(this)">黄色</span>
+      <span class="word-chip" data-word="キサントプロテイン" data-idx="3" onclick="wtChip(this)">キサントプロテイン</span>
+      <span class="word-chip" data-word="赤紫色" data-idx="4" onclick="wtChip(this)">赤紫色</span>
+      <span class="word-chip" data-word="ニンヒドリン" data-idx="5" onclick="wtChip(this)">ニンヒドリン</span>
+      <span class="word-chip" data-word="青紫色" data-idx="6" onclick="wtChip(this)">青紫色</span>
+    </div>
+    <div class="word-btn-row">
+      <button class="word-challenge" id="wc3-btn" onclick="startChallenge3()">チャレンジ</button>
+      <button class="word-submit" id="ws3" onclick="checkWord3()">判定する</button>
+      <button class="word-answer" id="wa3" onclick="showAnswer3()">お手本</button>
+    </div>
+    <div class="feedback" id="w3-fb" style="display:none"></div>
+  </div>
+
+  <!-- ナビ -->
+  <div class="nav-row">
+    <a href="SC05_drill.html" class="nav-btn-sub">練習問題へ →</a>
+    <a href="SC05_check.html" class="nav-btn">まとめチェックへ →</a>
+  </div>
+</div>
+
+<script>
+// 四択
+function checkChoice(btn, qid, correct) {
+  const group = document.getElementById(qid);
+  const btns = group.querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('wrong');
+    btns.forEach(b => {
+      if (b.getAttribute('onclick') && b.getAttribute('onclick').includes('true')) b.classList.add('correct');
+    });
+  }
+  const fb = document.getElementById(qid + '-fb');
+  fb.classList.add('show');
+  fb.classList.add(correct ? 'ok' : 'ng');
+  if (correct) confetti();
+}
+
+
+// ===== 語群タップ（シンプル確実版） =====
+var WT_ANS = {"c1":"赤紫色", "c2":"ビュレット", "c3":"黄色", "c4":"キサントプロテイン", "c5":"赤紫色", "c6":"ニンヒドリン"};
+var WT_STATE = {};
+var WT_SEL_CHIP = null;
+var WT_SEL_BLANK = null;
+var WT_RUNNING = false;
+
+function startChallenge3() {
+  WT_RUNNING = true;
+  WT_SEL_CHIP = null;
+  WT_SEL_BLANK = null;
+  for (var k in WT_ANS) {
+    WT_STATE[k] = null;
+    var el = document.getElementById(k);
+    el.textContent = '';
+    el.style.background = '';
+    el.style.borderBottom = '';
+    el.className = 'blank';
+  }
+  // クロージャでblank IDを束縛
+  var blankIds = ["c1", "c2", "c3", "c4", "c5", "c6"];
+  blankIds.forEach(function(bid) {
+    document.getElementById(bid).onclick = (function(id) {
+      return function() { wtBlank(id); };
+    })(bid);
+  });
+  document.querySelectorAll('#word-pool3 .word-chip').forEach(function(c) {
+    c.classList.remove('used');
+    c.style.outline = ''; c.style.background = ''; c.style.color = '';
+  });
+  document.getElementById('word-pool3').style.display = 'flex';
+  document.getElementById('wc3-btn').style.display = 'none';
+  document.getElementById('ws3').style.display = 'inline-block';
+  document.getElementById('wa3').style.display = 'inline-block';
+  document.getElementById('w3-fb').style.display = 'none';
+}
+
+function wtChip(chip) {
+  if (!WT_RUNNING) return;
+  if (WT_SEL_CHIP === chip) { wtClearChip(); return; }
+  if (WT_SEL_BLANK) { wtPlace(chip, WT_SEL_BLANK); wtClearBlank(); return; }
+  wtClearChip();
+  WT_SEL_CHIP = chip;
+  chip.style.outline = '3px solid #ea580c';
+  chip.style.background = '#ea580c';
+  chip.style.color = 'white';
+}
+
+function wtBlank(bid) {
+  if (!WT_RUNNING) return;
+  if (WT_SEL_CHIP) { wtPlace(WT_SEL_CHIP, bid); wtClearChip(); return; }
+  if (WT_STATE[bid]) wtReturn(bid);
+  wtClearBlank();
+  WT_SEL_BLANK = bid;
+  document.getElementById(bid).style.background = '#fff7ed';
+}
+
+function wtPlace(chip, bid) {
+  for (var k in WT_STATE) {
+    if (WT_STATE[k] === chip) {
+      WT_STATE[k] = null;
+      document.getElementById(k).textContent = '';
+      document.getElementById(k).style.background = '';
+    }
+  }
+  if (WT_STATE[bid]) wtReturn(bid);
+  WT_STATE[bid] = chip;
+  document.getElementById(bid).textContent = chip.dataset.word;
+  document.getElementById(bid).style.background = '';
+  chip.classList.add('used');
+}
+
+function wtReturn(bid) {
+  var chip = WT_STATE[bid];
+  if (chip) {
+    chip.classList.remove('used');
+    chip.style.outline = ''; chip.style.background = ''; chip.style.color = '';
+  }
+  WT_STATE[bid] = null;
+  document.getElementById(bid).textContent = '';
+  document.getElementById(bid).style.background = '';
+}
+
+function wtClearChip() {
+  if (WT_SEL_CHIP) {
+    WT_SEL_CHIP.style.outline = ''; WT_SEL_CHIP.style.background = ''; WT_SEL_CHIP.style.color = '';
+    WT_SEL_CHIP = null;
+  }
+}
+
+function wtClearBlank() {
+  if (WT_SEL_BLANK) {
+    document.getElementById(WT_SEL_BLANK).style.background = '';
+    WT_SEL_BLANK = null;
+  }
+}
+
+function checkWord3() {
+  wtClearChip(); wtClearBlank();
+  var allOk = true;
+  for (var k in WT_ANS) {
+    if (!WT_STATE[k] || WT_STATE[k].dataset.word !== WT_ANS[k]) { allOk = false; break; }
+  }
+  var fb = document.getElementById('w3-fb');
+  fb.style.display = 'block';
+  if (allOk) {
+    fb.className = 'feedback show ok';
+    fb.innerHTML = '<b>正解！</b>　ビュレット・ニンヒドリン反応は赤紫色、キサントプロテイン反応は黄色。ビュレット・キサントプロテインはタンパク質検出、ニンヒドリンはアミノ酸検出。';
+    confetti();
+  } else {
+    fb.className = 'feedback show ng';
+    fb.innerHTML = '<b>もう一度！</b>　間違った語句を語群に戻しました。';
+    for (var k in WT_ANS) {
+      if (!WT_STATE[k] || WT_STATE[k].dataset.word !== WT_ANS[k]) wtReturn(k);
+    }
+  }
+}
+
+function showAnswer3() {
+  for (var k in WT_ANS) {
+    var el = document.getElementById(k);
+    el.textContent = WT_ANS[k];
+    el.className = 'kw';
+    el.onclick = null;
+    el.style.background = '';
+  }
+  document.getElementById('word-pool3').style.display = 'none';
+  document.getElementById('ws3').style.display = 'none';
+  document.getElementById('wa3').style.display = 'none';
+  var btn = document.getElementById('wc3-btn');
+  btn.textContent = 'もう一度チャレンジ';
+  btn.style.display = 'inline-block';
+  WT_RUNNING = false; wtClearChip(); wtClearBlank();
+}
+
+function confetti() {
+  const colors = ['#ea580c','#fb923c','#fcd34d','#4ade80','#60a5fa','#c084fc'];
+  for (let i = 0; i < 40; i++) {
+    const el = document.createElement('div'); el.className = 'confetti-piece';
+    el.style.cssText = `left:${Math.random()*100}vw;top:-10px;background:${colors[i%colors.length]};animation-delay:${Math.random()*0.8}s;animation-duration:${1.5+Math.random()*1.5}s`;
+    document.body.appendChild(el); setTimeout(() => el.remove(), 3500);
+  }
+}
+</script>
+</body>
+</html>

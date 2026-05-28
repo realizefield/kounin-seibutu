@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC04 食品中の成分 ① 栄養素と炭水化物</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],ignoredTags:['script','noscript','style','textarea','svg']})"></script>
+<style>
+  :root {
+    --primary: #ea580c;
+    --primary-light: #fed7aa;
+    --primary-dark: #c2410c;
+    --bg: #fff7ed;
+    --card: #ffffff;
+    --text: #1c1917;
+    --text-sub: #78716c;
+    --border: #e7e5e4;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'BIZ UDPGothic', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  header {
+    background: var(--primary);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  header .back {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+  }
+  header h1 { font-size: 17px; font-weight: 700; line-height: 1.3; }
+  header .badge {
+    margin-left: auto;
+    background: rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+
+  .container { max-width: 680px; margin: 0 auto; padding: 20px 16px 40px; }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    border-left: 4px solid var(--primary);
+    padding-left: 12px;
+    margin: 28px 0 16px;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    border: 1px solid var(--border);
+  }
+  .card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 10px;
+  }
+  .card p { font-size: 14px; line-height: 1.8; color: var(--text); }
+  .card ul { padding-left: 18px; }
+  .card ul li { font-size: 14px; line-height: 1.9; }
+
+  /* 栄養素表 */
+  .nutrient-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  .nutrient-table th {
+    background: var(--primary);
+    color: white;
+    padding: 8px 10px;
+    text-align: center;
+  }
+  .nutrient-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  .nutrient-table tr:nth-child(even) td { background: var(--bg); }
+
+  /* 糖類分類カード */
+  .sugar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .sugar-card {
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    border: 2px solid;
+  }
+  .sugar-card.tan { border-color: #f97316; background: #fff7ed; }
+  .sugar-card.ni  { border-color: #fb923c; background: #fff7ed; }
+  .sugar-card.ta  { border-color: #ea580c; background: #fff7ed; }
+  .sugar-card .label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+  .sugar-card .name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .sugar-card .ex { font-size: 11px; color: var(--text-sub); }
+
+  /* 消化フロー */
+  .digest-flow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .flow-box {
+    background: var(--primary);
+    color: white;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .flow-box.light {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+  }
+  .flow-arrow { font-size: 16px; color: var(--text-sub); }
+  .flow-enzyme {
+    font-size: 11px;
+    color: var(--text-sub);
+    text-align: center;
+    margin-top: 2px;
+  }
+  .flow-col { display: flex; flex-direction: column; align-items: center; }
+
+  /* 検出反応表 */
+  .detect-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  .detect-table th {
+    background: var(--primary);
+    color: white;
+    padding: 8px 10px;
+    text-align: center;
+  }
+  .detect-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  .detect-table tr:nth-child(even) td { background: var(--bg); }
+  .color-chip {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  /* ミニテスト */
+  .mini-quiz {
+    background: #fff3ea;
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+  .mini-quiz h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+  .mini-quiz .q-text {
+    font-size: 14px;
+    margin-bottom: 10px;
+    line-height: 1.7;
+  }
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice-btn {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.15s;
+  }
+  .choice-btn:hover { border-color: var(--primary); }
+  .choice-btn.correct { border-color: var(--correct); background: #f0fdf4; color: var(--correct); font-weight: 700; }
+  .choice-btn.wrong { border-color: var(--wrong); background: #fef2f2; color: var(--wrong); }
+  .feedback {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+  .feedback.ng { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+  /* 語群タップ */
+  .word-quiz { margin-top: 16px; }
+  .word-quiz .q-text { font-size: 14px; line-height: 2.2; margin-bottom: 10px; }
+  .kw {
+    display: inline-block;
+    background: var(--primary-light);
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+    padding: 1px 8px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: default;
+    transition: all 0.2s;
+  }
+  .blank {
+    display: inline-block;
+    min-width: 80px;
+    border-bottom: 2px solid var(--primary);
+    padding: 0 6px;
+    color: var(--primary);
+    font-weight: 700;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .word-pool { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .word-chip {
+    background: white;
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .word-chip:hover { background: var(--primary); color: white; }
+  .word-chip.used { opacity: 0.35; pointer-events: none; }
+  .word-btn-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .word-challenge {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .word-submit {
+    background: #059669;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    display: none;
+  }
+  .word-answer {
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    display: none;
+  }
+  .word-submit:disabled { opacity: 0.5; cursor: default; }
+
+  /* 酵素メモ */
+  .memo-box {
+    background: #fff3ea;
+    border-left: 4px solid var(--primary);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .key-word { font-weight: 700; color: var(--primary); }
+
+  /* ナビ */
+  .nav-btn {
+    display: block;
+    width: 100%;
+    margin-top: 32px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: center;
+    text-decoration: none;
+  }
+  .nav-row { display: flex; gap: 10px; margin-top: 32px; }
+  .nav-btn-sub {
+    flex: 1;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  /* 紙吹雪 */
+  .confetti-piece {
+    position: fixed;
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    pointer-events: none;
+    animation: fall 2.5s ease-out forwards;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="../gamba_kounin.html" class="back">←</a>
+  <h1>SC04 食品の成分と性質<br>① 栄養素と炭水化物</h1>
+  <span class="badge">intro</span>
+</header>
+
+<div class="container">
+
+  <!-- セクション1: 栄養素 -->
+  <div class="section-title">1. 三大栄養素・五大栄養素</div>
+
+  <div class="card">
+    <h3>栄養素の分類</h3>
+    <p>生命を維持するために必要な主要な栄養素を<span class="key-word">三大栄養素</span>といいます。</p>
+    <table class="nutrient-table" style="margin-top:12px">
+      <tr>
+        <th>分類</th><th>栄養素</th><th>主な役割</th>
+      </tr>
+      <tr>
+        <td rowspan="3" style="font-weight:700;color:var(--primary)">三大<br>栄養素</td>
+        <td><b>炭水化物（糖類）</b></td><td>エネルギー源</td>
+      </tr>
+      <tr>
+        <td><b>タンパク質</b></td><td>体の構成成分・酵素</td>
+      </tr>
+      <tr>
+        <td><b>脂質（油脂）</b></td><td>エネルギー源・細胞膜</td>
+      </tr>
+      <tr>
+        <td rowspan="2" style="font-weight:700;color:#9a3412">追加<br>2種</td>
+        <td>無機質（ミネラル）</td><td>骨・歯・血液の調整</td>
+      </tr>
+      <tr>
+        <td>ビタミン</td><td>体の機能調節</td>
+      </tr>
+    </table>
+    <div class="memo-box" style="margin-top:12px">
+      三大栄養素 ＋ 無機質 ＋ ビタミン ＝ <span class="key-word">五大栄養素</span>
+    </div>
+  </div>
+
+  <!-- ミニテスト1 -->
+  <div class="mini-quiz">
+    <h4>✏️ ミニテスト①</h4>
+    <div class="q-text">三大栄養素の組み合わせとして正しいものはどれか。</div>
+    <div class="choices" id="q1">
+      <button class="choice-btn" onclick="checkChoice(this,'q1',false)">① 炭水化物・タンパク質・無機質</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q1',false)">② 油脂・タンパク質・ビタミン</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q1',false)">③ 油脂・無機質・ビタミン</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q1',true)">④ 炭水化物・油脂・タンパク質</button>
+    </div>
+    <div class="feedback" id="q1-fb">
+      <b>正解④</b>　三大栄養素は「炭水化物・油脂（脂質）・タンパク質」の3つ。無機質やビタミンは三大栄養素ではなく、これらを含めて五大栄養素になります。
+    </div>
+  </div>
+
+  <!-- セクション2: 炭水化物 -->
+  <div class="section-title">2. 炭水化物（糖類）の分類</div>
+
+  <div class="card">
+    <h3>糖類の3分類</h3>
+    <p style="margin-bottom:10px">炭水化物は炭素C・水素H・酸素Oからなる化合物。糖の単位の数によって分類されます。</p>
+    <div class="sugar-grid">
+      <div class="sugar-card tan">
+        <div class="label">単糖類</div>
+        <div class="name">グルコース<br>（ブドウ糖）</div>
+        <div class="ex">果実・はちみつ</div>
+      </div>
+      <div class="sugar-card ni">
+        <div class="label">二糖類</div>
+        <div class="name">マルトース<br>スクロース</div>
+        <div class="ex">麦芽糖・砂糖</div>
+      </div>
+      <div class="sugar-card ta">
+        <div class="label">多糖類</div>
+        <div class="name">デンプン<br>セルロース</div>
+        <div class="ex">米・植物の細胞壁</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>デンプンの消化・吸収ルート</h3>
+    <p>デンプンはそのままでは吸収できません。消化酵素によって段階的に分解されます。</p>
+    <div class="digest-flow">
+      <div class="flow-col">
+        <div class="flow-box">デンプン<br><small>多糖類</small></div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-arrow">→</div>
+        <div class="flow-enzyme">アミラーゼ<br>（だ液・すい液）</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-box light">マルトース<br><small>二糖類</small></div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-arrow">→</div>
+        <div class="flow-enzyme">マルターゼ<br>（腸液）</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-box">グルコース<br><small>単糖類</small></div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-arrow">→</div>
+      </div>
+      <div class="flow-col">
+        <div class="flow-box light">小腸で吸収</div>
+      </div>
+    </div>
+    <div class="memo-box">
+      <span class="key-word">アミラーゼ</span>はだ液とすい液の両方に含まれます。<br>
+      <span class="key-word">マルターゼ</span>は腸液に含まれ、マルトース→グルコースに分解。
+    </div>
+  </div>
+
+  <!-- ミニテスト2 -->
+  <div class="mini-quiz">
+    <h4>✏️ ミニテスト②</h4>
+    <div class="q-text">デンプン・マルトース・グルコースを「単糖類・二糖類・多糖類」に正しく分類しているものはどれか。</div>
+    <div class="choices" id="q2">
+      <button class="choice-btn" onclick="checkChoice(this,'q2',false)">① デンプン＝単糖類、マルトース＝二糖類、グルコース＝多糖類</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q2',true)">② デンプン＝多糖類、マルトース＝二糖類、グルコース＝単糖類</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q2',false)">③ デンプン＝二糖類、マルトース＝単糖類、グルコース＝多糖類</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q2',false)">④ デンプン＝多糖類、マルトース＝単糖類、グルコース＝二糖類</button>
+    </div>
+    <div class="feedback" id="q2-fb">
+      <b>正解②</b>　デンプンはグルコースが多数つながった<b>多糖類</b>、マルトース（麦芽糖）は<b>二糖類</b>、グルコース（ブドウ糖）は最小単位の<b>単糖類</b>です。
+    </div>
+  </div>
+
+  <!-- セクション3: 検出反応 -->
+  <div class="section-title">3. デンプン・糖の検出反応</div>
+
+  <div class="card">
+    <h3>検出反応まとめ</h3>
+    <table class="detect-table">
+      <tr>
+        <th>反応名</th><th>対象物質</th><th>試薬</th><th>変化</th>
+      </tr>
+      <tr>
+        <td><b>ヨウ素デンプン反応</b></td>
+        <td>デンプン</td>
+        <td>ヨウ素液</td>
+        <td><span class="color-chip" style="background:#4c1d95"></span><b style="color:#4c1d95">青紫色</b>に変化</td>
+      </tr>
+      <tr>
+        <td><b>ベネジクト反応</b></td>
+        <td>マルトース<br>グルコース</td>
+        <td>ベネジクト液<br>（加熱必要）</td>
+        <td><span class="color-chip" style="background:#92400e"></span><b style="color:#92400e">赤褐色</b>の沈殿</td>
+      </tr>
+      <tr>
+        <td><b>フェーリング反応</b></td>
+        <td>マルトース<br>グルコース</td>
+        <td>フェーリング液<br>（加熱必要）</td>
+        <td><span class="color-chip" style="background:#92400e"></span><b style="color:#92400e">赤褐色</b>に変化</td>
+      </tr>
+      <tr>
+        <td><b>銀鏡反応</b></td>
+        <td>マルトース<br>グルコース</td>
+        <td>硝酸銀水溶液<br>（加熱必要）</td>
+        <td><span class="color-chip" style="background:#9ca3af"></span><b style="color:#374151">銀色</b>の鏡状付着</td>
+      </tr>
+    </table>
+    <div class="memo-box">
+      <span class="key-word">ポイント</span>：ヨウ素反応はデンプン専用。ベネジクト・フェーリング・銀鏡反応は<b>マルトース・グルコース（糖）</b>の検出に使います。
+    </div>
+  </div>
+
+  <!-- セクション4: 酵素の性質 -->
+  <div class="section-title">4. 酵素の最適温度と失活</div>
+
+  <div class="card">
+    <h3>酵素の2つの重要な性質</h3>
+    <div class="memo-box">
+      <b>① 最適温度</b><br>
+      アミラーゼなどの消化酵素は<span class="key-word">体温（約37〜40℃）</span>付近でもっとよく働きます。これを<span class="key-word">最適温度</span>といいます。
+    </div>
+    <div class="memo-box" style="margin-top:10px">
+      <b>② 失活</b><br>
+      消化酵素は<span class="key-word">タンパク質</span>でできているため、目玉焼きの白身のように<span class="key-word">80℃以上</span>になると変性・凝固して働かなくなります。これを<span class="key-word">失活</span>といいます。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>実験例：だ液とデンプンの実験</h3>
+
+    <!-- 試験管イラスト -->
+    <svg viewBox="0 0 380 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;margin:0 auto 14px">
+
+      <!-- 共通スタイル定義 -->
+      <defs>
+        <!-- A管：液体（デンプン＋水） -->
+        <clipPath id="clipA"><rect x="44" y="30" width="32" height="110" rx="16"/></clipPath>
+        <!-- B管 -->
+        <clipPath id="clipB"><rect x="164" y="30" width="32" height="110" rx="16"/></clipPath>
+        <!-- C管 -->
+        <clipPath id="clipC"><rect x="284" y="30" width="32" height="110" rx="16"/></clipPath>
+      </defs>
+
+      <!-- ===== 試験管 A ===== -->
+      <!-- 台座 -->
+      <rect x="30" y="148" width="60" height="6" rx="3" fill="#d4a96a"/>
+      <!-- 本体外形 -->
+      <rect x="44" y="24" width="32" height="110" rx="16" fill="none" stroke="#aaa" stroke-width="2.5"/>
+      <!-- 液体（デンプン＋水 → 無色） -->
+      <rect x="44" y="60" width="32" height="80" rx="0" fill="#e0f2fe" clip-path="url(#clipA)"/>
+      <ellipse cx="60" cy="60" rx="16" ry="5" fill="#bae6fd" clip-path="url(#clipA)"/>
+      <!-- ヨウ素を加えた後の色：青紫 -->
+      <rect x="44" y="60" width="32" height="80" rx="0" fill="#6d28d9" opacity="0.45" clip-path="url(#clipA)"/>
+      <!-- ガラス光沢 -->
+      <line x1="50" y1="28" x2="50" y2="130" stroke="white" stroke-width="2" opacity="0.5"/>
+      <!-- 吹き出し：ヨウ素○ -->
+      <rect x="14" y="4" width="92" height="18" rx="9" fill="#4c1d95"/>
+      <text x="60" y="16.5" text-anchor="middle" font-size="11" fill="white" font-family="BIZ UDPGothic,sans-serif" font-weight="bold">ヨウ素 ○（青紫）</text>
+      <!-- ラベル A -->
+      <text x="60" y="170" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151" font-family="BIZ UDPGothic,sans-serif">A</text>
+      <!-- 条件テキスト -->
+      <text x="60" y="186" text-anchor="middle" font-size="9" fill="#78716c" font-family="BIZ UDPGothic,sans-serif">デンプン＋水</text>
+      <text x="60" y="197" text-anchor="middle" font-size="9" fill="#78716c" font-family="BIZ UDPGothic,sans-serif">（40℃）</text>
+
+      <!-- ===== 試験管 B ===== -->
+      <rect x="150" y="148" width="60" height="6" rx="3" fill="#d4a96a"/>
+      <rect x="164" y="24" width="32" height="110" rx="16" fill="none" stroke="#aaa" stroke-width="2.5"/>
+      <!-- 液体：赤褐色（ベネジクト反応で糖あり） -->
+      <rect x="164" y="60" width="32" height="80" rx="0" fill="#92400e" opacity="0.5" clip-path="url(#clipB)"/>
+      <!-- 沈殿 -->
+      <ellipse cx="180" cy="134" rx="12" ry="5" fill="#78350f" opacity="0.8" clip-path="url(#clipB)"/>
+      <line x1="170" y1="28" x2="170" y2="130" stroke="white" stroke-width="2" opacity="0.5"/>
+      <!-- 吹き出し：ベネジクト○ -->
+      <rect x="134" y="4" width="92" height="18" rx="9" fill="#92400e"/>
+      <text x="180" y="16.5" text-anchor="middle" font-size="11" fill="white" font-family="BIZ UDPGothic,sans-serif" font-weight="bold">ベネジクト ○</text>
+      <text x="180" y="170" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151" font-family="BIZ UDPGothic,sans-serif">B</text>
+      <text x="180" y="186" text-anchor="middle" font-size="9" fill="#78716c" font-family="BIZ UDPGothic,sans-serif">デンプン＋だ液</text>
+      <text x="180" y="197" text-anchor="middle" font-size="9" fill="#78716c" font-family="BIZ UDPGothic,sans-serif">（40℃）</text>
+
+      <!-- ===== 試験管 C ===== -->
+      <rect x="270" y="148" width="60" height="6" rx="3" fill="#d4a96a"/>
+      <rect x="284" y="24" width="32" height="110" rx="16" fill="none" stroke="#aaa" stroke-width="2.5"/>
+      <!-- 液体：青紫（失活→デンプンそのまま） -->
+      <rect x="284" y="60" width="32" height="80" rx="0" fill="#e0f2fe" clip-path="url(#clipC)"/>
+      <rect x="284" y="60" width="32" height="80" rx="0" fill="#6d28d9" opacity="0.45" clip-path="url(#clipC)"/>
+      <line x1="290" y1="28" x2="290" y2="130" stroke="white" stroke-width="2" opacity="0.5"/>
+      <!-- 炎マーク（100℃） -->
+      <text x="330" y="100" font-size="18" font-family="sans-serif">🔥</text>
+      <text x="330" y="114" text-anchor="middle" font-size="9" fill="#dc2626" font-family="BIZ UDPGothic,sans-serif" font-weight="bold">100℃</text>
+      <!-- 吹き出し：ヨウ素○ 失活 -->
+      <rect x="252" y="4" width="96" height="18" rx="9" fill="#4c1d95"/>
+      <text x="300" y="16.5" text-anchor="middle" font-size="11" fill="white" font-family="BIZ UDPGothic,sans-serif" font-weight="bold">ヨウ素 ○ 失活！</text>
+      <text x="300" y="170" text-anchor="middle" font-size="14" font-weight="bold" fill="#374151" font-family="BIZ UDPGothic,sans-serif">C</text>
+      <text x="300" y="186" text-anchor="middle" font-size="9" fill="#78716c" font-family="BIZ UDPGothic,sans-serif">デンプン＋だ液</text>
+      <text x="300" y="197" text-anchor="middle" font-size="9" fill="#78716c" font-family="BIZ UDPGothic,sans-serif">（100℃）</text>
+    </svg>
+
+    <table class="detect-table">
+      <tr>
+        <th>試験管</th><th>条件</th><th>ヨウ素反応</th><th>ベネジクト反応</th>
+      </tr>
+      <tr>
+        <td>A</td>
+        <td>デンプン＋水（40℃）</td>
+        <td style="color:#4c1d95">○（青紫）</td>
+        <td>×</td>
+      </tr>
+      <tr>
+        <td>B</td>
+        <td>デンプン＋だ液（40℃）</td>
+        <td>×</td>
+        <td style="color:#92400e">○（赤褐色）</td>
+      </tr>
+      <tr>
+        <td>C</td>
+        <td>デンプン＋だ液（100℃）</td>
+        <td style="color:#4c1d95">○（青紫）</td>
+        <td>×</td>
+      </tr>
+    </table>
+    <div class="memo-box">
+      Cが○になる理由：100℃ではアミラーゼが<span class="key-word">タンパク質</span>なので<span class="key-word">失活</span>し、デンプンを分解できないため。
+    </div>
+  </div>
+
+  <!-- ミニテスト3: 語群タップ -->
+  <div class="mini-quiz">
+    <h4>✏️ ミニテスト③　語群タップ</h4>
+    <div id="wq3-text" class="q-text">
+      アミラーゼはデンプンを分解する消化酵素で、体温に近い約
+      <span class="kw" id="b1">37〜40℃</span>
+      付近でもっともよく働く。これを
+      <span class="kw" id="b2">最適温度</span>
+      という。また、アミラーゼは
+      <span class="kw" id="b3">タンパク質</span>
+      からできているため、高温になると
+      <span class="kw" id="b4">変性・凝固</span>
+      して働かなくなる。これを
+      <span class="kw" id="b5">失活</span>
+      という。
+    </div>
+    <div class="word-pool" id="word-pool3" style="display:none">
+      <span class="word-chip" data-word="37〜40℃" data-key="b1" onclick="wtChip(this)">37〜40℃</span>
+      <span class="word-chip" data-word="最適温度" data-key="b2" onclick="wtChip(this)">最適温度</span>
+      <span class="word-chip" data-word="タンパク質" data-key="b3" onclick="wtChip(this)">タンパク質</span>
+      <span class="word-chip" data-word="失活" data-key="b5" onclick="wtChip(this)">失活</span>
+      <span class="word-chip" data-word="変性・凝固" data-key="b4" onclick="wtChip(this)">変性・凝固</span>
+      <span class="word-chip" data-word="グルコース" data-key="" onclick="wtChip(this)">グルコース</span>
+    </div>
+    <div class="word-btn-row">
+      <button class="word-challenge" id="wc3-btn" onclick="startChallenge3()">チャレンジ</button>
+      <button class="word-submit" id="ws3" onclick="checkWord3()">判定する</button>
+      <button class="word-answer" id="wa3" onclick="showAnswer3()">お手本</button>
+    </div>
+    <div class="feedback" id="w3-fb" style="display:none"></div>
+  </div>
+
+  <!-- ナビ -->
+  <div class="nav-row">
+    <a href="SC04_drill.html" class="nav-btn-sub">練習問題へ →</a>
+    <a href="SC04_check.html" class="nav-btn" style="flex:1">まとめチェックへ →</a>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// 四択チェック
+function checkChoice(btn, qid, correct) {
+  const group = document.getElementById(qid);
+  const btns = group.querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('wrong');
+    btns.forEach(b => {
+      if (b.getAttribute('onclick').includes('true')) b.classList.add('correct');
+    });
+  }
+  const fb = document.getElementById(qid + '-fb');
+  fb.classList.add('show');
+  fb.classList.add(correct ? 'ok' : 'ng');
+  if (correct) confetti();
+}
+
+
+// ===== 語群タップ（シンプル確実版） =====
+var WT_ANS = {"b1":"37〜40℃", "b2":"最適温度", "b3":"タンパク質", "b4":"変性・凝固", "b5":"失活"};
+var WT_STATE = {};
+var WT_SEL_CHIP = null;
+var WT_SEL_BLANK = null;
+var WT_RUNNING = false;
+
+function startChallenge3() {
+  WT_RUNNING = true;
+  WT_SEL_CHIP = null;
+  WT_SEL_BLANK = null;
+  for (var k in WT_ANS) {
+    WT_STATE[k] = null;
+    var el = document.getElementById(k);
+    el.textContent = '';
+    el.style.background = '';
+    el.style.borderBottom = '';
+    el.className = 'blank';
+  }
+  // クロージャでblank IDを束縛
+  var blankIds = ["b1", "b2", "b3", "b4", "b5"];
+  blankIds.forEach(function(bid) {
+    document.getElementById(bid).onclick = (function(id) {
+      return function() { wtBlank(id); };
+    })(bid);
+  });
+  document.querySelectorAll('#word-pool3 .word-chip').forEach(function(c) {
+    c.classList.remove('used');
+    c.style.outline = ''; c.style.background = ''; c.style.color = '';
+  });
+  document.getElementById('word-pool3').style.display = 'flex';
+  document.getElementById('wc3-btn').style.display = 'none';
+  document.getElementById('ws3').style.display = 'inline-block';
+  document.getElementById('wa3').style.display = 'inline-block';
+  document.getElementById('w3-fb').style.display = 'none';
+}
+
+function wtChip(chip) {
+  if (!WT_RUNNING) return;
+  if (WT_SEL_CHIP === chip) { wtClearChip(); return; }
+  if (WT_SEL_BLANK) { wtPlace(chip, WT_SEL_BLANK); wtClearBlank(); return; }
+  wtClearChip();
+  WT_SEL_CHIP = chip;
+  chip.style.outline = '3px solid #ea580c';
+  chip.style.background = '#ea580c';
+  chip.style.color = 'white';
+}
+
+function wtBlank(bid) {
+  if (!WT_RUNNING) return;
+  if (WT_SEL_CHIP) { wtPlace(WT_SEL_CHIP, bid); wtClearChip(); return; }
+  if (WT_STATE[bid]) wtReturn(bid);
+  wtClearBlank();
+  WT_SEL_BLANK = bid;
+  document.getElementById(bid).style.background = '#fff7ed';
+}
+
+function wtPlace(chip, bid) {
+  for (var k in WT_STATE) {
+    if (WT_STATE[k] === chip) {
+      WT_STATE[k] = null;
+      document.getElementById(k).textContent = '';
+      document.getElementById(k).style.background = '';
+    }
+  }
+  if (WT_STATE[bid]) wtReturn(bid);
+  WT_STATE[bid] = chip;
+  document.getElementById(bid).textContent = chip.dataset.word;
+  document.getElementById(bid).style.background = '';
+  chip.classList.add('used');
+}
+
+function wtReturn(bid) {
+  var chip = WT_STATE[bid];
+  if (chip) {
+    chip.classList.remove('used');
+    chip.style.outline = ''; chip.style.background = ''; chip.style.color = '';
+  }
+  WT_STATE[bid] = null;
+  document.getElementById(bid).textContent = '';
+  document.getElementById(bid).style.background = '';
+}
+
+function wtClearChip() {
+  if (WT_SEL_CHIP) {
+    WT_SEL_CHIP.style.outline = ''; WT_SEL_CHIP.style.background = ''; WT_SEL_CHIP.style.color = '';
+    WT_SEL_CHIP = null;
+  }
+}
+
+function wtClearBlank() {
+  if (WT_SEL_BLANK) {
+    document.getElementById(WT_SEL_BLANK).style.background = '';
+    WT_SEL_BLANK = null;
+  }
+}
+
+function checkWord3() {
+  wtClearChip(); wtClearBlank();
+  var allOk = true;
+  for (var k in WT_ANS) {
+    if (!WT_STATE[k] || WT_STATE[k].dataset.word !== WT_ANS[k]) { allOk = false; break; }
+  }
+  var fb = document.getElementById('w3-fb');
+  fb.style.display = 'block';
+  if (allOk) {
+    fb.className = 'feedback show ok';
+    fb.innerHTML = '<b>正解！</b>　アミラーゼ（消化酵素）はタンパク質なので、高温（80℃以上）で変性・凝固して失活します。';
+    confetti();
+  } else {
+    fb.className = 'feedback show ng';
+    fb.innerHTML = '<b>もう一度！</b>　間違った語句を語群に戻しました。';
+    for (var k in WT_ANS) {
+      if (!WT_STATE[k] || WT_STATE[k].dataset.word !== WT_ANS[k]) wtReturn(k);
+    }
+  }
+}
+
+function showAnswer3() {
+  for (var k in WT_ANS) {
+    var el = document.getElementById(k);
+    el.textContent = WT_ANS[k];
+    el.className = 'kw';
+    el.onclick = null;
+    el.style.background = '';
+  }
+  document.getElementById('word-pool3').style.display = 'none';
+  document.getElementById('ws3').style.display = 'none';
+  document.getElementById('wa3').style.display = 'none';
+  var btn = document.getElementById('wc3-btn');
+  btn.textContent = 'もう一度チャレンジ';
+  btn.style.display = 'inline-block';
+  WT_RUNNING = false; wtClearChip(); wtClearBlank();
+}
+
+function confetti() {
+  const colors = ['#ea580c','#fb923c','#fcd34d','#4ade80','#60a5fa','#c084fc'];
+  for (let i = 0; i < 40; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `left:${Math.random()*100}vw;top:-10px;background:${colors[i%colors.length]};animation-delay:${Math.random()*0.8}s;animation-duration:${1.5+Math.random()*1.5}s;transform:rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SC06 食品の成分と性質 ③ 油脂・無機質・ビタミン</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --primary:#ea580c; --primary-light:#fed7aa; --primary-dark:#c2410c; --bg:#fff7ed; --card:#fff; --text:#1c1917; --text-sub:#78716c; --border:#e7e5e4; --correct:#16a34a; --wrong:#dc2626; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'BIZ UDPGothic',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  header{background:var(--primary);color:white;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+  header .back{color:white;text-decoration:none;font-size:20px;}
+  header h1{font-size:17px;font-weight:700;line-height:1.3;}
+  header .badge{margin-left:auto;background:rgba(255,255,255,0.25);border-radius:20px;padding:3px 10px;font-size:12px;}
+  .container{max-width:680px;margin:0 auto;padding:20px 16px 40px;}
+  .section-title{font-size:18px;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin:28px 0 16px;}
+  .card{background:var(--card);border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.07);border:1px solid var(--border);}
+  .card h3{font-size:15px;font-weight:700;color:var(--primary);margin-bottom:10px;}
+  .card p{font-size:14px;line-height:1.8;}
+  .memo-box{background:#fff3ea;border-left:4px solid var(--primary);padding:12px 16px;border-radius:0 8px 8px 0;margin-top:10px;font-size:13px;line-height:1.8;}
+  .key-word{font-weight:700;color:var(--primary);}
+  .detect-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;}
+  .detect-table th{background:var(--primary);color:white;padding:8px 10px;text-align:center;}
+  .detect-table td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:center;line-height:1.5;}
+  .detect-table tr:nth-child(even) td{background:var(--bg);}
+  /* 油脂分類カード */
+  .lipid-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+  .lipid-card{border-radius:10px;padding:14px;border:2px solid var(--primary);}
+  .lipid-card .lc-label{font-size:12px;font-weight:700;color:var(--primary);margin-bottom:6px;}
+  .lipid-card .lc-name{font-size:16px;font-weight:700;margin-bottom:4px;}
+  .lipid-card .lc-ex{font-size:12px;color:var(--text-sub);}
+  /* 消化フロー */
+  .digest-flow{display:flex;align-items:flex-start;gap:4px;flex-wrap:wrap;margin-top:12px;}
+  .flow-col{display:flex;flex-direction:column;align-items:center;}
+  .flow-box{background:var(--primary);color:white;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;text-align:center;min-width:60px;}
+  .flow-box.light{background:var(--primary-light);color:var(--primary-dark);}
+  .flow-arrow{font-size:14px;color:var(--text-sub);padding-top:8px;}
+  .flow-enzyme{font-size:10px;color:var(--text-sub);text-align:center;margin-top:3px;max-width:70px;}
+  /* ミニテスト */
+  .mini-quiz{background:#fff3ea;border:2px solid var(--primary);border-radius:12px;padding:16px;margin-top:16px;}
+  .mini-quiz h4{font-size:14px;font-weight:700;color:var(--primary);margin-bottom:12px;}
+  .mini-quiz .q-text{font-size:14px;margin-bottom:10px;line-height:1.8;}
+  .choices{display:flex;flex-direction:column;gap:8px;}
+  .choice-btn{background:white;border:2px solid var(--border);border-radius:8px;padding:10px 14px;text-align:left;font-size:13px;cursor:pointer;font-family:inherit;line-height:1.5;transition:border-color 0.15s;}
+  .choice-btn:hover:not(:disabled){border-color:var(--primary);}
+  .choice-btn.correct{border-color:var(--correct);background:#f0fdf4;color:var(--correct);font-weight:700;}
+  .choice-btn.wrong{border-color:var(--wrong);background:#fef2f2;color:var(--wrong);}
+  .feedback{display:none;margin-top:10px;padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.7;}
+  .feedback.show{display:block;}
+  .feedback.ok{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;}
+  .feedback.ng{background:#fef2f2;color:#991b1b;border:1px solid #fecaca;}
+  /* 語群タップ */
+  .kw{display:inline-block;background:var(--primary-light);border:2px solid var(--primary);border-radius:6px;padding:1px 8px;color:var(--primary-dark);font-weight:700;font-size:14px;}
+  .blank{display:inline-block;min-width:80px;border-bottom:2px solid var(--primary);padding:0 6px;color:var(--primary);font-weight:700;text-align:center;font-size:14px;cursor:pointer;}
+  .word-pool{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+  .word-chip{background:white;border:2px solid var(--primary);border-radius:20px;padding:5px 14px;font-size:13px;cursor:pointer;transition:all 0.15s;font-family:inherit;}
+  .word-chip:hover{background:var(--primary);color:white;}
+  .word-chip.used{opacity:0.35;pointer-events:none;}
+  .word-btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  .word-challenge{background:var(--primary);color:white;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
+  .word-submit{background:#059669;color:white;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:none;}
+  .word-answer{background:white;color:var(--primary);border:2px solid var(--primary);border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:none;}
+  /* ナビ */
+  .nav-row{display:flex;gap:10px;margin-top:32px;}
+  .nav-btn{flex:1;display:block;background:var(--primary);color:white;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;}
+  .nav-btn-sub{flex:1;display:block;background:var(--primary-light);color:var(--primary-dark);border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;}
+  .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;animation:fall 2.5s ease-out forwards;}
+  @keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+</style>
+</head>
+<body>
+<header>
+  <a href="../gamba_kounin.html" class="back">←</a>
+  <h1>SC06 食品の成分と性質<br>③ 油脂・無機質・ビタミン</h1>
+  <span class="badge">intro</span>
+</header>
+<div class="container">
+
+  <!-- セクション1: 油脂 -->
+  <div class="section-title">1. 油脂（脂質）</div>
+  <div class="card">
+    <h3>油脂の分類</h3>
+    <p>油脂はグリセリン1分子と脂肪酸3分子が結合した化合物で、炭素C・水素H・酸素Oからなります。常温での状態によって2種類に分類されます。</p>
+    <div class="lipid-grid">
+      <div class="lipid-card">
+        <div class="lc-label">常温で固体</div>
+        <div class="lc-name">脂肪</div>
+        <div class="lc-ex">バター・マーガリンなど<br>（動物性油脂に多い）</div>
+      </div>
+      <div class="lipid-card">
+        <div class="lc-label">常温で液体</div>
+        <div class="lc-name">脂肪油</div>
+        <div class="lc-ex">サラダ油・オリーブオイル<br>（植物性油脂に多い）</div>
+      </div>
+    </div>
+    <div class="memo-box">
+      <b>構造</b>：グリセリン<span class="key-word">1</span>分子 ＋ 脂肪酸<span class="key-word">3</span>分子 → 油脂<br>
+      炭水化物・油脂はどちらも C・H・O のみからなる（窒素Nを含まない）
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>油脂の消化吸収</h3>
+
+    <!-- 油脂の構造と分解図 -->
+    <svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;margin:0 auto 14px">
+
+      <!-- 油脂（左） -->
+      <rect x="4" y="30" width="100" height="110" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+      <text x="54" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#ea580c" font-family="BIZ UDPGothic,sans-serif">油脂</text>
+      <!-- グリセリン -->
+      <rect x="10" y="38" width="36" height="94" rx="6" fill="#fbbf24" opacity="0.7"/>
+      <text x="28" y="80" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f" font-family="BIZ UDPGothic,sans-serif" transform="rotate(-90 28 80)">グリセリン</text>
+      <!-- 脂肪酸3本 -->
+      <rect x="52" y="40" width="44" height="24" rx="5" fill="#fb923c" opacity="0.7"/>
+      <text x="74" y="56" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff" font-family="BIZ UDPGothic,sans-serif">脂肪酸①</text>
+      <rect x="52" y="70" width="44" height="24" rx="5" fill="#fb923c" opacity="0.7"/>
+      <text x="74" y="86" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff" font-family="BIZ UDPGothic,sans-serif">脂肪酸②</text>
+      <rect x="52" y="100" width="44" height="24" rx="5" fill="#fb923c" opacity="0.7"/>
+      <text x="74" y="116" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff" font-family="BIZ UDPGothic,sans-serif">脂肪酸③</text>
+
+      <!-- 矢印＋酵素 -->
+      <text x="118" y="82" text-anchor="middle" font-size="20" fill="#ea580c">→</text>
+      <text x="118" y="98" text-anchor="middle" font-size="9" fill="#78716c" font-family="BIZ UDPGothic,sans-serif">リパーゼ</text>
+      <text x="118" y="110" text-anchor="middle" font-size="9" fill="#78716c" font-family="BIZ UDPGothic,sans-serif">（すい液）</text>
+
+      <!-- モノグリセリド（右上） -->
+      <rect x="136" y="18" width="100" height="62" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+      <text x="186" y="12" text-anchor="middle" font-size="11" font-weight="bold" fill="#ea580c" font-family="BIZ UDPGothic,sans-serif">モノグリセリド×1</text>
+      <rect x="142" y="26" width="30" height="46" rx="5" fill="#fbbf24" opacity="0.7"/>
+      <text x="157" y="50" text-anchor="middle" font-size="9" font-weight="bold" fill="#78350f" font-family="BIZ UDPGothic,sans-serif" transform="rotate(-90 157 50)">グリセリン</text>
+      <rect x="178" y="30" width="50" height="18" rx="4" fill="#fb923c" opacity="0.7"/>
+      <text x="203" y="43" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff" font-family="BIZ UDPGothic,sans-serif">脂肪酸①</text>
+
+      <!-- ＋ -->
+      <text x="186" y="96" text-anchor="middle" font-size="18" fill="#ea580c" font-weight="bold">＋</text>
+
+      <!-- 脂肪酸2本（右下） -->
+      <rect x="136" y="104" width="100" height="42" rx="10" fill="#fff7ed" stroke="#fb923c" stroke-width="2"/>
+      <text x="186" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#fb923c" font-family="BIZ UDPGothic,sans-serif">脂肪酸×2</text>
+      <rect x="144" y="110" width="84" height="14" rx="4" fill="#fb923c" opacity="0.6"/>
+      <text x="186" y="121" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff" font-family="BIZ UDPGothic,sans-serif">脂肪酸②</text>
+      <rect x="144" y="127" width="84" height="14" rx="4" fill="#fb923c" opacity="0.6"/>
+      <text x="186" y="138" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff" font-family="BIZ UDPGothic,sans-serif">脂肪酸③</text>
+
+      <!-- →小腸で吸収 -->
+      <text x="252" y="90" text-anchor="start" font-size="16" fill="#ea580c">→</text>
+      <rect x="270" y="72" width="82" height="36" rx="8" fill="#ea580c"/>
+      <text x="311" y="88" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="BIZ UDPGothic,sans-serif">小腸で</text>
+      <text x="311" y="101" text-anchor="middle" font-size="11" font-weight="bold" fill="white" font-family="BIZ UDPGothic,sans-serif">吸収</text>
+    </svg>
+
+    <div class="digest-flow">
+      <div class="flow-col"><div class="flow-box">油脂<br><small>脂質</small></div></div>
+      <div class="flow-col">
+        <div class="flow-arrow">→</div>
+        <div class="flow-enzyme">リパーゼ<br>（すい液）</div>
+      </div>
+      <div class="flow-col"><div class="flow-box light">モノグリセリド<br>1分子</div></div>
+      <div class="flow-col"><div class="flow-arrow">＋</div></div>
+      <div class="flow-col"><div class="flow-box light">脂肪酸<br>2分子</div></div>
+      <div class="flow-col"><div class="flow-arrow">→</div></div>
+      <div class="flow-col"><div class="flow-box light">小腸で吸収</div></div>
+    </div>
+    <div class="memo-box">
+      すい液の消化酵素<span class="key-word">リパーゼ</span>が働き、油脂→<span class="key-word">モノグリセリド1分子＋脂肪酸2分子</span>に分解されて小腸で吸収されます。
+    </div>
+  </div>
+
+  <!-- ミニテスト1 -->
+  <div class="mini-quiz">
+    <h4>✏️ ミニテスト①</h4>
+    <div class="q-text">油脂の消化について正しいものはどれか。</div>
+    <div class="choices" id="q1">
+      <button class="choice-btn" onclick="checkChoice(this,'q1',false)">① アミラーゼ（だ液）によってアミノ酸に分解される。</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q1',false)">② ペプシン（胃液）によってグルコースに分解される。</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q1',true)">③ リパーゼ（すい液）によってモノグリセリドと脂肪酸に分解される。</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q1',false)">④ マルターゼ（腸液）によってモノグリセリドに分解される。</button>
+    </div>
+    <div class="feedback" id="q1-fb">
+      <b>正解③</b>　リパーゼはすい液に含まれる油脂の消化酵素。油脂→モノグリセリド1分子＋脂肪酸2分子に分解し、小腸で吸収されます。
+    </div>
+  </div>
+
+  <!-- セクション2: 無機質 -->
+  <div class="section-title">2. 無機質（ミネラル）</div>
+  <div class="card">
+    <h3>無機質の役割と欠乏症</h3>
+    <p>無機質（ミネラル）は歯・骨をつくったり血液の濃度を調整したりする物質です。不足すると<span class="key-word">欠乏症</span>が起きます。</p>
+    <table class="detect-table" style="margin-top:12px">
+      <tr><th>元素記号</th><th>名称</th><th>不足すると</th></tr>
+      <tr><td><b>Ca</b></td><td>カルシウム</td><td>骨粗しょう症</td></tr>
+      <tr><td><b>Zn</b></td><td>亜鉛</td><td>味覚障害</td></tr>
+      <tr><td><b>Fe</b></td><td>鉄</td><td>貧血</td></tr>
+      <tr><td><b>P</b></td><td>リン</td><td>骨・歯の形成不全</td></tr>
+    </table>
+  </div>
+
+  <!-- ミニテスト2 -->
+  <div class="mini-quiz">
+    <h4>✏️ ミニテスト②</h4>
+    <div class="q-text">カルシウム（Ca）が不足したときに起きる欠乏症はどれか。</div>
+    <div class="choices" id="q2">
+      <button class="choice-btn" onclick="checkChoice(this,'q2',false)">① 味覚障害</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q2',false)">② 貧血</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q2',true)">③ 骨粗しょう症</button>
+      <button class="choice-btn" onclick="checkChoice(this,'q2',false)">④ 夜盲症</button>
+    </div>
+    <div class="feedback" id="q2-fb">
+      <b>正解③</b>　Ca不足→骨粗しょう症、Zn不足→味覚障害、Fe不足→貧血。夜盲症はビタミンA不足です。
+    </div>
+  </div>
+
+  <!-- セクション3: ビタミン -->
+  <div class="section-title">3. ビタミン</div>
+  <div class="card">
+    <h3>ビタミンの特徴と欠乏症</h3>
+    <p>ビタミンは微量でからだの機能を調節する物質です。体内ではほとんど合成できないため食品から摂取が必要です。不足すると種類ごとの<span class="key-word">欠乏症</span>が起こります。</p>
+    <table class="detect-table" style="margin-top:10px">
+      <tr><th>種類</th><th>溶解性</th><th>欠乏症</th><th>多く含む食品</th></tr>
+      <tr><td><b>ビタミンA</b></td><td>脂溶性</td><td>夜盲症</td><td>レバー・にんじん・うなぎ</td></tr>
+      <tr><td><b>ビタミンB₁</b></td><td>水溶性</td><td>脚気</td><td>豚肉・玄米・大豆</td></tr>
+      <tr><td><b>ビタミンC</b></td><td>水溶性</td><td>壊血病</td><td>緑黄色野菜・果物・緑茶</td></tr>
+      <tr><td><b>ビタミンD</b></td><td>脂溶性</td><td>くる病・骨軟化症</td><td>レバー・牛乳・魚</td></tr>
+      <tr><td><b>ビタミンK</b></td><td>脂溶性</td><td>血液凝固の遅れ</td><td>緑黄色野菜・納豆</td></tr>
+    </table>
+    <div class="memo-box">
+      <b>溶解性の違い</b>：脂溶性ビタミン（A・D・E・K）は脂に溶ける。水溶性ビタミン（B群・C）は水に溶ける。<br>
+      <b>ビタミンの共通点</b>：体内でほとんど合成できない・少量で機能を調節・欠乏症がある
+    </div>
+  </div>
+
+  <!-- ミニテスト3: 語群タップ -->
+  <div class="mini-quiz">
+    <h4>✏️ ミニテスト③　語群タップ</h4>
+    <div class="q-text">
+      油脂はすい液の消化酵素<span class="kw" id="b1">リパーゼ</span>によって
+      <span class="kw" id="b2">モノグリセリド</span>1分子と
+      <span class="kw" id="b3">脂肪酸</span>2分子に分解されて小腸で吸収される。
+      油脂のうち常温で固体のものを<span class="kw" id="b4">脂肪</span>、
+      液体のものを<span class="kw" id="b5">脂肪油</span>という。
+    </div>
+    <div class="word-pool" id="word-pool3" style="display:none">
+      <span class="word-chip" data-word="リパーゼ" onclick="wtChip(this)">リパーゼ</span>
+      <span class="word-chip" data-word="モノグリセリド" onclick="wtChip(this)">モノグリセリド</span>
+      <span class="word-chip" data-word="脂肪酸" onclick="wtChip(this)">脂肪酸</span>
+      <span class="word-chip" data-word="脂肪" onclick="wtChip(this)">脂肪</span>
+      <span class="word-chip" data-word="脂肪油" onclick="wtChip(this)">脂肪油</span>
+      <span class="word-chip" data-word="アミラーゼ" onclick="wtChip(this)">アミラーゼ</span>
+    </div>
+    <div class="word-btn-row">
+      <button class="word-challenge" id="wc3-btn" onclick="startChallenge3()">チャレンジ</button>
+      <button class="word-submit" id="ws3" onclick="checkWord3()">判定する</button>
+      <button class="word-answer" id="wa3" onclick="showAnswer3()">お手本</button>
+    </div>
+    <div class="feedback" id="w3-fb" style="display:none"></div>
+  </div>
+
+  <!-- ナビ -->
+  <div class="nav-row">
+    <a href="SC06_drill.html" class="nav-btn-sub">練習問題へ →</a>
+    <a href="SC06_check.html" class="nav-btn">まとめチェックへ →</a>
+  </div>
+</div>
+
+<script>
+function checkChoice(btn, qid, correct) {
+  const group = document.getElementById(qid);
+  const btns = group.querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = true);
+  if (correct) {
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('wrong');
+    btns.forEach(b => {
+      if (b.getAttribute('onclick') && b.getAttribute('onclick').includes('true')) b.classList.add('correct');
+    });
+  }
+  const fb = document.getElementById(qid + '-fb');
+  fb.classList.add('show');
+  fb.classList.add(correct ? 'ok' : 'ng');
+  if (correct) confetti();
+}
+
+// 語群タップ（チップ要素参照方式）
+var W3_ANS = { b1:'リパーゼ', b2:'モノグリセリド', b3:'脂肪酸', b4:'脂肪', b5:'脂肪油' };
+var w3State = {};
+var w3Running = false;
+var w3SelChip = null;
+var w3SelBlank = null;
+
+function startChallenge3() {
+  w3Running = true;
+  w3State = {};
+  Object.keys(W3_ANS).forEach(k => { w3State[k] = null; });
+  w3SelChip = null; w3SelBlank = null;
+  Object.keys(W3_ANS).forEach(k => {
+    const el = document.getElementById(k);
+    el.className = 'blank'; el.textContent = '';
+    el.removeEventListener("click", el._blankHandler);
+    el._blankHandler = (function(key){ return function(){ blankTap3(key); }; })(k);
+    el.addEventListener("click", el._blankHandler);
+  });
+  document.querySelectorAll('#word-pool3 .word-chip').forEach(c => {
+    c.classList.remove('used'); c.style.outline=''; c.style.background=''; c.style.color='';
+  });
+  document.getElementById('word-pool3').style.display = 'flex';
+  document.getElementById('wc3-btn').style.display = 'none';
+  document.getElementById('ws3').style.display = 'inline-block';
+  document.getElementById('wa3').style.display = 'inline-block';
+  document.getElementById('w3-fb').style.display = 'none';
+}
+
+function wTap3(chip) {
+  if (!w3Running) return;
+  if (w3SelChip === chip) { clearChipSel3(); return; }
+  if (w3SelBlank) { placeWord3(chip, w3SelBlank); clearBlankSel3(); return; }
+  clearChipSel3();
+  w3SelChip = chip;
+  chip.style.outline = '3px solid #ea580c'; chip.style.background = '#ea580c'; chip.style.color = 'white';
+}
+
+function blankTap3(bid) {
+  if (!w3Running) return;
+  if (w3SelChip) { placeWord3(w3SelChip, bid); clearChipSel3(); return; }
+  if (w3State[bid]) returnToPool3(bid);
+  clearBlankSel3();
+  w3SelBlank = bid;
+  const el = document.getElementById(bid);
+  el.style.borderBottom = '3px solid #ea580c'; el.style.background = '#fff7ed';
+}
+
+function placeWord3(chip, bid) {
+  Object.keys(w3State).forEach(k => {
+    if (w3State[k] === chip) {
+      w3State[k] = null;
+      const el = document.getElementById(k);
+      el.textContent = ''; el.style.borderBottom = ''; el.style.background = '';
+    }
+  });
+  if (w3State[bid]) returnToPool3(bid);
+  w3State[bid] = chip;
+  const el = document.getElementById(bid);
+  el.textContent = chip.dataset.word; el.style.borderBottom = ''; el.style.background = '';
+  chip.classList.add('used');
+}
+
+function returnToPool3(bid) {
+  const chip = w3State[bid];
+  if (chip) { chip.classList.remove('used'); chip.style.outline=''; chip.style.background=''; chip.style.color=''; }
+  w3State[bid] = null;
+  const el = document.getElementById(bid);
+  el.textContent = ''; el.style.borderBottom = ''; el.style.background = '';
+}
+
+function clearChipSel3() {
+  if (w3SelChip) { w3SelChip.style.outline=''; w3SelChip.style.background=''; w3SelChip.style.color=''; w3SelChip=null; }
+}
+function clearBlankSel3() {
+  if (w3SelBlank) { const e=document.getElementById(w3SelBlank); if(e){e.style.borderBottom='';e.style.background='';} w3SelBlank=null; }
+}
+
+function checkWord3() {
+  clearChipSel3(); clearBlankSel3();
+  let allOk = true;
+  Object.keys(W3_ANS).forEach(k => {
+    if (!w3State[k] || w3State[k].dataset.word !== W3_ANS[k]) allOk = false;
+  });
+  const fb = document.getElementById('w3-fb');
+  fb.style.display = 'block';
+  if (allOk) {
+    fb.className = 'feedback show ok';
+    fb.innerHTML = '<b>正解！</b>　油脂はリパーゼ（すい液）でモノグリセリド1分子＋脂肪酸2分子に分解。固体→脂肪、液体→脂肪油。';
+    confetti();
+  } else {
+    fb.className = 'feedback show ng';
+    fb.innerHTML = '<b>もう一度！</b>　間違った語句を語群に戻しました。';
+    Object.keys(W3_ANS).forEach(k => {
+      if (!w3State[k] || w3State[k].dataset.word !== W3_ANS[k]) returnToPool3(k);
+    });
+  }
+}
+
+function showAnswer3() {
+  Object.keys(W3_ANS).forEach(k => {
+    const el = document.getElementById(k);
+    el.textContent = W3_ANS[k]; el.className = 'kw'; el.onclick = null;
+    el.style.borderBottom = ''; el.style.background = '';
+  });
+  document.getElementById('word-pool3').style.display = 'none';
+  document.getElementById('ws3').style.display = 'none';
+  document.getElementById('wa3').style.display = 'none';
+  const btn = document.getElementById('wc3-btn');
+  btn.textContent = 'もう一度チャレンジ'; btn.style.display = 'inline-block';
+  w3Running = false; clearChipSel3(); clearBlankSel3();
+}
+
+
+// ===== 語群タップ（シンプル確実版） =====
+var WT_ANS = {"b1":"リパーゼ", "b2":"モノグリセリド", "b3":"脂肪酸", "b4":"脂肪", "b5":"脂肪油"};
+var WT_STATE = {};
+var WT_SEL_CHIP = null;
+var WT_SEL_BLANK = null;
+var WT_RUNNING = false;
+
+function startChallenge3() {
+  WT_RUNNING = true;
+  WT_SEL_CHIP = null;
+  WT_SEL_BLANK = null;
+  for (var k in WT_ANS) {
+    WT_STATE[k] = null;
+    var el = document.getElementById(k);
+    el.textContent = '';
+    el.style.background = '';
+    el.style.borderBottom = '';
+    el.className = 'blank';
+  }
+  // クロージャでblank IDを束縛
+  var blankIds = ["b1", "b2", "b3", "b4", "b5"];
+  blankIds.forEach(function(bid) {
+    document.getElementById(bid).onclick = (function(id) {
+      return function() { wtBlank(id); };
+    })(bid);
+  });
+  document.querySelectorAll('#word-pool3 .word-chip').forEach(function(c) {
+    c.classList.remove('used');
+    c.style.outline = ''; c.style.background = ''; c.style.color = '';
+  });
+  document.getElementById('word-pool3').style.display = 'flex';
+  document.getElementById('wc3-btn').style.display = 'none';
+  document.getElementById('ws3').style.display = 'inline-block';
+  document.getElementById('wa3').style.display = 'inline-block';
+  document.getElementById('w3-fb').style.display = 'none';
+}
+
+function wtChip(chip) {
+  if (!WT_RUNNING) return;
+  if (WT_SEL_CHIP === chip) { wtClearChip(); return; }
+  if (WT_SEL_BLANK) { wtPlace(chip, WT_SEL_BLANK); wtClearBlank(); return; }
+  wtClearChip();
+  WT_SEL_CHIP = chip;
+  chip.style.outline = '3px solid #ea580c';
+  chip.style.background = '#ea580c';
+  chip.style.color = 'white';
+}
+
+function wtBlank(bid) {
+  if (!WT_RUNNING) return;
+  if (WT_SEL_CHIP) { wtPlace(WT_SEL_CHIP, bid); wtClearChip(); return; }
+  if (WT_STATE[bid]) wtReturn(bid);
+  wtClearBlank();
+  WT_SEL_BLANK = bid;
+  document.getElementById(bid).style.background = '#fff7ed';
+}
+
+function wtPlace(chip, bid) {
+  for (var k in WT_STATE) {
+    if (WT_STATE[k] === chip) {
+      WT_STATE[k] = null;
+      document.getElementById(k).textContent = '';
+      document.getElementById(k).style.background = '';
+    }
+  }
+  if (WT_STATE[bid]) wtReturn(bid);
+  WT_STATE[bid] = chip;
+  document.getElementById(bid).textContent = chip.dataset.word;
+  document.getElementById(bid).style.background = '';
+  chip.classList.add('used');
+}
+
+function wtReturn(bid) {
+  var chip = WT_STATE[bid];
+  if (chip) {
+    chip.classList.remove('used');
+    chip.style.outline = ''; chip.style.background = ''; chip.style.color = '';
+  }
+  WT_STATE[bid] = null;
+  document.getElementById(bid).textContent = '';
+  document.getElementById(bid).style.background = '';
+}
+
+function wtClearChip() {
+  if (WT_SEL_CHIP) {
+    WT_SEL_CHIP.style.outline = ''; WT_SEL_CHIP.style.background = ''; WT_SEL_CHIP.style.color = '';
+    WT_SEL_CHIP = null;
+  }
+}
+
+function wtClearBlank() {
+  if (WT_SEL_BLANK) {
+    document.getElementById(WT_SEL_BLANK).style.background = '';
+    WT_SEL_BLANK = null;
+  }
+}
+
+function checkWord3() {
+  wtClearChip(); wtClearBlank();
+  var allOk = true;
+  for (var k in WT_ANS) {
+    if (!WT_STATE[k] || WT_STATE[k].dataset.word !== WT_ANS[k]) { allOk = false; break; }
+  }
+  var fb = document.getElementById('w3-fb');
+  fb.style.display = 'block';
+  if (allOk) {
+    fb.className = 'feedback show ok';
+    fb.innerHTML = '<b>正解！</b>　油脂はリパーゼ（すい液）でモノグリセリド1分子＋脂肪酸2分子に分解。固体→脂肪、液体→脂肪油。';
+    confetti();
+  } else {
+    fb.className = 'feedback show ng';
+    fb.innerHTML = '<b>もう一度！</b>　間違った語句を語群に戻しました。';
+    for (var k in WT_ANS) {
+      if (!WT_STATE[k] || WT_STATE[k].dataset.word !== WT_ANS[k]) wtReturn(k);
+    }
+  }
+}
+
+function showAnswer3() {
+  for (var k in WT_ANS) {
+    var el = document.getElementById(k);
+    el.textContent = WT_ANS[k];
+    el.className = 'kw';
+    el.onclick = null;
+    el.style.background = '';
+  }
+  document.getElementById('word-pool3').style.display = 'none';
+  document.getElementById('ws3').style.display = 'none';
+  document.getElementById('wa3').style.display = 'none';
+  var btn = document.getElementById('wc3-btn');
+  btn.textContent = 'もう一度チャレンジ';
+  btn.style.display = 'inline-block';
+  WT_RUNNING = false; wtClearChip(); wtClearBlank();
+}
+
+function confetti() {
+  const colors = ['#ea580c','#fb923c','#fcd34d','#4ade80','#60a5fa','#c084fc'];
+  for (let i = 0; i < 40; i++) {
+    const el = document.createElement('div'); el.className = 'confetti-piece';
+    el.style.cssText = `left:${Math.random()*100}vw;top:-10px;background:${colors[i%colors.length]};animation-delay:${Math.random()*0.8}s;animation-duration:${1.5+Math.random()*1.5}s`;
+    document.body.appendChild(el); setTimeout(() => el.remove(), 3500);
+  }
+}
+</script>
+</body>
+</html>
