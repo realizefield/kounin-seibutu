@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL01 intro｜光合成のしくみと光合成色素｜GAMBA高認 生物基礎</title>
+<style>
+  :root{--ink:#1f2933;--gray:#64748b;--line:#e2e8f0;--bg:#f4faf4;--card:#fff;
+    --grn:#16a34a;--grn-d:#15803d;--grn-l:#dcfce7;--grn-bg:#f0fdf4;
+    --amber:#d97706;--amber-l:#fef3c7;--red:#dc2626;--red-l:#fee2e2;--blue:#2563eb;
+    --radius:14px;--shadow:0 1px 3px rgba(15,23,42,.06),0 8px 24px rgba(15,23,42,.06);}
+  *{box-sizing:border-box;}html{scroll-behavior:smooth;}
+  body{margin:0;font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic UI",Meiryo,sans-serif;color:var(--ink);background:var(--bg);line-height:1.85;-webkit-text-size-adjust:100%;}
+  .wrap{max-width:780px;margin:0 auto;padding:0 16px 80px;}
+  header.hd{background:linear-gradient(135deg,#16a34a 0%,#0d9488 100%);color:#fff;padding:28px 16px 24px;text-align:center;position:relative;overflow:hidden;}
+  header.hd::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 120%,rgba(255,255,255,.18),transparent 45%);}
+  .hd-tag{display:inline-block;font-size:.78rem;background:rgba(255,255,255,.2);padding:3px 12px;border-radius:999px;margin-bottom:10px;}
+  .hd h1{margin:0;font-size:1.45rem;font-weight:800;}.hd p{margin:8px 0 0;font-size:.9rem;opacity:.9;}
+  .nav-bar{max-width:780px;margin:0 auto;padding:8px 16px;display:flex;gap:8px;flex-wrap:wrap;background:#fff;border-bottom:1px solid var(--line);}
+  .nav-btn{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.84rem;font-weight:700;text-decoration:none;background:#fff;color:var(--grn-d);}
+  .nav-btn.active{background:var(--grn);color:#fff;border-color:var(--grn);}
+  .audio-bar{max-width:780px;margin:0 auto;padding:10px 16px;background:#effdf8;border-bottom:1px solid var(--grn-l);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .audio-label{font-size:.82rem;font-weight:800;color:var(--grn-d);}
+  .audio-btn{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--grn);color:var(--grn-d);font-weight:700;font-size:.84rem;padding:6px 14px;border-radius:999px;cursor:pointer;font-family:inherit;}
+  section.box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin:16px 0;box-shadow:var(--shadow);}
+  .sec-h{font-size:1.1rem;font-weight:800;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--grn-l);display:flex;align-items:center;gap:8px;}
+  .sec-h .num{background:var(--grn);color:#fff;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:.9rem;flex-shrink:0;}
+  .freq{font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px;}
+  .freq-must{background:var(--red-l);color:var(--red);}.freq-often{background:var(--amber-l);color:var(--amber);}
+  p.lead{margin:0 0 10px;}.hl{background:linear-gradient(transparent 62%,#fde68a 62%);font-weight:700;}.key{color:var(--grn);font-weight:800;}
+  .note{background:var(--grn-bg);border:1px solid var(--grn-l);border-left:5px solid var(--grn);border-radius:10px;padding:12px 14px;margin:10px 0;}
+  .note-t{font-weight:800;color:var(--grn);display:block;margin-bottom:4px;}
+  .warn{background:#fffdf5;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;margin:10px 0;font-size:.92rem;}
+  .formula{background:#f8fafc;border:2px solid var(--grn-l);border-radius:12px;padding:14px 18px;margin:10px 0;text-align:center;font-size:1.05rem;font-weight:700;}
+  table.tbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem;}
+  table.tbl th,table.tbl td{border:1px solid var(--line);padding:8px 9px;text-align:center;}
+  table.tbl thead th{background:var(--grn-bg);color:var(--grn-d);font-weight:800;}
+  table.tbl tbody th{background:#f8fafc;text-align:left;font-weight:700;width:32%;}
+  .term-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px;margin:8px 0;}
+  .term-card{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;}
+  .term-name{font-weight:800;color:var(--grn);font-size:.95rem;}.term-desc{font-size:.84rem;margin-top:3px;}
+  .fig-wrap{margin:12px 0;text-align:center;}
+  .fig-wrap img{max-width:100%;height:auto;border-radius:10px;box-shadow:var(--shadow);}
+  .fig-cap{font-size:.78rem;color:var(--gray);margin-top:6px;text-align:center;}
+  /* ミニテスト */
+  .mini-wrap{background:#f0fdf8;border:1.5px dashed var(--grn-l);border-radius:var(--radius);padding:16px;margin-top:14px;}
+  .mini-title{font-weight:800;color:var(--grn-d);font-size:.95rem;margin:0 0 12px;}
+  .mini-q{font-weight:700;margin:0 0 10px;font-size:.93rem;}
+  .mini-opts{display:grid;gap:7px;margin-bottom:8px;}
+  .mini-opt{text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;font-size:.9rem;cursor:pointer;font-family:inherit;color:var(--ink);transition:.15s;}
+  .mini-opt:hover{border-color:var(--grn);}
+  .mini-opt.correct{background:var(--grn-l);border-color:var(--grn);font-weight:700;}
+  .mini-opt.wrong{background:var(--red-l);border-color:var(--red);}
+  .mini-opt.dim{opacity:.5;}
+  .mini-ex{display:none;margin-top:8px;padding:9px 12px;background:#fff;border-radius:9px;border-left:4px solid var(--grn);font-size:.87rem;}
+  .mini-ex.show{display:block;}
+  .tap-input-line{margin:8px 0;font-size:.93rem;}
+  .tap-blank{display:inline-block;border-bottom:2px solid var(--grn);min-width:90px;padding:2px 5px;background:var(--grn-bg);border-radius:4px 4px 0 0;font-weight:700;color:var(--grn-d);text-align:center;cursor:pointer;font-size:.93rem;}
+  .tap-blank.sel{outline:2px solid var(--grn);background:#cffafe;}
+  .tap-blank.ok{background:var(--grn-l);border-color:var(--grn);}
+  .tap-blank.ng{background:var(--red-l);border-color:var(--red);}
+  .tap-bank{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}
+  .tap-chip{background:#fff;border:1px solid var(--grn-l);color:var(--grn);border-radius:999px;padding:5px 12px;font-size:.84rem;font-weight:700;cursor:pointer;}
+  .tap-chip:active{transform:translateY(1px);}
+  .mini-submit{display:inline-flex;align-items:center;gap:5px;background:var(--grn);color:#fff;border:none;font-family:inherit;font-weight:800;font-size:.88rem;padding:8px 18px;border-radius:999px;cursor:pointer;margin-top:6px;}
+  .mini-result{display:none;margin-top:8px;padding:10px 12px;border-radius:9px;font-weight:700;}
+  .mini-result.show{display:block;}
+  .mini-sep{border:none;border-top:1px dashed var(--grn-l);margin:14px 0;}
+  .total-result{display:none;background:var(--grn-l);border:2px solid var(--grn);border-radius:var(--radius);padding:18px;margin:20px 0;text-align:center;box-shadow:var(--shadow);}
+  .total-result.show{display:block;}.total-big{font-size:2rem;font-weight:800;color:var(--grn-d);}
+  .footer-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px;}
+  .f-btn{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);color:var(--grn-d);font-weight:700;font-size:.9rem;padding:9px 18px;border-radius:999px;text-decoration:none;box-shadow:var(--shadow);}
+  .f-btn.primary{background:var(--grn);color:#fff;border-color:var(--grn);}
+  canvas#cnf{position:fixed;inset:0;pointer-events:none;z-index:60;display:none;}
+  @media(max-width:640px){.hd h1{font-size:1.2rem;}}
+</style>
+</head>
+<body>
+<canvas id="cnf"></canvas>
+<header class="hd">
+  <span class="hd-tag">GAMBA高認 ／ 生物基礎</span>
+  <h1>BL01 intro　光合成のしくみと光合成色素</h1>
+  <p>植物はどうやってご飯をつくる？ 光合成の全体像を理解しよう</p>
+</header>
+<div class="nav-bar">
+  <a class="nav-btn" href="index.html">← 一覧</a>
+  <a class="nav-btn active" href="BL01_intro.html">解説</a>
+  <a class="nav-btn" href="BL01_drill.html">練習</a>
+  <a class="nav-btn" href="BL01_check.html">確認問題</a>
+</div>
+<div class="audio-bar">
+  <span class="audio-label">🔊 音声解説（四国メタン）</span>
+  <audio id="audioMain" src="BL01_voice.wav" preload="none"></audio>
+  <button class="audio-btn" onclick="toggleAudio()">▶ 解説を聴く</button>
+  <span id="audio-status" style="font-size:.8rem;color:var(--gray);"></span>
+</div>
+<div class="wrap">
+
+  <section class="box">
+    <p class="lead">植物は動物と違い、食べ物を外から取らなくても生きていけます。それは<span class="hl">光を使って自分でご飯（有機物）をつくれる</span>からです。この働きを<span class="key">光合成</span>といいます。</p>
+  </section>
+
+  <!-- 1. 光合成とは -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">1</span>光合成とは <span class="freq freq-must">🔴 必ず出る</span></h2>
+    <p class="lead">光合成は葉の細胞の中にある<span class="key">葉緑体</span>でおこなわれます。根から吸収した<b>水</b>と、気孔から吸収した<b>二酸化炭素（CO₂）</b>を材料にして、光エネルギーを使って<b>有機物（デンプン）</b>と<b>酸素（O₂）</b>をつくります。</p>
+    <div class="formula">6H₂O ＋ 6CO₂ ─光エネルギー→ C₆H₁₂O₆ ＋ 6O₂</div>
+
+    <div class="fig-wrap">
+      <img src="koukousei.svg" alt="葉緑体の中での光合成：光エネルギーでH₂OとCO₂から有機物とO₂をつくる図">
+      <p class="fig-cap">図1：光合成のしくみ（葉緑体で水と二酸化炭素から有機物と酸素をつくる）</p>
+    </div>
+
+    <div class="note">
+      <span class="note-t">💡 光合成 vs 呼吸 — どちらが逆？</span>
+      光合成と呼吸は材料と産物が<b>逆</b>の関係。光合成：CO₂＋H₂O→有機物＋O₂ / 呼吸：有機物＋O₂→CO₂＋H₂O
+    </div>
+
+    <div class="mini-wrap">
+      <p class="mini-title">✅ ミニテスト①（光合成の基本）</p>
+      <p class="mini-q">Q1. 光合成が行われる細胞小器官はどれか。</p>
+      <div class="mini-opts" data-correct="2" data-explain="光合成は葉緑体でおこなわれます。ミトコンドリアは呼吸の場所です。" id="q1opts">
+        <button class="mini-opt" onclick="pickMini('q1',this)">ミトコンドリア</button>
+        <button class="mini-opt" onclick="pickMini('q1',this)">核</button>
+        <button class="mini-opt" onclick="pickMini('q1',this)">葉緑体</button>
+        <button class="mini-opt" onclick="pickMini('q1',this)">リボソーム</button>
+      </div>
+      <div class="mini-ex" id="q1ex"></div>
+      <hr class="mini-sep">
+      <p class="mini-q">Q2. 光合成の材料2つを語群から選んで入れよう。</p>
+      <div class="tap-input-line">材料は <span class="tap-blank" id="tb1a" onclick="selBlank('tb1a')">　　　　</span> と <span class="tap-blank" id="tb1b" onclick="selBlank('tb1b')">　　　　</span> である。</div>
+      <div class="tap-bank">
+        <span class="tap-chip" onclick="fillBlank(this,'水')">水</span>
+        <span class="tap-chip" onclick="fillBlank(this,'二酸化炭素')">二酸化炭素</span>
+        <span class="tap-chip" onclick="fillBlank(this,'酸素')">酸素</span>
+        <span class="tap-chip" onclick="fillBlank(this,'有機物')">有機物</span>
+      </div>
+      <button class="mini-submit" onclick="gradeTap('r1',['tb1a','tb1b'],['水','二酸化炭素'],'光合成の材料は水（H₂O）と二酸化炭素（CO₂）です。産物は有機物と酸素。')">答え合わせ</button>
+      <div class="mini-result" id="r1"></div>
+    </div>
+  </section>
+
+  <!-- 2. 葉のつくり -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">2</span>葉のつくり（道管・師管・維管束）<span class="freq freq-often">🟡 よく出る</span></h2>
+    <p class="lead">葉の中には水や栄養を運ぶ管が通っています。この管の束を<span class="key">維管束（＝葉脈）</span>といいます。</p>
+
+    <div class="fig-wrap">
+      <img src="leaf.svg" alt="葉のつくり：葉脈の中に維管束（道管・師管）がある。道管は水を運び、師管は糖を運ぶ。">
+      <p class="fig-cap">図2：葉のつくり（葉脈の中に維管束がある）</p>
+    </div>
+
+    <table class="tbl">
+      <thead><tr><th>名前</th><th>役割</th><th>覚え方</th></tr></thead>
+      <tbody>
+        <tr><th>道管</th><td>根から吸収した<b>水</b>を葉へ運ぶ</td><td>「道」を通って「水」を運ぶ</td></tr>
+        <tr><th>師管</th><td>葉でつくった<b>糖</b>を各部へ運ぶ</td><td>「師」匠の「知識（糖）」を広める</td></tr>
+        <tr><th>維管束</th><td>道管＋師管をまとめたもの</td><td>葉では「葉脈」になる</td></tr>
+      </tbody>
+    </table>
+
+    <div class="mini-wrap">
+      <p class="mini-title">✅ ミニテスト②（葉のつくり）</p>
+      <p class="mini-q">Q1. 根から吸収した水を葉へ運ぶ管はどれか。</p>
+      <div class="mini-opts" data-correct="1" data-explain="道管が水を運びます。師管は光合成でつくった糖を各部へ運ぶ管です。" id="q2opts">
+        <button class="mini-opt" onclick="pickMini('q2',this)">師管</button>
+        <button class="mini-opt" onclick="pickMini('q2',this)">道管</button>
+        <button class="mini-opt" onclick="pickMini('q2',this)">維管束</button>
+        <button class="mini-opt" onclick="pickMini('q2',this)">葉脈</button>
+      </div>
+      <div class="mini-ex" id="q2ex"></div>
+      <hr class="mini-sep">
+      <p class="mini-q">Q2. 葉でつくった糖を各部へ運ぶ管はどれか。</p>
+      <div class="mini-opts" data-correct="0" data-explain="師管が糖（ショ糖）を運びます。道管は水を運びます。" id="q3opts">
+        <button class="mini-opt" onclick="pickMini('q3',this)">師管</button>
+        <button class="mini-opt" onclick="pickMini('q3',this)">道管</button>
+        <button class="mini-opt" onclick="pickMini('q3',this)">維管束</button>
+        <button class="mini-opt" onclick="pickMini('q3',this)">葉脈</button>
+      </div>
+      <div class="mini-ex" id="q3ex"></div>
+    </div>
+  </section>
+
+  <!-- 3. 有機物のゆくえ -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">3</span>光合成でつくられた有機物のゆくえ</h2>
+    <p class="lead">光合成でつくられた有機物は<span class="hl">すぐには使われず</span>、一時的に<span class="key">同化デンプン</span>として葉緑体に蓄えられます。</p>
+    <div class="note">
+      <span class="note-t">📦 有機物の流れ</span>
+      葉でデンプン（同化デンプン）として蓄積 → <b>水溶性のショ糖</b>などに変化 → <b>師管</b>を通って各部へ運ばれる → 根・果実・種子などに蓄えられる
+    </div>
+
+    <div class="mini-wrap">
+      <p class="mini-title">✅ ミニテスト③（有機物のゆくえ）</p>
+      <p class="mini-q">Q1. 光合成でつくられた有機物が最初に蓄えられる形として正しいものはどれか。</p>
+      <div class="mini-opts" data-correct="1" data-explain="光合成でつくられた有機物はまずデンプン（同化デンプン）として葉緑体に蓄えられ、その後ショ糖などに変化して師管で運ばれます。" id="q4opts">
+        <button class="mini-opt" onclick="pickMini('q4',this)">ショ糖</button>
+        <button class="mini-opt" onclick="pickMini('q4',this)">同化デンプン（デンプン）</button>
+        <button class="mini-opt" onclick="pickMini('q4',this)">グルコース水溶液</button>
+        <button class="mini-opt" onclick="pickMini('q4',this)">脂肪</button>
+      </div>
+      <div class="mini-ex" id="q4ex"></div>
+      <hr class="mini-sep">
+      <p class="mini-q">Q2. デンプンが糖に変化した後、各部へ運ばれる管はどれか。</p>
+      <div class="mini-opts" data-correct="1" data-explain="糖（ショ糖）は師管を通って各部へ運ばれます。道管は水を運びます。" id="q5opts">
+        <button class="mini-opt" onclick="pickMini('q5',this)">道管</button>
+        <button class="mini-opt" onclick="pickMini('q5',this)">師管</button>
+        <button class="mini-opt" onclick="pickMini('q5',this)">維管束</button>
+        <button class="mini-opt" onclick="pickMini('q5',this)">気孔</button>
+      </div>
+      <div class="mini-ex" id="q5ex"></div>
+    </div>
+  </section>
+
+  <!-- 4. 光合成色素 -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">4</span>光合成色素 <span class="freq freq-must">🔴 必ず出る</span></h2>
+    <p class="lead">葉緑体には複数の<span class="key">光合成色素</span>が含まれています。ペーパークロマトグラフィーで分離できます。</p>
+    <table class="tbl">
+      <thead><tr><th>色素名</th><th>色</th><th>特徴</th></tr></thead>
+      <tbody>
+        <tr><th>クロロフィルa</th><td>青緑色</td><td>光合成の<b>中心的な色素</b>。最も重要。</td></tr>
+        <tr><th>クロロフィルb</th><td>黄緑色</td><td>クロロフィルaを<b>補助</b>する。</td></tr>
+        <tr><th>カロテン</th><td>橙赤色</td><td>ニンジンに多い。紅葉のときに目立つ。</td></tr>
+        <tr><th>キサントフィル</th><td>黄色</td><td>カロテンとともに補助色素。</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">💡 覚え方：「クロロフィルa・bが主役（緑系）、カロテン・キサントフィルが脇役（黄橙系）」</div>
+
+    <div class="mini-wrap">
+      <p class="mini-title">✅ ミニテスト④（光合成色素）</p>
+      <p class="mini-q">Q1. 光合成の中心的な色素で青緑色のものはどれか。</p>
+      <div class="mini-opts" data-correct="3" data-explain="クロロフィルaが主要色素で青緑色。クロロフィルbは黄緑色の補助色素。カロテンは橙赤色。" id="q6opts">
+        <button class="mini-opt" onclick="pickMini('q6',this)">キサントフィル</button>
+        <button class="mini-opt" onclick="pickMini('q6',this)">カロテン</button>
+        <button class="mini-opt" onclick="pickMini('q6',this)">クロロフィルb</button>
+        <button class="mini-opt" onclick="pickMini('q6',this)">クロロフィルa</button>
+      </div>
+      <div class="mini-ex" id="q6ex"></div>
+      <hr class="mini-sep">
+      <p class="mini-q">Q2. ニンジンにも多く含まれる橙赤色の色素はどれか。</p>
+      <div class="mini-opts" data-correct="1" data-explain="カロテンはニンジンにも多く含まれる橙赤色の色素。紅葉のときにも目立ちます。" id="q7opts">
+        <button class="mini-opt" onclick="pickMini('q7',this)">クロロフィルa</button>
+        <button class="mini-opt" onclick="pickMini('q7',this)">カロテン</button>
+        <button class="mini-opt" onclick="pickMini('q7',this)">クロロフィルb</button>
+        <button class="mini-opt" onclick="pickMini('q7',this)">キサントフィル</button>
+      </div>
+      <div class="mini-ex" id="q7ex"></div>
+    </div>
+  </section>
+
+  <!-- 5. 吸収スペクトル -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">5</span>吸収スペクトルと葉が緑色の理由 <span class="freq freq-must">🔴 必ず出る</span></h2>
+    <p class="lead">光の波長ごとに色素がどれだけ光を吸収するかを示したグラフを<span class="key">吸収スペクトル</span>といいます。</p>
+
+    <div class="fig-wrap">
+      <img src="spectrum.svg" alt="クロロフィルの吸収スペクトル：青色（460nm付近）と赤色（650nm付近）に吸収ピークがある">
+      <p class="fig-cap">図3：光合成色素の吸収スペクトル（青色と赤色に吸収ピーク、緑色はほとんど吸収しない）</p>
+    </div>
+
+    <div class="note">
+      <span class="note-t">🌈 光合成に有効な光の色</span>
+      クロロフィルは<b>赤色（650～680nm付近）</b>と<b>青色（430～460nm付近）</b>の光を強く吸収します。<br>
+      → 緑色の光はほとんど吸収されず<b>反射・透過</b>されるため、葉は<b>緑色に見える</b>。
+    </div>
+
+    <div class="mini-wrap">
+      <p class="mini-title">✅ ミニテスト⑤（吸収スペクトル）</p>
+      <p class="mini-q">Q1. クロロフィルが最もよく吸収する光の色の組合せはどれか。</p>
+      <div class="mini-opts" data-correct="1" data-explain="クロロフィルは赤色光（約650nm）と青色光（約460nm）を強く吸収します。緑色光はあまり吸収しません。" id="q8opts">
+        <button class="mini-opt" onclick="pickMini('q8',this)">緑色と黄色</button>
+        <button class="mini-opt" onclick="pickMini('q8',this)">赤色と青色</button>
+        <button class="mini-opt" onclick="pickMini('q8',this)">黄色と橙色</button>
+        <button class="mini-opt" onclick="pickMini('q8',this)">紫色と緑色</button>
+      </div>
+      <div class="mini-ex" id="q8ex"></div>
+      <hr class="mini-sep">
+      <p class="mini-q">Q2. 葉が緑色に見える理由を語群から選んで完成させよう。</p>
+      <div class="tap-input-line">緑色の光を <span class="tap-blank" id="tb2a" onclick="selBlank('tb2a')">　　　</span> するため、葉は緑色に見える。</div>
+      <div class="tap-bank">
+        <span class="tap-chip" onclick="fillBlank(this,'吸収')">吸収</span>
+        <span class="tap-chip" onclick="fillBlank(this,'反射')">反射</span>
+        <span class="tap-chip" onclick="fillBlank(this,'分解')">分解</span>
+        <span class="tap-chip" onclick="fillBlank(this,'合成')">合成</span>
+      </div>
+      <button class="mini-submit" onclick="gradeTap('r2',['tb2a'],['反射'],'緑色の光はほとんど吸収されずに反射・透過されるため、葉は緑色に見えます。')">答え合わせ</button>
+      <div class="mini-result" id="r2"></div>
+    </div>
+  </section>
+
+  <!-- 用語まとめ -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">★</span>用語まとめ</h2>
+    <div class="term-grid">
+      <div class="term-card"><div class="term-name">光合成</div><div class="term-desc">光エネルギーで水とCO₂から有機物とO₂をつくる。葉緑体で行われる。</div></div>
+      <div class="term-card"><div class="term-name">葉緑体</div><div class="term-desc">光合成が行われる細胞小器官。光合成色素を含む。</div></div>
+      <div class="term-card"><div class="term-name">クロロフィルa</div><div class="term-desc">主要光合成色素。青緑色。赤色・青色の光を吸収。</div></div>
+      <div class="term-card"><div class="term-name">吸収スペクトル</div><div class="term-desc">光の波長ごとの吸収率グラフ。青・赤にピーク。</div></div>
+      <div class="term-card"><div class="term-name">道管</div><div class="term-desc">水を根から葉へ運ぶ管。</div></div>
+      <div class="term-card"><div class="term-name">師管</div><div class="term-desc">糖を葉から各部へ運ぶ管。</div></div>
+      <div class="term-card"><div class="term-name">同化デンプン</div><div class="term-desc">光合成でつくられたデンプン。葉緑体に一時蓄積。</div></div>
+    </div>
+  </section>
+
+  <div class="total-result" id="totalResult">
+    <div class="total-big" id="totalBig"></div>
+    <div id="totalMsg"></div>
+  </div>
+  <div class="footer-nav">
+    <a class="f-btn" href="index.html">← 一覧</a>
+    <a class="f-btn" href="BL01_drill.html">練習ドリル →</a>
+    <a class="f-btn primary" href="BL01_check.html">📋 確認問題へ →</a>
+  </div>
+</div>
+
+<script>
+const PAGE_CODE='BL01', TOTAL_Q=11;
+let scores={};
+let curBlank=null;
+let audioPlaying=false;
+const audio=document.getElementById('audioMain');
+function toggleAudio(){if(!audioPlaying){audio.play();audioPlaying=true;document.getElementById('audio-status').textContent='▶ 再生中…';}else{audio.pause();audio.currentTime=0;audioPlaying=false;document.getElementById('audio-status').textContent='';}}
+if(audio) audio.addEventListener('ended',()=>{audioPlaying=false;document.getElementById('audio-status').textContent='';});
+function updateTotal(){
+  if(Object.keys(scores).length<TOTAL_Q)return;
+  const ok=Object.values(scores).filter(Boolean).length;
+  const pct=Math.round(ok/TOTAL_Q*100);
+  document.getElementById('totalBig').textContent=ok+' / '+TOTAL_Q;
+  document.getElementById('totalMsg').textContent=ok===TOTAL_Q?'🎉 全問正解！完璧です！':pct>=70?'よくできました（'+pct+'点）':'お疲れさま（'+pct+'点）。解説を読み返そう。';
+  document.getElementById('totalResult').classList.add('show');
+  try{localStorage.setItem('gamba_intro_'+PAGE_CODE,String(pct));}catch(e){}
+  if(ok===TOTAL_Q)confetti();
+  document.getElementById('totalResult').scrollIntoView({behavior:'smooth'});
+}
+function pickMini(qid,btn){
+  const el=document.getElementById(qid+'opts');
+  if(el.dataset.done)return;el.dataset.done='1';
+  const ci=parseInt(el.dataset.correct,10),bs=[...el.children],idx=bs.indexOf(btn);
+  bs.forEach((b,i)=>{b.disabled=true;if(i===ci)b.classList.add('correct');else if(i===idx)b.classList.add('wrong');else b.classList.add('dim');});
+  const ex=document.getElementById(qid+'ex'),ok=(idx===ci);
+  ex.textContent=(ok?'⭕ 正解！ ':'❌ 残念… ')+el.dataset.explain;ex.classList.add('show');
+  scores[qid]=ok;updateTotal();
+}
+function selBlank(id){if(curBlank)document.getElementById(curBlank).classList.remove('sel');curBlank=id;document.getElementById(id).classList.add('sel');}
+function fillBlank(chip,word){if(!curBlank)return;const el=document.getElementById(curBlank);if(el.dataset.locked)return;el.textContent=word;el.classList.remove('ok','ng');}
+function gradeTap(rid,bids,answers,explain){
+  bids.forEach(bid=>{const el=document.getElementById(bid);if(el.dataset.locked)return;el.dataset.locked='1';const v=el.textContent.trim(),ok=answers.includes(v);if(ok)el.classList.add('ok');else el.classList.add('ng');scores[bid]=ok;});
+  const allOk=bids.every(b=>scores[b]);
+  const r=document.getElementById(rid);r.style.background=allOk?'var(--grn-l)':'var(--amber-l)';r.style.color=allOk?'var(--grn-d)':'var(--amber)';
+  r.textContent=(allOk?'⭕ 正解！ ':'❌ 残念… ')+explain;r.classList.add('show');updateTotal();
+}
+function confetti(){
+  const cv=document.getElementById('cnf');cv.style.display='block';const ctx=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;
+  const W=cv.width,H=cv.height,cols=['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6'];let ps=[];
+  function p(x,y,vx,vy){return{x,y,vx,vy,s:Math.random()*7+6,c:cols[Math.floor(Math.random()*cols.length)],rot:Math.random()*6,vr:(Math.random()-.5)*.3,sw:Math.random()*6,shape:Math.random()<.5?'p':'s'};}
+  for(let i=0;i<80;i++){ps.push(p(0,H,4+Math.random()*7,-(11+Math.random()*9)));ps.push(p(W,H,-(4+Math.random()*7),-(11+Math.random()*9)));}
+  for(let i=0;i<110;i++){ps.push(p(Math.random()*W,-Math.random()*H*.5,(Math.random()-.5)*2,1.5+Math.random()*2));}
+  let f=0;(function loop(){ctx.clearRect(0,0,W,H);ps.forEach(q=>{q.vy+=.18;q.sw+=.06;q.x+=q.vx+Math.sin(q.sw)*1.4;q.y+=q.vy;q.rot+=q.vr;ctx.save();ctx.translate(q.x,q.y);ctx.rotate(q.rot);ctx.fillStyle=q.c;if(q.shape==='p'){ctx.beginPath();ctx.ellipse(0,0,q.s,q.s*.55,0,0,7);ctx.fill();}else ctx.fillRect(-q.s/2,-q.s/2,q.s,q.s);ctx.restore();});f++;if(f<360)requestAnimationFrame(loop);else{ctx.clearRect(0,0,W,H);cv.style.display='none';}})();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL03 intro｜陽性植物と陰性植物・陽葉と陰葉｜GAMBA高認 生物基礎</title>
+<style>
+  :root{--ink:#1f2933;--gray:#64748b;--line:#e2e8f0;--bg:#f4faf4;--card:#fff;
+    --grn:#16a34a;--grn-d:#15803d;--grn-l:#dcfce7;--grn-bg:#f0fdf4;
+    --amber:#d97706;--amber-l:#fef3c7;--red:#dc2626;--red-l:#fee2e2;--blue:#2563eb;
+    --radius:14px;--shadow:0 1px 3px rgba(15,23,42,.06),0 8px 24px rgba(15,23,42,.06);}
+  *{box-sizing:border-box;}html{scroll-behavior:smooth;}
+  body{margin:0;font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic UI",Meiryo,sans-serif;color:var(--ink);background:var(--bg);line-height:1.85;-webkit-text-size-adjust:100%;}
+  .wrap{max-width:780px;margin:0 auto;padding:0 16px 80px;}
+  header.hd{background:linear-gradient(135deg,#16a34a 0%,#0d9488 100%);color:#fff;padding:28px 16px 24px;text-align:center;position:relative;overflow:hidden;}
+  header.hd::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 120%,rgba(255,255,255,.18),transparent 45%);}
+  .hd-tag{display:inline-block;font-size:.78rem;background:rgba(255,255,255,.2);padding:3px 12px;border-radius:999px;margin-bottom:10px;}
+  .hd h1{margin:0;font-size:1.45rem;font-weight:800;}.hd p{margin:8px 0 0;font-size:.9rem;opacity:.9;}
+  .nav-bar{max-width:780px;margin:0 auto;padding:8px 16px;display:flex;gap:8px;flex-wrap:wrap;background:#fff;border-bottom:1px solid var(--line);}
+  .nav-btn{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.84rem;font-weight:700;text-decoration:none;background:#fff;color:var(--grn-d);}
+  .nav-btn.active{background:var(--grn);color:#fff;border-color:var(--grn);}
+  .audio-bar{max-width:780px;margin:0 auto;padding:10px 16px;background:#effdf8;border-bottom:1px solid var(--grn-l);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .audio-label{font-size:.82rem;font-weight:800;color:var(--grn-d);}
+  .audio-btn{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--grn);color:var(--grn-d);font-weight:700;font-size:.84rem;padding:6px 14px;border-radius:999px;cursor:pointer;font-family:inherit;}
+  section.box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin:16px 0;box-shadow:var(--shadow);}
+  .sec-h{font-size:1.1rem;font-weight:800;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--grn-l);display:flex;align-items:center;gap:8px;}
+  .sec-h .num{background:var(--grn);color:#fff;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:.9rem;flex-shrink:0;}
+  .freq{font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px;}
+  .freq-must{background:var(--red-l);color:var(--red);}.freq-often{background:var(--amber-l);color:var(--amber);}
+  p.lead{margin:0 0 10px;}.hl{background:linear-gradient(transparent 62%,#fde68a 62%);font-weight:700;}.key{color:var(--grn);font-weight:800;}
+  .note{background:var(--grn-bg);border:1px solid var(--grn-l);border-left:5px solid var(--grn);border-radius:10px;padding:12px 14px;margin:10px 0;}
+  .note-t{font-weight:800;color:var(--grn);display:block;margin-bottom:4px;}
+  .warn{background:#fffdf5;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;margin:10px 0;font-size:.92rem;}
+  table.tbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem;}
+  table.tbl th,table.tbl td{border:1px solid var(--line);padding:8px 9px;text-align:center;}
+  table.tbl thead th{background:var(--grn-bg);color:var(--grn-d);font-weight:800;}
+  table.tbl tbody th{background:#f8fafc;text-align:left;font-weight:700;width:32%;}
+  .term-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px;margin:8px 0;}
+  .term-card{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;}
+  .term-name{font-weight:800;color:var(--grn);font-size:.95rem;}.term-desc{font-size:.84rem;margin-top:3px;}
+  .fig-wrap{margin:12px 0;text-align:center;}
+  .fig-wrap img{max-width:100%;height:auto;border-radius:10px;box-shadow:var(--shadow);}
+  .fig-cap{font-size:.78rem;color:var(--gray);margin-top:6px;text-align:center;}
+  .examples{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}
+  .ex-chip{background:var(--grn-bg);border:1px solid var(--grn-l);border-radius:999px;padding:4px 12px;font-size:.86rem;font-weight:700;color:var(--grn-d);}
+  .ex-chip-b{background:#f0fdfa;border:1px solid #99f6e4;border-radius:999px;padding:4px 12px;font-size:.86rem;font-weight:700;color:#0f766e;}
+  /* 会話文 */
+  .dialogue{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0;font-size:.92rem;}
+  .dialogue .teacher{font-weight:700;color:#1d4ed8;}
+  .dialogue .student{font-weight:700;color:var(--grn-d);}
+  .dialogue p{margin:6px 0;}
+  .blank-q{display:inline-block;border-bottom:2px solid var(--blue);min-width:60px;font-weight:700;color:var(--blue);text-align:center;}
+  /* ミニテスト */
+  .mini-wrap{background:#f0fdf8;border:1.5px dashed var(--grn-l);border-radius:var(--radius);padding:16px;margin-top:14px;}
+  .mini-title{font-weight:800;color:var(--grn-d);font-size:.95rem;margin:0 0 12px;}
+  .mini-q{font-weight:700;margin:0 0 10px;font-size:.93rem;}
+  .mini-opts{display:grid;gap:7px;margin-bottom:8px;}
+  .mini-opt{text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;font-size:.9rem;cursor:pointer;font-family:inherit;color:var(--ink);transition:.15s;}
+  .mini-opt:hover{border-color:var(--grn);}
+  .mini-opt.correct{background:var(--grn-l);border-color:var(--grn);font-weight:700;}
+  .mini-opt.wrong{background:var(--red-l);border-color:var(--red);}
+  .mini-opt.dim{opacity:.5;}
+  .mini-ex{display:none;margin-top:8px;padding:9px 12px;background:#fff;border-radius:9px;border-left:4px solid var(--grn);font-size:.87rem;}
+  .mini-ex.show{display:block;}
+  .tap-input-line{margin:8px 0;font-size:.93rem;}
+  .tap-blank{display:inline-block;border-bottom:2px solid var(--grn);min-width:80px;padding:2px 5px;background:var(--grn-bg);border-radius:4px 4px 0 0;font-weight:700;color:var(--grn-d);text-align:center;cursor:pointer;font-size:.93rem;}
+  .tap-blank.sel{outline:2px solid var(--grn);background:#cffafe;}
+  .tap-blank.ok{background:var(--grn-l);}
+  .tap-blank.ng{background:var(--red-l);}
+  .tap-bank{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}
+  .tap-chip{background:#fff;border:1px solid var(--grn-l);color:var(--grn);border-radius:999px;padding:5px 12px;font-size:.84rem;font-weight:700;cursor:pointer;}
+  .tap-chip:active{transform:translateY(1px);}
+  .mini-submit{display:inline-flex;align-items:center;background:var(--grn);color:#fff;border:none;font-family:inherit;font-weight:800;font-size:.88rem;padding:8px 18px;border-radius:999px;cursor:pointer;margin-top:6px;}
+  .mini-result{display:none;margin-top:8px;padding:10px 12px;border-radius:9px;font-weight:700;}
+  .mini-result.show{display:block;}
+  .mini-sep{border:none;border-top:1px dashed var(--grn-l);margin:14px 0;}
+  /* 過去問会話問題 */
+  .pastq-box{background:#fff;border:1.5px solid var(--blue);border-radius:var(--radius);padding:16px;margin:10px 0;}
+  .pastq-title{font-weight:800;color:var(--blue);font-size:.9rem;margin:0 0 10px;}
+  .pastq-opts{display:grid;gap:7px;margin:8px 0;}
+  .pastq-opt{text-align:left;border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;font-size:.88rem;cursor:pointer;font-family:inherit;color:var(--ink);}
+  .pastq-opt:hover{border-color:var(--blue);}
+  .pastq-opt.correct{background:#dbeafe;border-color:var(--blue);font-weight:700;}
+  .pastq-opt.wrong{background:var(--red-l);border-color:var(--red);}
+  .pastq-opt.dim{opacity:.5;}
+  .pastq-ex{display:none;margin-top:8px;padding:9px 12px;background:#eff6ff;border-radius:9px;border-left:4px solid var(--blue);font-size:.86rem;}
+  .pastq-ex.show{display:block;}
+  .total-result{display:none;background:var(--grn-l);border:2px solid var(--grn);border-radius:var(--radius);padding:18px;margin:20px 0;text-align:center;box-shadow:var(--shadow);}
+  .total-result.show{display:block;}.total-big{font-size:2rem;font-weight:800;color:var(--grn-d);}
+  .footer-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px;}
+  .f-btn{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);color:var(--grn-d);font-weight:700;font-size:.9rem;padding:9px 18px;border-radius:999px;text-decoration:none;box-shadow:var(--shadow);}
+  .f-btn.primary{background:var(--grn);color:#fff;border-color:var(--grn);}
+  canvas#cnf{position:fixed;inset:0;pointer-events:none;z-index:60;display:none;}
+  @media(max-width:640px){.hd h1{font-size:1.2rem;}}
+</style>
+</head>
+<body>
+<canvas id="cnf"></canvas>
+<header class="hd">
+  <span class="hd-tag">GAMBA高認 ／ 生物基礎</span>
+  <h1>BL03 intro　陽性植物と陰性植物・陽葉と陰葉</h1>
+  <p>光の好みで植物を見分けよう。グラフの読み取りも練習！</p>
+</header>
+<div class="nav-bar">
+  <a class="nav-btn" href="index.html">← 一覧</a>
+  <a class="nav-btn active" href="BL03_intro.html">解説</a>
+  <a class="nav-btn" href="BL03_drill.html">練習</a>
+  <a class="nav-btn" href="BL03_check.html">確認問題</a>
+</div>
+<div class="audio-bar">
+  <span class="audio-label">🔊 音声解説（四国メタン）</span>
+  <audio id="audioMain" src="BL03_voice.wav" preload="none"></audio>
+  <button class="audio-btn" onclick="toggleAudio()">▶ 解説を聴く</button>
+  <span id="audio-status" style="font-size:.8rem;color:var(--gray);"></span>
+</div>
+<div class="wrap">
+
+  <section class="box">
+    <p class="lead">植物には<span class="hl">「強い光が好き」な植物と「弱い光でもOK」な植物</span>がいます。BL02で学んだ補償点・光飽和点の値を比べると2種類の違いがはっきり見えます。</p>
+  </section>
+
+  <!-- 1. 陽性・陰性植物 -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">1</span>陽性植物と陰性植物のちがい <span class="freq freq-must">🔴 必ず出る</span></h2>
+
+    <div class="fig-wrap">
+      <img src="graph3.svg" alt="陽性植物と陰性植物の光合成曲線の比較グラフ：陽性植物は補償点・光飽和点ともに大きく、陰性植物は小さい">
+      <p class="fig-cap">図1：陽性植物（赤）と陰性植物（緑）の光合成速度のちがい</p>
+    </div>
+
+    <table class="tbl">
+      <thead><tr><th>特徴</th><th>陽性植物</th><th>陰性植物</th></tr></thead>
+      <tbody>
+        <tr><th>好む光</th><td>強い光</td><td>弱い光でもOK</td></tr>
+        <tr><th>補償点（P）</th><td><b>大きい</b>（強い光が必要）</td><td><b>小さい</b>（暗くても釣り合う）</td></tr>
+        <tr><th>光飽和点（Q）</th><td><b>大きい</b>（強い光まで速度UP）</td><td><b>小さい</b>（弱い光で頭打ち）</td></tr>
+        <tr><th>最大光合成速度</th><td>大きい</td><td>小さい</td></tr>
+        <tr><th>呼吸速度</th><td>大きい</td><td>小さい</td></tr>
+      </tbody>
+    </table>
+
+    <div class="mini-wrap">
+      <p class="mini-title">✅ ミニテスト①（陽性・陰性植物）</p>
+      <p class="mini-q">Q1. 陽性植物と陰性植物のグラフを比べたとき、補償点が大きいのはどちらか。</p>
+      <div class="mini-opts" data-correct="0" data-explain="陽性植物は強い光がないと光合成と呼吸がつりあわないため、補償点が大きいです。陰性植物は弱い光でもつりあうので補償点が小さい。" id="q1opts">
+        <button class="mini-opt" onclick="pickMini('q1',this)">陽性植物</button>
+        <button class="mini-opt" onclick="pickMini('q1',this)">陰性植物</button>
+        <button class="mini-opt" onclick="pickMini('q1',this)">両方同じ</button>
+        <button class="mini-opt" onclick="pickMini('q1',this)">状況による</button>
+      </div>
+      <div class="mini-ex" id="q1ex"></div>
+      <hr class="mini-sep">
+      <p class="mini-q">Q2. 弱い光の環境（暗い場所）では、どちらの光合成速度が大きいか。</p>
+      <div class="mini-opts" data-correct="1" data-explain="弱い光では陰性植物の方が光合成速度が大きい（補償点が小さいので暗い場所でも生きられる）。強い光では陽性植物が大きくなります。" id="q2opts">
+        <button class="mini-opt" onclick="pickMini('q2',this)">陽性植物</button>
+        <button class="mini-opt" onclick="pickMini('q2',this)">陰性植物</button>
+        <button class="mini-opt" onclick="pickMini('q2',this)">両方同じ</button>
+        <button class="mini-opt" onclick="pickMini('q2',this)">どちらもゼロ</button>
+      </div>
+      <div class="mini-ex" id="q2ex"></div>
+    </div>
+  </section>
+
+  <!-- 2. グラフからわかる4つのポイント -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">2</span>グラフからわかる4つのポイント <span class="freq freq-must">🔴 必ず出る</span></h2>
+    <div class="note">
+      <span class="note-t">📊 グラフの4つのポイント</span>
+      <b>①</b> 陽性植物の方が補償点・光飽和点・最大光合成速度・呼吸速度がすべて大きい<br>
+      <b>②</b> 弱い光では陰性植物の方が光合成速度が大きい（グラフの交差点より左）<br>
+      <b>③</b> 強い光では陽性植物の方が光合成速度が大きい（グラフの交差点より右）<br>
+      <b>④</b> 陰性植物は光飽和点が低いため、「強い光を当てても意味がない」
+    </div>
+
+    <div class="mini-wrap">
+      <p class="mini-title">✅ ミニテスト②（グラフの4ポイント）</p>
+      <p class="mini-q">Q1. 陽性植物と陰性植物のグラフが交差する点より「弱い光側」では、どちらのCO₂吸収速度が大きいか。</p>
+      <div class="mini-opts" data-correct="1" data-explain="弱い光では陰性植物の方が大きい（補償点が小さいので少ない光でも光合成が呼吸を上回る）。グラフの交差点より強い光では陽性植物が大きくなります。" id="q3opts">
+        <button class="mini-opt" onclick="pickMini('q3',this)">陽性植物</button>
+        <button class="mini-opt" onclick="pickMini('q3',this)">陰性植物</button>
+        <button class="mini-opt" onclick="pickMini('q3',this)">常に同じ</button>
+        <button class="mini-opt" onclick="pickMini('q3',this)">両方ゼロ</button>
+      </div>
+      <div class="mini-ex" id="q3ex"></div>
+      <hr class="mini-sep">
+      <p class="mini-q">Q2. 陽性植物・陰性植物について正しい記述はどれか。</p>
+      <div class="mini-opts" data-correct="1" data-explain="陽性植物は補償点・光飽和点・最大光合成速度・呼吸速度がすべて陰性植物より大きい。①③④はいずれも逆です。" id="q4opts">
+        <button class="mini-opt" onclick="pickMini('q4',this)">陰性植物は呼吸速度が陽性植物より大きい</button>
+        <button class="mini-opt" onclick="pickMini('q4',this)">陽性植物は補償点・光飽和点・最大光合成速度・呼吸速度がすべて大きい</button>
+        <button class="mini-opt" onclick="pickMini('q4',this)">陰性植物は光飽和点が陽性植物より大きい</button>
+        <button class="mini-opt" onclick="pickMini('q4',this)">陽性植物と陰性植物の呼吸速度は同じ</button>
+      </div>
+      <div class="mini-ex" id="q4ex"></div>
+    </div>
+  </section>
+
+  <!-- 3. 植物の例 -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">3</span>陽性植物・陰性植物の例 <span class="freq freq-often">🟡 よく出る</span></h2>
+    <p class="lead" style="font-weight:700;color:var(--grn-d);">☀️ 陽性植物（強い光を好む）</p>
+    <div class="examples">
+      <span class="ex-chip">🌾 イネ</span><span class="ex-chip">🌱 ススキ</span><span class="ex-chip">🌲 クロマツ</span>
+      <span class="ex-chip">🌻 ヒマワリ</span><span class="ex-chip">🌳 アカマツ</span><span class="ex-chip">🍅 トマト</span>
+    </div>
+    <p class="lead" style="font-weight:700;color:#0f766e;margin-top:14px;">🌿 陰性植物（弱い光でも育つ）</p>
+    <div class="examples">
+      <span class="ex-chip-b">🍃 コケ</span><span class="ex-chip-b">🌿 シダ</span><span class="ex-chip-b">🌱 アオキ</span>
+      <span class="ex-chip-b">🌿 ヤツデ</span><span class="ex-chip-b">🌳 ブナ</span><span class="ex-chip-b">🍃 ドクダミ</span>
+    </div>
+    <div class="warn">💡 覚え方：「コケ・シダ・アオキ」が陰性植物の3大例。「イネ・ヒマワリ・ススキ」が陽性植物の定番。</div>
+
+    <div class="mini-wrap">
+      <p class="mini-title">✅ ミニテスト③（植物の例）</p>
+      <p class="mini-q">Q1. 次のうち陰性植物のみの組合せはどれか。</p>
+      <div class="mini-opts" data-correct="1" data-explain="コケ・シダ・アオキはすべて陰性植物の代表例。イネ・ヒマワリ・ススキは陽性植物です。" id="q5opts">
+        <button class="mini-opt" onclick="pickMini('q5',this)">イネ・ヒマワリ・クロマツ</button>
+        <button class="mini-opt" onclick="pickMini('q5',this)">コケ・シダ・アオキ</button>
+        <button class="mini-opt" onclick="pickMini('q5',this)">ススキ・トマト・ブナ</button>
+        <button class="mini-opt" onclick="pickMini('q5',this)">イネ・シダ・コケ</button>
+      </div>
+      <div class="mini-ex" id="q5ex"></div>
+      <hr class="mini-sep">
+      <p class="mini-q">Q2. 補償点・光飽和点がともに大きいのはどちらか、語群から選ぼう。</p>
+      <div class="tap-input-line">補償点・光飽和点・最大光合成速度・呼吸速度がすべて大きいのは <span class="tap-blank" id="tb1" onclick="selBlank('tb1')">　　　　</span> である。</div>
+      <div class="tap-bank">
+        <span class="tap-chip" onclick="fillBlank(this,'陽性植物')">陽性植物</span>
+        <span class="tap-chip" onclick="fillBlank(this,'陰性植物')">陰性植物</span>
+      </div>
+      <button class="mini-submit" onclick="gradeTap('r1',['tb1'],['陽性植物'],'陽性植物は補償点・光飽和点・最大光合成速度・呼吸速度がすべて大きいのが特徴です。')">答え合わせ</button>
+      <div class="mini-result" id="r1"></div>
+    </div>
+  </section>
+
+  <!-- 4. 陽葉と陰葉 -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">4</span>陽葉と陰葉（同じ植物でも葉が変わる）<span class="freq freq-often">🟡 よく出る</span></h2>
+    <p class="lead">同じ植物でも、生えている場所の明るさで<span class="hl">葉のつくりが変わります</span>。</p>
+    <table class="tbl">
+      <thead><tr><th>特徴</th><th>陽葉（ようよう）</th><th>陰葉（いんよう）</th></tr></thead>
+      <tbody>
+        <tr><th>場所</th><td>木の上・日当たりよい</td><td>木の下・日当たり悪い</td></tr>
+        <tr><th>葉の厚さ</th><td><b>厚い</b></td><td><b>薄い</b></td></tr>
+        <tr><th>葉の大きさ</th><td>小さい</td><td><b>大きい</b>（光を多く集めるため）</td></tr>
+        <tr><th>色</th><td>濃い緑色</td><td>薄い緑色</td></tr>
+        <tr><th>光飽和点</th><td>大きい</td><td>小さい</td></tr>
+      </tbody>
+    </table>
+    <div class="warn">💡 覚え方：「<b>陽葉は厚くて小さく濃い</b>／<b>陰葉は薄くて大きく薄い</b>」</div>
+
+    <div class="mini-wrap">
+      <p class="mini-title">✅ ミニテスト④（陽葉・陰葉）</p>
+      <p class="mini-q">Q1. 陽葉の特徴として正しいものはどれか。</p>
+      <div class="mini-opts" data-correct="2" data-explain="陽葉は強い光にさらされるため厚くて小さく、葉緑素が多く濃い緑色です。陰葉は薄くて大きく薄い緑色。" id="q6opts">
+        <button class="mini-opt" onclick="pickMini('q6',this)">薄くて大きく薄い緑色</button>
+        <button class="mini-opt" onclick="pickMini('q6',this)">薄くて小さく濃い緑色</button>
+        <button class="mini-opt" onclick="pickMini('q6',this)">厚くて小さく濃い緑色</button>
+        <button class="mini-opt" onclick="pickMini('q6',this)">厚くて大きく薄い緑色</button>
+      </div>
+      <div class="mini-ex" id="q6ex"></div>
+      <hr class="mini-sep">
+      <p class="mini-q">Q2. 陰葉が陽葉より大きいのはなぜか。</p>
+      <div class="mini-opts" data-correct="1" data-explain="暗い場所では光が少ないため、葉を大きく広げて少しでも多くの光を受け取ろうとするからです。" id="q7opts">
+        <button class="mini-opt" onclick="pickMini('q7',this)">光が強すぎるのを防ぐため</button>
+        <button class="mini-opt" onclick="pickMini('q7',this)">少ない光をできるだけ多く受け取るため</button>
+        <button class="mini-opt" onclick="pickMini('q7',this)">水分を蒸発させるため</button>
+        <button class="mini-opt" onclick="pickMini('q7',this)">虫から身を守るため</button>
+      </div>
+      <div class="mini-ex" id="q7ex"></div>
+    </div>
+  </section>
+
+  <!-- 過去問類題（会話文形式） -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">5</span>過去問類題 — グラフ読み取り（会話文形式）<span class="freq freq-must">🔴 必ず出る</span></h2>
+    <p class="lead">高認・共通テストで頻出の「会話文＋グラフ」形式です。図を見ながら考えよう。</p>
+
+    <div class="dialogue">
+      <p><span class="teacher">先生：</span>スギの森の中は夏でも地面まで光がほとんど届かず、とても薄暗いです。スギ林の林床でも育てる植物を<span class="blank-q">ウ</span>、イネのように強い光を好む植物を<span class="blank-q">エ</span>といいます。林床の光の強さが図のCくらいだとすると、イネが生育できない理由がわかります。</p>
+    </div>
+    <p style="font-size:.84rem;color:var(--gray);margin:4px 0 10px;">（図）A＝強い光を好む植物、B＝弱い光でも育つ植物の光合成曲線。C・D・E は光の強さの位置。</p>
+
+    <div class="pastq-box" id="pq1">
+      <p class="pastq-title">問1. 空欄「ウ」（弱い光でも育つ植物）に入る語句はどれか。</p>
+      <div class="pastq-opts" data-correct="1" id="pq1opts">
+        <button class="pastq-opt" onclick="pickPastQ('pq1',this)">① 陽性植物</button>
+        <button class="pastq-opt" onclick="pickPastQ('pq1',this)">② 陰性植物</button>
+        <button class="pastq-opt" onclick="pickPastQ('pq1',this)">③ 植物A</button>
+        <button class="pastq-opt" onclick="pickPastQ('pq1',this)">④ 陽葉をもつ植物</button>
+      </div>
+      <div class="pastq-ex" id="pq1ex">✅ 正解：② 陰性植物　スギ林の林床は光が弱い環境。このような弱い光でも補償点を超えて光合成ができ生育できるのは陰性植物（グラフのB）です。</div>
+    </div>
+
+    <div class="pastq-box" id="pq2">
+      <p class="pastq-title">問2. 空欄「エ」（強い光を好む植物）に入る語句はどれか。</p>
+      <div class="pastq-opts" data-correct="2" id="pq2opts">
+        <button class="pastq-opt" onclick="pickPastQ('pq2',this)">① 陰性植物</button>
+        <button class="pastq-opt" onclick="pickPastQ('pq2',this)">② 植物B</button>
+        <button class="pastq-opt" onclick="pickPastQ('pq2',this)">③ 陽性植物</button>
+        <button class="pastq-opt" onclick="pickPastQ('pq2',this)">④ 陰葉をもつ植物</button>
+      </div>
+      <div class="pastq-ex" id="pq2ex">✅ 正解：③ 陽性植物　イネは強い光を好む陽性植物（グラフのA）。補償点・光飽和点が大きく、十分な光がないとスギ林の薄暗い林床では生育できません。</div>
+    </div>
+
+    <div class="pastq-box" id="pq3">
+      <p class="pastq-title">問3. 「林床の光の強さ C」でイネが育てない理由として正しいものはどれか。</p>
+      <div class="pastq-opts" data-correct="0" id="pq3opts">
+        <button class="pastq-opt" onclick="pickPastQ('pq3',this)">① C の光では陽性植物の呼吸速度の方が光合成速度より大きく、有機物が消費され続けるから</button>
+        <button class="pastq-opt" onclick="pickPastQ('pq3',this)">② C の光では陽性植物・陰性植物ともにCO₂吸収ゼロだから</button>
+        <button class="pastq-opt" onclick="pickPastQ('pq3',this)">③ C の光は陽性植物の光飽和点と等しいから</button>
+        <button class="pastq-opt" onclick="pickPastQ('pq3',this)">④ C の光では陰性植物だけが呼吸できるから</button>
+      </div>
+      <div class="pastq-ex" id="pq3ex">✅ 正解：① 　C の光の強さでは、陰性植物の補償点よりも弱いため、陽性植物（イネ）はグラフ上でゼロラインより下（CO₂放出状態）。光合成速度＜呼吸速度なので有機物が積み上げられず生育できません。</div>
+    </div>
+  </section>
+
+  <!-- 用語まとめ -->
+  <section class="box">
+    <h2 class="sec-h"><span class="num">★</span>用語まとめ</h2>
+    <div class="term-grid">
+      <div class="term-card"><div class="term-name">陽性植物</div><div class="term-desc">強い光を好む。補償点・光飽和点・最大光合成速度・呼吸速度がすべて大きい。例：イネ・ススキ・ヒマワリ</div></div>
+      <div class="term-card"><div class="term-name">陰性植物</div><div class="term-desc">弱い光でも育つ。すべての値が小さい。例：コケ・シダ・アオキ</div></div>
+      <div class="term-card"><div class="term-name">陽葉</div><div class="term-desc">厚くて小さく濃い緑色。光飽和点大きい。</div></div>
+      <div class="term-card"><div class="term-name">陰葉</div><div class="term-desc">薄くて大きく薄い緑色。光飽和点小さい。少ない光を集める。</div></div>
+    </div>
+  </section>
+
+  <div class="total-result" id="totalResult">
+    <div class="total-big" id="totalBig"></div><div id="totalMsg"></div>
+  </div>
+  <div class="footer-nav">
+    <a class="f-btn" href="index.html">← 一覧</a>
+    <a class="f-btn" href="BL03_drill.html">練習ドリル →</a>
+    <a class="f-btn primary" href="BL03_check.html">📋 確認問題へ →</a>
+  </div>
+</div>
+<script>
+const PAGE_CODE='BL03',TOTAL_Q=10;
+let scores={},curBlank=null,audioPlaying=false;
+const audio=document.getElementById('audioMain');
+function toggleAudio(){if(!audioPlaying){audio.play();audioPlaying=true;document.getElementById('audio-status').textContent='▶ 再生中…';}else{audio.pause();audio.currentTime=0;audioPlaying=false;document.getElementById('audio-status').textContent='';}}
+if(audio)audio.addEventListener('ended',()=>{audioPlaying=false;document.getElementById('audio-status').textContent='';});
+function updateTotal(){if(Object.keys(scores).length<TOTAL_Q)return;const ok=Object.values(scores).filter(Boolean).length,pct=Math.round(ok/TOTAL_Q*100);document.getElementById('totalBig').textContent=ok+' / '+TOTAL_Q;document.getElementById('totalMsg').textContent=ok===TOTAL_Q?'🎉 全問正解！':pct>=70?'よくできました（'+pct+'点）':'お疲れさま（'+pct+'点）。解説を読み返そう。';document.getElementById('totalResult').classList.add('show');try{localStorage.setItem('gamba_intro_'+PAGE_CODE,String(pct));}catch(e){}if(ok===TOTAL_Q)confetti();document.getElementById('totalResult').scrollIntoView({behavior:'smooth'});}
+function pickMini(qid,btn){const el=document.getElementById(qid+'opts');if(el.dataset.done)return;el.dataset.done='1';const ci=parseInt(el.dataset.correct,10),bs=[...el.children],idx=bs.indexOf(btn);bs.forEach((b,i)=>{b.disabled=true;if(i===ci)b.classList.add('correct');else if(i===idx)b.classList.add('wrong');else b.classList.add('dim');});const ex=document.getElementById(qid+'ex'),ok=(idx===ci);ex.textContent=(ok?'⭕ 正解！ ':'❌ 残念… ')+el.dataset.explain;ex.classList.add('show');scores[qid]=ok;updateTotal();}
+function pickPastQ(qid,btn){const el=document.getElementById(qid+'opts');if(el.dataset.done)return;el.dataset.done='1';const ci=parseInt(el.dataset.correct,10),bs=[...el.children],idx=bs.indexOf(btn);bs.forEach((b,i)=>{b.disabled=true;if(i===ci)b.classList.add('correct');else if(i===idx)b.classList.add('wrong');else b.classList.add('dim');});document.getElementById(qid+'ex').classList.add('show');scores[qid]=(idx===ci);updateTotal();}
+function selBlank(id){if(curBlank)document.getElementById(curBlank).classList.remove('sel');curBlank=id;document.getElementById(id).classList.add('sel');}
+function fillBlank(chip,word){if(!curBlank)return;const el=document.getElementById(curBlank);if(el.dataset.locked)return;el.textContent=word;el.classList.remove('ok','ng');}
+function gradeTap(rid,bids,answers,explain){bids.forEach(bid=>{const el=document.getElementById(bid);if(el.dataset.locked)return;el.dataset.locked='1';const v=el.textContent.trim(),ok=answers.includes(v);if(ok)el.classList.add('ok');else el.classList.add('ng');scores[bid]=ok;});const allOk=bids.every(b=>scores[b]);const r=document.getElementById(rid);r.style.background=allOk?'var(--grn-l)':'var(--amber-l)';r.style.color=allOk?'var(--grn-d)':'var(--amber)';r.textContent=(allOk?'⭕ 正解！ ':'❌ 残念… ')+explain;r.classList.add('show');updateTotal();}
+function confetti(){const cv=document.getElementById('cnf');cv.style.display='block';const ctx=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;const W=cv.width,H=cv.height,cols=['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6'];let ps=[];function p(x,y,vx,vy){return{x,y,vx,vy,s:Math.random()*7+6,c:cols[Math.floor(Math.random()*cols.length)],rot:Math.random()*6,vr:(Math.random()-.5)*.3,sw:Math.random()*6,shape:Math.random()<.5?'p':'s'};}for(let i=0;i<80;i++){ps.push(p(0,H,4+Math.random()*7,-(11+Math.random()*9)));ps.push(p(W,H,-(4+Math.random()*7),-(11+Math.random()*9)));}for(let i=0;i<110;i++){ps.push(p(Math.random()*W,-Math.random()*H*.5,(Math.random()-.5)*2,1.5+Math.random()*2));}let f=0;(function loop(){ctx.clearRect(0,0,W,H);ps.forEach(q=>{q.vy+=.18;q.sw+=.06;q.x+=q.vx+Math.sin(q.sw)*1.4;q.y+=q.vy;q.rot+=q.vr;ctx.save();ctx.translate(q.x,q.y);ctx.rotate(q.rot);ctx.fillStyle=q.c;if(q.shape==='p'){ctx.beginPath();ctx.ellipse(0,0,q.s,q.s*.55,0,0,7);ctx.fill();}else ctx.fillRect(-q.s/2,-q.s/2,q.s,q.s);ctx.restore();});f++;if(f<360)requestAnimationFrame(loop);else{ctx.clearRect(0,0,W,H);cv.style.display='none';}})();}
+</script>
+</body>
+</html>
