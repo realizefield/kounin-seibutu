@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL01 練習｜光合成のしくみと光合成色素｜GAMBA高認 生物基礎</title>
+<style>
+
+  :root{--ink:#1f2933;--gray:#64748b;--line:#e2e8f0;--bg:#f4faf4;--card:#fff;
+    --grn:#16a34a;--grn-d:#15803d;--grn-l:#dcfce7;--grn-bg:#f0fdf4;
+    --amber:#d97706;--amber-l:#fef3c7;--red:#dc2626;--red-l:#fee2e2;
+    --blue:#2563eb;--blue-d:#1d4ed8;--teal:#0d9488;
+    --radius:14px;--shadow:0 1px 3px rgba(15,23,42,.06),0 8px 24px rgba(15,23,42,.06);}
+  *{box-sizing:border-box;}html{scroll-behavior:smooth;}
+  body{margin:0;font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic UI",Meiryo,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.85;-webkit-text-size-adjust:100%;}
+  ruby rt{font-size:.55em;color:var(--gray);}
+  .wrap{max-width:780px;margin:0 auto;padding:0 16px 80px;}
+  header.hd{background:linear-gradient(135deg,#16a34a 0%,#0d9488 100%);color:#fff;
+    padding:28px 16px 24px;text-align:center;position:relative;overflow:hidden;}
+  header.hd::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 120%,rgba(255,255,255,.18),transparent 45%);}
+  .hd-tag{display:inline-block;font-size:.78rem;letter-spacing:.12em;background:rgba(255,255,255,.2);padding:3px 12px;border-radius:999px;margin-bottom:10px;}
+  .hd h1{margin:0;font-size:1.45rem;font-weight:800;} .hd p{margin:8px 0 0;font-size:.9rem;opacity:.9;}
+  .nav-bar{max-width:780px;margin:0 auto;padding:8px 16px;display:flex;gap:8px;flex-wrap:wrap;background:#fff;border-bottom:1px solid var(--line);}
+  .nav-btn{border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.84rem;font-weight:700;text-decoration:none;background:#fff;color:var(--grn-d);}
+  .nav-btn.active{background:var(--grn);color:#fff;border-color:var(--grn);}
+  section.box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin:16px 0;box-shadow:var(--shadow);}
+  .sec-h{font-size:1.1rem;font-weight:800;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--grn-l);display:flex;align-items:center;gap:8px;}
+  .sec-h .num{background:var(--grn);color:#fff;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:.9rem;flex-shrink:0;}
+  .freq{font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px;}
+  .freq-must{background:var(--red-l);color:var(--red);} .freq-often{background:var(--amber-l);color:var(--amber);}
+  p.lead{margin:0 0 10px;} .hl{background:linear-gradient(transparent 62%,#fde68a 62%);font-weight:700;}
+  .key{color:var(--grn);font-weight:800;}
+  .note{background:var(--grn-bg);border:1px solid var(--grn-l);border-left:5px solid var(--grn);border-radius:10px;padding:12px 14px;margin:10px 0;}
+  .note-t{font-weight:800;color:var(--grn);display:block;margin-bottom:4px;}
+  .warn{background:#fffdf5;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;margin:10px 0;font-size:.92rem;}
+  table.tbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem;}
+  table.tbl th,table.tbl td{border:1px solid var(--line);padding:8px 9px;text-align:center;}
+  table.tbl thead th{background:var(--grn-bg);color:var(--grn-d);font-weight:800;}
+  table.tbl tbody th{background:#f8fafc;text-align:left;font-weight:700;width:32%;}
+  .term-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px;margin:8px 0;}
+  .term-card{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;}
+  .term-name{font-weight:800;color:var(--grn);font-size:.95rem;} .term-desc{font-size:.84rem;margin-top:3px;}
+  .formula{background:#f8fafc;border:2px solid var(--grn-l);border-radius:12px;padding:14px 18px;margin:10px 0;text-align:center;font-size:1.05rem;font-weight:700;}
+  .footer-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px;}
+  .f-btn{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);color:var(--grn-d);font-weight:700;font-size:.9rem;padding:9px 18px;border-radius:999px;text-decoration:none;box-shadow:var(--shadow);}
+  .f-btn.primary{background:var(--grn);color:#fff;border-color:var(--grn);}
+  @media(max-width:640px){.hd h1{font-size:1.2rem;}}
+  canvas#cnf{position:fixed;inset:0;pointer-events:none;z-index:60;display:none;}
+
+
+  .inline-bank{background:var(--grn-bg);border:1px solid var(--grn-l);border-radius:12px;padding:11px 13px;margin:6px 0 14px;}
+  .ib-title{font-weight:800;color:var(--grn);font-size:.88rem;display:block;margin-bottom:7px;}
+  .ib-items{display:flex;flex-wrap:wrap;gap:7px;}
+  .chip{background:#fff;border:1px solid var(--grn-l);color:var(--grn);border-radius:999px;padding:5px 12px;font-size:.84rem;font-weight:700;cursor:pointer;}
+  .chip:active{transform:translateY(1px);}
+  .blankrow{margin:11px 0;font-size:.95rem;}
+  .blankrow input{font-family:inherit;font-size:.95rem;border:none;border-bottom:2px solid var(--grn);
+    background:var(--grn-bg);padding:4px 6px;min-width:100px;width:130px;text-align:center;
+    color:var(--grn-d);font-weight:700;border-radius:4px 4px 0 0;}
+  .blankrow input.sel{outline:2px solid var(--grn);outline-offset:1px;background:#cffafe;}
+  .blankrow input.ok{background:var(--grn-l);border-color:var(--grn);color:var(--grn);}
+  .blankrow input.ng{background:var(--red-l);border-color:var(--red);color:var(--red);}
+  .chal-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+  .timer{font-variant-numeric:tabular-nums;font-weight:800;color:var(--blue-d);background:#eef6ff;padding:5px 12px;border-radius:999px;font-size:.9rem;}
+  .chal-result{display:none;margin-top:12px;padding:12px 14px;border-radius:10px;font-weight:700;text-align:center;}
+  .chal-result.show{display:block;} .score-big{font-size:1.6rem;color:var(--grn);}
+  .btn{display:inline-flex;align-items:center;gap:6px;background:var(--grn);color:#fff;border:none;font-family:inherit;font-weight:800;font-size:.95rem;padding:10px 22px;border-radius:999px;cursor:pointer;box-shadow:var(--shadow);}
+  .btn.ghost{background:#fff;color:var(--grn-d);border:1px solid var(--grn);}
+
+</style>
+</head>
+<body>
+<canvas id="cnf"></canvas>
+<header class="hd">
+  <span class="hd-tag">GAMBA高認 ／ 生物基礎</span>
+  <h1>BL01 練習　光合成のしくみと光合成色素</h1>
+  <p>植物はどうやってご飯をつくる？ 光合成の全体像を理解しよう</p>
+</header>
+<div class="nav-bar">
+  <a class="nav-btn" href="index.html">← 一覧</a>
+  <a class="nav-btn" href="BL01_intro.html">解説</a>
+  <a class="nav-btn  active" href="BL01_drill.html">練習</a>
+  <a class="nav-btn" href="BL01_check.html">確認問題</a>
+</div>
+<div class="wrap">
+<section class="box">
+  <h2 class="sec-h"><span class="num">①</span>練習ドリル</h2>
+  <div class="chal-head">
+    <p style="margin:0;font-size:.92rem;">入れたい空欄をタップ（<b>青く光る</b>）→ 語群をタップ。直接入力もOK。</p>
+    <span class="timer" id="timer">0:00</span>
+  </div>
+  <div class="inline-bank" id="inlineBank">
+    <span class="ib-title">📑 語群</span>
+    <div class="ib-items"></div>
+  </div>
+  <div id="chal">
+    <div class="blankrow">(1) 光合成は<input data-a="葉緑体">の中でおこなわれる。</div>
+    <div class="blankrow">(2) 光合成の材料は<input data-a="水">と<input data-a="二酸化炭素">である。</div>
+    <div class="blankrow">(3) 光合成の産物は<input data-a="有機物" data-alt="デンプン|有機物（デンプン）">と<input data-a="酸素">である。</div>
+    <div class="blankrow">(4) 根から水を葉に運ぶ管を<input data-a="道管">という。</div>
+    <div class="blankrow">(5) 葉でつくった糖を各部に運ぶ管を<input data-a="師管">という。</div>
+    <div class="blankrow">(6) 道管と師管をまとめて<input data-a="維管束">、葉では<input data-a="葉脈">になる。</div>
+    <div class="blankrow">(7) 光合成の中心的な色素は<input data-a="クロロフィルa">（青緑色）。</div>
+    <div class="blankrow">(8) ニンジンに多い橙黄色の色素を<input data-a="カロテン">という。</div>
+    <div class="blankrow">(9) 光の波長ごとの吸収率グラフを<input data-a="吸収スペクトル">という。</div>
+    <div class="blankrow">(10) クロロフィルは<input data-a="赤色">と<input data-a="青色">の光をよく吸収する。</div>
+    <div class="blankrow">(11) 葉が緑色に見えるのは緑色光を<input data-a="反射">するためである。</div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+    <button class="btn" onclick="grade()">採点する</button>
+    <button class="btn ghost" onclick="resetChal()">もう一度</button>
+  </div>
+  <div class="chal-result" id="chalResult"></div>
+</section>  <div class="footer-nav">
+    <a class="f-btn" href="BL01_intro.html">← 解説に戻る</a>
+    <a class="f-btn primary" href="BL01_check.html">📋 確認問題へ →</a>
+  </div>
+</div><script>
+function confetti(){
+  const cv=document.getElementById('cnf');cv.style.display='block';
+  const ctx=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;
+  const W=cv.width,H=cv.height,cols=['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6'];
+  let ps=[];
+  function petal(x,y,vx,vy){return{x,y,vx,vy,s:Math.random()*7+6,c:cols[Math.floor(Math.random()*cols.length)],
+    rot:Math.random()*6,vr:(Math.random()-.5)*.3,sw:Math.random()*6,shape:Math.random()<.5?'p':'s'};}
+  for(let i=0;i<80;i++){ps.push(petal(0,H,4+Math.random()*7,-(11+Math.random()*9)));
+    ps.push(petal(W,H,-(4+Math.random()*7),-(11+Math.random()*9)));}
+  for(let i=0;i<110;i++){ps.push(petal(Math.random()*W,-Math.random()*H*.5,(Math.random()-.5)*2,1.5+Math.random()*2));}
+  let f=0;
+  (function loop(){ctx.clearRect(0,0,W,H);
+    ps.forEach(p=>{p.vy+=.18;p.sw+=.06;p.x+=p.vx+Math.sin(p.sw)*1.4;p.y+=p.vy;p.rot+=p.vr;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.c;
+      if(p.shape==='p'){ctx.beginPath();ctx.ellipse(0,0,p.s,p.s*.55,0,0,7);ctx.fill();}
+      else ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s);ctx.restore();});
+    f++;if(f<360)requestAnimationFrame(loop);
+    else{ctx.clearRect(0,0,W,H);cv.style.display='none';}})();
+}
+</script></body></html>
+<script>
+const BANK=['葉緑体', '水', '二酸化炭素', '有機物', '酸素', '道管', '師管', '維管束', '葉脈', 'クロロフィルa', 'カロテン', '吸収スペクトル', '赤色', '青色', '反射'];
+let lastInput=null;
+function selectInput(inp){if(lastInput)lastInput.classList.remove('sel');lastInput=inp;inp.classList.add('sel');}
+function fillBlank(w){
+  let t=lastInput||[...document.querySelectorAll('#chal input')].find(i=>!i.value);
+  if(!t)return;t.value=w;t.classList.remove('ok','ng');selectInput(t);
+}
+(function initBank(){
+  [document.getElementById('floatItems'),document.querySelector('#inlineBank .ib-items')].forEach(box=>{
+    if(!box)return;
+    BANK.forEach(w=>{const c=document.createElement('span');c.className='chip';c.textContent=w;
+      c.addEventListener('mousedown',e=>{e.preventDefault();fillBlank(w);});
+      c.addEventListener('touchstart',e=>{e.preventDefault();fillBlank(w);},{passive:false});
+      box.appendChild(c);});
+  });
+  document.querySelectorAll('#chal input').forEach(inp=>{
+    inp.addEventListener('focus',()=>selectInput(inp));
+    inp.addEventListener('click',()=>selectInput(inp));
+  });
+})();
+let sec=0,timerId=null;
+function startTimer(){if(timerId)return;
+  timerId=setInterval(()=>{sec++;const m=Math.floor(sec/60),s=sec%60;
+    document.getElementById('timer').textContent=m+':'+String(s).padStart(2,'0');},1000);}
+document.querySelectorAll('#chal input').forEach(inp=>inp.addEventListener('input',startTimer,{once:true}));
+function norm(s){return(s||'').trim().replace(/\s+/g,'').toLowerCase();}
+function grade(){
+  const inputs=[...document.querySelectorAll('#chal input')];let ok=0;
+  inputs.forEach(inp=>{
+    const ans=norm(inp.dataset.a),val=norm(inp.value);
+    const alts=(inp.dataset.alt||'').split('|').map(x=>norm(x)).filter(Boolean);
+    if(val===ans||alts.includes(val)){inp.classList.add('ok');inp.classList.remove('ng');ok++;}
+    else{inp.classList.add('ng');inp.classList.remove('ok');}
+  });
+  const total=inputs.length,r=document.getElementById('chalResult');
+  r.className='chal-result show';
+  if(ok===total){
+    r.style.background='var(--grn-l)';r.style.color='var(--grn-d)';
+    r.innerHTML='🎉 全問正解！　<span class="score-big">'+ok+'</span>/'+total;
+    clearInterval(timerId);confetti();
+    try{localStorage.setItem('gamba_drill_BL01','100');}catch(e){}
+  }else{
+    r.style.background='var(--amber-l)';r.style.color='var(--amber)';
+    r.innerHTML='正解 <span class="score-big">'+ok+'</span>/'+total+'　赤い欄を確認しよう！';
+  }
+}
+function resetChal(){
+  document.querySelectorAll('#chal input').forEach(i=>{i.value='';i.classList.remove('ok','ng','sel');});
+  document.getElementById('chalResult').className='chal-result';
+  sec=0;clearInterval(timerId);timerId=null;lastInput=null;
+  document.getElementById('timer').textContent='0:00';
+}
+</script>

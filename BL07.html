@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL07 遺伝情報の発現｜高認GAMBA 生物基礎</title>
+<style>
+  :root{
+    --ink:#1f2933;
+    --gray:#64748b;
+    --line:#e2e8f0;
+    --bg:#f5f8fb;
+    --card:#ffffff;
+    --blue:#2563eb;
+    --blue-d:#1d4ed8;
+    --teal:#0d9488;
+    --teal-l:#ccfbf1;
+    --teal-bg:#f0fdfa;
+    --green:#16a34a;
+    --green-l:#dcfce7;
+    --amber:#d97706;
+    --amber-l:#fef3c7;
+    --red:#dc2626;
+    --red-l:#fee2e2;
+    --radius:14px;
+    --shadow:0 1px 3px rgba(15,23,42,.06),0 8px 24px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic UI","Yu Gothic",Meiryo,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.85;
+    -webkit-text-size-adjust:100%;
+  }
+  ruby rt{font-size:.55em;color:var(--gray);font-weight:400;}
+  .wrap{max-width:780px;margin:0 auto;padding:0 16px 80px;}
+
+  /* ---- header ---- */
+  header.hd{
+    background:linear-gradient(135deg,#0d9488 0%,#2563eb 100%);
+    color:#fff;padding:30px 16px 26px;text-align:center;position:relative;overflow:hidden;
+  }
+  header.hd::after{content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 20% 120%,rgba(255,255,255,.18),transparent 45%);}
+  .hd .tag{display:inline-block;font-size:.78rem;letter-spacing:.14em;background:rgba(255,255,255,.2);
+    padding:3px 12px;border-radius:999px;margin-bottom:10px;}
+  .hd h1{margin:0;font-size:1.55rem;font-weight:800;letter-spacing:.02em;}
+  .hd p{margin:8px 0 0;font-size:.95rem;opacity:.94;}
+
+  .backbar{max-width:780px;margin:14px auto 0;padding:0 16px;}
+  .back-btn{display:inline-flex;align-items:center;gap:6px;background:var(--card);
+    border:1px solid var(--line);color:var(--blue);font-weight:700;font-size:.9rem;
+    padding:8px 16px;border-radius:999px;text-decoration:none;box-shadow:var(--shadow);}
+  .back-btn:active{transform:translateY(1px);}
+
+  /* ---- usage guide ---- */
+  .usage-guide{display:flex;flex-wrap:wrap;gap:8px;background:#eef6ff;border:1px solid #d6e6fb;
+    border-radius:var(--radius);padding:14px;margin:18px 0 8px;}
+  .usage-guide .ug-title{flex-basis:100%;font-weight:800;color:var(--blue-d);font-size:.92rem;margin-bottom:2px;}
+  .usage-guide .step{flex:1;min-width:130px;background:#fff;border-radius:10px;padding:8px 10px;
+    font-size:.82rem;border:1px solid #e0ecfb;}
+  .usage-guide .step b{display:block;color:var(--blue);font-size:.88rem;}
+
+  /* ---- sections ---- */
+  section.box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 18px;margin:16px 0;box-shadow:var(--shadow);}
+  .section-title{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:1.18rem;font-weight:800;
+    margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid var(--teal-l);}
+  .section-title .num{background:var(--teal);color:#fff;width:28px;height:28px;border-radius:8px;
+    display:grid;place-items:center;font-size:.95rem;flex-shrink:0;}
+  .freq-mark{font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap;}
+  .freq-must{background:var(--red-l);color:var(--red);}
+  .freq-often{background:var(--amber-l);color:var(--amber);}
+  .freq-know{background:#eef2f7;color:var(--gray);}
+
+  p.lead{margin:0 0 12px;}
+  .hl{background:linear-gradient(transparent 62%,#fde68a 62%);font-weight:700;padding:0 1px;}
+  .key{color:var(--teal);font-weight:800;}
+
+  /* note / why box */
+  .note-box{background:var(--teal-bg);border:1px solid var(--teal-l);border-left:5px solid var(--teal);
+    border-radius:10px;padding:12px 14px;margin:12px 0;}
+  .note-tag{display:inline-block;font-weight:800;color:var(--teal);font-size:.9rem;margin-bottom:4px;}
+
+  .info-box{background:#fffdf5;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;margin:12px 0;font-size:.92rem;}
+
+  /* compare table */
+  table.cmp{width:100%;border-collapse:collapse;margin:12px 0;font-size:.9rem;}
+  table.cmp th,table.cmp td{border:1px solid var(--line);padding:9px 8px;text-align:center;}
+  table.cmp thead th{background:#eef6ff;color:var(--blue-d);}
+  table.cmp tbody th{background:#f8fafc;text-align:left;font-weight:700;width:32%;}
+  table.cmp .dna{background:#eff6ff;}
+  table.cmp .rna{background:var(--teal-bg);}
+
+  /* term cards */
+  .term-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:6px;}
+  .term-card{border:1px solid var(--line);border-radius:12px;padding:11px 13px;background:#fff;}
+  .term-name{font-weight:800;color:var(--teal);font-size:1rem;}
+  .furigana-hint{color:var(--gray);font-size:.74rem;font-weight:400;}
+  .term-card .desc{font-size:.86rem;margin-top:3px;color:var(--ink);}
+
+  /* diagrams */
+  .diagram{margin:14px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .diagram svg{display:block;margin:0 auto;max-width:100%;height:auto;}
+  .dia-cap{text-align:center;color:var(--gray);font-size:.8rem;margin-top:4px;}
+
+  /* flow */
+  .flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:14px 0;}
+  .flow .node{background:#fff;border:2px solid var(--teal);color:var(--teal);font-weight:800;
+    padding:10px 16px;border-radius:12px;font-size:1rem;}
+  .flow .node.prot{border-color:var(--blue);color:var(--blue-d);}
+  .flow .arr{display:flex;flex-direction:column;align-items:center;color:var(--gray);font-size:.78rem;}
+  .flow .arr b{color:var(--teal);font-size:.95rem;}
+
+  /* mini test */
+  .mini{margin-top:14px;border:1px dashed #cbd5e1;border-radius:12px;overflow:hidden;}
+  .mini-head{background:#f1f5f9;padding:10px 14px;font-weight:800;font-size:.92rem;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;}
+  .mini-head .chev{transition:transform .2s;}
+  .mini.open .mini-head .chev{transform:rotate(180deg);}
+  .mini-body{display:none;padding:14px;}
+  .mini.open .mini-body{display:block;}
+  .q{font-weight:700;margin:0 0 10px;}
+  .opts{display:grid;gap:8px;}
+  .opt{text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;
+    font-size:.92rem;cursor:pointer;font-family:inherit;color:var(--ink);transition:.15s;}
+  .opt:hover{border-color:var(--teal);}
+  .opt.correct{background:var(--green-l);border-color:var(--green);font-weight:700;}
+  .opt.wrong{background:var(--red-l);border-color:var(--red);}
+  .opt.dim{opacity:.55;}
+  .explain{display:none;margin-top:10px;padding:11px 13px;background:var(--teal-bg);border-radius:10px;
+    border-left:4px solid var(--teal);font-size:.9rem;}
+  .explain.show{display:block;}
+  .mini-body .q + .opts{margin-bottom:4px;}
+  .mini-body .explain + .q{margin-top:18px;padding-top:16px;border-top:1px dashed #e2e8f0;}
+
+  /* challenge */
+  .chal-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+  .timer{font-variant-numeric:tabular-nums;font-weight:800;color:var(--blue-d);background:#eef6ff;
+    padding:5px 12px;border-radius:999px;font-size:.92rem;}
+  .blankrow{margin:11px 0;font-size:.95rem;}
+  .blankrow input{font-family:inherit;font-size:.95rem;border:none;border-bottom:2px solid var(--teal);
+    background:#f0fdfa;padding:4px 6px;min-width:120px;width:150px;text-align:center;color:var(--teal);font-weight:700;border-radius:4px 4px 0 0;}
+  .blankrow input.ok{background:var(--green-l);border-color:var(--green);color:var(--green);}
+  .blankrow input.ng{background:var(--red-l);border-color:var(--red);color:var(--red);}
+  .blankrow input.sel{outline:2px solid var(--teal);outline-offset:1px;background:#cffafe;}
+  .btn{display:inline-flex;align-items:center;gap:6px;background:var(--teal);color:#fff;border:none;
+    font-family:inherit;font-weight:800;font-size:.95rem;padding:11px 22px;border-radius:999px;cursor:pointer;box-shadow:var(--shadow);}
+  .btn:active{transform:translateY(1px);}
+  .btn.ghost{background:#fff;color:var(--teal);border:1px solid var(--teal);}
+  .chal-result{display:none;margin-top:12px;padding:12px 14px;border-radius:10px;font-weight:700;text-align:center;}
+  .chal-result.show{display:block;}
+  .inline-bank{background:var(--teal-bg);border:1px solid var(--teal-l);border-radius:12px;padding:11px 13px;margin:6px 0 14px;}
+  .inline-bank .ib-title{font-weight:800;color:var(--teal);font-size:.88rem;display:block;margin-bottom:7px;}
+  .inline-bank .ib-items{display:flex;flex-wrap:wrap;gap:7px;}
+  .score-num{font-size:1.6rem;color:var(--teal);}
+
+  .speak-btn{background:#eef6ff;border:1px solid #d6e6fb;color:var(--blue);border-radius:999px;
+    font-family:inherit;font-size:.78rem;font-weight:700;padding:4px 11px;cursor:pointer;}
+
+  /* float word bank */
+  #floatBtn{position:fixed;right:16px;bottom:18px;z-index:40;background:var(--teal);color:#fff;border:none;
+    border-radius:999px;padding:12px 18px;font-family:inherit;font-weight:800;font-size:.9rem;
+    box-shadow:0 6px 18px rgba(13,148,136,.4);cursor:pointer;}
+  #floatBank{position:fixed;right:16px;bottom:70px;z-index:41;background:#fff;border:1px solid var(--line);
+    border-radius:14px;box-shadow:0 12px 32px rgba(15,23,42,.18);padding:14px;width:min(300px,86vw);display:none;}
+  #floatBank.open{display:block;}
+  #floatBank h4{margin:0 0 8px;font-size:.9rem;color:var(--teal);}
+  #floatBankItems{display:flex;flex-wrap:wrap;gap:6px;}
+  .chip{background:var(--teal-bg);border:1px solid var(--teal-l);color:var(--teal);border-radius:999px;
+    padding:5px 11px;font-size:.82rem;font-weight:700;cursor:pointer;}
+  .chip:active{transform:translateY(1px);}
+  .bank-hint{font-size:.72rem;color:var(--gray);margin-top:8px;}
+
+  .footer-back{text-align:center;margin-top:26px;}
+
+  @media(max-width:640px){
+    .hd h1{font-size:1.3rem;}
+    .usage-guide .step{min-width:calc(50% - 4px);}
+    .section-title{font-size:1.05rem;}
+    .blankrow input{width:120px;min-width:90px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <span class="tag">高認GAMBA ／ 生物基礎 第2章</span>
+  <h1>BL07　遺伝情報の発現</h1>
+  <p>転写・翻訳・RNA・パフ ―― DNAの設計図はどう使われる？</p>
+</header>
+
+<div class="backbar"><a class="back-btn" href="index.html">← 一覧へ</a></div>
+
+<div class="wrap">
+
+  <!-- 使い方ガイド -->
+  <div class="usage-guide">
+    <div class="ug-title">📘 このページの使い方</div>
+    <div class="step"><b>① 解説を読む</b>図や「なぜ？」で理解</div>
+    <div class="step"><b>② ミニテスト</b>各章末でわかったか確認</div>
+    <div class="step"><b>③ チャレンジ</b>穴埋めで暗記を定着</div>
+    <div class="step"><b>④ 過去問類題</b>本番の形式に慣れる</div>
+  </div>
+
+  <!-- 導入 -->
+  <section class="box">
+    <p class="lead">DNAは細胞の<span class="hl">「設計図」</span>でしたね。でも設計図そのものは大切な金庫（＝核）から持ち出せません。
+    そこで<strong>必要なページだけをコピー</strong>して、工場（＝リボソーム）へ運び、製品（＝タンパク質）を作ります。</p>
+    <div class="note-box">
+      <span class="note-tag">🏛️ たとえで全体像をつかむ</span>
+      <div>図書館の貴重な本（DNA）は持ち出し禁止 → 必要な部分を<strong>コピー（mRNA）</strong>して持ち出す
+      → コピーを見ながら工場（リボソーム）で<strong>製品（タンパク質）</strong>を組み立てる。<br>
+      このコピーを作る作業が<ruby>転写<rt>てんしゃ</rt></ruby>、組み立てる作業が<ruby>翻訳<rt>ほんやく</rt></ruby>です。</div>
+    </div>
+  </section>
+
+  <!-- 1. RNAとは -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">1</span>RNAとは
+      <span class="freq-mark freq-must">🔴 必ず出る</span>
+      <button class="speak-btn" onclick="speak('RNAはリボ核酸。糖はリボース。塩基はアデニン、ウラシル、グアニン、シトシンの4種類です。')">🔊 読み上げ</button>
+    </h2>
+    <p class="lead"><span class="key">RNA</span>（<ruby>リボ核酸<rt>りぼかくさん</rt></ruby>）は、DNAととてもよく似た物質です。まずは部品（構成単位）を見てみましょう。</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 420 150" role="img" aria-label="ヌクレオチドの構造">
+        <circle cx="58" cy="68" r="26" fill="#eef6ff" stroke="#2563eb" stroke-width="2"/>
+        <text x="58" y="74" font-size="18" font-weight="800" fill="#2563eb" text-anchor="middle">P</text>
+        <line x1="84" y1="68" x2="118" y2="68" stroke="#475569" stroke-width="2"/>
+        <polygon points="165,40 200,60 187,98 143,98 130,60" fill="#fff7ed" stroke="#d97706" stroke-width="2"/>
+        <text x="165" y="76" font-size="12" font-weight="700" fill="#b45309" text-anchor="middle">糖</text>
+        <line x1="200" y1="68" x2="242" y2="68" stroke="#475569" stroke-width="2"/>
+        <polygon points="248,50 300,50 320,68 300,86 248,86" fill="#f0fdfa" stroke="#0d9488" stroke-width="2"/>
+        <text x="278" y="73" font-size="16" font-weight="800" fill="#0d9488" text-anchor="middle">A</text>
+        <text x="58" y="128" font-size="12" fill="#2563eb" text-anchor="middle" font-weight="700">リン酸</text>
+        <text x="165" y="128" font-size="12" fill="#b45309" text-anchor="middle" font-weight="700">糖（リボース）</text>
+        <text x="284" y="128" font-size="12" fill="#0d9488" text-anchor="middle" font-weight="700">塩基</text>
+      </svg>
+    </div>
+    <p class="dia-cap">RNAの構成単位＝<b>ヌクレオチド</b>（リン酸＋糖＋塩基）。糖が<b>リボース</b>なのがRNAの特徴（DNAはデオキシリボース）</p>
+
+    <p class="lead" style="margin-top:6px">DNAとのちがいは、次の<b>3つだけ</b>です。</p>
+
+    <table class="cmp">
+      <thead><tr><th>くらべる点</th><th class="dna">DNA</th><th class="rna">RNA</th></tr></thead>
+      <tbody>
+        <tr><th>糖（とう）</th><td class="dna">デオキシリボース</td><td class="rna"><b>リボース</b></td></tr>
+        <tr><th>塩基（4種類）</th><td class="dna">A・T・G・C</td><td class="rna">A・<b>U</b>・G・C<br><span class="furigana-hint">TのかわりにU</span></td></tr>
+        <tr><th>形</th><td class="dna">二重らせん</td><td class="rna"><b>一本鎖</b>（ひとすじ）</td></tr>
+        <tr><th>共通点</th><td class="dna" colspan="2" style="background:#f8fafc">どちらも <b>ヌクレオチド</b>（リン酸＋糖＋塩基）がつながった鎖</td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box">
+      <b>塩基の相補性（RNA版）</b>　DNAのときは A–T / G–C でしたが、RNAでは <b>A–U（ウラシル）</b>／<b>G–C</b> になります。
+      <br>「TのところがUに変わる」とだけ覚えればOK。
+    </div>
+
+    <div class="term-grid" style="margin-top:12px">
+      <div class="term-card"><div class="term-name">リボース</div><div class="desc">RNAの糖。DNAのデオキシリボースとちがう。</div></div>
+      <div class="term-card"><div class="term-name">ウラシル<span class="furigana-hint">（U）</span></div><div class="desc">RNAだけにある塩基。DNAのチミン(T)の代わり。</div></div>
+    </div>
+
+    <!-- mini -->
+    <div class="mini" id="mini1">
+      <div class="mini-head" onclick="toggleMini('mini1')">✅ ミニテスト①（RNA）<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">Q1. RNAについて正しいものはどれ？</p>
+        <div class="opts" data-correct="2" data-explain="RNAの糖はリボース、塩基はTのかわりにU（ウラシル）をもち、ふつう一本鎖です。二重らせんはDNAの特徴。">
+          <button class="opt" onclick="pickMini(this)">糖はデオキシリボースである</button>
+          <button class="opt" onclick="pickMini(this)">二重らせん構造をしている</button>
+          <button class="opt" onclick="pickMini(this)">塩基はTのかわりにUをもつ</button>
+          <button class="opt" onclick="pickMini(this)">DNAより塩基の種類が多い</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q2. RNAの糖の名前は？</p>
+        <div class="opts" data-correct="1" data-explain="RNAの糖はリボース。DNAの糖はデオキシリボースです。「R」NAと「リ」ボースで結びつけると覚えやすい。">
+          <button class="opt" onclick="pickMini(this)">デオキシリボース</button>
+          <button class="opt" onclick="pickMini(this)">リボース</button>
+          <button class="opt" onclick="pickMini(this)">グルコース</button>
+          <button class="opt" onclick="pickMini(this)">フルクトース</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q3. DNAでAと対になる塩基はT。ではRNAでAと対になる塩基は？</p>
+        <div class="opts" data-correct="3" data-explain="RNAにはTがなく、かわりにU（ウラシル）があります。だからAの相手はU。G–Cの組合せはDNAと同じです。">
+          <button class="opt" onclick="pickMini(this)">T（チミン）</button>
+          <button class="opt" onclick="pickMini(this)">G（グアニン）</button>
+          <button class="opt" onclick="pickMini(this)">C（シトシン）</button>
+          <button class="opt" onclick="pickMini(this)">U（ウラシル）</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 転写 -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">2</span>転写（DNA → mRNA）
+      <span class="freq-mark freq-must">🔴 必ず出る</span>
+      <button class="speak-btn" onclick="speak('転写。DNAの片方の鎖を鋳型に、相補的な塩基をもつメッセンジャーRNAが作られます。')">🔊 読み上げ</button>
+    </h2>
+    <p class="lead"><span class="key"><ruby>転写<rt>てんしゃ</rt></ruby></span>とは、DNAの塩基配列をもとに <b>mRNA</b>（<ruby>伝令<rt>でんれい</rt></ruby>RNA／メッセンジャーRNA）が作られることです。</p>
+
+    <ol style="padding-left:1.2em;margin:0 0 8px">
+      <li>DNAの二重らせんが、必要な部分だけ<b>ほどける</b>。</li>
+      <li>片方の鎖を<ruby>鋳型<rt>いがた</rt></ruby>にして、<b>相補的な塩基</b>をもつRNAヌクレオチドが並ぶ。</li>
+      <li>つながって <b>mRNA</b> が完成 → 核の外（細胞質）へ出る。</li>
+    </ol>
+
+    <div class="diagram">
+      <svg viewBox="0 0 560 200" role="img" aria-label="転写の図">
+        <text x="10" y="30" font-size="13" font-weight="700" fill="#1d4ed8">DNA（鋳型鎖）</text>
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <rect x="120" y="16" width="30" height="22" rx="4" fill="#eff6ff" stroke="#2563eb"/><text x="135" y="32">A</text>
+          <rect x="160" y="16" width="30" height="22" rx="4" fill="#eff6ff" stroke="#2563eb"/><text x="175" y="32">G</text>
+          <rect x="200" y="16" width="30" height="22" rx="4" fill="#eff6ff" stroke="#2563eb"/><text x="215" y="32">T</text>
+          <rect x="240" y="16" width="30" height="22" rx="4" fill="#eff6ff" stroke="#2563eb"/><text x="255" y="32">C</text>
+          <rect x="280" y="16" width="30" height="22" rx="4" fill="#eff6ff" stroke="#2563eb"/><text x="295" y="32">T</text>
+          <rect x="320" y="16" width="30" height="22" rx="4" fill="#eff6ff" stroke="#2563eb"/><text x="335" y="32">C</text>
+        </g>
+        <g stroke="#94a3b8" stroke-dasharray="3 3"><line x1="135" y1="40" x2="135" y2="78"/><line x1="175" y1="40" x2="175" y2="78"/><line x1="215" y1="40" x2="215" y2="78"/><line x1="255" y1="40" x2="255" y2="78"/><line x1="295" y1="40" x2="295" y2="78"/><line x1="335" y1="40" x2="335" y2="78"/></g>
+        <text x="10" y="98" font-size="13" font-weight="700" fill="#0d9488">mRNA</text>
+        <g font-size="13" font-weight="700" text-anchor="middle">
+          <rect x="120" y="80" width="30" height="22" rx="4" fill="#f0fdfa" stroke="#0d9488"/><text x="135" y="96">U</text>
+          <rect x="160" y="80" width="30" height="22" rx="4" fill="#f0fdfa" stroke="#0d9488"/><text x="175" y="96">C</text>
+          <rect x="200" y="80" width="30" height="22" rx="4" fill="#f0fdfa" stroke="#0d9488"/><text x="215" y="96">A</text>
+          <rect x="240" y="80" width="30" height="22" rx="4" fill="#f0fdfa" stroke="#0d9488"/><text x="255" y="96">G</text>
+          <rect x="280" y="80" width="30" height="22" rx="4" fill="#f0fdfa" stroke="#0d9488"/><text x="295" y="96">A</text>
+          <rect x="320" y="80" width="30" height="22" rx="4" fill="#f0fdfa" stroke="#0d9488"/><text x="335" y="96">G</text>
+        </g>
+        <text x="135" y="150" font-size="12" fill="#64748b" text-anchor="middle">A↔U</text>
+        <text x="175" y="150" font-size="12" fill="#64748b" text-anchor="middle">G↔C</text>
+        <text x="215" y="150" font-size="12" fill="#64748b" text-anchor="middle">T↔A</text>
+        <text x="255" y="150" font-size="12" fill="#64748b" text-anchor="middle">C↔G</text>
+        <text x="295" y="150" font-size="12" fill="#64748b" text-anchor="middle">T↔A</text>
+        <text x="335" y="150" font-size="12" fill="#64748b" text-anchor="middle">C↔G</text>
+        <text x="280" y="185" font-size="12" fill="#0d9488" text-anchor="middle" font-weight="700">相補的にRNAが合成される＝転写</text>
+      </svg>
+    </div>
+    <p class="dia-cap">DNAの A→U、T→A、G→C、C→G で写し取られる（TがないのでAの相手はU）</p>
+
+    <div class="note-box">
+      <span class="note-tag">🤔 なぜ核から出さずにコピーするの？</span>
+      <div>DNA（設計図の原本）は核の中で守られています。原本を傷つけないよう、必要な部分だけRNAにコピーして運ぶことで、安全に何度でも使えるのです。</div>
+    </div>
+
+    <div class="mini" id="mini2">
+      <div class="mini-head" onclick="toggleMini('mini2')">✅ ミニテスト②（転写）<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">Q1. DNAの塩基配列が「C A T G」のとき、転写でできるmRNAの塩基配列は？</p>
+        <div class="opts" data-correct="1" data-explain="C→G、A→U、T→A、G→C。TのかわりにUを使うので「G U A C」が正解です。">
+          <button class="opt" onclick="pickMini(this)">G T A C</button>
+          <button class="opt" onclick="pickMini(this)">G U A C</button>
+          <button class="opt" onclick="pickMini(this)">C A U G</button>
+          <button class="opt" onclick="pickMini(this)">A T G C</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q2. 転写とは、何から何が作られる過程？</p>
+        <div class="opts" data-correct="0" data-explain="転写はDNA→RNA（mRNA）。RNA→タンパク質は翻訳です。漢字「写」＝写しとる、で覚えましょう。">
+          <button class="opt" onclick="pickMini(this)">DNAからmRNAが作られる</button>
+          <button class="opt" onclick="pickMini(this)">mRNAからタンパク質が作られる</button>
+          <button class="opt" onclick="pickMini(this)">タンパク質からDNAが作られる</button>
+          <button class="opt" onclick="pickMini(this)">アミノ酸からmRNAが作られる</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q3. 転写は細胞のどこで行われる？</p>
+        <div class="opts" data-correct="2" data-explain="転写はDNAのある核の中で起こります。できたmRNAが核外へ出て、細胞質のリボソームで翻訳されます。">
+          <button class="opt" onclick="pickMini(this)">リボソーム</button>
+          <button class="opt" onclick="pickMini(this)">ミトコンドリア</button>
+          <button class="opt" onclick="pickMini(this)">核の中</button>
+          <button class="opt" onclick="pickMini(this)">細胞膜</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 翻訳 -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">3</span>翻訳（mRNA → タンパク質）
+      <span class="freq-mark freq-must">🔴 必ず出る</span>
+      <button class="speak-btn" onclick="speak('翻訳。エムアールエヌエーの3つ1組の塩基に、ティーアールエヌエーが運ぶアミノ酸が並び、ペプチド結合でタンパク質ができます。')">🔊 読み上げ</button>
+    </h2>
+    <p class="lead"><span class="key"><ruby>翻訳<rt>ほんやく</rt></ruby></span>とは、mRNAの塩基配列にしたがって<b>アミノ酸</b>が並び、つながって<b>タンパク質</b>ができることです。</p>
+
+    <ol style="padding-left:1.2em;margin:0 0 8px">
+      <li>核から出たmRNAが、細胞質の<b>リボソーム</b>に結合する。</li>
+      <li>mRNAの<b>塩基3つ1組</b>に、相補的な塩基をもつ <b>tRNA</b>（<ruby>運搬<rt>うんぱん</rt></ruby>RNA）が結合する。</li>
+      <li>tRNAが運んできた<b>アミノ酸</b>どうしが<ruby>ペプチド結合<rt>けつごう</rt></ruby>で連結 → タンパク質完成。</li>
+    </ol>
+
+    <div class="diagram">
+      <svg viewBox="0 0 560 210" role="img" aria-label="翻訳の図">
+        <ellipse cx="280" cy="150" rx="220" ry="46" fill="#eef6ff" stroke="#94a3b8"/>
+        <text x="280" y="195" font-size="12" fill="#64748b" text-anchor="middle">リボソーム（タンパク質を組み立てる工場）</text>
+        <g font-size="12" font-weight="700" text-anchor="middle">
+          <rect x="90" y="120" width="26" height="20" rx="3" fill="#f0fdfa" stroke="#0d9488"/><text x="103" y="135">U</text>
+          <rect x="116" y="120" width="26" height="20" rx="3" fill="#f0fdfa" stroke="#0d9488"/><text x="129" y="135">C</text>
+          <rect x="142" y="120" width="26" height="20" rx="3" fill="#f0fdfa" stroke="#0d9488"/><text x="155" y="135">G</text>
+          <rect x="200" y="120" width="26" height="20" rx="3" fill="#f0fdfa" stroke="#0d9488"/><text x="213" y="135">A</text>
+          <rect x="226" y="120" width="26" height="20" rx="3" fill="#f0fdfa" stroke="#0d9488"/><text x="239" y="135">U</text>
+          <rect x="252" y="120" width="26" height="20" rx="3" fill="#f0fdfa" stroke="#0d9488"/><text x="265" y="135">G</text>
+          <rect x="310" y="120" width="26" height="20" rx="3" fill="#f0fdfa" stroke="#0d9488"/><text x="323" y="135">C</text>
+          <rect x="336" y="120" width="26" height="20" rx="3" fill="#f0fdfa" stroke="#0d9488"/><text x="349" y="135">C</text>
+          <rect x="362" y="120" width="26" height="20" rx="3" fill="#f0fdfa" stroke="#0d9488"/><text x="375" y="135">A</text>
+        </g>
+        <text x="450" y="135" font-size="12" fill="#0d9488" font-weight="700">mRNA</text>
+        <!-- tRNA + amino acid -->
+        <g>
+          <circle cx="135" cy="60" r="26" fill="#fff7ed" stroke="#d97706"/><text x="135" y="64" font-size="11" text-anchor="middle" fill="#b45309" font-weight="700">アミノ酸</text>
+          <path d="M129 86 L129 116 M141 86 L141 116" stroke="#d97706"/>
+          <text x="135" y="103" font-size="9" text-anchor="middle" fill="#b45309">tRNA</text>
+        </g>
+        <g>
+          <circle cx="239" cy="60" r="26" fill="#fff7ed" stroke="#d97706"/><text x="239" y="64" font-size="11" text-anchor="middle" fill="#b45309" font-weight="700">アミノ酸</text>
+          <path d="M233 86 L233 116 M245 86 L245 116" stroke="#d97706"/>
+        </g>
+        <g>
+          <circle cx="349" cy="60" r="26" fill="#fff7ed" stroke="#d97706"/><text x="349" y="64" font-size="11" text-anchor="middle" fill="#b45309" font-weight="700">アミノ酸</text>
+          <path d="M343 86 L343 116 M355 86 L355 116" stroke="#d97706"/>
+        </g>
+        <path d="M161 60 H213 M265 60 H323" stroke="#16a34a" stroke-width="3"/>
+        <text x="240" y="26" font-size="12" fill="#16a34a" text-anchor="middle" font-weight="700">ペプチド結合でつながる → タンパク質</text>
+      </svg>
+    </div>
+    <p class="dia-cap">mRNAの3つ1組に合うtRNAが、対応するアミノ酸を運んでくる</p>
+
+    <p class="lead" style="margin-top:14px"><b>🔬 具体例で流れを最後まで追ってみよう</b>（高認頻出！）</p>
+    <div class="diagram">
+      <svg viewBox="0 0 540 315" role="img" aria-label="DNAからタンパク質ができるまでの具体例">
+        <text x="6" y="39" font-size="12" font-weight="800" fill="#1d4ed8">DNA</text>
+        <g font-size="14" font-weight="700" text-anchor="middle">
+          <rect x="49" y="20" width="42" height="26" rx="5" fill="#eff6ff" stroke="#2563eb"/><text x="70" y="38">A</text>
+          <rect x="95" y="20" width="42" height="26" rx="5" fill="#eff6ff" stroke="#2563eb"/><text x="116" y="38">G</text>
+          <rect x="141" y="20" width="42" height="26" rx="5" fill="#eff6ff" stroke="#2563eb"/><text x="162" y="38">T</text>
+          <rect x="209" y="20" width="42" height="26" rx="5" fill="#eff6ff" stroke="#2563eb"/><text x="230" y="38">C</text>
+          <rect x="255" y="20" width="42" height="26" rx="5" fill="#eff6ff" stroke="#2563eb"/><text x="276" y="38">T</text>
+          <rect x="301" y="20" width="42" height="26" rx="5" fill="#eff6ff" stroke="#2563eb"/><text x="322" y="38">C</text>
+          <rect x="371" y="20" width="42" height="26" rx="5" fill="#eff6ff" stroke="#2563eb"/><text x="392" y="38">G</text>
+          <rect x="417" y="20" width="42" height="26" rx="5" fill="#eff6ff" stroke="#2563eb"/><text x="438" y="38">A</text>
+          <rect x="463" y="20" width="42" height="26" rx="5" fill="#eff6ff" stroke="#2563eb"/><text x="484" y="38">T</text>
+        </g>
+        <text x="270" y="66" font-size="12" font-weight="800" fill="#0d9488" text-anchor="middle">↓ 転写（A→U, T→A, G→C, C→G）</text>
+        <text x="6" y="103" font-size="12" font-weight="800" fill="#0d9488">mRNA</text>
+        <g font-size="14" font-weight="700" text-anchor="middle">
+          <rect x="49" y="84" width="42" height="26" rx="5" fill="#f0fdfa" stroke="#0d9488"/><text x="70" y="102">U</text>
+          <rect x="95" y="84" width="42" height="26" rx="5" fill="#f0fdfa" stroke="#0d9488"/><text x="116" y="102">C</text>
+          <rect x="141" y="84" width="42" height="26" rx="5" fill="#f0fdfa" stroke="#0d9488"/><text x="162" y="102">A</text>
+          <rect x="209" y="84" width="42" height="26" rx="5" fill="#f0fdfa" stroke="#0d9488"/><text x="230" y="102">G</text>
+          <rect x="255" y="84" width="42" height="26" rx="5" fill="#f0fdfa" stroke="#0d9488"/><text x="276" y="102">A</text>
+          <rect x="301" y="84" width="42" height="26" rx="5" fill="#f0fdfa" stroke="#0d9488"/><text x="322" y="102">G</text>
+          <rect x="371" y="84" width="42" height="26" rx="5" fill="#f0fdfa" stroke="#0d9488"/><text x="392" y="102">C</text>
+          <rect x="417" y="84" width="42" height="26" rx="5" fill="#f0fdfa" stroke="#0d9488"/><text x="438" y="102">U</text>
+          <rect x="463" y="84" width="42" height="26" rx="5" fill="#f0fdfa" stroke="#0d9488"/><text x="484" y="102">A</text>
+        </g>
+        <g stroke="#94a3b8" fill="none" stroke-width="1.5"><path d="M48 117 H184"/><path d="M208 117 H344"/><path d="M370 117 H506"/></g>
+        <text x="270" y="133" font-size="12" font-weight="800" fill="#d97706" text-anchor="middle">↓ 翻訳（3つ1組＝コドンにtRNAが対応）</text>
+        <text x="6" y="167" font-size="12" font-weight="800" fill="#b45309">tRNA</text>
+        <g font-size="14" font-weight="700" text-anchor="middle">
+          <rect x="49" y="148" width="42" height="26" rx="5" fill="#fff7ed" stroke="#d97706"/><text x="70" y="166">A</text>
+          <rect x="95" y="148" width="42" height="26" rx="5" fill="#fff7ed" stroke="#d97706"/><text x="116" y="166">G</text>
+          <rect x="141" y="148" width="42" height="26" rx="5" fill="#fff7ed" stroke="#d97706"/><text x="162" y="166">U</text>
+          <rect x="209" y="148" width="42" height="26" rx="5" fill="#fff7ed" stroke="#d97706"/><text x="230" y="166">C</text>
+          <rect x="255" y="148" width="42" height="26" rx="5" fill="#fff7ed" stroke="#d97706"/><text x="276" y="166">U</text>
+          <rect x="301" y="148" width="42" height="26" rx="5" fill="#fff7ed" stroke="#d97706"/><text x="322" y="166">C</text>
+          <rect x="371" y="148" width="42" height="26" rx="5" fill="#fff7ed" stroke="#d97706"/><text x="392" y="166">G</text>
+          <rect x="417" y="148" width="42" height="26" rx="5" fill="#fff7ed" stroke="#d97706"/><text x="438" y="166">A</text>
+          <rect x="463" y="148" width="42" height="26" rx="5" fill="#fff7ed" stroke="#d97706"/><text x="484" y="166">U</text>
+        </g>
+        <g stroke="#16a34a" stroke-width="2"><line x1="116" y1="174" x2="116" y2="190"/><line x1="276" y1="174" x2="276" y2="190"/><line x1="438" y1="174" x2="438" y2="190"/></g>
+        <ellipse cx="116" cy="210" rx="52" ry="20" fill="#dcfce7" stroke="#16a34a"/><text x="116" y="215" font-size="12" font-weight="800" fill="#15803d" text-anchor="middle">セリン</text>
+        <ellipse cx="276" cy="210" rx="56" ry="20" fill="#dcfce7" stroke="#16a34a"/><text x="276" y="215" font-size="11" font-weight="800" fill="#15803d" text-anchor="middle">グルタミン酸</text>
+        <ellipse cx="438" cy="210" rx="52" ry="20" fill="#dcfce7" stroke="#16a34a"/><text x="438" y="215" font-size="12" font-weight="800" fill="#15803d" text-anchor="middle">ロイシン</text>
+        <path d="M168 210 H220 M332 210 H386" stroke="#15803d" stroke-width="3"/>
+        <text x="270" y="256" font-size="12" font-weight="800" fill="#15803d" text-anchor="middle">↓ アミノ酸どうしがペプチド結合</text>
+        <rect x="150" y="270" width="240" height="30" rx="15" fill="#bbf7d0" stroke="#16a34a"/>
+        <text x="270" y="290" font-size="13" font-weight="800" fill="#15803d" text-anchor="middle">タンパク質</text>
+      </svg>
+    </div>
+    <p class="dia-cap">DNA「AGT CTC GAT」→ mRNA「UCA GAG CUA」→ tRNAが対応 → <b>セリン・グルタミン酸・ロイシン</b> → ペプチド結合でタンパク質に</p>
+
+    <div class="info-box">
+      <b>覚え方</b>　<b>転写</b>は「DNA→RNA」＝ <u>写</u>しとる。<b>翻訳</b>は「RNA→タンパク質」＝ 言葉（塩基）を別の言葉（アミノ酸）に <u>訳</u>す。漢字の意味そのままです。
+    </div>
+
+    <div class="mini" id="mini3">
+      <div class="mini-head" onclick="toggleMini('mini3')">✅ ミニテスト③（翻訳）<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">Q1. アミノ酸を運んでリボソームへ届けるのはどれ？</p>
+        <div class="opts" data-correct="1" data-explain="tRNA（運搬RNA）がアミノ酸を運びます。mRNAは設計のコピー、リボソームは組み立て場所、DNAは原本です。">
+          <button class="opt" onclick="pickMini(this)">mRNA</button>
+          <button class="opt" onclick="pickMini(this)">tRNA</button>
+          <button class="opt" onclick="pickMini(this)">リボソーム</button>
+          <button class="opt" onclick="pickMini(this)">DNA</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q2. 翻訳で、アミノ酸どうしをつなぐ結合を何という？</p>
+        <div class="opts" data-correct="2" data-explain="アミノ酸どうしはペプチド結合でつながり、タンパク質になります。水素結合は塩基対、相補性は塩基の対応の話。">
+          <button class="opt" onclick="pickMini(this)">水素結合</button>
+          <button class="opt" onclick="pickMini(this)">イオン結合</button>
+          <button class="opt" onclick="pickMini(this)">ペプチド結合</button>
+          <button class="opt" onclick="pickMini(this)">相補結合</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q3. mRNAの塩基いくつ1組で、1つのアミノ酸が指定される？</p>
+        <div class="opts" data-correct="2" data-explain="mRNAの塩基3つ1組（コドン）で1つのアミノ酸が決まります。これが翻訳の基本ルールです。">
+          <button class="opt" onclick="pickMini(this)">1つ</button>
+          <button class="opt" onclick="pickMini(this)">2つ</button>
+          <button class="opt" onclick="pickMini(this)">3つ</button>
+          <button class="opt" onclick="pickMini(this)">4つ</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. セントラルドグマ -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">4</span>セントラルドグマ
+      <span class="freq-mark freq-must">🔴 必ず出る</span>
+    </h2>
+    <p class="lead">遺伝情報は <b>DNA → RNA → タンパク質</b> の<b>一方向</b>に流れます。この流れを<span class="key">セントラルドグマ</span>といい、<ruby>クリック<rt> </rt></ruby>（フランシス＝クリック）が提唱しました。</p>
+
+    <div class="flow">
+      <span class="node">DNA</span>
+      <span class="arr"><b>転写</b>→</span>
+      <span class="node">RNA</span>
+      <span class="arr"><b>翻訳</b>→</span>
+      <span class="node prot">タンパク質</span>
+    </div>
+
+    <div class="info-box">
+      「セントラル＝中心」「ドグマ＝教義（おしえ）」で、<b>分子生物学の中心原理</b>という意味です。
+    </div>
+  </section>
+
+  <!-- 5. パフ -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">5</span>パフ（遺伝子が働いている証拠）
+      <span class="freq-mark freq-often">🟡 よく出る</span>
+      <button class="speak-btn" onclick="speak('パフ。だ腺染色体のふくらんだ部分で、転写がさかんに行われ、遺伝子が発現しています。')">🔊 読み上げ</button>
+    </h2>
+    <p class="lead">ハエやユスリカの幼虫の<ruby>だ腺<rt>せん</rt></ruby>（だ液腺）の染色体は、ふつうの染色体の<b>100〜200倍</b>も太い<ruby>巨大<rt>きょだい</rt></ruby>染色体で、しま模様がよく見えます。</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 520 130" role="img" aria-label="だ腺染色体とパフの図">
+        <rect x="20" y="50" width="480" height="30" rx="15" fill="#ede9fe" stroke="#7c3aed"/>
+        <g stroke="#5b21b6" stroke-width="3">
+          <line x1="60" y1="52" x2="60" y2="78"/><line x1="90" y1="52" x2="90" y2="78"/><line x1="120" y1="52" x2="120" y2="78"/>
+          <line x1="200" y1="52" x2="200" y2="78"/><line x1="230" y1="52" x2="230" y2="78"/>
+          <line x1="370" y1="52" x2="370" y2="78"/><line x1="400" y1="52" x2="400" y2="78"/><line x1="430" y1="52" x2="430" y2="78"/>
+        </g>
+        <ellipse cx="300" cy="65" rx="42" ry="26" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+        <text x="300" y="30" font-size="13" fill="#b45309" font-weight="800" text-anchor="middle">パフ</text>
+        <line x1="300" y1="38" x2="300" y2="40" stroke="#d97706"/>
+        <path d="M300 38 L300 42" stroke="#d97706" stroke-width="2"/>
+        <text x="300" y="115" font-size="12" fill="#64748b" text-anchor="middle">DNAがほどけて広がり、転写がさかんな部分</text>
+      </svg>
+    </div>
+
+    <ul style="padding-left:1.2em;margin:8px 0">
+      <li>しま模様 → 染色体上の<b>遺伝子の位置</b>を知る目安。</li>
+      <li>ふくらんだ部分が <b>パフ</b>。ここではDNAがほどけ、mRNAの合成（<b>転写</b>）が活発 ＝ <b>遺伝子が発現</b>している。</li>
+      <li>染色: メチルグリーン→DNA(青緑)／ピロニン→RNA(赤桃)。パフは<b>赤桃色</b>に染まる（RNA＝転写の証拠）。</li>
+    </ul>
+
+    <div class="mini" id="mini5">
+      <div class="mini-head" onclick="toggleMini('mini5')">✅ ミニテスト④（パフ）<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">Q1. だ腺染色体のパフの部分で、さかんに行われているのは？</p>
+        <div class="opts" data-correct="0" data-explain="パフはDNAがほどけて転写（mRNA合成）が活発な部分で、遺伝子が発現している場所です。">
+          <button class="opt" onclick="pickMini(this)">転写</button>
+          <button class="opt" onclick="pickMini(this)">DNAの複製</button>
+          <button class="opt" onclick="pickMini(this)">細胞分裂</button>
+          <button class="opt" onclick="pickMini(this)">受精</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q2. だ腺染色体は、ふつうの染色体とくらべてどんな特徴がある？</p>
+        <div class="opts" data-correct="1" data-explain="だ腺染色体は通常の100〜200倍の太さの巨大染色体で、しま模様が観察しやすいのが特徴です。">
+          <button class="opt" onclick="pickMini(this)">ふつうより小さい</button>
+          <button class="opt" onclick="pickMini(this)">100〜200倍も太い巨大染色体</button>
+          <button class="opt" onclick="pickMini(this)">色がつかない</button>
+          <button class="opt" onclick="pickMini(this)">1本しかない</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q3. パフをRNAの色素（ピロニン）で染めると、何色に染まる？</p>
+        <div class="opts" data-correct="2" data-explain="ピロニンはRNAを赤桃色に染めます。パフでは転写でRNAがさかんに作られているため赤桃色に染まります（DNAはメチルグリーンで青緑）。">
+          <button class="opt" onclick="pickMini(this)">青緑色</button>
+          <button class="opt" onclick="pickMini(this)">染まらない</button>
+          <button class="opt" onclick="pickMini(this)">赤桃色</button>
+          <button class="opt" onclick="pickMini(this)">黄色</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 用語まとめ -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">★</span>用語まとめ
+      <span class="freq-mark freq-know">⚪ 確認用</span>
+    </h2>
+    <div class="term-grid">
+      <div class="term-card"><div class="term-name">RNA<span class="furigana-hint">（リボ核酸）</span></div><div class="desc">糖がリボース、塩基にU(ウラシル)をもつ一本鎖の核酸。</div></div>
+      <div class="term-card"><div class="term-name">転写<span class="furigana-hint">（てんしゃ）</span></div><div class="desc">DNAをもとにmRNAが作られる過程。</div></div>
+      <div class="term-card"><div class="term-name">mRNA<span class="furigana-hint">（伝令RNA）</span></div><div class="desc">DNAの情報を写し取り、核外へ運ぶRNA。</div></div>
+      <div class="term-card"><div class="term-name">翻訳<span class="furigana-hint">（ほんやく）</span></div><div class="desc">mRNAの配列に従いアミノ酸が並びタンパク質ができる過程。</div></div>
+      <div class="term-card"><div class="term-name">tRNA<span class="furigana-hint">（運搬RNA）</span></div><div class="desc">アミノ酸をリボソームへ運ぶRNA。</div></div>
+      <div class="term-card"><div class="term-name">リボソーム</div><div class="desc">タンパク質を合成する細胞小器官（工場）。</div></div>
+      <div class="term-card"><div class="term-name">セントラルドグマ</div><div class="desc">DNA→RNA→タンパク質の一方向の流れ。クリックが提唱。</div></div>
+      <div class="term-card"><div class="term-name">パフ</div><div class="desc">だ腺染色体のふくらみ。転写がさかんで遺伝子が発現中。</div></div>
+    </div>
+  </section>
+
+  <!-- チャレンジ -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">③</span>チャレンジ（穴埋め）
+      <span class="freq-mark freq-must">🔴 得点源</span>
+    </h2>
+    <div class="chal-head">
+      <p class="lead" style="margin:0">入れたい空欄をタップして選ぶ（青く光る）→ 下の<b>語群</b>の語をタップ。順番はバラバラでOK。直接入力もできます。</p>
+      <span class="timer" id="timer">0:00</span>
+    </div>
+
+    <div class="inline-bank" id="inlineBank">
+      <span class="ib-title">📑 語群</span>
+      <div class="ib-items"></div>
+    </div>
+
+    <div id="chal">
+      <div class="blankrow">(1) RNAの正式名称は <input data-a="リボ核酸"> である。</div>
+      <div class="blankrow">(2) RNAの糖は <input data-a="リボース"> である。</div>
+      <div class="blankrow">(3) RNAだけにある塩基は <input data-a="ウラシル"> （U）である。</div>
+      <div class="blankrow">(4) DNAをもとにmRNAが作られる過程を <input data-a="転写"> という。</div>
+      <div class="blankrow">(5) DNAの情報を写し取り核外へ運ぶRNAを <input data-a="mRNA"> という。</div>
+      <div class="blankrow">(6) アミノ酸を運ぶRNAを <input data-a="tRNA"> という。</div>
+      <div class="blankrow">(7) mRNAの配列に従いタンパク質が作られる過程を <input data-a="翻訳"> という。</div>
+      <div class="blankrow">(8) タンパク質の材料となる物質は <input data-a="アミノ酸"> である。</div>
+      <div class="blankrow">(9) DNA→RNA→タンパク質の流れを <input data-a="セントラルドグマ"> という。</div>
+      <div class="blankrow">(10) だ腺染色体のふくらんだ部分を <input data-a="パフ"> といい、<input data-a="転写"> がさかんである。</div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+      <button class="btn" onclick="grade()">採点する</button>
+      <button class="btn ghost" onclick="resetChal()">もう一度</button>
+    </div>
+    <div class="chal-result" id="chalResult"></div>
+  </section>
+
+  <!-- 過去問類題 -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">④</span>過去問類題（実戦）
+      <span class="freq-mark freq-often">🟡 本番形式</span>
+    </h2>
+
+    <div class="mini open" id="kako1">
+      <div class="mini-head" onclick="toggleMini('kako1')">問1　RNAの糖<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">RNAのヌクレオチドに含まれる糖は何か。</p>
+        <div class="opts" data-correct="1" data-explain="RNAの糖はリボース。DNAはデオキシリボース。共通テスト頻出の対比です。">
+          <button class="opt" onclick="pickMini(this)">デオキシリボース</button>
+          <button class="opt" onclick="pickMini(this)">リボース</button>
+          <button class="opt" onclick="pickMini(this)">グルコース</button>
+          <button class="opt" onclick="pickMini(this)">デオキシリボースまたはリボース</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+
+    <div class="mini" id="kako2">
+      <div class="mini-head" onclick="toggleMini('kako2')">問2　タンパク質合成の過程<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">DNAの配列がRNAに写し取られる過程を「ア」、mRNAの配列に従いアミノ酸が並んでタンパク質ができる過程を「イ」という。ア・イの正しい組合せは？</p>
+        <div class="opts" data-correct="2" data-explain="ア＝転写（DNA→RNA）、イ＝翻訳（RNA→タンパク質）。材料はアミノ酸です。">
+          <button class="opt" onclick="pickMini(this)">ア＝複製　イ＝翻訳</button>
+          <button class="opt" onclick="pickMini(this)">ア＝翻訳　イ＝転写</button>
+          <button class="opt" onclick="pickMini(this)">ア＝転写　イ＝翻訳</button>
+          <button class="opt" onclick="pickMini(this)">ア＝転写　イ＝複製</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+
+    <div class="mini" id="kako3">
+      <div class="mini-head" onclick="toggleMini('kako3')">問3　だ腺染色体とパフ<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">ユスリカ幼虫のだ腺染色体について、しま模様から位置がわかるもの「ケ」と、パフでさかんな過程「コ」の組合せは？</p>
+        <div class="opts" data-correct="0" data-explain="しま模様は遺伝子の位置の目安、パフでは転写が活発。よってケ＝遺伝子、コ＝転写。">
+          <button class="opt" onclick="pickMini(this)">ケ＝遺伝子　コ＝転写</button>
+          <button class="opt" onclick="pickMini(this)">ケ＝遺伝子　コ＝翻訳</button>
+          <button class="opt" onclick="pickMini(this)">ケ＝ゲノム　コ＝転写</button>
+          <button class="opt" onclick="pickMini(this)">ケ＝DNA　コ＝翻訳</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="box" style="text-align:center;background:linear-gradient(135deg,#f0fdfa,#eef6ff);">
+    <p class="lead" style="margin:0 0 12px;font-weight:700;">仕上げに、過去問形式の<strong>確認問題（全10問）</strong>に挑戦しよう！</p>
+    <a class="back-btn" style="background:var(--teal);color:#fff;border-color:var(--teal);font-size:1rem;padding:12px 28px;" href="BL07_exam.html">📋 確認問題へ進む →</a>
+  </section>
+
+  <div class="footer-back"><a class="back-btn" href="index.html">← 一覧へもどる</a></div>
+</div>
+
+<!-- floating word bank -->
+<button id="floatBtn" onclick="toggleFloatBank()">📑 語群</button>
+<div id="floatBank">
+  <h4>語群（タップで空欄に入る）</h4>
+  <div id="floatBankItems"></div>
+  <div class="bank-hint">使い方：空欄をタップ → 語群の語をタップ</div>
+</div>
+
+<canvas id="cnf" style="position:fixed;inset:0;pointer-events:none;z-index:60;display:none;"></canvas>
+
+<script>
+  const PAGE_CODE = "BL07";
+
+  /* ---- 音声読み上げ ---- */
+  function speak(t){
+    try{
+      window.speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(t);
+      u.lang="ja-JP";u.rate=.95;
+      window.speechSynthesis.speak(u);
+    }catch(e){}
+  }
+
+  /* ---- ミニテスト ---- */
+  function toggleMini(id){document.getElementById(id).classList.toggle('open');}
+  function pickMini(btn){
+    const opts=btn.parentElement;
+    if(opts.dataset.done) return;
+    opts.dataset.done="1";
+    const correct=parseInt(opts.dataset.correct,10);
+    const buttons=[...opts.children];
+    const idx=buttons.indexOf(btn);
+    buttons.forEach((b,i)=>{
+      b.disabled=true;
+      if(i===correct)b.classList.add('correct');
+      else if(i===idx)b.classList.add('wrong');
+      else b.classList.add('dim');
+    });
+    const ex=opts.nextElementSibling;
+    ex.textContent=(idx===correct?'⭕ 正解！ ':'❌ 残念… ')+opts.dataset.explain;
+    ex.classList.add('show');
+  }
+
+  /* ---- 語群（インライン＋フロート） ---- */
+  const BANK=["リボ核酸","リボース","ウラシル","転写","mRNA","tRNA","翻訳","アミノ酸","セントラルドグマ","パフ"];
+  let lastInput=null;
+  function toggleFloatBank(){document.getElementById('floatBank').classList.toggle('open');}
+  function selectInput(inp){
+    if(lastInput) lastInput.classList.remove('sel');
+    lastInput=inp;
+    inp.classList.add('sel');
+  }
+  function fillBlank(w){
+    // 選んだ空欄があればそこへ。なければ最初の空欄へ。
+    let target=lastInput || [...document.querySelectorAll('#chal input')].find(i=>!i.value);
+    if(!target) return;
+    target.value=w;
+    target.classList.remove('ok','ng');
+    selectInput(target);
+  }
+  (function initBank(){
+    [document.getElementById('floatBankItems'),
+     document.querySelector('#inlineBank .ib-items')].forEach(box=>{
+      if(!box) return;
+      BANK.forEach(w=>{
+        const c=document.createElement('span');
+        c.className="chip";c.textContent=w;
+        // mousedownで先に発火させ、入力欄のblurによる選択解除を防ぐ
+        c.addEventListener('mousedown',e=>{e.preventDefault();fillBlank(w);});
+        c.addEventListener('touchstart',e=>{e.preventDefault();fillBlank(w);},{passive:false});
+        box.appendChild(c);
+      });
+    });
+    document.querySelectorAll('#chal input').forEach(inp=>{
+      inp.addEventListener('focus',()=>selectInput(inp));
+      inp.addEventListener('click',()=>selectInput(inp));
+    });
+  })();
+
+  /* ---- タイマー ---- */
+  let sec=0,timerId=null;
+  function startTimer(){
+    if(timerId) return;
+    timerId=setInterval(()=>{sec++;const m=Math.floor(sec/60),s=sec%60;
+      document.getElementById('timer').textContent=m+":"+String(s).padStart(2,'0');},1000);
+  }
+  document.querySelectorAll('#chal input').forEach(inp=>inp.addEventListener('input',startTimer,{once:true}));
+
+  /* ---- 採点 ---- */
+  function norm(s){return (s||'').trim().replace(/\s+/g,'').toLowerCase();}
+  function grade(){
+    const inputs=[...document.querySelectorAll('#chal input')];
+    let ok=0;
+    inputs.forEach(inp=>{
+      const ans=norm(inp.dataset.a);
+      const val=norm(inp.value);
+      const alt=(inp.dataset.a==="mRNA")?["mrna","メッセンジャーrna","伝令rna"]:
+                (inp.dataset.a==="tRNA")?["trna","運搬rna","転移rna"]:[];
+      if(val===ans||alt.includes(val)){inp.classList.add('ok');inp.classList.remove('ng');ok++;}
+      else{inp.classList.add('ng');inp.classList.remove('ok');}
+    });
+    const total=inputs.length;
+    const pct=Math.round(ok/total*100);
+    const r=document.getElementById('chalResult');
+    r.className="chal-result show";
+    if(ok===total){
+      r.style.background="var(--green-l)";r.style.color="var(--green)";
+      r.innerHTML='🎉 全問正解！　<span class="score-num">'+ok+'</span> / '+total+'　完璧です！';
+      clearInterval(timerId);
+      fireConfetti();
+      saveScore(100);
+    }else{
+      r.style.background="var(--amber-l)";r.style.color="var(--amber)";
+      r.innerHTML='正解 <span class="score-num">'+ok+'</span> / '+total+'（'+pct+'点）　赤い欄をもう一度！';
+      saveScore(pct);
+    }
+  }
+  function resetChal(){
+    document.querySelectorAll('#chal input').forEach(i=>{i.value="";i.classList.remove('ok','ng','sel');});
+    lastInput=null;
+    document.getElementById('chalResult').className="chal-result";
+    sec=0;clearInterval(timerId);timerId=null;document.getElementById('timer').textContent="0:00";
+  }
+  function saveScore(score){
+    try{
+      const prev=parseInt(localStorage.getItem('gamba_score_'+PAGE_CODE)||"0",10);
+      if(score>prev)localStorage.setItem('gamba_score_'+PAGE_CODE,String(score));
+      localStorage.setItem('gamba_done_'+PAGE_CODE,score===100?"1":(localStorage.getItem('gamba_done_'+PAGE_CODE)||"0"));
+    }catch(e){}
+  }
+
+  /* ---- コンフェッティ ---- */
+  let cvs,ctx,pts=[],animId=null;
+  function fireConfetti(){
+    cvs=document.getElementById('cnf');cvs.style.display="block";
+    ctx=cvs.getContext('2d');
+    cvs.width=window.innerWidth;cvs.height=window.innerHeight;pts=[];
+    const W=cvs.width,H=cvs.height;
+    const colors=['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6','#facc15'];
+    function petal(x,y,vx,vy){
+      return {x,y,vx,vy,
+        s:Math.random()*7+6,
+        c:colors[Math.floor(Math.random()*colors.length)],
+        rot:Math.random()*Math.PI*2, vr:(Math.random()-0.5)*0.3,
+        sway:Math.random()*Math.PI*2, shape:Math.random()<0.5?'petal':'square'};
+    }
+    for(let i=0;i<90;i++){
+      pts.push(petal(0, H, 4+Math.random()*7, -(11+Math.random()*9)));
+      pts.push(petal(W, H, -(4+Math.random()*7), -(11+Math.random()*9)));
+    }
+    for(let i=0;i<120;i++){
+      pts.push(petal(Math.random()*W, -Math.random()*H*0.5, (Math.random()-0.5)*2, 1.5+Math.random()*2));
+    }
+    let frames=0;
+    function loop(){
+      ctx.clearRect(0,0,W,H);
+      pts.forEach(p=>{
+        p.vy+=0.18; p.sway+=0.06;
+        p.x+=p.vx+Math.sin(p.sway)*1.4;
+        p.y+=p.vy; p.rot+=p.vr;
+        ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.c;
+        if(p.shape==='petal'){ctx.beginPath();ctx.ellipse(0,0,p.s,p.s*0.55,0,0,Math.PI*2);ctx.fill();}
+        else{ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s);}
+        ctx.restore();
+      });
+      frames++;animId=requestAnimationFrame(loop);
+      if(frames>360){cancelAnimationFrame(animId);ctx.clearRect(0,0,W,H);cvs.style.display="none";}
+    }
+    loop();
+  }
+</script>
+</body>
+</html>

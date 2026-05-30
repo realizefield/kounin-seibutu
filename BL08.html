@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL08 遺伝子の本体をさぐる実験｜高認GAMBA 生物基礎</title>
+<style>
+  :root{
+    --ink:#1f2933;
+    --gray:#64748b;
+    --line:#e2e8f0;
+    --bg:#f5f8fb;
+    --card:#ffffff;
+    --blue:#2563eb;
+    --blue-d:#1d4ed8;
+    --teal:#0d9488;
+    --teal-l:#ccfbf1;
+    --teal-bg:#f0fdfa;
+    --green:#16a34a;
+    --green-l:#dcfce7;
+    --amber:#d97706;
+    --amber-l:#fef3c7;
+    --red:#dc2626;
+    --red-l:#fee2e2;
+    --radius:14px;
+    --shadow:0 1px 3px rgba(15,23,42,.06),0 8px 24px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Yu Gothic UI","Yu Gothic",Meiryo,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.85;-webkit-text-size-adjust:100%;
+  }
+  ruby rt{font-size:.55em;color:var(--gray);font-weight:400;}
+  .wrap{max-width:780px;margin:0 auto;padding:0 16px 80px;}
+
+  header.hd{background:linear-gradient(135deg,#7c3aed 0%,#2563eb 100%);color:#fff;
+    padding:30px 16px 26px;text-align:center;position:relative;overflow:hidden;}
+  header.hd::after{content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 20% 120%,rgba(255,255,255,.18),transparent 45%);}
+  .hd .tag{display:inline-block;font-size:.78rem;letter-spacing:.14em;background:rgba(255,255,255,.2);
+    padding:3px 12px;border-radius:999px;margin-bottom:10px;}
+  .hd h1{margin:0;font-size:1.55rem;font-weight:800;letter-spacing:.02em;}
+  .hd p{margin:8px 0 0;font-size:.95rem;opacity:.94;}
+
+  .backbar{max-width:780px;margin:14px auto 0;padding:0 16px;}
+  .back-btn{display:inline-flex;align-items:center;gap:6px;background:var(--card);
+    border:1px solid var(--line);color:var(--blue);font-weight:700;font-size:.9rem;
+    padding:8px 16px;border-radius:999px;text-decoration:none;box-shadow:var(--shadow);}
+  .back-btn:active{transform:translateY(1px);}
+
+  .usage-guide{display:flex;flex-wrap:wrap;gap:8px;background:#eef6ff;border:1px solid #d6e6fb;
+    border-radius:var(--radius);padding:14px;margin:18px 0 8px;}
+  .usage-guide .ug-title{flex-basis:100%;font-weight:800;color:var(--blue-d);font-size:.92rem;margin-bottom:2px;}
+  .usage-guide .step{flex:1;min-width:130px;background:#fff;border-radius:10px;padding:8px 10px;
+    font-size:.82rem;border:1px solid #e0ecfb;}
+  .usage-guide .step b{display:block;color:var(--blue);font-size:.88rem;}
+
+  section.box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 18px;margin:16px 0;box-shadow:var(--shadow);}
+  .section-title{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:1.18rem;font-weight:800;
+    margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid #ddd6fe;}
+  .section-title .num{background:#7c3aed;color:#fff;width:28px;height:28px;border-radius:8px;
+    display:grid;place-items:center;font-size:.95rem;flex-shrink:0;}
+  .freq-mark{font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap;}
+  .freq-must{background:var(--red-l);color:var(--red);}
+  .freq-often{background:var(--amber-l);color:var(--amber);}
+  .freq-know{background:#eef2f7;color:var(--gray);}
+
+  p.lead{margin:0 0 12px;}
+  .hl{background:linear-gradient(transparent 62%,#fde68a 62%);font-weight:700;padding:0 1px;}
+  .key{color:#7c3aed;font-weight:800;}
+
+  .note-box{background:#faf5ff;border:1px solid #ddd6fe;border-left:5px solid #7c3aed;
+    border-radius:10px;padding:12px 14px;margin:12px 0;}
+  .note-tag{display:inline-block;font-weight:800;color:#7c3aed;font-size:.9rem;margin-bottom:4px;}
+  .info-box{background:#fffdf5;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;margin:12px 0;font-size:.92rem;}
+
+  /* scientist timeline */
+  .sci{display:flex;gap:12px;align-items:flex-start;background:#fbfaff;border:1px solid #ece9fb;
+    border-radius:12px;padding:13px;margin:12px 0;}
+  .sci .yr{flex-shrink:0;width:60px;text-align:center;background:#7c3aed;color:#fff;border-radius:10px;
+    padding:8px 4px;font-weight:800;font-size:.82rem;line-height:1.3;}
+  .sci .body{flex:1;}
+  .sci .who{font-weight:800;color:#5b21b6;}
+  .sci .found{font-size:.86rem;color:var(--ink);margin-top:2px;}
+
+  /* experiment result cards */
+  .exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+  .exp-card{border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff;text-align:center;font-size:.86rem;}
+  .exp-card .cond{font-weight:700;}
+  .exp-card .res{margin-top:6px;font-weight:800;border-radius:8px;padding:4px;}
+  .exp-card .live{background:var(--green-l);color:var(--green);}
+  .exp-card .die{background:var(--red-l);color:var(--red);}
+
+  table.cmp{width:100%;border-collapse:collapse;margin:12px 0;font-size:.9rem;}
+  table.cmp th,table.cmp td{border:1px solid var(--line);padding:9px 8px;text-align:center;}
+  table.cmp thead th{background:#f3eefe;color:#5b21b6;}
+  table.cmp tbody th{background:#f8fafc;text-align:left;font-weight:700;}
+
+  .term-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:6px;}
+  .term-card{border:1px solid var(--line);border-radius:12px;padding:11px 13px;background:#fff;}
+  .term-name{font-weight:800;color:#7c3aed;font-size:1rem;}
+  .furigana-hint{color:var(--gray);font-size:.74rem;font-weight:400;}
+  .term-card .desc{font-size:.86rem;margin-top:3px;color:var(--ink);}
+
+  .diagram{margin:14px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .diagram svg{display:block;margin:0 auto;max-width:100%;height:auto;}
+  .dia-cap{text-align:center;color:var(--gray);font-size:.8rem;margin-top:4px;}
+
+  .mini{margin-top:14px;border:1px dashed #cbd5e1;border-radius:12px;overflow:hidden;}
+  .mini-head{background:#f1f5f9;padding:10px 14px;font-weight:800;font-size:.92rem;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;}
+  .mini-head .chev{transition:transform .2s;}
+  .mini.open .mini-head .chev{transform:rotate(180deg);}
+  .mini-body{display:none;padding:14px;}
+  .mini.open .mini-body{display:block;}
+  .q{font-weight:700;margin:0 0 10px;}
+  .opts{display:grid;gap:8px;}
+  .opt{text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;
+    font-size:.92rem;cursor:pointer;font-family:inherit;color:var(--ink);transition:.15s;}
+  .opt:hover{border-color:#7c3aed;}
+  .opt.correct{background:var(--green-l);border-color:var(--green);font-weight:700;}
+  .opt.wrong{background:var(--red-l);border-color:var(--red);}
+  .opt.dim{opacity:.55;}
+  .explain{display:none;margin-top:10px;padding:11px 13px;background:#faf5ff;border-radius:10px;
+    border-left:4px solid #7c3aed;font-size:.9rem;}
+  .explain.show{display:block;}
+  .mini-body .q + .opts{margin-bottom:4px;}
+  .mini-body .explain + .q{margin-top:18px;padding-top:16px;border-top:1px dashed #e2e8f0;}
+
+  .chal-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+  .timer{font-variant-numeric:tabular-nums;font-weight:800;color:var(--blue-d);background:#eef6ff;
+    padding:5px 12px;border-radius:999px;font-size:.92rem;}
+  .blankrow{margin:11px 0;font-size:.95rem;}
+  .blankrow input{font-family:inherit;font-size:.95rem;border:none;border-bottom:2px solid #7c3aed;
+    background:#faf5ff;padding:4px 6px;min-width:120px;width:160px;text-align:center;color:#5b21b6;font-weight:700;border-radius:4px 4px 0 0;}
+  .blankrow input.ok{background:var(--green-l);border-color:var(--green);color:var(--green);}
+  .blankrow input.ng{background:var(--red-l);border-color:var(--red);color:var(--red);}
+  .blankrow input.sel{outline:2px solid #7c3aed;outline-offset:1px;background:#ede9fe;}
+  .btn{display:inline-flex;align-items:center;gap:6px;background:#7c3aed;color:#fff;border:none;
+    font-family:inherit;font-weight:800;font-size:.95rem;padding:11px 22px;border-radius:999px;cursor:pointer;box-shadow:var(--shadow);}
+  .btn:active{transform:translateY(1px);}
+  .btn.ghost{background:#fff;color:#7c3aed;border:1px solid #7c3aed;}
+  .chal-result{display:none;margin-top:12px;padding:12px 14px;border-radius:10px;font-weight:700;text-align:center;}
+  .chal-result.show{display:block;}
+  .inline-bank{background:#faf5ff;border:1px solid #ddd6fe;border-radius:12px;padding:11px 13px;margin:6px 0 14px;}
+  .inline-bank .ib-title{font-weight:800;color:#7c3aed;font-size:.88rem;display:block;margin-bottom:7px;}
+  .inline-bank .ib-items{display:flex;flex-wrap:wrap;gap:7px;}
+  .score-num{font-size:1.6rem;color:#7c3aed;}
+
+  .speak-btn{background:#eef6ff;border:1px solid #d6e6fb;color:var(--blue);border-radius:999px;
+    font-family:inherit;font-size:.78rem;font-weight:700;padding:4px 11px;cursor:pointer;}
+
+  #floatBtn{position:fixed;right:16px;bottom:18px;z-index:40;background:#7c3aed;color:#fff;border:none;
+    border-radius:999px;padding:12px 18px;font-family:inherit;font-weight:800;font-size:.9rem;
+    box-shadow:0 6px 18px rgba(124,58,237,.4);cursor:pointer;}
+  #floatBank{position:fixed;right:16px;bottom:70px;z-index:41;background:#fff;border:1px solid var(--line);
+    border-radius:14px;box-shadow:0 12px 32px rgba(15,23,42,.18);padding:14px;width:min(300px,86vw);display:none;}
+  #floatBank.open{display:block;}
+  #floatBank h4{margin:0 0 8px;font-size:.9rem;color:#7c3aed;}
+  #floatBankItems{display:flex;flex-wrap:wrap;gap:6px;}
+  .chip{background:#faf5ff;border:1px solid #ddd6fe;color:#7c3aed;border-radius:999px;
+    padding:5px 11px;font-size:.82rem;font-weight:700;cursor:pointer;}
+  .chip:active{transform:translateY(1px);}
+  .bank-hint{font-size:.72rem;color:var(--gray);margin-top:8px;}
+
+  .footer-back{text-align:center;margin-top:26px;}
+
+  @media(max-width:640px){
+    .hd h1{font-size:1.3rem;}
+    .usage-guide .step{min-width:calc(50% - 4px);}
+    .section-title{font-size:1.05rem;}
+    .blankrow input{width:130px;min-width:90px;}
+    .exp-grid{grid-template-columns:1fr;}
+    .sci{flex-direction:row;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <span class="tag">高認GAMBA ／ 生物基礎 第2章</span>
+  <h1>BL08　遺伝子の本体をさぐる実験</h1>
+  <p>「遺伝子の正体はDNAだ」――どうやって突き止めた？</p>
+</header>
+
+<div class="backbar"><a class="back-btn" href="index.html">← 一覧へ</a></div>
+
+<div class="wrap">
+
+  <div class="usage-guide">
+    <div class="ug-title">📘 このページの使い方</div>
+    <div class="step"><b>① 解説を読む</b>実験の流れを理解</div>
+    <div class="step"><b>② ミニテスト</b>各実験で確認</div>
+    <div class="step"><b>③ チャレンジ</b>人名＋発見を暗記</div>
+    <div class="step"><b>④ 過去問類題</b>本番の形式に慣れる</div>
+  </div>
+
+  <section class="box">
+    <p class="lead">遺伝子が<strong>染色体の中</strong>にあることはわかっていました。でも染色体は <b>DNA</b> と <b>タンパク質</b> からできています。
+    <span class="hl">遺伝子の正体はどちらなのか？</span> ―― これを約20年がかりで突き止めたのが、これから学ぶ3つの実験です。</p>
+    <div class="note-box">
+      <span class="note-tag">🧭 全体の流れ（人名と順番が大事！）</span>
+      <div><b>グリフィス</b>（形質転換を発見）→ <b>エイブリー</b>（その原因はDNAと特定）→ <b>ハーシー&チェイス</b>（遺伝子の本体＝DNAを決定づけ）。
+      さらに <b>シャルガフ</b>（A=T, G=Cを発見）と <b>ワトソン&クリック</b>（二重らせんを解明）が加わります。</div>
+    </div>
+  </section>
+
+  <!-- 1. グリフィス -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">1</span>グリフィスの実験
+      <span class="freq-mark freq-must">🔴 必ず出る</span>
+      <button class="speak-btn" onclick="speak('グリフィスの実験。加熱して死んだS型菌と生きたR型菌を混ぜると、R型菌が病原性のあるS型菌に変わった。これを形質転換という。')">🔊 読み上げ</button>
+    </h2>
+    <p class="lead">イギリスの<span class="key">グリフィス</span>は、肺炎を起こす<ruby>肺炎双球菌<rt>はいえんそうきゅうきん</rt></ruby>を使いました。菌には2種類あります。</p>
+    <table class="cmp">
+      <thead><tr><th>型</th><th>さや</th><th>病原性</th></tr></thead>
+      <tbody>
+        <tr><th>S型菌</th><td>あり</td><td style="color:var(--red);font-weight:700">強い（ネズミは死ぬ）</td></tr>
+        <tr><th>R型菌</th><td>なし</td><td style="color:var(--green);font-weight:700">なし（ネズミは生きる）</td></tr>
+      </tbody>
+    </table>
+
+    <p class="lead" style="margin-top:10px">4つの実験の結果を、図で見てみましょう（😀＝生きる／💀＝死ぬ）。</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 520 340" role="img" aria-label="グリフィスの4つの実験">
+        <!-- 実験1 -->
+        <text x="10" y="32" font-size="12" font-weight="800" fill="#5b21b6">実験①</text>
+        <circle cx="80" cy="45" r="17" fill="#fecaca" stroke="#dc2626"/><text x="80" y="49" font-size="9" text-anchor="middle" fill="#991b1b" font-weight="700">S型</text>
+        <text x="110" y="49" font-size="13">→</text>
+        <text x="135" y="49" font-size="20">🐭</text>
+        <text x="170" y="49" font-size="13">→</text>
+        <rect x="195" y="33" width="80" height="26" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+        <text x="235" y="50" font-size="12" text-anchor="middle" fill="#dc2626" font-weight="800">💀 死ぬ</text>
+        <text x="300" y="50" font-size="11" fill="#64748b">生きたS型菌は病原性あり</text>
+
+        <!-- 実験2 -->
+        <text x="10" y="107" font-size="12" font-weight="800" fill="#5b21b6">実験②</text>
+        <circle cx="80" cy="120" r="17" fill="#bbf7d0" stroke="#16a34a"/><text x="80" y="124" font-size="9" text-anchor="middle" fill="#166534" font-weight="700">R型</text>
+        <text x="110" y="124" font-size="13">→</text>
+        <text x="135" y="124" font-size="20">🐭</text>
+        <text x="170" y="124" font-size="13">→</text>
+        <rect x="195" y="108" width="80" height="26" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+        <text x="235" y="125" font-size="12" text-anchor="middle" fill="#16a34a" font-weight="800">😀 生きる</text>
+        <text x="300" y="125" font-size="11" fill="#64748b">R型菌は病原性なし</text>
+
+        <!-- 実験3 -->
+        <text x="10" y="182" font-size="12" font-weight="800" fill="#5b21b6">実験③</text>
+        <circle cx="80" cy="195" r="17" fill="#e5e7eb" stroke="#9ca3af"/><text x="80" y="192" font-size="8" text-anchor="middle" fill="#6b7280" font-weight="700">S型</text><text x="80" y="202" font-size="7" text-anchor="middle" fill="#6b7280">加熱</text>
+        <text x="110" y="199" font-size="13">→</text>
+        <text x="135" y="199" font-size="20">🐭</text>
+        <text x="170" y="199" font-size="13">→</text>
+        <rect x="195" y="183" width="80" height="26" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+        <text x="235" y="200" font-size="12" text-anchor="middle" fill="#16a34a" font-weight="800">😀 生きる</text>
+        <text x="300" y="200" font-size="11" fill="#64748b">加熱で死んだS型菌は無害</text>
+
+        <!-- 実験4 -->
+        <text x="10" y="262" font-size="12" font-weight="800" fill="#5b21b6">実験④</text>
+        <circle cx="68" cy="262" r="15" fill="#e5e7eb" stroke="#9ca3af"/><text x="68" y="259" font-size="7" text-anchor="middle" fill="#6b7280" font-weight="700">S加熱</text>
+        <text x="88" y="266" font-size="13" fill="#7c3aed" font-weight="800">＋</text>
+        <circle cx="108" cy="262" r="15" fill="#bbf7d0" stroke="#16a34a"/><text x="108" y="266" font-size="8" text-anchor="middle" fill="#166534" font-weight="700">R型</text>
+        <text x="130" y="266" font-size="13">→</text>
+        <text x="152" y="266" font-size="20">🐭</text>
+        <text x="184" y="266" font-size="13">→</text>
+        <rect x="205" y="249" width="80" height="26" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+        <text x="245" y="266" font-size="12" text-anchor="middle" fill="#dc2626" font-weight="800">💀 死ぬ ⚠</text>
+        <rect x="300" y="244" width="210" height="46" rx="8" fill="#faf5ff" stroke="#7c3aed"/>
+        <text x="405" y="262" font-size="11" text-anchor="middle" fill="#5b21b6" font-weight="700">無害のはずなのに死ぬ！</text>
+        <text x="405" y="279" font-size="11" text-anchor="middle" fill="#5b21b6">→ R型菌がS型菌に変化した</text>
+        <line x1="10" y1="290" x2="510" y2="290" stroke="#ece9fb"/>
+        <text x="260" y="312" font-size="12" text-anchor="middle" fill="#7c3aed" font-weight="800">④だけ「加熱S型＋R型」で死ぬ ＝ 形質転換の発見</text>
+      </svg>
+    </div>
+    <p class="dia-cap">①②③は予想どおり。だが④で「死んだはずのS型菌＋無害なR型菌」を混ぜると死ぬ ← ここが最大のポイント</p>
+
+    <p class="lead" style="margin-top:6px">表でも整理しておきましょう。</p>
+    <div class="exp-grid">
+      <div class="exp-card"><div class="cond">① 生きたS型菌を注射</div><div class="res die">死ぬ</div></div>
+      <div class="exp-card"><div class="cond">② 生きたR型菌を注射</div><div class="res live">生きる</div></div>
+      <div class="exp-card"><div class="cond">③ 加熱したS型菌を注射</div><div class="res live">生きる</div></div>
+      <div class="exp-card"><div class="cond">④ 加熱S型菌＋生きたR型菌</div><div class="res die">死ぬ ⚠</div></div>
+    </div>
+
+    <div class="note-box">
+      <span class="note-tag">🤔 ④はなぜ死ぬ？ ここが核心！</span>
+      <div>③で加熱したS型菌は死んで無害のはず。なのに④でR型菌と混ぜると死ぬ ――
+      つまり<b>死んだS型菌の「何か」がR型菌をS型菌に変えた</b>のです。
+      このように形質（性質）が変わる現象を <span class="key"><ruby>形質転換<rt>けいしつてんかん</rt></ruby></span> といいます。
+      <br>ただしグリフィスは「何か」が何かまでは特定できませんでした。</div>
+    </div>
+
+    <div class="mini" id="mini1">
+      <div class="mini-head" onclick="toggleMini('mini1')">✅ ミニテスト①（グリフィス）<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">Q1. グリフィスの実験で示された、R型菌がS型菌に変わる現象を何という？</p>
+        <div class="opts" data-correct="2" data-explain="死んだS型菌の物質がR型菌の性質を変えた現象を形質転換といいます。原因物質の特定はエイブリーが行いました。">
+          <button class="opt" onclick="pickMini(this)">突然変異</button>
+          <button class="opt" onclick="pickMini(this)">セントラルドグマ</button>
+          <button class="opt" onclick="pickMini(this)">形質転換</button>
+          <button class="opt" onclick="pickMini(this)">相補性</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q2. 病原性が強く、ネズミを死なせるのはどちらの菌？</p>
+        <div class="opts" data-correct="0" data-explain="さやのあるS型菌が病原性をもち、ネズミは死にます。R型菌はさやがなく無害です。">
+          <button class="opt" onclick="pickMini(this)">S型菌</button>
+          <button class="opt" onclick="pickMini(this)">R型菌</button>
+          <button class="opt" onclick="pickMini(this)">どちらも死なせる</button>
+          <button class="opt" onclick="pickMini(this)">どちらも死なせない</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q3. 加熱して殺したS型菌だけをネズミに注射すると、結果はどうなる？</p>
+        <div class="opts" data-correct="1" data-explain="加熱でS型菌は死に無害になるので、ネズミは生きます（実験③）。生きたR型菌と混ぜたとき（実験④）だけ形質転換で死にます。">
+          <button class="opt" onclick="pickMini(this)">死ぬ</button>
+          <button class="opt" onclick="pickMini(this)">生きる</button>
+          <button class="opt" onclick="pickMini(this)">R型菌に変わる</button>
+          <button class="opt" onclick="pickMini(this)">毒性が強まる</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. エイブリー -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">2</span>エイブリーの実験
+      <span class="freq-mark freq-must">🔴 必ず出る</span>
+      <button class="speak-btn" onclick="speak('エイブリーの実験。S型菌からDNAだけを取り出してR型菌と混ぜると形質転換が起きた。よって形質転換の原因物質はDNAであるとわかった。')">🔊 読み上げ</button>
+    </h2>
+    <p class="lead">アメリカの<span class="key">エイブリー</span>は、グリフィスの「何か」の正体を確かめました。S型菌をすりつぶし、<b>DNAだけ</b>と<b>DNA以外</b>に分けて、それぞれR型菌と混ぜました。</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 520 200" role="img" aria-label="エイブリーの実験">
+        <!-- top: DNAだけ -->
+        <circle cx="55" cy="45" r="18" fill="#fecaca" stroke="#dc2626"/><text x="55" y="49" font-size="9" text-anchor="middle" fill="#991b1b" font-weight="700">S型</text>
+        <text x="40" y="78" font-size="10" fill="#64748b">すりつぶす</text>
+        <text x="85" y="49" font-size="13">→</text>
+        <rect x="105" y="32" width="90" height="26" rx="8" fill="#eff6ff" stroke="#2563eb"/><text x="150" y="49" font-size="11" text-anchor="middle" fill="#1d4ed8" font-weight="800">DNAだけ</text>
+        <text x="200" y="49" font-size="13" fill="#7c3aed" font-weight="800">＋</text>
+        <circle cx="232" cy="45" r="16" fill="#bbf7d0" stroke="#16a34a"/><text x="232" y="49" font-size="8" text-anchor="middle" fill="#166534" font-weight="700">R型</text>
+        <text x="255" y="49" font-size="13">→</text>
+        <rect x="278" y="30" width="150" height="30" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+        <text x="353" y="49" font-size="11" text-anchor="middle" fill="#16a34a" font-weight="800">S型菌が出現（形質転換⭕）</text>
+        <line x1="20" y1="100" x2="500" y2="100" stroke="#ece9fb"/>
+        <!-- bottom: DNA以外 -->
+        <circle cx="55" cy="145" r="18" fill="#fecaca" stroke="#dc2626"/><text x="55" y="149" font-size="9" text-anchor="middle" fill="#991b1b" font-weight="700">S型</text>
+        <text x="85" y="149" font-size="13">→</text>
+        <rect x="105" y="132" width="90" height="26" rx="8" fill="#f1f5f9" stroke="#94a3b8"/><text x="150" y="149" font-size="11" text-anchor="middle" fill="#475569" font-weight="800">DNA以外</text>
+        <text x="200" y="149" font-size="13" fill="#7c3aed" font-weight="800">＋</text>
+        <circle cx="232" cy="145" r="16" fill="#bbf7d0" stroke="#16a34a"/><text x="232" y="149" font-size="8" text-anchor="middle" fill="#166534" font-weight="700">R型</text>
+        <text x="255" y="149" font-size="13">→</text>
+        <rect x="278" y="130" width="150" height="30" rx="8" fill="#f1f5f9" stroke="#94a3b8"/>
+        <text x="353" y="149" font-size="11" text-anchor="middle" fill="#475569" font-weight="800">R型菌のまま（変化なし）</text>
+      </svg>
+    </div>
+    <p class="dia-cap">DNAを入れたときだけ形質転換が起きた → 原因物質はDNAと特定できる</p>
+
+    <div class="exp-grid">
+      <div class="exp-card"><div class="cond">S型菌の <b>DNAだけ</b> ＋ R型菌</div><div class="res die" style="background:var(--green-l);color:var(--green)">S型菌が出現（形質転換 ⭕）</div></div>
+      <div class="exp-card"><div class="cond">S型菌の <b>DNA以外</b> ＋ R型菌</div><div class="res" style="background:#eef2f7;color:var(--gray)">R型菌のまま（変化なし）</div></div>
+    </div>
+
+    <div class="info-box">
+      <b>結論</b>　形質転換を起こした原因物質は <span class="key">DNA</span> である。
+      <br>これで「遺伝子の正体はDNAでは？」という大きなヒントが得られました。
+    </div>
+
+    <div class="mini" id="mini2">
+      <div class="mini-head" onclick="toggleMini('mini2')">✅ ミニテスト②（エイブリー）<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">Q1. エイブリーの実験でわかった、形質転換の原因物質は？</p>
+        <div class="opts" data-correct="1" data-explain="DNAだけを混ぜたときに形質転換が起きたので、原因物質はDNAだと特定できました。">
+          <button class="opt" onclick="pickMini(this)">タンパク質</button>
+          <button class="opt" onclick="pickMini(this)">DNA</button>
+          <button class="opt" onclick="pickMini(this)">RNA</button>
+          <button class="opt" onclick="pickMini(this)">糖（リボース）</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q2. S型菌から「DNA以外」を取り出してR型菌と混ぜると、結果はどうなる？</p>
+        <div class="opts" data-correct="1" data-explain="DNA以外では形質転換が起きず、R型菌のまま。DNAを入れたときだけ変化したことが、原因＝DNAの証拠になりました。">
+          <button class="opt" onclick="pickMini(this)">S型菌が現れる</button>
+          <button class="opt" onclick="pickMini(this)">R型菌のまま変化しない</button>
+          <button class="opt" onclick="pickMini(this)">両方の菌が死ぬ</button>
+          <button class="opt" onclick="pickMini(this)">ネズミが死ぬ</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q3. エイブリーの実験は、グリフィスの実験の「何」を明らかにした？</p>
+        <div class="opts" data-correct="2" data-explain="グリフィスは形質転換という現象を見つけただけ。その『原因物質が何か』を突き止めたのがエイブリーで、答えはDNAでした。">
+          <button class="opt" onclick="pickMini(this)">菌の大きさ</button>
+          <button class="opt" onclick="pickMini(this)">ネズミの寿命</button>
+          <button class="opt" onclick="pickMini(this)">形質転換の原因物質</button>
+          <button class="opt" onclick="pickMini(this)">二重らせんの形</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ハーシーとチェイス -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">3</span>ハーシーとチェイスの実験
+      <span class="freq-mark freq-must">🔴 必ず出る</span>
+      <button class="speak-btn" onclick="speak('ハーシーとチェイスの実験。T2ファージを使い、DNAのリンとタンパク質の硫黄を放射性同位体で目印にした。大腸菌に入ったのはDNAだった。よって遺伝子の本体はDNAである。')">🔊 読み上げ</button>
+    </h2>
+    <p class="lead">1952年、アメリカの<span class="key">ハーシーとチェイス</span>は <b>T2ファージ</b>（大腸菌に感染するウイルス）を使いました。
+    T2ファージは <b>DNA</b> と <b>タンパク質</b> だけでできています。</p>
+
+    <table class="cmp">
+      <thead><tr><th>部品</th><th>含まれる元素</th><th>放射性の目印</th></tr></thead>
+      <tbody>
+        <tr><th style="text-align:center">DNA</th><td>リン（P）</td><td><b>³²P</b> で標識</td></tr>
+        <tr><th style="text-align:center">タンパク質</th><td>硫黄（S）</td><td><b>³⁵S</b> で標識</td></tr>
+      </tbody>
+    </table>
+
+    <div class="diagram">
+      <svg viewBox="0 0 520 180" role="img" aria-label="ハーシーとチェイスの実験">
+        <polygon points="60,30 90,30 95,55 55,55" fill="#ddd6fe" stroke="#7c3aed"/>
+        <line x1="75" y1="55" x2="75" y2="85" stroke="#7c3aed" stroke-width="2"/>
+        <text x="75" y="22" font-size="11" fill="#5b21b6" text-anchor="middle" font-weight="700">T2ファージ</text>
+        <ellipse cx="75" cy="100" rx="34" ry="22" fill="#fef9c3" stroke="#d97706"/>
+        <text x="75" y="104" font-size="10" fill="#b45309" text-anchor="middle">大腸菌</text>
+        <text x="75" y="148" font-size="11" fill="#64748b" text-anchor="middle">付着してDNAを注入</text>
+
+        <line x1="130" y1="100" x2="175" y2="100" stroke="#94a3b8" stroke-width="2" marker-end="url(#ar)"/>
+        <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#94a3b8"/></marker></defs>
+
+        <ellipse cx="240" cy="100" rx="40" ry="26" fill="#fef9c3" stroke="#d97706"/>
+        <text x="240" y="96" font-size="11" fill="#b45309" text-anchor="middle" font-weight="700">大腸菌の中</text>
+        <text x="240" y="112" font-size="13" fill="#16a34a" text-anchor="middle" font-weight="800">³²P 検出 ⭕</text>
+        <text x="240" y="150" font-size="11" fill="#64748b" text-anchor="middle">DNA(³²P)は入った</text>
+
+        <line x1="295" y1="100" x2="335" y2="100" stroke="#94a3b8" stroke-width="2" marker-end="url(#ar)"/>
+
+        <rect x="350" y="60" width="150" height="80" rx="10" fill="#f0fdfa" stroke="#0d9488"/>
+        <text x="425" y="86" font-size="12" fill="#0d9488" text-anchor="middle" font-weight="800">結論</text>
+        <text x="425" y="108" font-size="12" fill="#1f2933" text-anchor="middle">中に入ったのはDNA</text>
+        <text x="425" y="128" font-size="12" fill="#dc2626" text-anchor="middle" font-weight="800">³⁵S(タンパク質)は外</text>
+      </svg>
+    </div>
+    <p class="dia-cap">大腸菌の中から検出されたのは ³²P（DNA）だけ。³⁵S（タンパク質）は殻として外に残った</p>
+
+    <div class="info-box">
+      <b>結論</b>　大腸菌の中に入って子ファージを作らせたのは <span class="key">DNA</span>。
+      よって <b>遺伝子の本体はDNA</b> であることが決定づけられました。
+    </div>
+
+    <div class="mini" id="mini3">
+      <div class="mini-head" onclick="toggleMini('mini3')">✅ ミニテスト③（ハーシー&チェイス）<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">Q1. 実験で、大腸菌の中から検出された放射性の目印は？</p>
+        <div class="opts" data-correct="0" data-explain="DNAの目印³²Pが菌内から検出され、タンパク質の目印³⁵Sは外（殻）に残りました。だから中に入ったのはDNA。">
+          <button class="opt" onclick="pickMini(this)">³²P（DNAの目印）</button>
+          <button class="opt" onclick="pickMini(this)">³⁵S（タンパク質の目印）</button>
+          <button class="opt" onclick="pickMini(this)">両方とも検出された</button>
+          <button class="opt" onclick="pickMini(this)">どちらも検出されなかった</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q2. T2ファージは、どんな物質からできている？</p>
+        <div class="opts" data-correct="1" data-explain="T2ファージはDNAとタンパク質だけからできています。だからこの2つに別々の目印をつけて区別できました。">
+          <button class="opt" onclick="pickMini(this)">DNAと糖</button>
+          <button class="opt" onclick="pickMini(this)">DNAとタンパク質</button>
+          <button class="opt" onclick="pickMini(this)">タンパク質と脂質</button>
+          <button class="opt" onclick="pickMini(this)">RNAとタンパク質</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q3. この実験から決定づけられた結論はどれ？</p>
+        <div class="opts" data-correct="2" data-explain="菌内に入って子ファージを作らせたのはDNA。よって遺伝子の本体はDNAだと決定づけられました。">
+          <button class="opt" onclick="pickMini(this)">遺伝子の本体はタンパク質</button>
+          <button class="opt" onclick="pickMini(this)">遺伝子の本体は硫黄</button>
+          <button class="opt" onclick="pickMini(this)">遺伝子の本体はDNA</button>
+          <button class="opt" onclick="pickMini(this)">遺伝子の本体はRNA</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. シャルガフ・ワトソン&クリック -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">4</span>シャルガフ／ワトソン&クリック
+      <span class="freq-mark freq-often">🟡 よく出る</span>
+    </h2>
+    <p class="lead">DNAが遺伝子の本体とわかると、次は「DNAはどんな形か？」が問題になりました。</p>
+
+    <div class="sci">
+      <div class="yr">シャルガフ</div>
+      <div class="body">
+        <div class="who">シャルガフの法則</div>
+        <div class="found">どんな生物のDNAでも <b>A＝T</b>、<b>G＝C</b>（数の割合が等しい）。これが二重らせんの大きなヒントになった。</div>
+      </div>
+    </div>
+    <div class="sci">
+      <div class="yr">1953年</div>
+      <div class="body">
+        <div class="who">ワトソンとクリック</div>
+        <div class="found">DNAが <b>二重らせん構造</b> であることを解明。さらにクリックは <b>セントラルドグマ</b>（DNA→RNA→タンパク質）も提唱。</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <b>混同注意！</b>　<b>シャルガフ</b>＝「A=T, G=C の数の発見」、<b>ワトソン&クリック</b>＝「二重らせんの形の発見」。
+      人名と発見をセットで覚えるのが得点のコツです。
+    </div>
+
+    <div class="mini" id="mini4">
+      <div class="mini-head" onclick="toggleMini('mini4')">✅ ミニテスト④（シャルガフ）<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">Q1. 「どんな生物でもAとT、GとCの数の割合が等しい」ことを発見したのは？</p>
+        <div class="opts" data-correct="1" data-explain="A=T, G=Cの発見はシャルガフ。ワトソン&クリックはこの法則を手がかりに二重らせん構造を解明しました。">
+          <button class="opt" onclick="pickMini(this)">ワトソンとクリック</button>
+          <button class="opt" onclick="pickMini(this)">シャルガフ</button>
+          <button class="opt" onclick="pickMini(this)">グリフィス</button>
+          <button class="opt" onclick="pickMini(this)">ハーシーとチェイス</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q2. DNAが二重らせん構造であることを解明したのは？</p>
+        <div class="opts" data-correct="3" data-explain="二重らせん構造の解明はワトソンとクリック。シャルガフのA=T,G=Cの発見が大きな手がかりになりました。">
+          <button class="opt" onclick="pickMini(this)">シャルガフ</button>
+          <button class="opt" onclick="pickMini(this)">グリフィス</button>
+          <button class="opt" onclick="pickMini(this)">エイブリー</button>
+          <button class="opt" onclick="pickMini(this)">ワトソンとクリック</button>
+        </div>
+        <div class="explain"></div>
+
+        <p class="q">Q3. あるDNAでAが30%のとき、シャルガフの法則からTの割合は？</p>
+        <div class="opts" data-correct="2" data-explain="A=Tなので、Aが30%ならTも30%。残り40%をGとCで半分ずつ（G=C=20%）分け合います。">
+          <button class="opt" onclick="pickMini(this)">10%</button>
+          <button class="opt" onclick="pickMini(this)">20%</button>
+          <button class="opt" onclick="pickMini(this)">30%</button>
+          <button class="opt" onclick="pickMini(this)">70%</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 人物まとめ表 -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">★</span>人物と発見まとめ
+      <span class="freq-mark freq-must">🔴 暗記必須</span>
+    </h2>
+    <table class="cmp">
+      <thead><tr><th>人物</th><th>発見・できごと</th></tr></thead>
+      <tbody>
+        <tr><th>グリフィス</th><td><b>形質転換</b>を発見（原因物質は不明）</td></tr>
+        <tr><th>エイブリー</th><td>形質転換の<b>原因物質はDNA</b>と特定</td></tr>
+        <tr><th>ハーシー&チェイス</th><td>T2ファージで<b>遺伝子の本体＝DNA</b>を決定</td></tr>
+        <tr><th>シャルガフ</th><td><b>A=T, G=C</b>（シャルガフの法則）</td></tr>
+        <tr><th>ワトソン&クリック</th><td>DNAの<b>二重らせん構造</b>を解明</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- チャレンジ -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">③</span>チャレンジ（穴埋め）
+      <span class="freq-mark freq-must">🔴 得点源</span>
+    </h2>
+    <div class="chal-head">
+      <p class="lead" style="margin:0">入れたい空欄をタップして選ぶ（紫に光る）→ 下の<b>語群</b>の語をタップ。順番はバラバラでOK。直接入力もできます。</p>
+      <span class="timer" id="timer">0:00</span>
+    </div>
+
+    <div class="inline-bank" id="inlineBank">
+      <span class="ib-title">📑 語群</span>
+      <div class="ib-items"></div>
+    </div>
+
+    <div id="chal">
+      <div class="blankrow">(1) R型菌がS型菌に変わる現象を <input data-a="形質転換"> という。</div>
+      <div class="blankrow">(2) (1)を発見したイギリスの科学者は <input data-a="グリフィス"> である。</div>
+      <div class="blankrow">(3) 形質転換の原因物質がDNAだと特定したのは <input data-a="エイブリー"> である。</div>
+      <div class="blankrow">(4) T2ファージで遺伝子の本体がDNAだと決定づけたのは <input data-a="ハーシーとチェイス"> である。</div>
+      <div class="blankrow">(5) T2ファージは <input data-a="DNA"> とタンパク質だけからできている。</div>
+      <div class="blankrow">(6) DNAの目印に使った放射性同位体は <input data-a="32P"> である。</div>
+      <div class="blankrow">(7) タンパク質の目印に使った放射性同位体は <input data-a="35S"> である。</div>
+      <div class="blankrow">(8) AとT、GとCの数が等しいことを <input data-a="シャルガフ"> の法則という。</div>
+      <div class="blankrow">(9) DNAの二重らせん構造を解明したのは <input data-a="ワトソンとクリック"> である。</div>
+      <div class="blankrow">(10) 遺伝子の本体は <input data-a="DNA"> であると結論づけられた。</div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+      <button class="btn" onclick="grade()">採点する</button>
+      <button class="btn ghost" onclick="resetChal()">もう一度</button>
+    </div>
+    <div class="chal-result" id="chalResult"></div>
+  </section>
+
+  <!-- 過去問類題 -->
+  <section class="box">
+    <h2 class="section-title"><span class="num">④</span>過去問類題（実戦）
+      <span class="freq-mark freq-often">🟡 本番形式</span>
+    </h2>
+
+    <div class="mini open" id="kako1">
+      <div class="mini-head" onclick="toggleMini('kako1')">問1　DNAの塩基組成<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">「どんな生物のDNAでも、Aの割合とTの割合、Gの割合とCの割合が等しい」ことを見つけた人物（ア）と、DNAの構造（イ）の組合せは？</p>
+        <div class="opts" data-correct="0" data-explain="ア＝シャルガフ、イ＝二重らせん構造。共通テスト頻出の組合せ問題です。">
+          <button class="opt" onclick="pickMini(this)">ア＝シャルガフ　イ＝二重らせん構造</button>
+          <button class="opt" onclick="pickMini(this)">ア＝シャルガフ　イ＝一本鎖構造</button>
+          <button class="opt" onclick="pickMini(this)">ア＝フランクリン　イ＝二重らせん構造</button>
+          <button class="opt" onclick="pickMini(this)">ア＝ハーシー　イ＝一本鎖構造</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+
+    <div class="mini" id="kako2">
+      <div class="mini-head" onclick="toggleMini('kako2')">問2　肺炎双球菌の実験<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">加熱して殺したS型菌と、生きたR型菌を混ぜてネズミに注射した。結果として正しいのは？</p>
+        <div class="opts" data-correct="2" data-explain="加熱S型菌の物質（DNA）がR型菌を形質転換させ、S型菌が増えてネズミは死にます。これがグリフィスの実験④。">
+          <button class="opt" onclick="pickMini(this)">ネズミは生きる（変化なし）</button>
+          <button class="opt" onclick="pickMini(this)">R型菌だけが増える</button>
+          <button class="opt" onclick="pickMini(this)">S型菌が現れてネズミは死ぬ</button>
+          <button class="opt" onclick="pickMini(this)">両方の菌が消える</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+
+    <div class="mini" id="kako3">
+      <div class="mini-head" onclick="toggleMini('kako3')">問3　肝臓からの物質抽出<span class="chev">▾</span></div>
+      <div class="mini-body">
+        <p class="q">冷凍した肝臓をすりつぶし、食塩水・湯せん・ろ過の後、冷やしたエタノールを注ぐと白い繊維状のものが現れた。抽出された物質と、同じ手順で使える別の材料の組合せは？</p>
+        <div class="opts" data-correct="0" data-explain="エタノールで析出する白い繊維はDNA。核の多い材料が向くので、ブロッコリーのつぼみが適します。">
+          <button class="opt" onclick="pickMini(this)">DNA ／ ブロッコリーのつぼみ</button>
+          <button class="opt" onclick="pickMini(this)">タンパク質 ／ ニワトリの卵</button>
+          <button class="opt" onclick="pickMini(this)">ATP ／ ニワトリの卵</button>
+          <button class="opt" onclick="pickMini(this)">RNA ／ 食塩</button>
+        </div>
+        <div class="explain"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="box" style="text-align:center;background:linear-gradient(135deg,#faf5ff,#eef6ff);">
+    <p class="lead" style="margin:0 0 12px;font-weight:700;">仕上げに、過去問形式の<strong>確認問題（全10問）</strong>に挑戦しよう！</p>
+    <a class="back-btn" style="background:#7c3aed;color:#fff;border-color:#7c3aed;font-size:1rem;padding:12px 28px;" href="BL08_exam.html">📋 確認問題へ進む →</a>
+  </section>
+
+  <div class="footer-back"><a class="back-btn" href="index.html">← 一覧へもどる</a></div>
+</div>
+
+<button id="floatBtn" onclick="toggleFloatBank()">📑 語群</button>
+<div id="floatBank">
+  <h4>語群（タップで空欄に入る）</h4>
+  <div id="floatBankItems"></div>
+  <div class="bank-hint">使い方：空欄をタップ → 語群の語をタップ</div>
+</div>
+
+<canvas id="cnf" style="position:fixed;inset:0;pointer-events:none;z-index:60;display:none;"></canvas>
+
+<script>
+  const PAGE_CODE = "BL08";
+
+  function speak(t){
+    try{window.speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(t);u.lang="ja-JP";u.rate=.95;
+      window.speechSynthesis.speak(u);}catch(e){}
+  }
+
+  function toggleMini(id){document.getElementById(id).classList.toggle('open');}
+  function pickMini(btn){
+    const opts=btn.parentElement;
+    if(opts.dataset.done) return;
+    opts.dataset.done="1";
+    const correct=parseInt(opts.dataset.correct,10);
+    const buttons=[...opts.children];
+    const idx=buttons.indexOf(btn);
+    buttons.forEach((b,i)=>{b.disabled=true;
+      if(i===correct)b.classList.add('correct');
+      else if(i===idx)b.classList.add('wrong');
+      else b.classList.add('dim');});
+    const ex=opts.nextElementSibling;
+    ex.textContent=(idx===correct?'⭕ 正解！ ':'❌ 残念… ')+opts.dataset.explain;
+    ex.classList.add('show');
+  }
+
+  const BANK=["形質転換","グリフィス","エイブリー","ハーシーとチェイス","DNA","32P","35S","シャルガフ","ワトソンとクリック","二重らせん"];
+  let lastInput=null;
+  function toggleFloatBank(){document.getElementById('floatBank').classList.toggle('open');}
+  function selectInput(inp){
+    if(lastInput) lastInput.classList.remove('sel');
+    lastInput=inp;
+    inp.classList.add('sel');
+  }
+  function fillBlank(w){
+    let target=lastInput || [...document.querySelectorAll('#chal input')].find(i=>!i.value);
+    if(!target) return;
+    target.value=w;
+    target.classList.remove('ok','ng');
+    selectInput(target);
+  }
+  (function initBank(){
+    [document.getElementById('floatBankItems'),
+     document.querySelector('#inlineBank .ib-items')].forEach(box=>{
+      if(!box) return;
+      BANK.forEach(w=>{const c=document.createElement('span');
+        c.className="chip";c.textContent=w;
+        c.addEventListener('mousedown',e=>{e.preventDefault();fillBlank(w);});
+        c.addEventListener('touchstart',e=>{e.preventDefault();fillBlank(w);},{passive:false});
+        box.appendChild(c);});
+    });
+    document.querySelectorAll('#chal input').forEach(inp=>{
+      inp.addEventListener('focus',()=>selectInput(inp));
+      inp.addEventListener('click',()=>selectInput(inp));
+    });
+  })();
+
+  let sec=0,timerId=null;
+  function startTimer(){if(timerId)return;
+    timerId=setInterval(()=>{sec++;const m=Math.floor(sec/60),s=sec%60;
+      document.getElementById('timer').textContent=m+":"+String(s).padStart(2,'0');},1000);}
+  document.querySelectorAll('#chal input').forEach(inp=>inp.addEventListener('input',startTimer,{once:true}));
+
+  function norm(s){return (s||'').trim().replace(/\s+/g,'').toLowerCase();}
+  function grade(){
+    const inputs=[...document.querySelectorAll('#chal input')];
+    let ok=0;
+    inputs.forEach(inp=>{
+      const ans=norm(inp.dataset.a);
+      const val=norm(inp.value);
+      let alt=[];
+      if(inp.dataset.a==="ハーシーとチェイス")alt=["ハーシーチェイス","ハーシー・チェイス","ハーシーとチェース"];
+      if(inp.dataset.a==="ワトソンとクリック")alt=["ワトソンクリック","ワトソン・クリック"];
+      if(inp.dataset.a==="32P")alt=["32p","³²p","リン32","p32"];
+      if(inp.dataset.a==="35S")alt=["35s","³⁵s","硫黄35","s35"];
+      if(val===ans||alt.includes(val)){inp.classList.add('ok');inp.classList.remove('ng');ok++;}
+      else{inp.classList.add('ng');inp.classList.remove('ok');}
+    });
+    const total=inputs.length;const pct=Math.round(ok/total*100);
+    const r=document.getElementById('chalResult');r.className="chal-result show";
+    if(ok===total){
+      r.style.background="var(--green-l)";r.style.color="var(--green)";
+      r.innerHTML='🎉 全問正解！　<span class="score-num">'+ok+'</span> / '+total+'　完璧です！';
+      clearInterval(timerId);fireConfetti();saveScore(100);
+    }else{
+      r.style.background="var(--amber-l)";r.style.color="var(--amber)";
+      r.innerHTML='正解 <span class="score-num">'+ok+'</span> / '+total+'（'+pct+'点）　赤い欄をもう一度！';
+      saveScore(pct);
+    }
+  }
+  function resetChal(){
+    document.querySelectorAll('#chal input').forEach(i=>{i.value="";i.classList.remove('ok','ng','sel');});
+    lastInput=null;
+    document.getElementById('chalResult').className="chal-result";
+    sec=0;clearInterval(timerId);timerId=null;document.getElementById('timer').textContent="0:00";
+  }
+  function saveScore(score){
+    try{const prev=parseInt(localStorage.getItem('gamba_score_'+PAGE_CODE)||"0",10);
+      if(score>prev)localStorage.setItem('gamba_score_'+PAGE_CODE,String(score));
+      localStorage.setItem('gamba_done_'+PAGE_CODE,score===100?"1":(localStorage.getItem('gamba_done_'+PAGE_CODE)||"0"));}catch(e){}
+  }
+
+  let cvs,ctx,pts=[],animId=null;
+  function fireConfetti(){
+    cvs=document.getElementById('cnf');cvs.style.display="block";ctx=cvs.getContext('2d');
+    cvs.width=window.innerWidth;cvs.height=window.innerHeight;pts=[];
+    const W=cvs.width,H=cvs.height;
+    const colors=['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6','#facc15'];
+    function petal(x,y,vx,vy){
+      return {x,y,vx,vy,
+        s:Math.random()*7+6,
+        c:colors[Math.floor(Math.random()*colors.length)],
+        rot:Math.random()*Math.PI*2, vr:(Math.random()-0.5)*0.3,
+        sway:Math.random()*Math.PI*2, shape:Math.random()<0.5?'petal':'square',
+        life:0};
+    }
+    // 左右の下から打ち上げ（バースト）
+    for(let i=0;i<90;i++){
+      pts.push(petal(0, H, 4+Math.random()*7, -(11+Math.random()*9)));
+      pts.push(petal(W, H, -(4+Math.random()*7), -(11+Math.random()*9)));
+    }
+    // 上からひらひら
+    for(let i=0;i<120;i++){
+      pts.push(petal(Math.random()*W, -Math.random()*H*0.5, (Math.random()-0.5)*2, 1.5+Math.random()*2));
+    }
+    let frames=0;
+    function loop(){
+      ctx.clearRect(0,0,W,H);
+      pts.forEach(p=>{
+        p.life++;
+        p.vy+=0.18;                 // 重力
+        p.sway+=0.06;
+        p.x+=p.vx+Math.sin(p.sway)*1.4;
+        p.y+=p.vy;
+        p.rot+=p.vr;
+        ctx.save();
+        ctx.translate(p.x,p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle=p.c;
+        if(p.shape==='petal'){
+          ctx.beginPath();
+          ctx.ellipse(0,0,p.s,p.s*0.55,0,0,Math.PI*2);
+          ctx.fill();
+        }else{
+          ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s);
+        }
+        ctx.restore();
+      });
+      frames++;animId=requestAnimationFrame(loop);
+      if(frames>360){cancelAnimationFrame(animId);ctx.clearRect(0,0,W,H);cvs.style.display="none";}
+    }
+    loop();
+  }
+</script>
+</body>
+</html>
