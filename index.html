@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>GAMBA 生物基礎 単元表</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Maru Gothic ProN','Hiragino Kaku Gothic ProN','BIZ UDGothic','Yu Gothic UI',Meiryo,sans-serif;background:#eefaf6;color:#10241f;min-height:100vh;font-size:15px}
+
+/* ヘッダー */
+.top-header{background:linear-gradient(135deg,#0d9488 0%,#0f766e 100%);color:#fff;padding:16px 16px 0;text-align:center}
+.top-header h1{font-size:1.15rem;font-weight:800;letter-spacing:.04em}
+.top-header p{font-size:.78rem;margin-top:3px;opacity:.85}
+.summary-bar{background:rgba(0,0,0,.22);margin-top:12px;padding:9px 14px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:.78rem;color:#fff}
+.sum-item{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.sum-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.sum-dot-a{background:#4ade80}.sum-dot-b{background:#fbbf24}.sum-dot-c{background:#f87171}.sum-dot-n{background:#94a3b8}
+.sum-count{font-weight:800;font-size:1rem;min-width:18px;text-align:center}
+
+.wrap{max-width:920px;margin:0 auto;padding:14px 12px 56px}
+
+/* 学習フロー */
+.flow{background:#fff;border-radius:14px;border:1px solid #b2f0e8;padding:13px 16px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.flow-title{font-size:.88rem;font-weight:800;color:#0d9488;margin-bottom:9px;padding-bottom:6px;border-bottom:2px solid #ccfbf1;}
+.flow-steps{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.flow-step{background:#f0fdfa;border:1px solid #b2f0e8;border-radius:8px;padding:6px 11px;font-size:.78rem;color:#0f766e;font-weight:700;white-space:nowrap}
+.flow-arrow{color:#0d9488;font-size:1rem;font-weight:700}
+
+/* ユニット */
+.unit{background:#fff;border-radius:14px;border:1px solid #b2f0e8;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,.05);overflow:hidden}
+.unit-hd{padding:11px 16px;display:flex;align-items:center;gap:10px;background:linear-gradient(90deg,#0d9488,#2dd4bf);color:#fff}
+.unit-num{background:rgba(255,255,255,.2);border-radius:7px;padding:3px 10px;font-size:.78rem;font-weight:800;white-space:nowrap}
+.unit-title{font-size:1rem;font-weight:800;flex:1}
+.unit-badge{font-size:.72rem;background:rgba(255,255,255,.25);border-radius:999px;padding:2px 9px;font-weight:700;white-space:nowrap}
+.unit-body{padding:12px 14px}
+.group-label{font-size:.75rem;font-weight:800;color:#64748b;margin:12px 0 8px;letter-spacing:.05em;padding-bottom:4px;border-bottom:1.5px dashed #b2f0e8;display:flex;align-items:center;gap:7px}
+.group-label:first-child{margin-top:0}
+.sec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:4px}
+
+/* カード */
+.sec-card{border-radius:10px;border:1.5px solid #b2f0e8;overflow:hidden;transition:.18s;background:#fff;display:flex;flex-direction:column;}
+.sec-card:hover{box-shadow:0 3px 14px rgba(13,148,136,.13);transform:translateY(-1px)}
+.sc-hd{background:#f0fdfa;border-bottom:2px solid #0d9488;padding:9px 12px;display:flex;align-items:center;gap:8px}
+.sc-num{background:#0d9488;color:#fff;border-radius:7px;padding:3px 9px;font-size:.75rem;font-weight:800;flex-shrink:0}
+.sc-title{font-size:.88rem;font-weight:800;flex:1;color:#0f766e;line-height:1.3}
+.sc-stars{font-size:.75rem;color:#fbbf24;letter-spacing:-1px;flex-shrink:0}
+.sc-body{padding:8px 12px;background:#fff;flex:1}
+.sc-topics{list-style:none;margin:0;padding:0}
+.sc-topics li{font-size:.78rem;color:#475569;padding:2px 0;border-bottom:1px solid #f0fdfa;line-height:1.5}
+.sc-topics li:last-child{border-bottom:none}
+.sc-topics li::before{content:"・";color:#0d9488}
+
+/* ボタン行 */
+.sc-btn-row{display:flex;gap:5px;padding:8px 12px 0;flex-wrap:wrap}
+.sc-btn{flex:1;min-width:60px;text-align:center;padding:7px 4px;border-radius:8px;font-size:.75rem;font-weight:800;text-decoration:none;transition:.13s;border:none;cursor:pointer;display:block;color:#fff;font-family:inherit;background:#0d9488}
+.sc-btn:hover{background:#0f766e}
+.sc-btn-drill{background:#0891b2}
+.sc-btn-drill:hover{background:#0e7490}
+.sc-btn-check{background:#7c3aed}
+.sc-btn-check:hover{background:#6d28d9}
+.sc-btn-soon{background:#cbd5e1;color:#fff;cursor:not-allowed;pointer-events:none}
+
+/* A/B/C自己評価 */
+.abc-row{display:flex;gap:5px;padding:8px 12px 10px}
+.abc-btn{flex:1;padding:6px 2px;border-radius:20px;font-size:.75rem;font-weight:800;font-family:inherit;cursor:pointer;transition:.13s;border:2px solid;text-align:center;background:#fff}
+.abc-a{border-color:#16a34a;color:#16a34a}.abc-a.sel{background:#16a34a;color:#fff}
+.abc-b{border-color:#d97706;color:#d97706}.abc-b.sel{background:#d97706;color:#fff}
+.abc-c{border-color:#dc2626;color:#dc2626}.abc-c.sel{background:#dc2626;color:#fff}
+.abc-btn:hover{opacity:.8}
+
+/* カードのステータス色 */
+.sec-card.s-a{border-color:#16a34a}.sec-card.s-a .sc-hd{background:#dcfce7 !important;border-bottom-color:#16a34a !important}
+.sec-card.s-b{border-color:#d97706}.sec-card.s-b .sc-hd{background:#fef3c7 !important;border-bottom-color:#d97706 !important}
+.sec-card.s-c{border-color:#dc2626}.sec-card.s-c .sc-hd{background:#fee2e2 !important;border-bottom-color:#dc2626 !important}
+
+/* 早見表 */
+.ref-table{background:#fff;border-radius:14px;border:1px solid #b2f0e8;padding:14px 16px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.ref-title{font-size:.88rem;font-weight:800;color:#0d9488;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #ccfbf1;}
+.ref-table table{width:100%;border-collapse:collapse;font-size:.8rem}
+.ref-table th,.ref-table td{border:1px solid #b2f0e8;padding:7px 9px;text-align:center}
+.ref-table thead th{background:#f0fdfa;color:#0f766e;font-weight:800}
+.ref-table tbody th{background:#f8fafc;text-align:left;font-weight:700}
+
+/* 戻るリンク */
+.back-link{display:flex;gap:10px;justify-content:center;margin:22px 0 6px;flex-wrap:wrap}
+.back-btn{padding:9px 18px;border-radius:10px;border:1.5px solid #b2f0e8;background:#fff;color:#0d9488;font-size:.84rem;font-weight:700;text-decoration:none;transition:.13s}
+.back-btn:hover{border-color:#0d9488;color:#fff;background:#0d9488}
+
+canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:none}
+
+@media(max-width:480px){
+  .unit-title{font-size:.9rem}
+  .sc-btn-row{gap:4px}
+  .sc-btn{font-size:.72rem;padding:6px 2px}
+}
+</style>
+</head>
+<body>
+<canvas id="cnf"></canvas>
+
+<div class="top-header">
+  <h1>🧬 GAMBA 生物基礎 単元表</h1>
+  <p>高認 生物基礎 — 遺伝子のはたらき・体内環境とその維持</p>
+  <div class="summary-bar">
+    <div class="sum-item"><span class="sum-dot sum-dot-a"></span>A わかった <span class="sum-count" id="cnt-a">0</span></div>
+    <div class="sum-item"><span class="sum-dot sum-dot-b"></span>B 要復習 <span class="sum-count" id="cnt-b">0</span></div>
+    <div class="sum-item"><span class="sum-dot sum-dot-c"></span>C 何度も <span class="sum-count" id="cnt-c">0</span></div>
+    <div class="sum-item"><span class="sum-dot sum-dot-n"></span>未実施 <span class="sum-count" id="cnt-n">8</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- 学習の流れ -->
+  <div class="flow">
+    <div class="flow-title">📖 学習の流れ（各単元共通）</div>
+    <div class="flow-steps">
+      <div class="flow-step">① intro で解説を読む</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">② ミニテストで確認</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">③ drill で練習</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">④ check で過去問類題</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">⑤ A/B/C 自己評価</div>
+    </div>
+  </div>
+
+  <!-- ══ 第2章 光合成・呼吸 ══ -->
+  <div class="unit">
+    <div class="unit-hd">
+      <span class="unit-num">第2章前半</span>
+      <span class="unit-title">光合成と呼吸</span>
+      <span class="unit-badge">BL01〜BL03</span>
+    </div>
+    <div class="unit-body">
+      <div class="group-label">🌿 光合成・呼吸・植物のタイプ</div>
+      <div class="sec-grid">
+
+        <!-- BL01 -->
+        <div class="sec-card" data-id="BL01">
+          <div class="sc-hd"><span class="sc-num">BL-01</span><span class="sc-title">光合成のしくみと光合成色素</span><span class="sc-stars">★☆☆</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>葉緑体・光合成の反応式</li>
+            <li>道管・師管・維管束</li>
+            <li>光合成色素・吸収スペクトル</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="BL01_intro.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="BL01_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="BL01_check.html">確認問題</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL01','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL01','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL01','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+        <!-- BL02 -->
+        <div class="sec-card" data-id="BL02">
+          <div class="sc-hd"><span class="sc-num">BL-02</span><span class="sc-title">呼吸と光の強さ・補償点・光飽和点</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>呼吸の反応式・昼夜の呼吸</li>
+            <li>補償点（P）・光飽和点（Q）</li>
+            <li>真の光合成速度 C＝A＋B</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="BL02_intro.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="BL02_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="BL02_check.html">確認問題</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL02','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL02','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL02','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+        <!-- BL03 -->
+        <div class="sec-card" data-id="BL03">
+          <div class="sc-hd"><span class="sc-num">BL-03</span><span class="sc-title">陽性植物と陰性植物・陽葉と陰葉</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>陽性・陰性植物のグラフ比較</li>
+            <li>植物の例（イネ・コケ等）</li>
+            <li>陽葉・陰葉のちがい</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="BL03_intro.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="BL03_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="BL03_check.html">確認問題</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL03','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL03','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL03','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 第2章 遺伝子・DNA ══ -->
+  <div class="unit">
+    <div class="unit-hd">
+      <span class="unit-num">第2章後半</span>
+      <span class="unit-title">遺伝子とDNA・遺伝情報の発現</span>
+      <span class="unit-badge">BL04〜BL08</span>
+    </div>
+    <div class="unit-body">
+      <div class="group-label">🧬 DNA・ゲノム・遺伝子の発現</div>
+      <div class="sec-grid">
+
+        <!-- BL04 -->
+        <div class="sec-card" data-id="BL04">
+          <div class="sc-hd"><span class="sc-num">BL-04</span><span class="sc-title">遺伝子とDNA・ゲノム</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>染色体・DNA・遺伝子の関係</li>
+            <li>ヌクレオチド・塩基の相補性</li>
+            <li>ゲノム・DNA抽出実験</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="BL04_intro.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="BL04_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="BL04_check.html">確認問題</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL04','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL04','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL04','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+        <!-- BL07 -->
+        <div class="sec-card" data-id="BL07">
+          <div class="sc-hd"><span class="sc-num">BL-07</span><span class="sc-title">遺伝情報の発現</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>RNAとDNAのちがい（リボース・U）</li>
+            <li>転写（DNA→mRNA）・翻訳（→タンパク質）</li>
+            <li>セントラルドグマ・パフ</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="BL07.html">解説＋練習</a>
+            <a class="sc-btn sc-btn-check" href="BL07_exam.html">確認問題</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL07','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL07','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL07','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+        <!-- BL08 -->
+        <div class="sec-card" data-id="BL08">
+          <div class="sc-hd"><span class="sc-num">BL-08</span><span class="sc-title">遺伝子の本体をさぐる実験</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>グリフィス（形質転換）・エイブリー</li>
+            <li>ハーシー＆チェイス（T2ファージ）</li>
+            <li>シャルガフ・ワトソン＆クリック</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="BL08.html">解説＋練習</a>
+            <a class="sc-btn sc-btn-check" href="BL08_exam.html">確認問題</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL08','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL08','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL08','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BL05・BL06 coming soon -->
+      <div class="group-label" style="margin-top:14px;">🔬 細胞周期（準備中）</div>
+      <div class="sec-grid">
+        <div class="sec-card" data-id="BL05" style="opacity:.6;">
+          <div class="sc-hd" style="background:#f1f5f9;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-05</span><span class="sc-title" style="color:#64748b;">染色体・DNA・遺伝子（詳細）</span><span class="sc-stars" style="color:#94a3b8;">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>相同染色体・核型</li><li>DNA複製のしくみ</li><li>遺伝子の発現と調節</li></ul></div>
+          <div class="sc-btn-row">
+            <span class="sc-btn sc-btn-soon">準備中</span>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL05','a',this)" disabled style="opacity:.4;">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL05','b',this)" disabled style="opacity:.4;">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL05','c',this)" disabled style="opacity:.4;">C もう一度</button>
+          </div>
+        </div>
+        <div class="sec-card" data-id="BL06" style="opacity:.6;">
+          <div class="sc-hd" style="background:#f1f5f9;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-06</span><span class="sc-title" style="color:#64748b;">細胞周期と体細胞分裂</span><span class="sc-stars" style="color:#94a3b8;">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>間期（G₁・S・G₂期）と分裂期</li><li>前期・中期・後期・終期</li><li>DNA量の変化・細胞周期</li></ul></div>
+          <div class="sc-btn-row">
+            <span class="sc-btn sc-btn-soon">準備中</span>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL06','a',this)" disabled style="opacity:.4;">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL06','b',this)" disabled style="opacity:.4;">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL06','c',this)" disabled style="opacity:.4;">C もう一度</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 第3章 体内環境（準備中）══ -->
+  <div class="unit" style="opacity:.65;">
+    <div class="unit-hd" style="background:linear-gradient(90deg,#64748b,#94a3b8);">
+      <span class="unit-num">第3章</span>
+      <span class="unit-title">体内環境とその維持</span>
+      <span class="unit-badge">BL09〜BL13 準備中</span>
+    </div>
+    <div class="unit-body">
+      <div class="group-label">🩸 体液・血液・循環・調節・免疫</div>
+      <div class="sec-grid">
+        <div class="sec-card" style="border-color:#e2e8f0;">
+          <div class="sc-hd" style="background:#f8fafc;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-09</span><span class="sc-title" style="color:#64748b;">体内環境と血液</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>恒常性・体液の種類</li><li>赤血球・白血球・血小板</li><li>血しょう・組織液・リンパ液</li></ul></div>
+          <div class="sc-btn-row"><span class="sc-btn sc-btn-soon">準備中</span></div>
+          <div class="abc-row" style="opacity:.3;pointer-events:none;"><button class="abc-btn abc-a">A OK</button><button class="abc-btn abc-b">B 復習</button><button class="abc-btn abc-c">C もう一度</button></div>
+        </div>
+        <div class="sec-card" style="border-color:#e2e8f0;">
+          <div class="sc-hd" style="background:#f8fafc;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-10</span><span class="sc-title" style="color:#64748b;">心臓と血液循環</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>心臓のつくりと拍動</li><li>体循環・肺循環</li><li>動脈・静脈・毛細血管</li></ul></div>
+          <div class="sc-btn-row"><span class="sc-btn sc-btn-soon">準備中</span></div>
+          <div class="abc-row" style="opacity:.3;pointer-events:none;"><button class="abc-btn abc-a">A OK</button><button class="abc-btn abc-b">B 復習</button><button class="abc-btn abc-c">C もう一度</button></div>
+        </div>
+        <div class="sec-card" style="border-color:#e2e8f0;">
+          <div class="sc-hd" style="background:#f8fafc;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-11</span><span class="sc-title" style="color:#64748b;">肝臓と腎臓のはたらき</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>肝臓の役割（解毒・代謝・尿素）</li><li>腎臓のつくり（ネフロン）</li><li>ろ過と再吸収・尿の生成</li></ul></div>
+          <div class="sc-btn-row"><span class="sc-btn sc-btn-soon">準備中</span></div>
+          <div class="abc-row" style="opacity:.3;pointer-events:none;"><button class="abc-btn abc-a">A OK</button><button class="abc-btn abc-b">B 復習</button><button class="abc-btn abc-c">C もう一度</button></div>
+        </div>
+        <div class="sec-card" style="border-color:#e2e8f0;">
+          <div class="sc-hd" style="background:#f8fafc;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-12</span><span class="sc-title" style="color:#64748b;">自律神経とホルモン</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>交感神経・副交感神経</li><li>ホルモンと内分泌腺</li><li>血糖量の調節（インスリン等）</li></ul></div>
+          <div class="sc-btn-row"><span class="sc-btn sc-btn-soon">準備中</span></div>
+          <div class="abc-row" style="opacity:.3;pointer-events:none;"><button class="abc-btn abc-a">A OK</button><button class="abc-btn abc-b">B 復習</button><button class="abc-btn abc-c">C もう一度</button></div>
+        </div>
+        <div class="sec-card" style="border-color:#e2e8f0;">
+          <div class="sc-hd" style="background:#f8fafc;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-13</span><span class="sc-title" style="color:#64748b;">免疫</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>自然免疫と獲得免疫</li><li>体液性免疫・細胞性免疫</li><li>予防接種・アレルギー</li></ul></div>
+          <div class="sc-btn-row"><span class="sc-btn sc-btn-soon">準備中</span></div>
+          <div class="abc-row" style="opacity:.3;pointer-events:none;"><button class="abc-btn abc-a">A OK</button><button class="abc-btn abc-b">B 復習</button><button class="abc-btn abc-c">C もう一度</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 早見表 -->
+  <div class="ref-table">
+    <div class="ref-title">📋 DNA・RNA 早見表</div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead><tr><th>くらべる点</th><th>DNA</th><th>RNA</th></tr></thead>
+        <tbody>
+          <tr><th>糖</th><td>デオキシリボース</td><td style="font-weight:700;color:#0d9488;">リボース</td></tr>
+          <tr><th>塩基</th><td>A・T・G・C</td><td style="font-weight:700;color:#0d9488;">A・U・G・C</td></tr>
+          <tr><th>形</th><td>二重らせん</td><td style="font-weight:700;color:#0d9488;">一本鎖</td></tr>
+          <tr><th>場所</th><td>核（染色体）</td><td style="font-weight:700;color:#0d9488;">核〜細胞質</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="back-link">
+    <a href="../gamba_kounin.html" class="back-btn">← 高認メニューに戻る</a>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'gamba_bl_status_v2';
+const ACTIVE_IDS = ['BL01','BL02','BL03','BL04','BL07','BL08'];
+const ALL_IDS = ['BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13'];
+let status = {};
+try { const s = localStorage.getItem(STORAGE_KEY); if(s) status = JSON.parse(s); } catch(e){}
+
+function saveStatus(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(status)); }catch(e){} }
+
+function applyAll(){
+  ALL_IDS.forEach(id=>{
+    const g = status[id];
+    if(!g) return;
+    const card = document.querySelector('[data-id="'+id+'"]');
+    if(!card) return;
+    card.classList.remove('s-a','s-b','s-c');
+    card.classList.add('s-'+g);
+    card.querySelectorAll('.abc-btn').forEach(b=>b.classList.remove('sel'));
+    const btn = card.querySelector('.abc-'+g);
+    if(btn) btn.classList.add('sel');
+  });
+  updateSummary();
+}
+
+function setABC(id, grade, btn){
+  const card = document.querySelector('[data-id="'+id+'"]');
+  if(!card) return;
+  if(status[id]===grade){
+    delete status[id];
+    card.classList.remove('s-a','s-b','s-c');
+    card.querySelectorAll('.abc-btn').forEach(b=>b.classList.remove('sel'));
+    saveStatus(); updateSummary(); return;
+  }
+  status[id]=grade;
+  card.classList.remove('s-a','s-b','s-c');
+  card.classList.add('s-'+grade);
+  card.querySelectorAll('.abc-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  saveStatus();
+  if(grade==='a') confetti();
+  updateSummary();
+}
+
+function updateSummary(){
+  let ca=0,cb=0,cc=0,cn=0;
+  ACTIVE_IDS.forEach(id=>{
+    const s=status[id];
+    if(s==='a')ca++; else if(s==='b')cb++; else if(s==='c')cc++; else cn++;
+  });
+  document.getElementById('cnt-a').textContent=ca;
+  document.getElementById('cnt-b').textContent=cb;
+  document.getElementById('cnt-c').textContent=cc;
+  document.getElementById('cnt-n').textContent=cn;
+}
+
+function confetti(){
+  const cv=document.getElementById('cnf');
+  cv.width=innerWidth;cv.height=innerHeight;cv.style.display='block';
+  const ctx=cv.getContext('2d');
+  const cols=['#34d399','#2dd4bf','#60a5fa','#fbbf24','#f87171','#a78bfa','#f472b6'];
+  let ps=[];
+  function petal(x,y,vx,vy){return{x,y,vx,vy,s:Math.random()*8+5,c:cols[Math.floor(Math.random()*cols.length)],rot:Math.random()*6,vr:(Math.random()-.5)*.3,sw:Math.random()*6,shape:Math.random()<.5?'p':'s'};}
+  for(let i=0;i<90;i++){ps.push(petal(0,cv.height,4+Math.random()*8,-(10+Math.random()*10)));ps.push(petal(cv.width,cv.height,-(4+Math.random()*8),-(10+Math.random()*10)));}
+  for(let i=0;i<120;i++){ps.push(petal(Math.random()*cv.width,-Math.random()*cv.height*.4,(Math.random()-.5)*2,1.5+Math.random()*2));}
+  let f=0;
+  (function loop(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ps.forEach(p=>{p.vy+=.18;p.sw+=.06;p.x+=p.vx+Math.sin(p.sw)*1.5;p.y+=p.vy;p.rot+=p.vr;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.c;
+      if(p.shape==='p'){ctx.beginPath();ctx.ellipse(0,0,p.s,p.s*.55,0,0,7);ctx.fill();}
+      else ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s);
+      ctx.restore();});
+    f++;
+    if(f<380)requestAnimationFrame(loop);
+    else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}
+  })();
+}
+
+applyAll();
+</script>
+</body>
+</html>
