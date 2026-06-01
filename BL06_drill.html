@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BL06 ドリル — 細胞周期と体細胞分裂</title>
+<style>
+:root{--pri:#0e7490;--pri-l:#cffafe;--pri-ll:#f0fdff;--teal:#0d9488;--teal-bg:#f0fdfa;--teal-l:#99f6e4;--ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;--ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;--bg:#f0fafb;--radius:12px;--shadow:0 2px 12px rgba(0,0,0,.07);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;background:var(--bg);color:var(--ink);line-height:1.85;min-height:100vh;padding-bottom:60px;}
+.page-hd{background:linear-gradient(135deg,#0e7490,#0891b2,#06b6d4);color:#fff;padding:26px 16px 22px;text-align:center;position:relative;overflow:hidden;}
+.hd-label{font-size:.72rem;letter-spacing:.18em;opacity:.8;margin-bottom:5px;}
+.hd-title{font-size:1.35rem;font-weight:800;margin-bottom:3px;}
+.hd-sub{font-size:.82rem;opacity:.75;}
+.back-btn{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.18);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:.8rem;cursor:pointer;text-decoration:none;}
+.back-btn:hover{background:rgba(255,255,255,.28);}
+.prog-bar-wrap{background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;position:sticky;top:0;z-index:100;}
+.prog-info{display:flex;justify-content:space-between;font-size:.78rem;color:var(--gray);margin-bottom:5px;}
+.prog-bar{height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--pri),var(--teal));width:0%;transition:width .4s;}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px;}
+.section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden;}
+.sec-hd{background:var(--pri);color:#fff;padding:10px 16px;font-size:.88rem;font-weight:700;}
+.sec-body{padding:14px 16px;}
+.q-row{margin-bottom:14px;font-size:.93rem;line-height:2;}
+.q-num-badge{display:inline-block;background:var(--pri);color:#fff;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-right:6px;vertical-align:middle;}
+.blank{display:inline-block;min-width:80px;border-bottom:2px solid var(--teal);color:var(--teal);font-weight:700;text-align:center;padding:2px 6px;border-radius:4px 4px 0 0;cursor:pointer;vertical-align:middle;transition:all .15s;}
+.blank.filled{background:var(--teal-bg);}
+.blank.correct{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);}
+.blank.wrong{background:var(--ng-bg);border-color:var(--ng);color:var(--ng);}
+.word-bank-wrap{background:var(--teal-bg);border:1px solid var(--teal-l);border-radius:10px;padding:12px 14px;margin-bottom:16px;}
+.wb-label{font-size:.8rem;font-weight:700;color:var(--teal);margin-bottom:8px;}
+.wb-words{display:flex;flex-wrap:wrap;gap:7px;}
+.wb-word{background:#fff;border:1.5px solid var(--teal);color:var(--teal);border-radius:6px;padding:5px 13px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s;}
+.wb-word:hover{background:var(--teal);color:#fff;}
+.wb-word.used{opacity:.3;pointer-events:none;}
+.wb-word.selected{background:var(--teal);color:#fff;outline:2px solid #0f766e;}
+.btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+.btn{padding:9px 22px;border-radius:24px;border:none;font-size:.88rem;font-weight:700;cursor:pointer;}
+.btn-check{background:var(--teal);color:#fff;}
+.btn-reset{background:var(--gray-l);color:var(--ink);}
+.result-box{display:none;margin-top:12px;padding:12px 14px;border-radius:8px;font-size:.88rem;font-weight:600;}
+.result-box.show{display:block;}
+.result-box.ok{background:var(--ok-bg);color:var(--ok);}
+.result-box.ng{background:var(--ng-bg);color:var(--ng);}
+.final-panel{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 20px;text-align:center;margin-top:8px;display:none;}
+.final-panel.show{display:block;}
+.final-score{font-size:2.4rem;font-weight:800;color:var(--pri);}
+.final-total{font-size:.95rem;color:var(--gray);margin-top:4px;}
+.final-msg{font-size:.95rem;margin:12px 0;}
+.final-btn{background:linear-gradient(135deg,var(--pri),#0891b2);color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
+canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="page-hd">
+  <a class="back-btn" href="BL06.html">← 解説へ</a>
+  <div class="hd-label">BL-06 ドリル</div>
+  <div class="hd-title">細胞周期と体細胞分裂</div>
+  <div class="hd-sub">語群から選んで空欄を埋めよう</div>
+</div>
+<div class="prog-bar-wrap">
+  <div class="prog-info"><span id="prog-text">0 / 8 問完了</span><span id="score-text"></span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+</div>
+<div class="wrap">
+  <div class="word-bank-wrap">
+    <div class="wb-label">📦 語群（タップして選び → 空欄をタップ）</div>
+    <div class="wb-words" id="word-bank">
+      <span class="wb-word" onclick="selectWord(this,'細胞周期')">細胞周期</span>
+      <span class="wb-word" onclick="selectWord(this,'S')">S</span>
+      <span class="wb-word" onclick="selectWord(this,'核膜と核小体が消失')">核膜と核小体が消失</span>
+      <span class="wb-word" onclick="selectWord(this,'紡錘糸')">紡錘糸</span>
+      <span class="wb-word" onclick="selectWord(this,'赤道面')">赤道面</span>
+      <span class="wb-word" onclick="selectWord(this,'動原体')">動原体</span>
+      <span class="wb-word" onclick="selectWord(this,'染色分体')">染色分体</span>
+      <span class="wb-word" onclick="selectWord(this,'2')">2</span>
+      <span class="wb-word" onclick="selectWord(this,'1')">1</span>
+      <span class="wb-word" onclick="selectWord(this,'細胞板')">細胞板</span>
+      <span class="wb-word" onclick="selectWord(this,'細胞数の割合')">細胞数の割合</span>
+      <span class="wb-word" onclick="selectWord(this,'比例する')">比例する</span>
+    </div>
+  </div>
+  <div class="section">
+    <div class="sec-hd">📝 穴埋め問題（全8問）</div>
+    <div class="sec-body">
+      <div class="q-row"><span class="q-num-badge">Q1</span>母細胞から2つの娘細胞ができる一連の繰り返しの過程を <span class="blank" id="b0" onclick="fillBlank(0,this)">　　　</span> といいます。</div>
+      <div class="q-row"><span class="q-num-badge">Q2</span>間期は G₁期・<span class="blank" id="b1" onclick="fillBlank(1,this)">　</span>期・G₂期の3段階からなります。DNAの複製が行われるのは <span class="blank" id="b2" onclick="fillBlank(2,this)">　</span>期（DNA合成期）です。</div>
+      <div class="q-row"><span class="q-num-badge">Q3</span>分裂期の前期では、<span class="blank" id="b3" onclick="fillBlank(3,this)">　　　　</span> し、中心体から <span class="blank" id="b4" onclick="fillBlank(4,this)">　　　</span> が伸び始めます。</div>
+      <div class="q-row"><span class="q-num-badge">Q4</span>中期には染色体が細胞の真ん中の平面（<span class="blank" id="b5" onclick="fillBlank(5,this)">　　　</span>）に並びます。紡錘糸は染色体の <span class="blank" id="b6" onclick="fillBlank(6,this)">　　　</span> に結びつきます。</div>
+      <div class="q-row"><span class="q-num-badge">Q5</span>後期には <span class="blank" id="b7" onclick="fillBlank(7,this)">　　　</span> が両極へ引っ張られて移動します。</div>
+      <div class="q-row"><span class="q-num-badge">Q6</span>G₁期のDNA量を1とすると、S期が終わったG₂期のDNA量は <span class="blank" id="b8" onclick="fillBlank(8,this)">　</span>、細胞質分裂が完了した娘細胞のDNA量は <span class="blank" id="b9" onclick="fillBlank(9,this)">　</span> となります。</div>
+      <div class="q-row"><span class="q-num-badge">Q7</span>植物細胞の分裂では、動物細胞のくびれの代わりに <span class="blank" id="b10" onclick="fillBlank(10,this)">　　　</span> が形成されて細胞質が分離します。</div>
+      <div class="q-row"><span class="q-num-badge">Q8</span>ある期の <span class="blank" id="b11" onclick="fillBlank(11,this)">　　　　</span> は、その期の時間の割合に <span class="blank" id="b12" onclick="fillBlank(12,this)">　　　</span>。これを利用して各期の時間を計算できます。</div>
+      <div class="btn-row">
+        <button class="btn btn-check" onclick="checkAll()">✅ 答え合わせ</button>
+        <button class="btn btn-reset" onclick="resetAll()">🔄 リセット</button>
+      </div>
+      <div class="result-box" id="result-box"></div>
+    </div>
+  </div>
+  <div class="final-panel" id="final-panel">
+    <div class="final-score" id="final-score">0</div>
+    <div class="final-total">/ 8 問正解</div>
+    <div class="final-msg" id="final-msg"></div>
+    <button class="final-btn" onclick="resetAll()">もう一度挑戦</button>
+  </div>
+</div>
+<script>
+const ANSWERS=['細胞周期','S','S','核膜と核小体が消失','紡錘糸','赤道面','動原体','染色分体','2','1','細胞板','細胞数の割合','比例する'];
+const Q_BLANKS=[[0],[1,2],[3,4],[5,6],[7],[8,9],[10],[11,12]];
+const TOTAL_BLANKS=13;
+let filled=new Array(TOTAL_BLANKS).fill(null);
+let filledEls=new Array(TOTAL_BLANKS).fill(null);
+let pending=null;
+
+function selectWord(el,word){
+  document.querySelectorAll('.wb-word').forEach(w=>w.classList.remove('selected'));
+  if(pending&&pending.el===el){pending=null;return;}
+  el.classList.add('selected');pending={word,el};
+}
+function fillBlank(idx,blankEl){
+  if(!pending)return;
+  if(filledEls[idx])filledEls[idx].classList.remove('used','selected');
+  filled[idx]=pending.word;filledEls[idx]=pending.el;
+  pending.el.classList.add('used');pending.el.classList.remove('selected');
+  blankEl.textContent=pending.word;blankEl.classList.add('filled');blankEl.classList.remove('correct','wrong');
+  pending=null;updateProg();
+}
+function updateProg(){
+  const qDone=Q_BLANKS.filter(bs=>bs.every(i=>filled[i])).length;
+  document.getElementById('prog-text').textContent=`${qDone} / 8 問完了`;
+  document.getElementById('prog-fill').style.width=(qDone/8*100)+'%';
+}
+function checkAll(){
+  let ok=0;
+  Q_BLANKS.forEach((bs,qi)=>{
+    const qOk=bs.every(i=>{
+      const el=document.getElementById('b'+i);
+      if(filled[i]===ANSWERS[i]){el.classList.add('correct');el.classList.remove('wrong','filled');return true;}
+      else{el.classList.add('wrong');el.classList.remove('correct','filled');return false;}
+    });
+    if(qOk)ok++;
+  });
+  const res=document.getElementById('result-box');
+  document.getElementById('final-panel').className='final-panel show';
+  document.getElementById('final-score').textContent=ok;
+  if(ok===8){res.textContent='🎉 全問正解！完璧です！';res.className='result-box show ok';document.getElementById('final-msg').textContent='満点達成！💯';fireConfetti();}
+  else{res.textContent=`${ok}/8 問正解。赤い空欄を確認しましょう。`;res.className='result-box show ng';document.getElementById('final-msg').textContent=ok>=6?'もう少し！':'解説ページで復習しよう。';}
+  document.getElementById('score-text').textContent=`正解 ${ok} 問`;
+}
+function resetAll(){
+  filled.fill(null);filledEls.fill(null);pending=null;
+  for(let i=0;i<TOTAL_BLANKS;i++){const el=document.getElementById('b'+i);if(el){el.textContent='　　';el.className='blank';}}
+  document.querySelectorAll('.wb-word').forEach(w=>w.classList.remove('used','selected'));
+  document.getElementById('result-box').className='result-box';
+  document.getElementById('final-panel').className='final-panel';
+  document.getElementById('score-text').textContent='';updateProg();
+}
+function fireConfetti(){
+  const cv=document.getElementById('confetti');cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
+  const ctx=cv.getContext('2d');const cols=['#0891b2','#e74c3c','#f1c40f','#2ecc71','#e67e22','#fff'];const pts=[];
+  for(let i=0;i<140;i++)pts.push({x:Math.random()*cv.width,y:-Math.random()*cv.height*.4,s:Math.random()*7+4,c:cols[i%cols.length],sp:2+Math.random()*2.5,vx:(Math.random()-.5)*2});
+  let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';})();
+}
+updateProg();
+</script>
+</body>
+</html>

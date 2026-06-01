@@ -106,7 +106,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
     <div class="sum-item"><span class="sum-dot sum-dot-a"></span>A わかった <span class="sum-count" id="cnt-a">0</span></div>
     <div class="sum-item"><span class="sum-dot sum-dot-b"></span>B 要復習 <span class="sum-count" id="cnt-b">0</span></div>
     <div class="sum-item"><span class="sum-dot sum-dot-c"></span>C 何度も <span class="sum-count" id="cnt-c">0</span></div>
-    <div class="sum-item"><span class="sum-dot sum-dot-n"></span>未実施 <span class="sum-count" id="cnt-n">8</span></div>
+    <div class="sum-item"><span class="sum-dot sum-dot-n"></span>未実施 <span class="sum-count" id="cnt-n">9</span></div>
   </div>
 </div>
 
@@ -306,32 +306,50 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
   </div>
 
   <!-- ══ 第3章 体内環境（準備中）══ -->
-  <div class="unit" style="opacity:.65;">
-    <div class="unit-hd" style="background:linear-gradient(90deg,#64748b,#94a3b8);">
+  <div class="unit">
+    <div class="unit-hd" style="background:linear-gradient(90deg,#0f766e,#0d9488);">
       <span class="unit-num">第3章</span>
       <span class="unit-title">体内環境とその維持</span>
-      <span class="unit-badge">BL09〜BL13 準備中</span>
+      <span class="unit-badge">BL09〜BL11 公開中</span>
     </div>
     <div class="unit-body">
       <div class="group-label">🩸 体液・血液・循環・調節・免疫</div>
       <div class="sec-grid">
-        <div class="sec-card" style="border-color:#e2e8f0;">
-          <div class="sc-hd" style="background:#f8fafc;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-09</span><span class="sc-title" style="color:#64748b;">体内環境と血液</span></div>
-          <div class="sc-body"><ul class="sc-topics"><li>恒常性・体液の種類</li><li>赤血球・白血球・血小板</li><li>血しょう・組織液・リンパ液</li></ul></div>
-          <div class="sc-btn-row"><span class="sc-btn sc-btn-soon">準備中</span></div>
-          <div class="abc-row" style="opacity:.3;pointer-events:none;"><button class="abc-btn abc-a">A OK</button><button class="abc-btn abc-b">B 復習</button><button class="abc-btn abc-c">C もう一度</button></div>
+        <div class="sec-card" data-id="BL09">
+          <div class="sc-hd"><span class="sc-num">BL-09</span><span class="sc-title">体内環境と血液</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>恒常性・体液の種類</li><li>赤血球・白血球・血小板</li><li>血しょう・組織液・リンパ液</li><li>拡散とガス交換・血液凝固</li></ul></div>
+          <div class="sc-btn-row">
+            <a href="BL09.html" class="sc-btn">📖 intro</a>
+            <a href="BL09_exam.html" class="sc-btn">📝 確認問題</a>
+          </div>
+          <div class="abc-row"><button class="abc-btn abc-a" onclick="setABC('BL09','a',this)">A OK</button><button class="abc-btn abc-b" onclick="setABC('BL09','b',this)">B 復習</button><button class="abc-btn abc-c" onclick="setABC('BL09','c',this)">C もう一度</button></div>
         </div>
-        <div class="sec-card" style="border-color:#e2e8f0;">
-          <div class="sc-hd" style="background:#f8fafc;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-10</span><span class="sc-title" style="color:#64748b;">心臓と血液循環</span></div>
-          <div class="sc-body"><ul class="sc-topics"><li>心臓のつくりと拍動</li><li>体循環・肺循環</li><li>動脈・静脈・毛細血管</li></ul></div>
-          <div class="sc-btn-row"><span class="sc-btn sc-btn-soon">準備中</span></div>
-          <div class="abc-row" style="opacity:.3;pointer-events:none;"><button class="abc-btn abc-a">A OK</button><button class="abc-btn abc-b">B 復習</button><button class="abc-btn abc-c">C もう一度</button></div>
+        <div class="sec-card" data-id="BL10">
+          <div class="sc-hd"><span class="sc-num">BL-10</span><span class="sc-title">心臓と血液循環・酸素解離曲線</span><span class="sc-stars">★★★</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>動脈・静脈・閉鎖/開放血管系</li><li>体循環・肺循環・動脈血と静脈血</li><li>酸素解離曲線の読み方と計算</li></ul></div>
+          <div class="sc-btn-row">
+            <a href="BL10.html" class="sc-btn">📖 intro</a>
+            <a href="BL10_drill.html" class="sc-btn">✏️ drill</a>
+            <a href="BL10_check.html" class="sc-btn">✅ check</a>
+            <a href="BL10_exam.html" class="sc-btn">📝 確認問題</a>
+          </div>
+          <div class="sc-btn-row" style="margin-top:4px;">
+            <a href="BL10_figures.html" class="sc-btn">🫀 心臓図</a>
+            <a href="BL10_practice1.html" class="sc-btn">📈 練習1</a>
+            <a href="BL10_practice2.html" class="sc-btn">🔄 練習2</a>
+          </div>
+          <div class="abc-row"><button class="abc-btn abc-a" onclick="setABC('BL10','a',this)">A OK</button><button class="abc-btn abc-b" onclick="setABC('BL10','b',this)">B 復習</button><button class="abc-btn abc-c" onclick="setABC('BL10','c',this)">C もう一度</button></div>
         </div>
-        <div class="sec-card" style="border-color:#e2e8f0;">
-          <div class="sc-hd" style="background:#f8fafc;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-11</span><span class="sc-title" style="color:#64748b;">肝臓と腎臓のはたらき</span></div>
-          <div class="sc-body"><ul class="sc-topics"><li>肝臓の役割（解毒・代謝・尿素）</li><li>腎臓のつくり（ネフロン）</li><li>ろ過と再吸収・尿の生成</li></ul></div>
-          <div class="sc-btn-row"><span class="sc-btn sc-btn-soon">準備中</span></div>
-          <div class="abc-row" style="opacity:.3;pointer-events:none;"><button class="abc-btn abc-a">A OK</button><button class="abc-btn abc-b">B 復習</button><button class="abc-btn abc-c">C もう一度</button></div>
+        <div class="sec-card" data-id="BL11">
+          <div class="sc-hd"><span class="sc-num">BL-11</span><span class="sc-title">肝臓のはたらき</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>肝臓の7つのはたらき</li><li>血糖調節・グリコーゲン合成</li><li>尿素合成（オルニチン回路）・胆汁</li></ul></div>
+          <div class="sc-btn-row">
+            <a href="BL11.html" class="sc-btn">📖 intro</a>
+            <a href="BL11_drill.html" class="sc-btn">✏️ drill</a>
+            <a href="BL11_check.html" class="sc-btn">✅ check</a>
+            <a href="BL11_exam.html" class="sc-btn">📝 確認問題</a>
+          </div>
+          <div class="abc-row"><button class="abc-btn abc-a" onclick="setABC('BL11','a',this)">A OK</button><button class="abc-btn abc-b" onclick="setABC('BL11','b',this)">B 復習</button><button class="abc-btn abc-c" onclick="setABC('BL11','c',this)">C もう一度</button></div>
         </div>
         <div class="sec-card" style="border-color:#e2e8f0;">
           <div class="sc-hd" style="background:#f8fafc;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-12</span><span class="sc-title" style="color:#64748b;">自律神経とホルモン</span></div>
@@ -372,7 +390,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
 
 <script>
 const STORAGE_KEY = 'gamba_bl_status_v2';
-const ACTIVE_IDS = ['BL01','BL02','BL03','BL04','BL07','BL08'];
+const ACTIVE_IDS = ['BL01','BL02','BL03','BL04','BL07','BL08','BL09','BL10','BL11'];
 const ALL_IDS = ['BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13'];
 let status = {};
 try { const s = localStorage.getItem(STORAGE_KEY); if(s) status = JSON.parse(s); } catch(e){}

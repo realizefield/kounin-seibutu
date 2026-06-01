@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BL06 確認テスト — 細胞周期と体細胞分裂</title>
+<style>
+:root{--pri:#0e7490;--pri-l:#cffafe;--pri-ll:#f0fdff;--ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;--ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;--bg:#f0fafb;--radius:12px;--shadow:0 2px 12px rgba(0,0,0,.07);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;min-height:100vh;padding-bottom:60px;}
+.page-hd{background:linear-gradient(135deg,#0e7490,#0891b2);color:#fff;padding:26px 16px 22px;text-align:center;position:relative;overflow:hidden;}
+.hd-label{font-size:.72rem;letter-spacing:.18em;opacity:.8;margin-bottom:5px;}
+.hd-title{font-size:1.35rem;font-weight:800;margin-bottom:3px;}
+.hd-sub{font-size:.82rem;opacity:.75;}
+.back-btn{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.18);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:.8rem;cursor:pointer;text-decoration:none;}
+.back-btn:hover{background:rgba(255,255,255,.28);}
+.prog-wrap{background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;position:sticky;top:0;z-index:100;}
+.prog-info{display:flex;justify-content:space-between;font-size:.78rem;color:var(--gray);margin-bottom:5px;}
+.prog-bar{height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--pri),#06b6d4);width:0%;transition:width .4s;}
+.wrap{max-width:700px;margin:0 auto;padding:20px 16px;}
+.q-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow);}
+.q-hd{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
+.q-badge{background:var(--pri);color:#fff;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;flex-shrink:0;margin-top:2px;}
+.q-text{font-size:.95rem;font-weight:500;line-height:1.6;}
+.opts{padding:10px 14px 12px;display:flex;flex-direction:column;gap:7px;}
+.opt{border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;font-size:.88rem;cursor:pointer;background:#fff;text-align:left;transition:all .15s;display:flex;align-items:center;gap:8px;}
+.opt:hover:not(:disabled){border-color:var(--pri);background:var(--pri-ll);}
+.opt-lbl{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72px;font-weight:700;flex-shrink:0;}
+.opt.correct{border-color:var(--ok);background:var(--ok-bg);}
+.opt.correct .opt-lbl{background:var(--ok);border-color:var(--ok);color:#fff;}
+.opt.wrong{border-color:var(--ng);background:var(--ng-bg);}
+.opt.wrong .opt-lbl{background:var(--ng);border-color:var(--ng);color:#fff;}
+.explain{margin:0 14px 12px;padding:10px 12px;border-radius:8px;font-size:.85rem;line-height:1.65;display:none;}
+.explain.show{display:block;}
+.explain.ok-ex{background:var(--ok-bg);border-left:3px solid var(--ok);}
+.explain.ng-ex{background:var(--ng-bg);border-left:3px solid var(--ng);}
+.final-panel{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 20px;text-align:center;margin-top:8px;display:none;}
+.final-panel.show{display:block;}
+.final-score{font-size:2.6rem;font-weight:800;color:var(--pri);}
+.final-total{font-size:.95rem;color:var(--gray);margin:4px 0 14px;}
+.final-msg{font-size:.95rem;margin-bottom:18px;}
+.final-btn{background:linear-gradient(135deg,var(--pri),#0891b2);color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
+canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="page-hd">
+  <a class="back-btn" href="BL06.html">← 解説へ</a>
+  <div class="hd-label">BL-06 確認テスト</div>
+  <div class="hd-title">細胞周期と体細胞分裂</div>
+  <div class="hd-sub">全8問 — 選んで答えよう</div>
+</div>
+<div class="prog-wrap">
+  <div class="prog-info"><span id="prog-text">0 / 8 問回答済み</span><span id="score-text"></span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+</div>
+<div class="wrap" id="qlist"></div>
+<script>
+const QS=[
+  {q:'細胞周期のうち、DNAが複製される時期はどれか。',opts:['G₁期','S期','G₂期','前期（M期）'],ans:1,ex:'DNAが複製されるのは間期の<b>S期</b>（DNA Synthesis期）です。G₁は準備、G₂は後処理の時期です。'},
+  {q:'体細胞分裂の「中期」について正しいのはどれか。',opts:['核膜と核小体が消失し、紡錘糸が伸び始める','染色体が赤道面に整列し、紡錘糸が動原体に結びつく','染色分体が両極へ移動する','核膜が再形成され、くびれや細胞板ができる'],ans:1,ex:'<b>中期</b>は染色体が赤道面に整列する時期。染色体の形が最もはっきり見えるため、染色体数の観察に最適です。'},
+  {q:'体細胞分裂の「後期」で起きる現象はどれか。',opts:['DNAが複製される','染色体が赤道面に並ぶ','染色分体が両極へ引っ張られて移動する','核膜が再形成される'],ans:2,ex:'<b>後期</b>は動原体が分かれ、<b>染色分体</b>が両極へ引っ張られる時期です。'},
+  {q:'細胞周期が24時間の組織で、216個が間期・24個が分裂期だった。間期は何時間か。',opts:['18時間','21.6時間','22時間','20時間'],ans:1,ex:'全体＝240個。間期の割合＝216/240＝0.9。間期の時間＝24×0.9＝<b>21.6時間</b>。'},
+  {q:'G₁期のDNA量を1とすると、S期が終了した直後のDNA量はいくらか。',opts:['0.5','1','2','4'],ans:2,ex:'S期にDNAが複製されるため、G₂期の開始時点でDNA量は<b>2倍（＝2）</b>になります。'},
+  {q:'タマネギの体細胞分裂実験で塩酸処理を行う目的はどれか。',opts:['染色体を染色するため','細胞同士をつなぐ中葉板を溶かしてほぐすため','DNAを取り出すため','細胞を殺すため'],ans:1,ex:'<b>塩酸処理</b>は細胞同士をつなぐ中葉板（ペクチン）を溶かし、細胞をほぐします。染色は酢酸オルセインで行います。'},
+  {q:'体細胞分裂で染色体の観察に最も適した時期はどれか。',opts:['間期（S期）','前期','中期','終期'],ans:2,ex:'<b>中期</b>は染色体が赤道面に整列し、最も形がはっきり見えます。染色体数の計数もこの時期に行います。'},
+  {q:'ある組織で分裂期の細胞が全体の10%だった。細胞周期が20時間なら、分裂期は何時間か。',opts:['1時間','2時間','10時間','18時間'],ans:1,ex:'分裂期の時間＝20時間×0.10＝<b>2時間</b>。細胞数の割合は時間の割合に等しいという法則を使います。'},
+];
+
+let answered=new Array(QS.length).fill(false);
+let correct=new Array(QS.length).fill(false);
+
+function build(){
+  const list=document.getElementById('qlist');list.innerHTML='';
+  const labels=['ア','イ','ウ','エ'];
+  QS.forEach((q,i)=>{
+    const card=document.createElement('div');card.className='q-card';card.id=`qcard${i}`;
+    card.innerHTML=`<div class="q-hd"><span class="q-badge">Q${i+1}</span><div class="q-text">${q.q}</div></div>
+    <div class="opts">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})"><span class="opt-lbl">${labels[j]}</span>${o}</button>`).join('')}</div>
+    <div class="explain" id="ex${i}"></div>`;
+    list.appendChild(card);
+  });
+  const panel=document.createElement('div');panel.className='final-panel';panel.id='final-panel';
+  panel.innerHTML=`<div class="final-score" id="final-score">0</div><div class="final-total">/ ${QS.length} 問正解</div><div class="final-msg" id="final-msg"></div><button class="final-btn" onclick="retry()">もう一度挑戦</button>`;
+  list.appendChild(panel);
+}
+
+function pick(qi,oi){
+  if(answered[qi])return;
+  answered[qi]=true;correct[qi]=(oi===QS[qi].ans);
+  document.querySelectorAll(`#qcard${qi} .opt`).forEach((o,j)=>{
+    o.disabled=true;
+    if(j===QS[qi].ans)o.classList.add('correct');
+    else if(j===oi)o.classList.add('wrong');
+  });
+  const ex=document.getElementById('ex'+qi);
+  ex.innerHTML=QS[qi].ex;ex.className='explain show '+(correct[qi]?'ok-ex':'ng-ex');
+  updateProg();
+  if(answered.every(Boolean))showFinal();
+}
+
+function updateProg(){
+  const done=answered.filter(Boolean).length;const ok=correct.filter(Boolean).length;
+  document.getElementById('prog-text').textContent=`${done} / ${QS.length} 問回答済み`;
+  document.getElementById('score-text').textContent=done?`正解 ${ok} 問`:'';
+  document.getElementById('prog-fill').style.width=(done/QS.length*100)+'%';
+}
+
+function showFinal(){
+  const ok=correct.filter(Boolean).length;
+  document.getElementById('final-panel').className='final-panel show';
+  document.getElementById('final-score').textContent=ok;
+  const msgs=[[8,'🎉 全問正解！完璧です！'],[6,'👏 よくできました！'],[4,'✅ もう少し！解説を読んで再挑戦。'],[0,'📚 解説ページで復習しましょう。']];
+  document.getElementById('final-msg').textContent=msgs.find(([t])=>ok>=t)[1];
+  if(ok===QS.length)fireConfetti();
+}
+
+function retry(){answered.fill(false);correct.fill(false);build();updateProg();window.scrollTo({top:0,behavior:'smooth'});}
+
+function fireConfetti(){
+  const cv=document.getElementById('confetti');cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
+  const ctx=cv.getContext('2d');const cols=['#0891b2','#e74c3c','#f1c40f','#2ecc71','#e67e22','#fff'];const pts=[];
+  for(let i=0;i<140;i++)pts.push({x:Math.random()*cv.width,y:-Math.random()*cv.height*.4,s:Math.random()*7+4,c:cols[i%cols.length],sp:2+Math.random()*2.5,vx:(Math.random()-.5)*2});
+  let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';})();
+}
+build();updateProg();
+</script>
+</body>
+</html>

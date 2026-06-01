@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BL08 確認テスト — 遺伝子の本体をさぐる実験</title>
+<style>
+:root{--pri:#7c3aed;--pri-l:#ede9fe;--pri-ll:#faf5ff;--ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;--ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;--bg:#fdf4ff;--radius:12px;--shadow:0 2px 12px rgba(0,0,0,.07);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;min-height:100vh;padding-bottom:60px;}
+.page-hd{background:linear-gradient(135deg,#5b21b6,#7c3aed);color:#fff;padding:26px 16px 22px;text-align:center;position:relative;overflow:hidden;}
+.hd-label{font-size:.72rem;letter-spacing:.18em;opacity:.8;margin-bottom:5px;}
+.hd-title{font-size:1.35rem;font-weight:800;margin-bottom:3px;}
+.hd-sub{font-size:.82rem;opacity:.75;}
+.back-btn{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.18);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:.8rem;cursor:pointer;text-decoration:none;}
+.back-btn:hover{background:rgba(255,255,255,.28);}
+.prog-wrap{background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;position:sticky;top:0;z-index:100;}
+.prog-info{display:flex;justify-content:space-between;font-size:.78rem;color:var(--gray);margin-bottom:5px;}
+.prog-bar{height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--pri),#a78bfa);width:0%;transition:width .4s;}
+.wrap{max-width:700px;margin:0 auto;padding:20px 16px;}
+.q-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow);}
+.q-hd{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
+.q-badge{background:var(--pri);color:#fff;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;flex-shrink:0;margin-top:2px;}
+.q-text{font-size:.95rem;font-weight:500;line-height:1.6;}
+.opts{padding:10px 14px 12px;display:flex;flex-direction:column;gap:7px;}
+.opt{border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;font-size:.88rem;cursor:pointer;background:#fff;text-align:left;transition:all .15s;display:flex;align-items:center;gap:8px;}
+.opt:hover:not(:disabled){border-color:var(--pri);background:var(--pri-ll);}
+.opt-lbl{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;}
+.opt.correct{border-color:var(--ok);background:var(--ok-bg);}
+.opt.correct .opt-lbl{background:var(--ok);border-color:var(--ok);color:#fff;}
+.opt.wrong{border-color:var(--ng);background:var(--ng-bg);}
+.opt.wrong .opt-lbl{background:var(--ng);border-color:var(--ng);color:#fff;}
+.explain{margin:0 14px 12px;padding:10px 12px;border-radius:8px;font-size:.85rem;line-height:1.65;display:none;}
+.explain.show{display:block;}
+.explain.ok-ex{background:var(--ok-bg);border-left:3px solid var(--ok);}
+.explain.ng-ex{background:var(--ng-bg);border-left:3px solid var(--ng);}
+.final-panel{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 20px;text-align:center;margin-top:8px;display:none;}
+.final-panel.show{display:block;}
+.final-score{font-size:2.6rem;font-weight:800;color:var(--pri);}
+.final-total{font-size:.95rem;color:var(--gray);margin:4px 0 14px;}
+.final-msg{font-size:.95rem;margin-bottom:18px;}
+.final-btn{background:linear-gradient(135deg,var(--pri),#8b5cf6);color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
+canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="page-hd">
+  <a class="back-btn" href="BL08.html">← 解説へ</a>
+  <div class="hd-label">BL-08 確認テスト</div>
+  <div class="hd-title">遺伝子の本体をさぐる実験</div>
+  <div class="hd-sub">全8問 — 選んで答えよう</div>
+</div>
+<div class="prog-wrap">
+  <div class="prog-info"><span id="prog-text">0 / 8 問回答済み</span><span id="score-text"></span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+</div>
+<div class="wrap" id="qlist"></div>
+<script>
+const QS=[
+  {q:'グリフィスの実験でR型菌がS型菌に変わる現象を何というか。',opts:['突然変異','セントラルドグマ','形質転換','相補性'],ans:2,ex:'<b>形質転換</b>は死んだS型菌の物質がR型菌の性質を変えた現象。原因物質の特定はエイブリーが行いました。'},
+  {q:'グリフィスの実験で、ネズミが死ぬ（病原性あり）のはどちらの菌か。',opts:['S型菌','R型菌','どちらも死なせる','どちらも死なせない'],ans:0,ex:'さやのある<b>S型菌</b>が病原性をもちネズミを死なせます。R型菌はさやがなく無害です。'},
+  {q:'エイブリーの実験で形質転換の原因物質として特定されたのは何か。',opts:['タンパク質','DNA','RNA','糖（リボース）'],ans:1,ex:'DNAだけを混ぜたときに形質転換が起き、原因物質は<b>DNA</b>だと特定されました。'},
+  {q:'ハーシーとチェイスの実験で、大腸菌内から検出されたのはどちらか。',opts:['³²P（DNAの目印）','³⁵S（タンパク質の目印）','両方','どちらも検出されなかった'],ans:0,ex:'DNAの目印<b>³²P（リン）が菌内</b>から検出され、タンパク質の目印³⁵Sは外（殻）に残りました。→中に入ったのはDNA。'},
+  {q:'T2ファージの成分として正しいのはどれか。',opts:['DNAと糖','DNAとタンパク質','タンパク質と脂質','RNAとタンパク質'],ans:1,ex:'T2ファージは<b>DNAとタンパク質だけ</b>からできています。だから2つに別々の目印をつけて区別できました。'},
+  {q:'「A＝T, G＝C」という塩基の法則を発見した人物は誰か。',opts:['ワトソンとクリック','シャルガフ','グリフィス','ハーシーとチェイス'],ans:1,ex:'A＝T, G＝Cの発見は<b>シャルガフ</b>。ワトソン&クリックはこれを手がかりに二重らせん構造を解明しました。'},
+  {q:'二本鎖DNAでAが30%のとき、Gの割合はいくらか。',opts:['10%','20%','30%','70%'],ans:1,ex:'A＝30%→T＝30%（相補性）。A＋T＝60%。G＋C＝40%。G＝C なので G＝<b>20%</b>。'},
+  {q:'DNA抽出実験で冷やしたエタノールを加えると析出するのは何か。',opts:['DNA ／ ブロッコリーのつぼみ','タンパク質 ／ ニワトリの卵','ATP ／ ニワトリの卵','RNA ／ 食塩'],ans:0,ex:'エタノールに溶けない<b>DNA</b>が白い繊維状に析出します。核が多い材料が向くので<b>ブロッコリーのつぼみ</b>が適しています。'},
+];
+
+let answered=new Array(QS.length).fill(false);
+let correct=new Array(QS.length).fill(false);
+
+function build(){
+  const list=document.getElementById('qlist');list.innerHTML='';
+  const labels=['ア','イ','ウ','エ'];
+  QS.forEach((q,i)=>{
+    const card=document.createElement('div');card.className='q-card';card.id=`qcard${i}`;
+    card.innerHTML=`<div class="q-hd"><span class="q-badge">Q${i+1}</span><div class="q-text">${q.q}</div></div>
+    <div class="opts">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})"><span class="opt-lbl">${labels[j]}</span>${o}</button>`).join('')}</div>
+    <div class="explain" id="ex${i}"></div>`;
+    list.appendChild(card);
+  });
+  const panel=document.createElement('div');panel.className='final-panel';panel.id='final-panel';
+  panel.innerHTML=`<div class="final-score" id="final-score">0</div><div class="final-total">/ ${QS.length} 問正解</div><div class="final-msg" id="final-msg"></div><button class="final-btn" onclick="retry()">もう一度挑戦</button>`;
+  list.appendChild(panel);
+}
+
+function pick(qi,oi){
+  if(answered[qi])return;
+  answered[qi]=true;correct[qi]=(oi===QS[qi].ans);
+  document.querySelectorAll(`#qcard${qi} .opt`).forEach((o,j)=>{
+    o.disabled=true;
+    if(j===QS[qi].ans)o.classList.add('correct');
+    else if(j===oi)o.classList.add('wrong');
+  });
+  const ex=document.getElementById('ex'+qi);
+  ex.innerHTML=QS[qi].ex;ex.className='explain show '+(correct[qi]?'ok-ex':'ng-ex');
+  updateProg();if(answered.every(Boolean))showFinal();
+}
+function updateProg(){
+  const done=answered.filter(Boolean).length;const ok=correct.filter(Boolean).length;
+  document.getElementById('prog-text').textContent=`${done} / ${QS.length} 問回答済み`;
+  document.getElementById('score-text').textContent=done?`正解 ${ok} 問`:'';
+  document.getElementById('prog-fill').style.width=(done/QS.length*100)+'%';
+}
+function showFinal(){
+  const ok=correct.filter(Boolean).length;
+  document.getElementById('final-panel').className='final-panel show';
+  document.getElementById('final-score').textContent=ok;
+  const msgs=[[8,'🎉 全問正解！完璧です！'],[6,'👏 よくできました！'],[4,'✅ もう少し！解説を読んで再挑戦。'],[0,'📚 解説ページで復習しましょう。']];
+  document.getElementById('final-msg').textContent=msgs.find(([t])=>ok>=t)[1];
+  if(ok===QS.length)fireConfetti();
+}
+function retry(){answered.fill(false);correct.fill(false);build();updateProg();window.scrollTo({top:0,behavior:'smooth'});}
+function fireConfetti(){
+  const cv=document.getElementById('confetti');cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
+  const ctx=cv.getContext('2d');const cols=['#7c3aed','#e74c3c','#f1c40f','#2ecc71','#e67e22','#fff'];const pts=[];
+  for(let i=0;i<140;i++)pts.push({x:Math.random()*cv.width,y:-Math.random()*cv.height*.4,s:Math.random()*7+4,c:cols[i%cols.length],sp:2+Math.random()*2.5,vx:(Math.random()-.5)*2});
+  let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';})();
+}
+build();updateProg();
+</script>
+</body>
+</html>

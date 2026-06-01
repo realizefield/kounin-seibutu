@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BL10 確認問題 — 心臓と血液循環・酸素解離曲線</title>
+<style>
+:root{--bg:#f0f8ff;--card:#fff;--border:#e2d5c8;--hd:#0369a1;--hd2:#0284c7;--acc:#0891b2;--ok:#27ae60;--ng:#e74c3c;--txt:#2c2c2c;--sub:#666;--radius:14px;--shadow:0 4px 20px rgba(0,0,0,.08);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;color:var(--txt);min-height:100vh;padding-bottom:60px;}
+.hd{background:linear-gradient(135deg,#075985 0%,#0369a1 50%,#0284c7 100%);color:#fff;padding:28px 20px 24px;text-align:center;position:relative;overflow:hidden;}
+.hd::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08);}
+.hd-label{font-size:.75rem;letter-spacing:.15em;opacity:.85;margin-bottom:6px;}
+.hd-title{font-size:1.45rem;font-weight:700;letter-spacing:.04em;margin-bottom:4px;}
+.hd-sub{font-size:.85rem;opacity:.8;}
+.back-btn{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.18);border:none;color:#fff;padding:7px 12px;border-radius:8px;font-size:.82rem;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:4px;}
+.back-btn:hover{background:rgba(255,255,255,.3);}
+.prog-wrap{background:#fff;border-bottom:1px solid var(--border);padding:12px 20px;position:sticky;top:0;z-index:100;}
+.prog-info{display:flex;justify-content:space-between;font-size:.8rem;color:var(--sub);margin-bottom:6px;}
+.prog-bar{height:6px;background:#e8e0d8;border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--hd),var(--acc));border-radius:3px;width:0%;transition:width .4s ease;}
+.container{max-width:680px;margin:0 auto;padding:20px 16px;}
+.q-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:18px;overflow:hidden;box-shadow:var(--shadow);}
+.q-head{padding:16px 18px 12px;display:flex;gap:12px;align-items:flex-start;border-bottom:1px solid var(--border);}
+.q-num{background:var(--hd);color:#fff;font-size:.78rem;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.q-text{font-size:1rem;line-height:1.6;font-weight:500;}
+.opts{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;}
+.opt{border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:.93rem;cursor:pointer;background:#fff;text-align:left;width:100%;transition:all .18s;display:flex;align-items:center;gap:10px;}
+.opt:hover:not(:disabled){border-color:var(--acc);background:#f0f9ff;}
+.opt .opt-lbl{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0;}
+.opt.correct{border-color:var(--ok);background:#f0faf4;}
+.opt.correct .opt-lbl{background:var(--ok);border-color:var(--ok);color:#fff;}
+.opt.wrong{border-color:var(--ng);background:#fff4f4;}
+.opt.wrong .opt-lbl{background:var(--ng);border-color:var(--ng);color:#fff;}
+.opt:disabled{cursor:default;}
+.explain{margin:0 14px 14px;padding:12px 14px;border-radius:10px;font-size:.88rem;line-height:1.65;display:none;}
+.explain.show{display:block;}
+.explain.ok-ex{background:#f0faf4;border-left:3px solid var(--ok);}
+.explain.ng-ex{background:#fff4f4;border-left:3px solid var(--ng);}
+.result-panel{background:#fff;border:2px solid var(--border);border-radius:var(--radius);padding:28px 20px;text-align:center;margin-top:8px;display:none;}
+.result-panel.show{display:block;}
+.res-score{font-size:2.8rem;font-weight:800;color:var(--hd);line-height:1;}
+.res-total{font-size:1rem;color:var(--sub);margin-top:4px;margin-bottom:16px;}
+.res-msg{font-size:1rem;line-height:1.6;margin-bottom:20px;}
+.res-btn{background:linear-gradient(135deg,var(--hd),var(--acc));color:#fff;border:none;padding:12px 32px;border-radius:24px;font-size:.95rem;font-weight:700;cursor:pointer;}
+.res-btn:hover{opacity:.88;}
+canvas#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="hd">
+  <a class="back-btn" href="index.html">← 一覧</a>
+  <div class="hd-label">BL-10 確認問題</div>
+  <div class="hd-title">心臓と血液循環・酸素解離曲線</div>
+  <div class="hd-sub">全9問 — 選んで答えよう</div>
+</div>
+<div class="prog-wrap">
+  <div class="prog-info"><span id="prog-text">0 / 10 問回答済み</span><span id="score-text"></span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+</div>
+<div class="container" id="qlist"></div>
+
+<script>
+const QS = [
+  {q:'ヒトのような脊椎動物の血管系として正しいのはどれか。',opts:['開放血管系：毛細血管が発達する','閉鎖血管系：血液が常に血管内を流れる','開放血管系：血液が組織へしみ出す','閉鎖血管系：弁がない'],ans:1,ex:'脊椎動物（ヒト）は<b>閉鎖血管系</b>。毛細血管が発達し、血液は常に血管内を流れます。開放血管系は節足動物・貝類。'},
+  {q:'静脈に弁がある理由として正しいのはどれか。',opts:['動脈より壁が厚いため','血圧が低く逆流を防ぐ必要があるため','毛細血管とつながっているため','心臓に近いため'],ans:1,ex:'静脈は心臓から遠く<b>血圧が低い</b>ため、血液が逆流しやすい。これを防ぐために<b>弁</b>があります。'},
+  {q:'体循環の正しい経路はどれか。',opts:['右心室→大動脈→全身→大静脈→左心房','左心室→大動脈→全身→大静脈→右心房','左心房→大静脈→全身→大動脈→右心室','右心房→大動脈→全身→大静脈→左心室'],ans:1,ex:'体循環：<b>左心室→大動脈→全身→大静脈→右心房</b>。左心室は最も筋肉が厚く、全身へ血液を送り出します。'},
+  {q:'酸素含有量が最も多い動脈血が流れる血管はどれか。',opts:['肺動脈','大静脈','肺静脈','腎動脈'],ans:2,ex:'<b>肺静脈</b>は肺でO₂を受け取ったばかりの酸素豊富な動脈血を左心房へ運びます。「肺静脈＝動脈血」は超頻出の逆転ポイント！'},
+  {q:'CO₂が最も多く含まれる静脈血が流れる血管はどれか。',opts:['肺静脈','大動脈','肺動脈','肝門脈'],ans:2,ex:'<b>肺動脈</b>は全身の組織でCO₂を受け取った後の静脈血を肺へ送ります。「肺動脈＝静脈血」も必須知識。'},
+  {q:'食後に栄養素（グルコース・アミノ酸）を最も多く含む血液が流れる血管はどれか。',opts:['腎静脈','肝静脈','腎動脈','肝門脈'],ans:3,ex:'<b>肝門脈</b>は小腸で吸収したグルコース・アミノ酸を肝臓へ運びます。食後は特に栄養素が豊富。'},
+  {q:'酸素解離曲線でCO₂分圧が高い（組織の）環境になるとどうなるか。',opts:['グラフが左上にシフト','グラフが右下にシフト','グラフに変化なし','全てのHbが酸素を放出する'],ans:1,ex:'CO₂分圧が高い組織ではグラフが<b>右下にシフト</b>し、同じ酸素分圧でも酸素ヘモグロビンの割合が低くなります。より多くの酸素が組織へ放出されます。'},
+  {q:'肺での酸素ヘモグロビン割合95%、組織での割合35%のとき、肺で結合した酸素ヘモグロビンのうち組織で渡した割合（小数第1位）はいくらか。',opts:['36.8%','60.0%','63.2%','26.3%'],ans:2,ex:'(95−35)÷95×100＝60÷95×100≒<b>63.2%</b>。分母は必ず<b>肺の95%</b>（ヘモグロビン全体の100%ではありません）。'},
+  {q:'酸素解離曲線の計算で「分母を肺での酸素ヘモグロビンの割合にする」理由として正しいのはどれか。',opts:['組織の酸素分圧が基準だから','肺胞で結合した分のうち何%が組織で解離するかを求めるから','CO₂分圧を考慮しないから','S字型のグラフだから'],ans:1,ex:'問題が「<b>肺胞で酸素と結合したヘモグロビンのうち</b>何%が組織で解離するか」と聞いているので、分母は肺での酸素ヘモグロビン割合になります。'},
+];
+
+let answered=new Array(QS.length).fill(false);
+let correct=new Array(QS.length).fill(false);
+
+function build(){
+  const list=document.getElementById('qlist');list.innerHTML='';
+  const labels=['ア','イ','ウ','エ'];
+  QS.forEach((q,i)=>{
+    const card=document.createElement('div');card.className='q-card';card.id=`qcard${i}`;
+    card.innerHTML=`<div class="q-head"><span class="q-num">Q${i+1}</span><div class="q-text">${q.q}</div></div>
+    <div class="opts">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})"><span class="opt-lbl">${labels[j]}</span>${o}</button>`).join('')}</div>
+    <div class="explain" id="ex${i}"></div>`;
+    list.appendChild(card);
+  });
+  const panel=document.createElement('div');panel.className='result-panel';panel.id='result-panel';
+  panel.innerHTML=`<div class="res-score" id="res-score">0</div><div class="res-total">/ ${QS.length} 問正解</div><div class="res-msg" id="res-msg"></div><button class="res-btn" onclick="retry()">もう一度挑戦</button>`;
+  list.appendChild(panel);
+}
+
+function pick(qi,oi){
+  if(answered[qi])return;
+  answered[qi]=true;correct[qi]=(oi===QS[qi].ans);
+  document.querySelectorAll(`#qcard${qi} .opt`).forEach((o,j)=>{
+    o.disabled=true;
+    if(j===QS[qi].ans)o.classList.add('correct');
+    else if(j===oi&&oi!==QS[qi].ans)o.classList.add('wrong');
+  });
+  const ex=document.getElementById('ex'+qi);
+  const ok=correct[qi];
+  ex.innerHTML=QS[qi].ex;ex.className='explain show '+(ok?'ok-ex':'ng-ex');
+  updateProg();
+  if(answered.every(Boolean))showResult();
+}
+
+function updateProg(){
+  const done=answered.filter(Boolean).length;const ok=correct.filter(Boolean).length;
+  document.getElementById('prog-text').textContent=`${done} / ${QS.length} 問回答済み`;
+  document.getElementById('score-text').textContent=done?`正解 ${ok} 問`:'';
+  document.getElementById('prog-fill').style.width=(done/QS.length*100)+'%';
+}
+
+function showResult(){
+  const ok=correct.filter(Boolean).length;
+  const panel=document.getElementById('result-panel');
+  document.getElementById('res-score').textContent=ok;
+  const msgs=[[10,'🎉 全問正解！心臓・循環・酸素解離を完璧にマスター！'],[8,'👏 よくできました！'],[5,'✅ 合格ライン！解説で復習しよう。'],[0,'📚 もう一度解説を読んで再挑戦！']];
+  document.getElementById('res-msg').textContent=msgs.find(([t])=>ok>=t)[1];
+  panel.classList.add('show');
+  if(ok===QS.length)fireConfetti();
+}
+
+function retry(){
+  answered.fill(false);correct.fill(false);
+  build();updateProg();window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function fireConfetti(){
+  const cv=document.getElementById('confetti-canvas');
+  cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
+  const ctx=cv.getContext('2d');
+  const cols=['#0369a1','#e74c3c','#f1c40f','#2ecc71','#0891b2','#9b59b6','#fff'];
+  const pts=[];
+  function mk(x,y,vx,vy){return{x,y,vx,vy,s:Math.random()*7+4,c:cols[Math.floor(Math.random()*cols.length)],rot:Math.random()*6,vr:(Math.random()-.5)*.3,sw:Math.random()*6,shape:Math.random()<.5?'p':'s'};}
+  for(let i=0;i<80;i++){pts.push(mk(0,cv.height,4+Math.random()*7,-(9+Math.random()*9)));pts.push(mk(cv.width,cv.height,-(4+Math.random()*7),-(9+Math.random()*9)));}
+  for(let i=0;i<100;i++){pts.push(mk(Math.random()*cv.width,-Math.random()*cv.height*.3,(Math.random()-.5)*2,1.5+Math.random()*2));}
+  let f=0;
+  (function loop(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    pts.forEach(p=>{p.vy+=.18;p.sw+=.06;p.x+=p.vx+Math.sin(p.sw)*1.5;p.y+=p.vy;p.rot+=p.vr;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.c;
+      if(p.shape==='p'){ctx.beginPath();ctx.ellipse(0,0,p.s,p.s*.55,0,0,7);ctx.fill();}
+      else ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s);
+      ctx.restore();});
+    f++;if(f<360)requestAnimationFrame(loop);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}
+  })();
+}
+
+build();updateProg();
+</script>
+</body>
+</html>

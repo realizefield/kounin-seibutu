@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BL11 確認問題 — 肝臓のはたらき</title>
+<style>
+:root{--pri:#b45309;--pri-l:#fde68a;--pri-ll:#fffbeb;--ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;--ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;--bg:#fffbeb;--radius:12px;--shadow:0 2px 12px rgba(0,0,0,.07);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;padding-bottom:60px;}
+.page-hd{background:linear-gradient(135deg,#78350f,#b45309,#d97706);color:#fff;padding:26px 16px 22px;text-align:center;position:relative;overflow:hidden;}
+.hd-label{font-size:.72rem;letter-spacing:.18em;opacity:.8;margin-bottom:5px;}
+.hd-title{font-size:1.35rem;font-weight:800;margin-bottom:3px;}
+.hd-sub{font-size:.82rem;opacity:.75;}
+.back-btn{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.18);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:.8rem;cursor:pointer;text-decoration:none;}
+.prog-wrap{background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;position:sticky;top:0;z-index:100;}
+.prog-info{display:flex;justify-content:space-between;font-size:.78rem;color:var(--gray);margin-bottom:5px;}
+.prog-bar{height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--pri),#0891b2);width:0%;transition:width .4s;}
+.wrap{max-width:700px;margin:0 auto;padding:20px 16px;}
+.q-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow);}
+.q-hd{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
+.q-badge{background:var(--pri);color:#fff;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;flex-shrink:0;margin-top:2px;}
+.q-text{font-size:.95rem;font-weight:500;line-height:1.6;}
+.opts{padding:10px 14px 12px;display:flex;flex-direction:column;gap:7px;}
+.opt{border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;font-size:.88rem;cursor:pointer;background:#fff;text-align:left;transition:all .15s;display:flex;align-items:center;gap:8px;}
+.opt:hover:not(:disabled){border-color:var(--pri);background:var(--pri-ll);}
+.opt-lbl{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;}
+.opt.correct{border-color:var(--ok);background:var(--ok-bg);}
+.opt.correct .opt-lbl{background:var(--ok);border-color:var(--ok);color:#fff;}
+.opt.wrong{border-color:var(--ng);background:var(--ng-bg);}
+.opt.wrong .opt-lbl{background:var(--ng);border-color:var(--ng);color:#fff;}
+.explain{margin:0 14px 12px;padding:10px 12px;border-radius:8px;font-size:.85rem;line-height:1.65;display:none;}
+.explain.show{display:block;}
+.explain.ok-ex{background:var(--ok-bg);border-left:3px solid var(--ok);}
+.explain.ng-ex{background:var(--ng-bg);border-left:3px solid var(--ng);}
+.final-panel{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 20px;text-align:center;margin-top:8px;display:none;}
+.final-panel.show{display:block;}
+.final-score{font-size:2.6rem;font-weight:800;color:var(--pri);}
+.final-total{font-size:.95rem;color:var(--gray);margin:4px 0 14px;}
+.final-msg{font-size:.95rem;margin-bottom:18px;}
+.final-btn{background:linear-gradient(135deg,var(--pri),#0891b2);color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
+canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="page-hd">
+  <a class="back-btn" href="index.html">← 解説へ</a>
+  <div class="hd-label">BL-11 確認問題</div>
+  <div class="hd-title">肝臓のはたらき</div>
+  <div class="hd-sub">全10問 — 選んで答えよう</div>
+</div>
+<div class="prog-wrap">
+  <div class="prog-info"><span id="prog-text">0 / 10 問回答済み</span><span id="score-text"></span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+</div>
+<div class="wrap" id="qlist"></div>
+<script>
+const QS=[
+  {q:'肝臓につながる血管のうち、小腸で吸収した栄養素を肝臓へ運ぶのはどれか。',opts:['肝動脈','肝静脈','肝門脈','腎門脈'],ans:2,ex:'<b>肝門脈</b>は消化管（小腸など）から肝臓へつながる静脈で、グルコース・アミノ酸など吸収された栄養素を運びます。'},
+  {q:'肝臓でグルコースからグリコーゲンが合成されるのはどのような状況か。',opts:['低血糖のとき','高血糖のとき（食後）','運動中に血糖が下がったとき','アンモニアが増加したとき'],ans:1,ex:'食後は血糖が上昇（高血糖）するため、余分なグルコースを<b>グリコーゲン</b>に合成して肝臓に貯蔵し血糖を下げます。'},
+  {q:'タンパク質を呼吸に使う際に生じる有害物質と、肝臓がそれを変換する物質の組み合わせとして正しいのはどれか。',opts:['グルコース→尿素','アンモニア→尿素','アンモニア→グリコーゲン','尿素→アンモニア'],ans:1,ex:'タンパク質分解で生じる<b>アンモニア（有毒）</b>を、肝臓のオルニチン回路で<b>尿素（無害）</b>に変えます。尿素は腎臓から尿として排出されます。'},
+  {q:'オルニチン回路に関する説明として正しいのはどれか。',opts:['グルコースをグリコーゲンに変える回路','アンモニアを尿素に変える肝臓内の化学反応回路','脂肪を乳化する回路','ATPを合成する回路'],ans:1,ex:'<b>オルニチン回路</b>は肝臓のみで行われる、アンモニア→尿素の変換反応です。'},
+  {q:'胆汁について正しいのはどれか。',opts:['タンパク質を分解する消化酵素を含む','脂肪を分解する消化酵素を含む','乳化作用をもち消化酵素を含まない','すい臓で生成される'],ans:2,ex:'胆汁は<b>消化酵素を含まない</b>が、<b>乳化作用</b>で脂肪を細かい粒にして消化・吸収を助けます。すい液（すい臓）と区別しましょう。'},
+  {q:'胆汁に関する経路として正しいのはどれか。',opts:['肝臓→胆のう→胆管→十二指腸','肝臓→胃→十二指腸','すい臓→胆のう→大腸','肝臓→胆管→胃→小腸'],ans:0,ex:'胆汁：肝臓で生成 → <b>胆のう</b>に貯蔵 → <b>胆管</b>を通る → <b>十二指腸</b>へ分泌'},
+  {q:'肝臓の解毒作用の例として正しいのはどれか。',opts:['アンモニアを尿素に変える','アルコールなど有害物質を分解・無害化する','グルコースをグリコーゲンに変える','古い赤血球を分解する'],ans:1,ex:'<b>解毒作用</b>：アルコールや薬物などの有害物質を化学変化で無害化します。アンモニア→尿素はこれとは別の「尿素合成」のはたらきです。'},
+  {q:'肝臓がもつ7つのはたらきとして当てはまらないのはどれか。',opts:['栄養分の貯蔵と代謝','尿素の合成','インスリンの分泌','解毒作用'],ans:2,ex:'<b>インスリン</b>はすい臓のランゲルハンス島B細胞が分泌するホルモンです。肝臓のはたらきではありません。'},
+  {q:'肝臓が体温の産生に関わる理由として正しいのはどれか。',opts:['大量の血液を蓄えているため','活発な化学反応で熱を産生し、筋肉に次いで2番目に多い','胆汁分泌時に熱を発生するため','グリコーゲンが燃焼するため'],ans:1,ex:'肝臓は多くの代謝反応を行っており、そのエネルギーの一部が熱として放出されます。体温産生は<b>筋肉に次いで2番目</b>に多い。'},
+  {q:'次のうち肝臓のはたらきをすべて正しく説明しているのはどれか。',opts:['①血糖調節\u3000②尿素合成\u3000③胆汁生成\u3000④解毒作用','①血糖調節\u3000②アンモニア生成\u3000③胆汁生成\u3000④免疫','①グリコーゲン分解のみ\u3000②アンモニア排出\u3000③インスリン分泌','①尿生成\u3000②グルコース合成\u3000③解毒\u3000④ヘモグロビン生成'],ans:0,ex:'肝臓の主なはたらき：①<b>血糖調節</b>（グルコース↔グリコーゲン）②<b>尿素合成</b>（アンモニア→尿素）③<b>胆汁生成</b>（乳化）④<b>解毒作用</b>⑤体温産生⑥赤血球破壊⑦血液貯蔵'}
+];
+const LABELS=['ア'イ'ウ'エ'.split("'")];
+// ↑ fix:
+const LB=['ア','イ','ウ','エ'];
+let answered=new Array(QS.length).fill(false);
+let correct=new Array(QS.length).fill(false);
+function build(){
+  const list=document.getElementById('qlist');list.innerHTML='';
+  QS.forEach((q,i)=>{
+    const card=document.createElement('div');card.className='q-card';card.id='qcard'+i;
+    card.innerHTML='<div class="q-hd"><span class="q-badge">Q'+(i+1)+'</span><div class="q-text">'+q.q+'</div></div><div class="opts">'+q.opts.map((o,j)=>'<button class="opt" onclick="pick('+i+','+j+')"><span class="opt-lbl">'+LB[j]+'</span>'+o+'</button>').join('')+'</div><div class="explain" id="ex'+i+'"></div>';
+    list.appendChild(card);
+  });
+  const panel=document.createElement('div');panel.className='final-panel';panel.id='final-panel';
+  panel.innerHTML='<div class="final-score" id="final-score">0</div><div class="final-total">/ '+QS.length+' 問正解</div><div class="final-msg" id="final-msg"></div><button class="final-btn" onclick="retry()">もう一度挑戦</button>';
+  list.appendChild(panel);
+}
+function pick(qi,oi){
+  if(answered[qi])return;
+  answered[qi]=true;correct[qi]=(oi===QS[qi].ans);
+  document.querySelectorAll('#qcard'+qi+' .opt').forEach((o,j)=>{
+    o.disabled=true;
+    if(j===QS[qi].ans)o.classList.add('correct');
+    else if(j===oi)o.classList.add('wrong');
+  });
+  const ex=document.getElementById('ex'+qi);
+  ex.innerHTML=QS[qi].ex;ex.className='explain show '+(correct[qi]?'ok-ex':'ng-ex');
+  updateProg();if(answered.every(Boolean))showFinal();
+}
+function updateProg(){
+  const done=answered.filter(Boolean).length;const ok=correct.filter(Boolean).length;
+  document.getElementById('prog-text').textContent=done+' / '+QS.length+' 問回答済み';
+  document.getElementById('score-text').textContent=done?'正解 '+ok+' 問':'';
+  document.getElementById('prog-fill').style.width=(done/QS.length*100)+'%';
+}
+function showFinal(){
+  const ok=correct.filter(Boolean).length;
+  document.getElementById('final-panel').className='final-panel show';
+  document.getElementById('final-score').textContent=ok;
+  const msgs=[[QS.length,'🎉 全問正解！肝臓のはたらきを完璧にマスター！'],[Math.floor(QS.length*.8),'👏 よくできました！'],[Math.floor(QS.length*.5),'✅ もう少し！解説を読んで再挑戦。'],[0,'📚 解説ページで復習しましょう。']];
+  document.getElementById('final-msg').textContent=msgs.find(([t])=>ok>=t)[1];
+  if(ok===QS.length)fireConfetti();
+}
+function retry(){answered.fill(false);correct.fill(false);build();updateProg();window.scrollTo({top:0,behavior:'smooth'});}
+function fireConfetti(){
+  const cv=document.getElementById('confetti');cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
+  const ctx=cv.getContext('2d');const cols=['#b45309','#e74c3c','#f1c40f','#2ecc71','#0891b2','#fff'];const pts=[];
+  for(let i=0;i<140;i++)pts.push({x:Math.random()*cv.width,y:-Math.random()*cv.height*.4,s:Math.random()*7+4,c:cols[i%cols.length],sp:2+Math.random()*2.5,vx:(Math.random()-.5)*2});
+  let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';})();
+}
+build();updateProg();
+</script>
+</body>
+</html>
