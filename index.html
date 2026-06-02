@@ -275,30 +275,36 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
       </div>
 
       <!-- BL05・BL06 coming soon -->
-      <div class="group-label" style="margin-top:14px;">🔬 細胞周期（準備中）</div>
+      <div class="group-label" style="margin-top:14px;">🔬 細胞周期</div>
       <div class="sec-grid">
-        <div class="sec-card" data-id="BL05" style="opacity:.6;">
-          <div class="sc-hd" style="background:#f1f5f9;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-05</span><span class="sc-title" style="color:#64748b;">染色体・DNA・遺伝子（詳細）</span><span class="sc-stars" style="color:#94a3b8;">★★☆</span></div>
-          <div class="sc-body"><ul class="sc-topics"><li>相同染色体・核型</li><li>DNA複製のしくみ</li><li>遺伝子の発現と調節</li></ul></div>
+        <div class="sec-card" data-id="BL05">
+          <div class="sc-hd"><span class="sc-num">BL-05</span><span class="sc-title">遺伝子・DNA構造と塩基の相補性</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>ゲノム・ヌクレオチド・二重らせん</li><li>塩基の相補性（A-T・G-C）</li><li>シャルガフの法則・DNA抽出実験</li></ul></div>
           <div class="sc-btn-row">
-            <span class="sc-btn sc-btn-soon">準備中</span>
+            <a href="BL05.html" class="sc-btn">📖 intro</a>
+            <a href="BL05_drill.html" class="sc-btn">✏️ drill</a>
+            <a href="BL05_check.html" class="sc-btn">✅ check</a>
+            <a href="BL05_exam.html" class="sc-btn">📝 確認問題</a>
           </div>
           <div class="abc-row">
-            <button class="abc-btn abc-a" onclick="setABC('BL05','a',this)" disabled style="opacity:.4;">A OK</button>
-            <button class="abc-btn abc-b" onclick="setABC('BL05','b',this)" disabled style="opacity:.4;">B 復習</button>
-            <button class="abc-btn abc-c" onclick="setABC('BL05','c',this)" disabled style="opacity:.4;">C もう一度</button>
+            <button class="abc-btn abc-a" onclick="setABC('BL05','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL05','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL05','c',this)">C もう一度</button>
           </div>
         </div>
-        <div class="sec-card" data-id="BL06" style="opacity:.6;">
-          <div class="sc-hd" style="background:#f1f5f9;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-06</span><span class="sc-title" style="color:#64748b;">細胞周期と体細胞分裂</span><span class="sc-stars" style="color:#94a3b8;">★★☆</span></div>
-          <div class="sc-body"><ul class="sc-topics"><li>間期（G₁・S・G₂期）と分裂期</li><li>前期・中期・後期・終期</li><li>DNA量の変化・細胞周期</li></ul></div>
+        <div class="sec-card" data-id="BL06">
+          <div class="sc-hd"><span class="sc-num">BL-06</span><span class="sc-title">細胞周期と体細胞分裂</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>間期（G₁・S・G₂期）と分裂期</li><li>前期・中期・後期・終期</li><li>DNA量の変化・細胞周期計算</li></ul></div>
           <div class="sc-btn-row">
-            <span class="sc-btn sc-btn-soon">準備中</span>
+            <a href="BL06.html" class="sc-btn">📖 intro</a>
+            <a href="BL06_drill.html" class="sc-btn">✏️ drill</a>
+            <a href="BL06_check.html" class="sc-btn">✅ check</a>
+            <a href="BL06_exam.html" class="sc-btn">📝 確認問題</a>
           </div>
           <div class="abc-row">
-            <button class="abc-btn abc-a" onclick="setABC('BL06','a',this)" disabled style="opacity:.4;">A OK</button>
-            <button class="abc-btn abc-b" onclick="setABC('BL06','b',this)" disabled style="opacity:.4;">B 復習</button>
-            <button class="abc-btn abc-c" onclick="setABC('BL06','c',this)" disabled style="opacity:.4;">C もう一度</button>
+            <button class="abc-btn abc-a" onclick="setABC('BL06','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL06','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL06','c',this)">C もう一度</button>
           </div>
         </div>
       </div>
@@ -310,7 +316,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
     <div class="unit-hd" style="background:linear-gradient(90deg,#0f766e,#0d9488);">
       <span class="unit-num">第3章</span>
       <span class="unit-title">体内環境とその維持</span>
-      <span class="unit-badge">BL09〜BL13 公開中</span>
+      <span class="unit-badge">BL05〜BL06・BL09〜BL13 公開中</span>
     </div>
     <div class="unit-body">
       <div class="group-label">🩸 体液・血液・循環・調節・免疫</div>
@@ -400,7 +406,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
 
 <script>
 const STORAGE_KEY = 'gamba_bl_status_v2';
-const ACTIVE_IDS = ['BL01','BL02','BL03','BL04','BL07','BL08','BL09','BL10','BL11','BL12','BL13'];
+const ACTIVE_IDS = ['BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13'];
 const ALL_IDS = ['BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13'];
 let status = {};
 try { const s = localStorage.getItem(STORAGE_KEY); if(s) status = JSON.parse(s); } catch(e){}
