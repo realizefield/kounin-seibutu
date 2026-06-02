@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL06 確認問題｜細胞周期と体細胞分裂｜GAMBA高認 生命の科学</title>
+<style>
+  :root{
+    --primary:#1d4ed8;--primary-d:#1e40af;--primary-l:#dbeafe;
+    --ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;
+    --ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;
+    --bg:#f1f5f9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.8;overflow-x:hidden;}
+
+  /* ── header ── */
+  .sticky-header{position:sticky;top:0;z-index:100;background:rgba(241,245,249,0.96);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:8px 0;}
+  .header-inner{max-width:760px;margin:0 auto;padding:0 16px;
+    display:flex;align-items:center;gap:12px;}
+  .back-btn{color:var(--gray);text-decoration:none;font-size:0.85rem;padding:4px 10px;
+    border:1px solid var(--border);border-radius:6px;background:#fff;white-space:nowrap;}
+  .back-btn:hover{background:var(--gray-l);}
+  .page-title{font-size:0.95rem;font-weight:bold;flex:1;}
+  .chapter-badge{background:var(--primary);color:#fff;font-size:0.72rem;
+    padding:2px 7px;border-radius:4px;margin-right:6px;}
+  .score-badge{font-size:0.85rem;color:var(--gray);margin-left:auto;white-space:nowrap;}
+
+  /* ── hero ── */
+  .hero{background:linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 60%,#0891b2 100%);
+    color:#fff;padding:28px 16px 24px;text-align:center;}
+  .hero h1{font-size:1.35rem;font-weight:bold;margin-bottom:6px;}
+  .hero p{font-size:0.88rem;opacity:0.88;}
+  .progress-wrap{max-width:400px;margin:14px auto 0;background:rgba(255,255,255,0.2);
+    border-radius:999px;height:8px;overflow:hidden;}
+  .progress-bar{height:100%;background:#fff;border-radius:999px;width:0;transition:width 0.4s;}
+
+  /* ── main ── */
+  .main{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+
+  /* ── counter ── */
+  .counter{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+  .cnt-box{flex:1;min-width:120px;background:#fff;border-radius:10px;padding:10px 14px;
+    border:1px solid var(--border);text-align:center;}
+  .cnt-box .num{font-size:1.5rem;font-weight:bold;color:var(--primary);}
+  .cnt-box .lbl{font-size:0.78rem;color:var(--gray);}
+
+  /* ── question card ── */
+  .q-card{background:#fff;border-radius:12px;border:1px solid var(--border);
+    padding:20px;margin-bottom:16px;transition:box-shadow 0.2s;}
+  .q-card.answered{box-shadow:0 0 0 2px var(--border);}
+  .q-card.correct{border-color:#86efac;}
+  .q-card.wrong{border-color:#fca5a5;}
+  .q-num{display:inline-block;background:var(--primary);color:#fff;
+    font-size:0.75rem;font-weight:bold;padding:2px 8px;border-radius:4px;margin-bottom:10px;}
+  .q-level{display:inline-block;font-size:0.72rem;padding:2px 7px;border-radius:4px;
+    margin-left:6px;font-weight:bold;}
+  .q-level.lv1{background:#dcfce7;color:#15803d;}
+  .q-level.lv2{background:#fef9c3;color:#a16207;}
+  .q-level.lv3{background:#fee2e2;color:#b91c1c;}
+  .q-text{font-size:0.97rem;line-height:1.9;margin-bottom:14px;}
+  .q-text .blank{display:inline-block;border-bottom:2px solid var(--primary);
+    min-width:60px;text-align:center;color:var(--primary);font-weight:bold;}
+
+  /* ── choices ── */
+  .choices{display:flex;flex-direction:column;gap:8px;}
+  .choice-btn{display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;
+    background:var(--gray-l);border:1.5px solid var(--border);border-radius:8px;
+    padding:10px 14px;cursor:pointer;font-size:0.92rem;line-height:1.6;
+    transition:background 0.15s,border-color 0.15s;font-family:inherit;}
+  .choice-btn:hover:not(:disabled){background:#e0e7ff;border-color:#93c5fd;}
+  .choice-btn .choice-num{background:var(--primary);color:#fff;border-radius:4px;
+    font-size:0.75rem;font-weight:bold;padding:1px 6px;white-space:nowrap;margin-top:2px;}
+  .choice-btn.correct-ans{background:var(--ok-bg);border-color:#86efac;}
+  .choice-btn.wrong-ans{background:var(--ng-bg);border-color:#fca5a5;}
+  .choice-btn:disabled{cursor:default;}
+
+  /* ── explanation ── */
+  .explanation{display:none;margin-top:14px;padding:14px 16px;border-radius:8px;
+    font-size:0.88rem;line-height:1.8;}
+  .explanation.show{display:block;}
+  .explanation.ok{background:var(--ok-bg);border-left:4px solid #22c55e;}
+  .explanation.ng{background:var(--ng-bg);border-left:4px solid #ef4444;}
+  .explanation .verdict{font-weight:bold;font-size:0.95rem;margin-bottom:4px;}
+
+  /* ── result panel ── */
+  .result-panel{display:none;background:#fff;border-radius:16px;border:2px solid var(--primary);
+    padding:28px 20px;text-align:center;margin-top:24px;}
+  .result-panel.show{display:block;}
+  .result-score{font-size:3rem;font-weight:bold;color:var(--primary);}
+  .result-sub{font-size:1rem;color:var(--gray);margin-top:4px;}
+  .result-msg{font-size:1rem;margin:16px 0 20px;line-height:1.8;}
+  .result-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .result-btn{padding:10px 22px;border-radius:8px;font-weight:bold;cursor:pointer;
+    font-size:0.92rem;border:none;font-family:inherit;}
+  .result-btn.primary{background:var(--primary);color:#fff;}
+  .result-btn.secondary{background:var(--gray-l);color:var(--ink);border:1px solid var(--border);}
+
+  /* ── submit button ── */
+  .submit-wrap{text-align:center;margin-top:24px;}
+  .submit-btn{background:var(--primary);color:#fff;border:none;padding:12px 32px;
+    border-radius:10px;font-size:1rem;font-weight:bold;cursor:pointer;font-family:inherit;}
+  .submit-btn:disabled{background:#93c5fd;cursor:default;}
+
+  /* ── confetti canvas ── */
+  #cnf{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+
+  @media(max-width:480px){
+    .hero h1{font-size:1.1rem;}
+    .choice-btn{font-size:0.87rem;padding:9px 12px;}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="cnf"></canvas>
+
+<div class="sticky-header">
+  <div class="header-inner">
+    <a href="index.html" class="back-btn">← 一覧へ</a>
+    <div class="page-title">
+      <span class="chapter-badge">BL06</span>確認問題
+    </div>
+    <div class="score-badge" id="score-disp"></div>
+  </div>
+</div>
+
+<div class="hero">
+  <h1>🔬 細胞周期と体細胞分裂｜確認問題</h1>
+  <p>高認レベルの10問に挑戦しよう。全問正解を目指してください！</p>
+  <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+</div>
+
+<div class="main">
+  <div class="counter">
+    <div class="cnt-box"><div class="num" id="cnt-total">0</div><div class="lbl">回答済み</div></div>
+    <div class="cnt-box"><div class="num" id="cnt-correct" style="color:#16a34a">0</div><div class="lbl">正解</div></div>
+    <div class="cnt-box"><div class="num" id="cnt-wrong" style="color:#dc2626">0</div><div class="lbl">不正解</div></div>
+  </div>
+
+  <div id="questions-wrap"></div>
+
+  <div class="result-panel" id="result-panel">
+    <div class="result-score"><span id="res-score">0</span><span style="font-size:1.4rem">/10点</span></div>
+    <div class="result-sub" id="res-sub"></div>
+    <div class="result-msg" id="res-msg"></div>
+    <div class="result-btns">
+      <button class="result-btn secondary" onclick="location.href='BL06.html'">📖 解説を見直す</button>
+      <button class="result-btn primary" onclick="resetQuiz()">🔄 もう一度挑戦</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QS = [
+  {
+    id:1, level:1,
+    text:"細胞周期において、DNAの複製（DNA合成）が行われる時期はどれか。",
+    choices:["G₁期","S期（DNA合成期）","G₂期","M期（分裂期）"],
+    ans:1,
+    exp:"DNA複製はS期（DNA合成期）で行われます。G₁期はDNA合成の準備期、G₂期は分裂の準備期、M期は実際に染色体が分配される時期です。"
+  },
+  {
+    id:2, level:1,
+    text:"体細胞分裂の「中期」の特徴として正しいものはどれか。",
+    choices:[
+      "核膜と核小体が消失し、紡錘糸が伸び始める",
+      "染色体が赤道面に並び、紡錘糸が動原体に結合する",
+      "染色分体が両極へ移動する",
+      "核膜が再形成され、細胞質分裂が始まる"
+    ],
+    ans:1,
+    exp:"中期は染色体が細胞の赤道面（中央）にきれいに並び、紡錘糸が動原体に結合する時期です。染色体が最も太く短くなるため、顕微鏡観察に最も適しています。①は前期、③は後期、④は終期の説明です。"
+  },
+  {
+    id:3, level:1,
+    text:"G₁期のDNA量を1とした場合、分裂後（細胞質分裂完了後）の娘細胞1個あたりのDNA量はいくつか。",
+    choices:["0.5","1","2","4"],
+    ans:1,
+    exp:"S期でDNAが2倍（1→2）に複製され、M期の終期に2つの娘細胞に分かれるため、娘細胞1個あたりのDNA量は再び1に戻ります。G₂期・分裂期（前期〜後期）はDNA量＝2のままです。"
+  },
+  {
+    id:4, level:2,
+    text:"タマネギの根端を使った体細胞分裂観察の実験手順について、正しい順番を選べ。",
+    choices:[
+      "塩酸処理 → 水洗い → 酢酸オルセイン染色 → 押しつぶし → 観察",
+      "酢酸オルセイン染色 → 塩酸処理 → 水洗い → 押しつぶし → 観察",
+      "押しつぶし → 塩酸処理 → 酢酸オルセイン染色 → 水洗い → 観察",
+      "水洗い → 酢酸オルセイン染色 → 塩酸処理 → 押しつぶし → 観察"
+    ],
+    ans:0,
+    exp:"正しい手順は「塩酸処理（細胞どうしをバラバラにする）→ 水洗い → 酢酸オルセイン染色（染色体を赤く染める）→ 押しつぶし（1層に広げる）→ 顕微鏡観察」です。先に塩酸処理をすることで細胞が1つずつ分離され、後の押しつぶしがしやすくなります。"
+  },
+  {
+    id:5, level:2,
+    text:"ある植物の根端分裂組織を観察したところ、間期の細胞が270個、分裂期の細胞が30個であった。細胞周期全体が20時間のとき、間期は何時間か。",
+    choices:["15時間","16時間","18時間","20時間"],
+    ans:2,
+    exp:"間期の時間＝（間期の細胞数÷全細胞数）×細胞周期全体の時間。270÷（270+30）×20＝270÷300×20＝0.9×20＝18時間。「細胞数の割合＝時間の割合」が成り立つ原理を利用した計算です。"
+  },
+  {
+    id:6, level:2,
+    text:"体細胞分裂で、植物細胞と動物細胞の終期で異なる点はどれか。",
+    choices:[
+      "植物細胞では細胞板が形成されるが、動物細胞ではくびれて分裂する",
+      "植物細胞では核膜が再形成されないが、動物細胞では再形成される",
+      "植物細胞では染色体数が増えるが、動物細胞では変わらない",
+      "動物細胞では細胞板が形成されるが、植物細胞ではくびれる"
+    ],
+    ans:0,
+    exp:"動物細胞は細胞膜がくびれて2つに分かれますが、植物細胞は硬い細胞壁があるためくびれることができません。そのかわり細胞の中央に「細胞板」が形成されて仕切られ、そこから新しい細胞壁ができます。"
+  },
+  {
+    id:7, level:2,
+    text:"細胞周期の各期の細胞数を観察したところ、間期324個・前期22個・中期4個・後期3個・終期7個だった。細胞周期全体が20時間のとき、分裂前期の時間として最も近いものはどれか。",
+    choices:["約0.4時間","約1.0時間","約1.2時間","約2.0時間"],
+    ans:2,
+    exp:"前期の時間＝（22÷360）×20＝0.0611×20≒1.22時間≒約1.2時間。全細胞数は324+22+4+3+7=360個です。前期の細胞が多いほど前期の時間が長いことを示しています。"
+  },
+  {
+    id:8, level:1,
+    text:"体細胞分裂の「前期」で起こることとして正しいものを選べ。",
+    choices:[
+      "染色体が赤道面に整列する",
+      "核膜が消失し、染色体が凝縮して見えるようになる",
+      "染色分体が両極へ引っ張られる",
+      "細胞板が形成され始める"
+    ],
+    ans:1,
+    exp:"前期では、それまで見えなかった染色体がぎゅっと凝縮（太く短く）なって顕微鏡で見えるようになり、同時に核膜・核小体が消失して紡錘糸が伸び始めます。①は中期、③は後期、④は終期の特徴です。"
+  },
+  {
+    id:9, level:3,
+    text:"細胞周期が24時間の細胞集団を観察したところ、S期（DNA複製期）にある細胞が全体の25%だった。S期の長さとして正しいものはどれか。",
+    choices:["4時間","6時間","8時間","12時間"],
+    ans:1,
+    exp:"S期の時間＝細胞周期全体×S期の細胞数の割合＝24×0.25＝6時間。「ある期の細胞数の割合＝その期の時間の割合」という原理を使います。このような計算問題は高認でよく出題されます。"
+  },
+  {
+    id:10, level:3,
+    text:"体細胞分裂の後期において、1個の細胞に含まれるDNA量はG₁期と比較してどうなっているか（G₁期のDNA量を1とする）。",
+    choices:[
+      "1（G₁期と同じ）",
+      "0.5（G₁期の半分）",
+      "2（G₁期の2倍）",
+      "4（G₁期の4倍）"
+    ],
+    ans:2,
+    exp:"S期でDNAが複製されてDNA量は2になり、後期はまだ1つの細胞の中で染色分体が移動しているだけなので、DNA量は2のままです。DNA量が1に戻るのは終期の細胞質分裂（細胞が2つに分かれるとき）です。「後期＝DNA量2」を確実に覚えておきましょう。"
+  }
+];
+
+let answered = 0;
+let correctCount = 0;
+let wrongCount = 0;
+const userAnswers = {};
+
+function levelLabel(lv){
+  const map={1:['lv1','基本'],2:['lv2','標準'],3:['lv3','発展']};
+  const [cls,txt]=map[lv];
+  return `<span class="q-level ${cls}">${txt}</span>`;
+}
+
+function buildQuestions(){
+  const wrap = document.getElementById('questions-wrap');
+  wrap.innerHTML = '';
+  QS.forEach((q,i)=>{
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `card-${i}`;
+    card.innerHTML = `
+      <div>
+        <span class="q-num">問${q.id}</span>${levelLabel(q.level)}
+      </div>
+      <div class="q-text">${q.text}</div>
+      <div class="choices" id="choices-${i}">
+        ${q.choices.map((c,ci)=>`
+          <button class="choice-btn" onclick="selectAnswer(${i},${ci})">
+            <span class="choice-num">①②③④`.split('')[ci]+`</span>
+            <span>${c}</span>
+          </button>`).join('')}
+      </div>
+      <div class="explanation" id="exp-${i}"></div>
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+// Fix choice nums
+function buildQuestionsFixed(){
+  const wrap = document.getElementById('questions-wrap');
+  wrap.innerHTML = '';
+  const nums=['①','②','③','④'];
+  QS.forEach((q,i)=>{
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `card-${i}`;
+    card.innerHTML = `
+      <div style="margin-bottom:10px;">
+        <span class="q-num">問${q.id}</span>${levelLabel(q.level)}
+      </div>
+      <div class="q-text">${q.text}</div>
+      <div class="choices" id="choices-${i}">
+        ${q.choices.map((c,ci)=>`
+          <button class="choice-btn" id="btn-${i}-${ci}" onclick="selectAnswer(${i},${ci})">
+            <span class="choice-num">${nums[ci]}</span>
+            <span>${c}</span>
+          </button>`).join('')}
+      </div>
+      <div class="explanation" id="exp-${i}"></div>
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+function selectAnswer(qi, ci){
+  if(userAnswers[qi] !== undefined) return; // already answered
+  userAnswers[qi] = ci;
+  answered++;
+
+  const q = QS[qi];
+  const isCorrect = ci === q.ans;
+  if(isCorrect) correctCount++; else wrongCount++;
+
+  // update buttons
+  for(let k=0;k<q.choices.length;k++){
+    const btn = document.getElementById(`btn-${qi}-${k}`);
+    btn.disabled = true;
+    if(k === q.ans) btn.classList.add('correct-ans');
+    else if(k === ci) btn.classList.add('wrong-ans');
+  }
+
+  // explanation
+  const exp = document.getElementById(`exp-${qi}`);
+  exp.innerHTML = `<div class="verdict">${isCorrect ? '⭕ 正解！' : '❌ 不正解'}</div>${q.exp}`;
+  exp.className = `explanation show ${isCorrect ? 'ok' : 'ng'}`;
+
+  // card
+  const card = document.getElementById(`card-${qi}`);
+  card.classList.add('answered', isCorrect ? 'correct' : 'wrong');
+
+  // counters
+  updateCounters();
+
+  // check all done
+  if(answered === QS.length) setTimeout(showResult, 600);
+}
+
+function updateCounters(){
+  document.getElementById('cnt-total').textContent = answered;
+  document.getElementById('cnt-correct').textContent = correctCount;
+  document.getElementById('cnt-wrong').textContent = wrongCount;
+  document.getElementById('progress-bar').style.width = (answered/QS.length*100)+'%';
+}
+
+function showResult(){
+  const panel = document.getElementById('result-panel');
+  panel.classList.add('show');
+  document.getElementById('res-score').textContent = correctCount;
+
+  const pct = Math.round(correctCount/QS.length*100);
+  document.getElementById('res-sub').textContent = `正答率 ${pct}%`;
+
+  let msg='';
+  if(correctCount===10) msg='🎉 完璧です！細胞周期を完全にマスターしました！';
+  else if(correctCount>=8) msg='✨ すばらしい！あと少しで完璧です。間違えた問題を確認しましょう。';
+  else if(correctCount>=6) msg='👍 合格ラインです。苦手な問題を解説でしっかり復習しましょう。';
+  else msg='📖 もう一度BL06の解説に戻って、基本から確認しましょう。';
+  document.getElementById('res-msg').textContent = msg;
+
+  // save score
+  try{ localStorage.setItem('gamba_score_BL06', correctCount); }catch(e){}
+
+  if(correctCount===10) fireConfetti();
+  panel.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function resetQuiz(){
+  answered=0; correctCount=0; wrongCount=0;
+  Object.keys(userAnswers).forEach(k=>delete userAnswers[k]);
+  updateCounters();
+  document.getElementById('result-panel').classList.remove('show');
+  buildQuestionsFixed();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// confetti
+function fireConfetti(){
+  const cv=document.getElementById('cnf');
+  cv.style.display='block';
+  cv.width=window.innerWidth; cv.height=window.innerHeight;
+  const ctx=cv.getContext('2d');
+  const cols=['#fbbf24','#34d399','#60a5fa','#f472b6','#a78bfa','#fb7185'];
+  let pts=[];
+  for(let i=0;i<160;i++){
+    pts.push({
+      x:Math.random()*cv.width, y:Math.random()*cv.height-cv.height,
+      s:Math.random()*8+4, c:cols[Math.floor(Math.random()*cols.length)],
+      sp:Math.random()*3+2, vx:(Math.random()-.5)*2, rot:Math.random()*6, vr:(Math.random()-.5)*.1
+    });
+  }
+  let frame=0;
+  function tick(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    pts.forEach(p=>{
+      p.y+=p.sp; p.x+=p.vx; p.rot+=p.vr;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+      ctx.fillStyle=p.c; ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s);
+      ctx.restore();
+    });
+    frame++;
+    if(frame<300) requestAnimationFrame(tick);
+    else{ ctx.clearRect(0,0,cv.width,cv.height); cv.style.display='none'; }
+  }
+  tick();
+}
+
+// init
+buildQuestionsFixed();
+
+// load saved score
+try{
+  const saved=localStorage.getItem('gamba_score_BL06');
+  if(saved) document.getElementById('score-disp').textContent=`前回 ${saved}/10点`;
+}catch(e){}
+</script>
+</body>
+</html>
