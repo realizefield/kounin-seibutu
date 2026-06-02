@@ -151,6 +151,14 @@
     .sho{padding:12px;}
     .page-heading{font-size:1.1rem;}
   }
+/* ページ間ナビ */
+.page-nav-strip{display:flex;gap:6px;background:#fff;border-bottom:1px solid #e5e7eb;
+  padding:8px 12px;flex-wrap:wrap;}
+.pnav-btn{flex:1;min-width:60px;padding:6px 4px;border:1.5px solid #e5e7eb;
+  border-radius:8px;font-size:.75rem;font-weight:700;text-align:center;
+  text-decoration:none;color:#1f2937;background:#fff;white-space:nowrap;}
+.pnav-btn.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8;}
+.pnav-btn:hover:not(.active){border-color:#1d4ed8;background:#eff6ff;}
 </style>
 </head>
 <body>
@@ -168,6 +176,12 @@
     <div class="progress-label" id="progressLabel">0 / 15 問解答済み</div>
   </div>
 </header>
+<div class="page-nav-strip">
+  <a class="pnav-btn" href="BL05.html">📖 解説</a>
+  <a class="pnav-btn" href="BL05_drill.html">✏️ ドリル</a>
+  <a class="pnav-btn" href="BL05_check.html">📝 確認テスト</a>
+  <span class="pnav-btn active">📋 確認問題</span>
+</div>
 
 <div class="container">
   <div class="page-heading">過去問類題</div>

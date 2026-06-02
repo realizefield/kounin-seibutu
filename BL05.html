@@ -302,6 +302,14 @@
     .drag-item{font-size:0.85rem;padding:5px 10px;}
   }
 
+/* ページ間ナビ (drill/check/exam へ) */
+.page-nav-strip{display:flex;gap:6px;background:#fff;border-bottom:1px solid #e5e7eb;
+  padding:8px 12px;flex-wrap:wrap;}
+.pnav-btn{flex:1;min-width:60px;padding:6px 4px;border:1.5px solid #e5e7eb;
+  border-radius:8px;font-size:.75rem;font-weight:700;text-align:center;
+  text-decoration:none;color:#1f2937;background:#fff;white-space:nowrap;}
+.pnav-btn.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8;}
+.pnav-btn:hover:not(.active){border-color:#1d4ed8;background:#eff6ff;}
 </style>
 <style>
 .note-box{background:#f0f9ff;border-left:4px solid #0891b2;padding:14px 16px;border-radius:6px;margin:16px 0;}
@@ -357,6 +365,12 @@
     </nav>
   </div>
 </header>
+<div class="page-nav-strip">
+  <span class="pnav-btn active">📖 解説</span>
+  <a class="pnav-btn" href="BL05_drill.html">✏️ ドリル</a>
+  <a class="pnav-btn" href="BL05_check.html">📝 確認テスト</a>
+  <a class="pnav-btn" href="BL05_exam.html">📋 確認問題</a>
+</div>
 
 <div class="header-inner">
   <div class="challenge-panel">
