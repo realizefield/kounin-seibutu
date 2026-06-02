@@ -152,6 +152,14 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;
 .term-name{font-size:1rem;font-weight:700;color:var(--pri-d);margin-bottom:4px;}
 .term-def{font-size:.84rem;line-height:1.55;}
 
+/* ページ間ナビ */
+.page-nav{display:flex;gap:6px;background:#fff;border-bottom:1px solid var(--border);
+  padding:8px 12px;position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.pnav-btn{flex:1;min-width:60px;padding:6px 4px;border:1.5px solid var(--border);
+  border-radius:8px;font-size:.75rem;font-weight:700;text-align:center;
+  text-decoration:none;color:var(--ink);background:#fff;white-space:nowrap;}
+.pnav-btn.active{background:var(--pri);color:#fff;border-color:var(--pri);}
+.pnav-btn:hover:not(.active){border-color:var(--pri);background:var(--pri-ll);}
 canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
 </style>
 </head>
@@ -165,6 +173,11 @@ canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-event
   <div class="hd-sub">第3章 生物の体内環境とその維持</div>
 </div>
 
+<div class="page-nav">
+  <span class="pnav-btn active">📖 解説</span>
+  <a class="pnav-btn" href="BL11_drill.html">✏️ ドリル</a>
+  <a class="pnav-btn" href="BL11_exam.html">📋 確認問題</a>
+</div>
 <div class="wrap">
   <div class="usage-guide">
     <div class="ug-step"><span class="ug-num">1</span>解説を読む</div>
@@ -487,7 +500,7 @@ function fireConfetti(){
   const cv=document.getElementById('confetti');cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
   const ctx=cv.getContext('2d');const cols=['#b45309','#e74c3c','#f1c40f','#2ecc71','#0891b2','#fff'];const pts=[];
   for(let i=0;i<140;i++)pts.push({x:Math.random()*cv.width,y:-Math.random()*cv.height*.4,s:Math.random()*7+4,c:cols[i%cols.length],sp:2+Math.random()*2.5,vx:(Math.random()-.5)*2});
-  let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';}})();
+  let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';})();
 }
 </script>
 </body>

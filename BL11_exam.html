@@ -40,16 +40,29 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;ba
 .final-total{font-size:.95rem;color:var(--gray);margin:4px 0 14px;}
 .final-msg{font-size:.95rem;margin-bottom:18px;}
 .final-btn{background:linear-gradient(135deg,var(--pri),#0891b2);color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
+/* ページ間ナビ */
+.page-nav{display:flex;gap:6px;background:#fff;border-bottom:1px solid var(--border);
+  padding:8px 12px;position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.pnav-btn{flex:1;min-width:60px;padding:6px 4px;border:1.5px solid var(--border);
+  border-radius:8px;font-size:.75rem;font-weight:700;text-align:center;
+  text-decoration:none;color:var(--ink);background:#fff;white-space:nowrap;}
+.pnav-btn.active{background:var(--pri);color:#fff;border-color:var(--pri);}
+.pnav-btn:hover:not(.active){border-color:var(--pri);background:var(--pri-ll);}
 canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
 </style>
 </head>
 <body>
 <canvas id="confetti"></canvas>
 <div class="page-hd">
-  <a class="back-btn" href="index.html">← 解説へ</a>
+  <a class="back-btn" href="BL11.html">← 解説へ</a>
   <div class="hd-label">BL-11 確認問題</div>
   <div class="hd-title">肝臓のはたらき</div>
   <div class="hd-sub">全10問 — 選んで答えよう</div>
+</div>
+<div class="page-nav">
+  <a class="pnav-btn" href="BL11.html">📖 解説</a>
+  <a class="pnav-btn" href="BL11_drill.html">✏️ ドリル</a>
+  <span class="pnav-btn active">📋 確認問題</span>
 </div>
 <div class="prog-wrap">
   <div class="prog-info"><span id="prog-text">0 / 10 問回答済み</span><span id="score-text"></span></div>
@@ -69,8 +82,6 @@ const QS=[
   {q:'肝臓が体温の産生に関わる理由として正しいのはどれか。',opts:['大量の血液を蓄えているため','活発な化学反応で熱を産生し、筋肉に次いで2番目に多い','胆汁分泌時に熱を発生するため','グリコーゲンが燃焼するため'],ans:1,ex:'肝臓は多くの代謝反応を行っており、そのエネルギーの一部が熱として放出されます。体温産生は<b>筋肉に次いで2番目</b>に多い。'},
   {q:'次のうち肝臓のはたらきをすべて正しく説明しているのはどれか。',opts:['①血糖調節\u3000②尿素合成\u3000③胆汁生成\u3000④解毒作用','①血糖調節\u3000②アンモニア生成\u3000③胆汁生成\u3000④免疫','①グリコーゲン分解のみ\u3000②アンモニア排出\u3000③インスリン分泌','①尿生成\u3000②グルコース合成\u3000③解毒\u3000④ヘモグロビン生成'],ans:0,ex:'肝臓の主なはたらき：①<b>血糖調節</b>（グルコース↔グリコーゲン）②<b>尿素合成</b>（アンモニア→尿素）③<b>胆汁生成</b>（乳化）④<b>解毒作用</b>⑤体温産生⑥赤血球破壊⑦血液貯蔵'}
 ];
-const LABELS=['ア'イ'ウ'エ'.split("'")];
-// ↑ fix:
 const LB=['ア','イ','ウ','エ'];
 let answered=new Array(QS.length).fill(false);
 let correct=new Array(QS.length).fill(false);

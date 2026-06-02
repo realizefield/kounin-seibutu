@@ -310,7 +310,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
     <div class="unit-hd" style="background:linear-gradient(90deg,#0f766e,#0d9488);">
       <span class="unit-num">第3章</span>
       <span class="unit-title">体内環境とその維持</span>
-      <span class="unit-badge">BL09〜BL11 公開中</span>
+      <span class="unit-badge">BL09〜BL13 公開中</span>
     </div>
     <div class="unit-body">
       <div class="group-label">🩸 体液・血液・循環・調節・免疫</div>
@@ -351,17 +351,27 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
           </div>
           <div class="abc-row"><button class="abc-btn abc-a" onclick="setABC('BL11','a',this)">A OK</button><button class="abc-btn abc-b" onclick="setABC('BL11','b',this)">B 復習</button><button class="abc-btn abc-c" onclick="setABC('BL11','c',this)">C もう一度</button></div>
         </div>
-        <div class="sec-card" style="border-color:#e2e8f0;">
-          <div class="sc-hd" style="background:#f8fafc;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-12</span><span class="sc-title" style="color:#64748b;">自律神経とホルモン</span></div>
-          <div class="sc-body"><ul class="sc-topics"><li>交感神経・副交感神経</li><li>ホルモンと内分泌腺</li><li>血糖量の調節（インスリン等）</li></ul></div>
-          <div class="sc-btn-row"><span class="sc-btn sc-btn-soon">準備中</span></div>
-          <div class="abc-row" style="opacity:.3;pointer-events:none;"><button class="abc-btn abc-a">A OK</button><button class="abc-btn abc-b">B 復習</button><button class="abc-btn abc-c">C もう一度</button></div>
+        <div class="sec-card" data-id="BL12">
+          <div class="sc-hd"><span class="sc-num">BL-12</span><span class="sc-title">腎臓のはたらき</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>糸球体・ボーマンのう・ネフロン</li><li>ろ過と再吸収・濃縮率</li><li>バソプレシン・鉱質コルチコイド</li></ul></div>
+          <div class="sc-btn-row">
+            <a href="BL12.html" class="sc-btn">📖 intro</a>
+            <a href="BL12_drill.html" class="sc-btn">✏️ drill</a>
+            <a href="BL12_check.html" class="sc-btn">✅ check</a>
+            <a href="BL12_exam.html" class="sc-btn">📝 確認問題</a>
+          </div>
+          <div class="abc-row"><button class="abc-btn abc-a" onclick="setABC('BL12','a',this)">A OK</button><button class="abc-btn abc-b" onclick="setABC('BL12','b',this)">B 復習</button><button class="abc-btn abc-c" onclick="setABC('BL12','c',this)">C もう一度</button></div>
         </div>
-        <div class="sec-card" style="border-color:#e2e8f0;">
-          <div class="sc-hd" style="background:#f8fafc;border-bottom-color:#94a3b8;"><span class="sc-num" style="background:#94a3b8;">BL-13</span><span class="sc-title" style="color:#64748b;">免疫</span></div>
-          <div class="sc-body"><ul class="sc-topics"><li>自然免疫と獲得免疫</li><li>体液性免疫・細胞性免疫</li><li>予防接種・アレルギー</li></ul></div>
-          <div class="sc-btn-row"><span class="sc-btn sc-btn-soon">準備中</span></div>
-          <div class="abc-row" style="opacity:.3;pointer-events:none;"><button class="abc-btn abc-a">A OK</button><button class="abc-btn abc-b">B 復習</button><button class="abc-btn abc-c">C もう一度</button></div>
+        <div class="sec-card" data-id="BL13">
+          <div class="sc-hd"><span class="sc-num">BL-13</span><span class="sc-title">免疫</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>自然免疫と獲得免疫</li><li>体液性免疫・細胞性免疫</li><li>免疫記憶・予防接種・アレルギー</li></ul></div>
+          <div class="sc-btn-row">
+            <a href="BL13.html" class="sc-btn">📖 intro</a>
+            <a href="BL13_drill.html" class="sc-btn">✏️ drill</a>
+            <a href="BL13_check.html" class="sc-btn">✅ check</a>
+            <a href="BL13_exam.html" class="sc-btn">📝 確認問題</a>
+          </div>
+          <div class="abc-row"><button class="abc-btn abc-a" onclick="setABC('BL13','a',this)">A OK</button><button class="abc-btn abc-b" onclick="setABC('BL13','b',this)">B 復習</button><button class="abc-btn abc-c" onclick="setABC('BL13','c',this)">C もう一度</button></div>
         </div>
       </div>
     </div>
@@ -390,7 +400,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
 
 <script>
 const STORAGE_KEY = 'gamba_bl_status_v2';
-const ACTIVE_IDS = ['BL01','BL02','BL03','BL04','BL07','BL08','BL09','BL10','BL11'];
+const ACTIVE_IDS = ['BL01','BL02','BL03','BL04','BL07','BL08','BL09','BL10','BL11','BL12','BL13'];
 const ALL_IDS = ['BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13'];
 let status = {};
 try { const s = localStorage.getItem(STORAGE_KEY); if(s) status = JSON.parse(s); } catch(e){}

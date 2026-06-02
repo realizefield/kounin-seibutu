@@ -50,6 +50,15 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;ba
 .final-msg{font-size:.95rem;margin:12px 0;}
 .final-btn{background:linear-gradient(135deg,var(--pri),#0284c7);color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
 canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+/* ページ間ナビ */
+.page-nav{display:flex;gap:6px;background:#fff;border-bottom:1px solid var(--border);
+  padding:8px 12px;position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.pnav-btn{flex:1;min-width:60px;padding:6px 4px;border:1.5px solid var(--border);
+  border-radius:8px;font-size:.75rem;font-weight:700;text-align:center;
+  text-decoration:none;color:var(--ink);background:#fff;cursor:pointer;
+  transition:all .15s;white-space:nowrap;}
+.pnav-btn:hover{border-color:var(--pri);background:var(--pri-ll);}
+.pnav-btn.active{background:var(--pri);color:#fff;border-color:var(--pri);}
 </style>
 </head>
 <body>
@@ -59,6 +68,12 @@ canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-event
   <div class="hd-label">BL-10 ドリル</div>
   <div class="hd-title">心臓と血液循環・酸素解離曲線</div>
   <div class="hd-sub">語群から選んで空欄を埋めよう</div>
+</div>
+<div class="page-nav">
+  <a class="pnav-btn" href="BL10.html">📖 解説</a>
+  <span class="pnav-btn active">✏️ ドリル</span>
+  <a class="pnav-btn" href="BL10_check.html">📝 確認テスト</a>
+  <a class="pnav-btn" href="BL10_exam.html">📋 確認問題</a>
 </div>
 <div class="prog-bar-wrap">
   <div class="prog-info"><span id="prog-text">0 / 11 問完了</span><span id="score-text"></span></div>
@@ -87,10 +102,9 @@ canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-event
       <div class="q-row"><span class="q-num-badge">Q1</span>毛細血管が発達し、動脈→毛細血管→静脈と血液が循環する血管系を <span class="blank" id="b0" onclick="fillBlank(0,this)">　　</span> 血管系という。</div>
       <div class="q-row"><span class="q-num-badge">Q2</span>毛細血管がなく、血液が動脈から組織へしみ出す血管系を <span class="blank" id="b1" onclick="fillBlank(1,this)">　　</span> 血管系という。節足動物などに見られる。</div>
       <div class="q-row"><span class="q-num-badge">Q3</span>静脈に逆流を防ぐ <span class="blank" id="b2" onclick="fillBlank(2,this)">　</span> がついている理由は、静脈の血圧が低いからである。</div>
-      <div class="q-row"><span class="q-num-badge">Q4</span>右心房にある心臓の拍動のペースを保つ部分を <span class="blank" id="b3" onclick="fillBlank(3,this)">　　　　</span>（ペースメーカー）という。</div>
-      <div class="q-row"><span class="q-num-badge">Q5</span>体循環では <span class="blank" id="b3" onclick="fillBlank(3,this)">　　</span> → <span class="blank" id="b4" onclick="fillBlank(3,this)">　　</span> → 全身 → <span class="blank" id="b5" onclick="fillBlank(3,this)">　　</span> → 右心房 の順に血液が流れる。</div>
-      <div class="q-row"><span class="q-num-badge">Q6</span>肺循環では <span class="blank" id="b6" onclick="fillBlank(3,this)">　　</span> → <span class="blank" id="b7" onclick="fillBlank(3,this)">　　</span> → 肺 → <span class="blank" id="b8" onclick="fillBlank(3,this)">　　</span> → <span class="blank" id="b9" onclick="fillBlank(3,this)">　　</span> の順に血液が流れる。</div>
-      <div class="q-row"><span class="q-num-badge">Q7</span>酸素を多く含む鮮紅色の血液を <span class="blank" id="b10" onclick="fillBlank(3,this)">　　</span> という。肺静脈・大動脈を流れる。</div>
+      <div class="q-row"><span class="q-num-badge">Q4</span>体循環では <span class="blank" id="b3" onclick="fillBlank(3,this)">　　</span> → <span class="blank" id="b4" onclick="fillBlank(4,this)">　　</span> → 全身 → <span class="blank" id="b5" onclick="fillBlank(5,this)">　　</span> → 右心房 の順に血液が流れる。</div>
+      <div class="q-row"><span class="q-num-badge">Q5</span>肺循環では <span class="blank" id="b6" onclick="fillBlank(6,this)">　　</span> → <span class="blank" id="b7" onclick="fillBlank(7,this)">　　</span> → 肺 → <span class="blank" id="b8" onclick="fillBlank(8,this)">　　</span> → <span class="blank" id="b9" onclick="fillBlank(9,this)">　　</span> の順に血液が流れる。</div>
+      <div class="q-row"><span class="q-num-badge">Q6</span>酸素を多く含む鮮紅色の血液を <span class="blank" id="b10" onclick="fillBlank(10,this)">　　</span> という。肺静脈・大動脈を流れる。</div>
       <div class="btn-row">
         <button class="btn btn-check" onclick="checkAll()">✅ 答え合わせ</button>
         <button class="btn btn-reset" onclick="resetAll()">🔄 リセット</button>

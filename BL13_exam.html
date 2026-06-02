@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BL13 確認問題 — 免疫</title>
+<style>
+:root{--pri:#7c3aed;--pri-d:#6d28d9;--pri-l:#ddd6fe;--pri-ll:#f5f3ff;
+  --ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;
+  --ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;--bg:#f5f3ff;
+  --radius:14px;--shadow:0 4px 20px rgba(0,0,0,.08);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;color:var(--ink);padding-bottom:60px;}
+.hd{background:linear-gradient(135deg,#4c1d95,#7c3aed,#8b5cf6);color:#fff;padding:28px 20px 24px;text-align:center;position:relative;}
+.hd-label{font-size:.75rem;letter-spacing:.15em;opacity:.85;margin-bottom:6px;}
+.hd-title{font-size:1.45rem;font-weight:700;margin-bottom:4px;}
+.hd-sub{font-size:.85rem;opacity:.8;}
+.back-btn{position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,.18);border:none;color:#fff;padding:7px 12px;
+  border-radius:8px;font-size:.82rem;cursor:pointer;text-decoration:none;}
+.page-nav{display:flex;gap:6px;background:#fff;border-bottom:1px solid var(--border);
+  padding:8px 12px;position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.pnav-btn{flex:1;min-width:60px;padding:6px 4px;border:1.5px solid var(--border);
+  border-radius:8px;font-size:.75rem;font-weight:700;text-align:center;
+  text-decoration:none;color:var(--ink);background:#fff;white-space:nowrap;}
+.pnav-btn.active{background:var(--pri);color:#fff;border-color:var(--pri);}
+.pnav-btn:hover:not(.active){border-color:var(--pri);background:var(--pri-ll);}
+.prog-wrap{background:#fff;border-bottom:1px solid var(--border);padding:12px 20px;position:sticky;top:0;z-index:100;}
+.prog-info{display:flex;justify-content:space-between;font-size:.8rem;color:var(--gray);margin-bottom:6px;}
+.prog-bar{height:6px;background:#e8e0d8;border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--pri),#8b5cf6);border-radius:3px;width:0%;transition:width .4s ease;}
+.container{max-width:680px;margin:0 auto;padding:20px 16px;}
+.q-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:18px;overflow:hidden;box-shadow:var(--shadow);}
+.q-head{padding:16px 18px 12px;display:flex;gap:12px;align-items:flex-start;border-bottom:1px solid var(--border);}
+.q-num{background:var(--pri);color:#fff;font-size:.78rem;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+.q-text{font-size:1rem;line-height:1.6;font-weight:500;}
+.opts{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;}
+.opt{border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:.93rem;
+  cursor:pointer;background:#fff;text-align:left;width:100%;transition:all .18s;display:flex;align-items:center;gap:10px;}
+.opt:hover:not(:disabled){border-color:var(--pri);background:var(--pri-ll);}
+.opt .opt-lbl{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0;}
+.opt.correct{border-color:var(--ok);background:var(--ok-bg);}
+.opt.correct .opt-lbl{background:var(--ok);border-color:var(--ok);color:#fff;}
+.opt.wrong{border-color:var(--ng);background:var(--ng-bg);}
+.opt.wrong .opt-lbl{background:var(--ng);border-color:var(--ng);color:#fff;}
+.explain{margin:0 14px 14px;padding:12px 14px;border-radius:10px;font-size:.88rem;line-height:1.65;display:none;}
+.explain.show{display:block;}
+.explain.ok-ex{background:var(--ok-bg);border-left:3px solid var(--ok);}
+.explain.ng-ex{background:var(--ng-bg);border-left:3px solid var(--ng);}
+.result-panel{background:#fff;border:2px solid var(--border);border-radius:var(--radius);padding:28px 20px;text-align:center;margin-top:8px;display:none;}
+.result-panel.show{display:block;}
+.res-score{font-size:2.8rem;font-weight:800;color:var(--pri);line-height:1;}
+.res-total{font-size:1rem;color:var(--gray);margin-top:4px;margin-bottom:16px;}
+.res-msg{font-size:1rem;line-height:1.6;margin-bottom:20px;}
+.res-btn{background:linear-gradient(135deg,var(--pri),#8b5cf6);color:#fff;border:none;
+  padding:12px 32px;border-radius:24px;font-size:.95rem;font-weight:700;cursor:pointer;}
+canvas#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="hd">
+  <a class="back-btn" href="index.html">← 一覧</a>
+  <div class="hd-label">BL-13 確認問題</div>
+  <div class="hd-title">免疫</div>
+  <div class="hd-sub">全10問 — 選んで答えよう</div>
+</div>
+<div class="page-nav">
+  <a class="pnav-btn" href="BL13.html">📖 解説</a>
+  <a class="pnav-btn" href="BL13_drill.html">✏️ ドリル</a>
+  <a class="pnav-btn" href="BL13_check.html">📝 確認テスト</a>
+  <span class="pnav-btn active">📋 確認問題</span>
+</div>
+<div class="prog-wrap">
+  <div class="prog-info"><span id="prog-text">0 / 10 問回答済み</span><span id="score-text"></span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+</div>
+<div class="container" id="qlist"></div>
+
+<script>
+const QS=[
+  {q:'ヒトの免疫に関する記述として、正しいのはどれか。',
+   opts:['自然免疫は後天的に獲得する免疫である','獲得免疫は病原体の種類を問わず攻撃する','自然免疫は生まれつき備わり、異物を広く排除する','獲得免疫は自然免疫より反応が速い'],ans:2,
+   ex:'<b>自然免疫</b>は生まれつき備わり、病原体の種類に関わらず広く排除します。獲得免疫は後天的で、特定の病原体を狙い撃ちしますが反応は遅いです。'},
+  {q:'食作用（貪食）に関する記述として正しいのはどれか。',
+   opts:['食作用はリンパ球が行う','好中球は食作用ができない','マクロファージは病原体を取り込んで分解する','食作用は獲得免疫に分類される'],ans:2,
+   ex:'<b>マクロファージ</b>は食作用で病原体を取り込み分解します。食作用は自然免疫の機能です。好中球も食作用を行います。'},
+  {q:'樹状細胞のはたらきとして正しいのはどれか。',
+   opts:['抗体を分泌する','抗原提示によってT細胞に情報を伝える','感染細胞を直接破壊する','記憶細胞になる'],ans:1,
+   ex:'<b>樹状細胞</b>は食作用後、<b>抗原提示</b>によってT細胞に病原体の情報を伝えます。自然免疫と獲得免疫をつなぐ重要な働きです。'},
+  {q:'体液性免疫の正しい順序はどれか。',
+   opts:['ヘルパーT細胞→キラーT細胞→感染細胞破壊','樹状細胞→ヘルパーT細胞→B細胞→形質細胞→抗体分泌','B細胞→好中球→マクロファージ→抗体分泌','樹状細胞→B細胞→記憶細胞→抗体分泌'],ans:1,
+   ex:'体液性免疫：<b>樹状細胞（抗原提示）→ヘルパーT細胞（活性化）→B細胞（増殖）→形質細胞（分化）→抗体分泌</b>。この順序を覚えましょう。'},
+  {q:'抗原抗体反応の説明として正しいのはどれか。',
+   opts:['あらゆる抗原に同じ抗体が結合する','抗体はキラーT細胞がつくる','抗体は特定の抗原だけに特異的に結合する','抗原抗体反応は自然免疫の機能である'],ans:2,
+   ex:'<b>抗原抗体反応</b>：抗体は特定の抗原だけに結合します（特異性）。鍵と鍵穴のような1対1の対応関係があります。'},
+  {q:'細胞性免疫について正しいのはどれか。',
+   opts:['B細胞が中心となる','抗体を血液中に放出して攻撃する','キラーT細胞が感染細胞に直接接触して破壊する','細胞外の病原体に対して主に働く'],ans:2,
+   ex:'<b>細胞性免疫</b>では<b>キラーT細胞</b>が感染細胞や移植片に直接くっついて破壊します。細胞の内部に隠れた敵に有効です。'},
+  {q:'免疫記憶に関する記述として正しいのはどれか。',
+   opts:['一次応答より二次応答の方が遅く弱い','記憶細胞は形質細胞が分化したものだけである','同じ抗原の2回目の侵入では素早く大量の抗体がつくられる','ワクチンは免疫記憶を消去するために使われる'],ans:2,
+   ex:'<b>免疫記憶</b>により、同じ抗原が2回目に来たときは<b>二次応答</b>として素早く大量の抗体が産生されます。ワクチンはこの記憶を事前に作ることを目的とします。'},
+  {q:'アレルギーの説明として正しいのはどれか。',
+   opts:['免疫機能が全体的に低下した状態','自分自身の細胞を免疫が攻撃する状態','無害な抗原に対して免疫が過剰反応する状態','キラーT細胞が消滅した状態'],ans:2,
+   ex:'<b>アレルギー</b>は、花粉など本来無害な抗原に対して免疫が過剰反応する状態です。花粉症・食物アレルギー・ぜんそくなどが例として挙げられます。'},
+  {q:'自己免疫疾患の例として正しいのはどれか。',
+   opts:['花粉症','AIDS（エイズ）','関節リウマチ','インフルエンザ'],ans:2,
+   ex:'<b>自己免疫疾患</b>は免疫が自分自身の細胞を攻撃する病気です。<b>関節リウマチ</b>や1型糖尿病が代表例。花粉症はアレルギー、AIDSは免疫不全です。'},
+  {q:'AIDSがヒトの免疫に影響を与えるしくみとして正しいのはどれか。',
+   opts:['HIVがB細胞を破壊するため','HIVがヘルパーT細胞を破壊し免疫機能が低下するため','HIVがキラーT細胞を増やすため','HIVがマクロファージを活性化させるため'],ans:1,
+   ex:'<b>HIV</b>は<b>ヘルパーT細胞</b>に感染して破壊します。免疫の司令塔が失われるため、様々な感染症にかかりやすくなります（AIDS）。'},
+];
+
+let answered=new Array(QS.length).fill(false);
+let correct=new Array(QS.length).fill(false);
+
+function build(){
+  const list=document.getElementById('qlist');list.innerHTML='';
+  const labels=['ア','イ','ウ','エ'];
+  QS.forEach((q,i)=>{
+    const card=document.createElement('div');card.className='q-card';card.id=`qcard${i}`;
+    card.innerHTML=`<div class="q-head"><span class="q-num">Q${i+1}</span><div class="q-text">${q.q}</div></div>
+    <div class="opts">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})"><span class="opt-lbl">${labels[j]}</span>${o}</button>`).join('')}</div>
+    <div class="explain" id="ex${i}"></div>`;
+    list.appendChild(card);
+  });
+  const panel=document.createElement('div');panel.className='result-panel';panel.id='result-panel';
+  panel.innerHTML=`<div class="res-score" id="res-score">0</div><div class="res-total">/ ${QS.length} 問正解</div><div class="res-msg" id="res-msg"></div><button class="res-btn" onclick="retry()">もう一度挑戦</button>`;
+  list.appendChild(panel);
+}
+function pick(qi,oi){
+  if(answered[qi])return;
+  answered[qi]=true;correct[qi]=(oi===QS[qi].ans);
+  document.querySelectorAll(`#qcard${qi} .opt`).forEach((o,j)=>{
+    o.disabled=true;
+    if(j===QS[qi].ans)o.classList.add('correct');
+    else if(j===oi&&oi!==QS[qi].ans)o.classList.add('wrong');
+  });
+  const ex=document.getElementById('ex'+qi);
+  ex.innerHTML=QS[qi].ex;ex.className='explain show '+(correct[qi]?'ok-ex':'ng-ex');
+  updateProg();if(answered.every(Boolean))showResult();
+}
+function updateProg(){
+  const done=answered.filter(Boolean).length;const ok=correct.filter(Boolean).length;
+  document.getElementById('prog-text').textContent=`${done} / ${QS.length} 問回答済み`;
+  document.getElementById('score-text').textContent=done?`正解 ${ok} 問`:'';
+  document.getElementById('prog-fill').style.width=(done/QS.length*100)+'%';
+}
+function showResult(){
+  const ok=correct.filter(Boolean).length;
+  const panel=document.getElementById('result-panel');
+  document.getElementById('res-score').textContent=ok;
+  const msgs=[[10,'🎉 全問正解！免疫を完璧にマスター！'],[8,'👏 よくできました！'],[5,'✅ 合格ライン！解説で復習しよう。'],[0,'📚 もう一度解説を読んで再挑戦！']];
+  document.getElementById('res-msg').textContent=msgs.find(([t])=>ok>=t)[1];
+  panel.classList.add('show');
+  if(ok===QS.length)fireConfetti();
+}
+function retry(){answered.fill(false);correct.fill(false);build();updateProg();window.scrollTo({top:0,behavior:'smooth'});}
+function fireConfetti(){
+  const cv=document.getElementById('confetti-canvas');
+  cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
+  const ctx=cv.getContext('2d');
+  const cols=['#7c3aed','#e74c3c','#f1c40f','#2ecc71','#8b5cf6','#9b59b6','#fff'];
+  const pts=[];
+  function mk(x,y,vx,vy){return{x,y,vx,vy,s:Math.random()*7+4,c:cols[Math.floor(Math.random()*cols.length)],rot:Math.random()*6,vr:(Math.random()-.5)*.3,sw:Math.random()*6};}
+  for(let i=0;i<80;i++){pts.push(mk(0,cv.height,4+Math.random()*7,-(9+Math.random()*9)));pts.push(mk(cv.width,cv.height,-(4+Math.random()*7),-(9+Math.random()*9)));}
+  for(let i=0;i<100;i++){pts.push(mk(Math.random()*cv.width,-Math.random()*cv.height*.3,(Math.random()-.5)*2,1.5+Math.random()*2));}
+  let f=0;
+  (function loop(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    pts.forEach(p=>{p.vy+=.18;p.sw+=.06;p.x+=p.vx+Math.sin(p.sw)*1.5;p.y+=p.vy;p.rot+=p.vr;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.c;
+      ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s);ctx.restore();});
+    f++;if(f<360)requestAnimationFrame(loop);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}
+  })();
+}
+build();updateProg();
+</script>
+</body>
+</html>

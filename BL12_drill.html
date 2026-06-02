@@ -49,6 +49,14 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;ba
 .final-msg{font-size:.95rem;margin:12px 0;}
 .final-btn{background:linear-gradient(135deg,var(--pri),var(--teal));color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
 canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+/* ページ間ナビ */
+.page-nav{display:flex;gap:6px;background:#fff;border-bottom:1px solid var(--border);
+  padding:8px 12px;position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.pnav-btn{flex:1;min-width:60px;padding:6px 4px;border:1.5px solid var(--border);
+  border-radius:8px;font-size:.75rem;font-weight:700;text-align:center;
+  text-decoration:none;color:var(--ink);background:#fff;white-space:nowrap;}
+.pnav-btn.active{background:var(--pri);color:#fff;border-color:var(--pri);}
+.pnav-btn:hover:not(.active){border-color:var(--pri);background:var(--pri-ll);}
 </style>
 </head>
 <body>
@@ -58,6 +66,12 @@ canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-event
   <div class="hd-label">BL-12 ドリル</div>
   <div class="hd-title">腎臓のはたらき</div>
   <div class="hd-sub">語群から選んで空欄を埋めよう</div>
+</div>
+<div class="page-nav">
+  <a class="pnav-btn" href="BL12.html">📖 解説</a>
+  <span class="pnav-btn active">✏️ ドリル</span>
+  <a class="pnav-btn" href="BL12_check.html">📝 確認テスト</a>
+  <a class="pnav-btn" href="BL12_exam.html">📋 確認問題</a>
 </div>
 <div class="prog-bar-wrap">
   <div class="prog-info"><span id="prog-text">0 / 14 問完了</span><span id="score-text"></span></div>
