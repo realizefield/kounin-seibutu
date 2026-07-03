@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>細胞③ATP・代謝・酵素 確認テスト｜高認GAMBA 生物基礎</title>
+<style>
+:root {
+  --primary: #0e7490;
+  --primary-dark: #0c5e73;
+  --primary-light: #f0fdff;
+  --accent: #f59e0b;
+  --bg: #f0fdff;
+  --card: #ffffff;
+  --text: #1f2937;
+  --text-sub: #6b7280;
+  --border: #e5e7eb;
+  --correct: #16a34a;
+  --wrong: #dc2626;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+  background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.8;
+  padding-bottom: 60px; }
+
+nav { background: var(--primary); padding: 11px 16px; display: flex; align-items: center; gap: 10px; }
+nav a { color: #fff; text-decoration: none; font-size: 13px; opacity: 0.85; }
+nav a:hover { opacity: 1; }
+nav span.sep { color: rgba(255,255,255,0.4); }
+nav span.current { color: #fff; font-weight: bold; }
+
+.page-hd { background: linear-gradient(135deg,#075985 0%,#0e7490 55%,#0891b2 100%);
+  color: #fff; padding: 26px 16px 22px; text-align: center; }
+.hd-label { font-size: 11px; letter-spacing: .18em; opacity: .8; margin-bottom: 6px; }
+.hd-title { font-size: clamp(18px,4vw,23px); font-weight: 800; margin-bottom: 4px; }
+.hd-sub { font-size: 13px; opacity: .75; }
+
+.wrap { max-width: 780px; margin: 0 auto; padding: 18px 14px; }
+
+/* 進捗バー */
+.prog-wrap { background: var(--card); border-radius: 10px; padding: 14px 18px;
+  margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.prog-label { font-size: 12px; color: var(--text-sub); margin-bottom: 5px;
+  display: flex; justify-content: space-between; }
+.prog-bar { height: 9px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.prog-fill { height: 100%; background: var(--primary); border-radius: 99px; transition: width .4s; }
+
+/* ユニット */
+.unit { background: var(--card); border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 22px; overflow: hidden; }
+.unit-hd { background: var(--primary); color: #fff; padding: 12px 18px;
+  display: flex; align-items: center; gap: 10px; }
+.unit-num { background: rgba(255,255,255,.25); border-radius: 50%; width: 28px;
+  height: 28px; display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 13px; flex-shrink: 0; }
+.unit-hd h2 { font-size: 15px; font-weight: bold; }
+.unit-body { padding: 16px 18px; }
+
+/* 穴埋め問題 */
+.dq { margin-bottom: 12px; font-size: 15px; line-height: 2.1; }
+.dq .qn { display: inline-block; background: var(--primary); color: #fff;
+  border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: bold;
+  margin-right: 5px; vertical-align: middle; }
+.blank { display: inline-block; min-width: 88px; padding: 2px 8px;
+  border-bottom: 2px solid var(--primary); background: #e0f2fe;
+  border-radius: 4px 4px 0 0; text-align: center; font-weight: bold;
+  color: var(--primary-dark); margin: 0 3px; cursor: default;
+  transition: all .15s; vertical-align: bottom; font-size: 14px; }
+.blank.empty { background: #e5e7eb; color: transparent; cursor: pointer; }
+.blank.chip-target:hover { background: #a5f3fc; }
+.blank.correct { background: #dcfce7; color: var(--correct); border-color: var(--correct); }
+.blank.wrong { background: #fee2e2; color: var(--wrong); border-color: var(--wrong); }
+
+/* 語群 */
+.chips-wrap { background: #f8fafc; border-radius: 8px; padding: 10px 13px; margin: 12px 0; }
+.chips-label { font-size: 11px; color: var(--text-sub); margin-bottom: 7px; font-weight: bold; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; min-height: 32px; }
+.chip { display: inline-block; padding: 4px 13px; background: var(--primary); color: #fff;
+  border-radius: 20px; font-size: 13px; cursor: pointer; transition: all .15s;
+  user-select: none; }
+.chip:hover { background: var(--primary-dark); transform: scale(1.04); }
+.chip.used { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; pointer-events: none; }
+
+/* ボタン */
+.unit-ctrl { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+.btn { padding: 7px 16px; border-radius: 6px; border: none; font-size: 13px;
+  font-weight: bold; cursor: pointer; transition: all .15s; }
+.btn-start { background: var(--primary); color: #fff; }
+.btn-start:hover { background: var(--primary-dark); }
+.btn-judge { background: var(--accent); color: #fff; }
+.btn-judge:hover { background: #d97706; }
+.btn-show { background: #94a3b8; color: #fff; }
+.btn-show:hover { background: #64748b; }
+
+.score-box { margin-top: 8px; padding: 7px 13px; border-radius: 6px;
+  font-size: 14px; font-weight: bold; display: none; }
+.score-box.show { display: block; }
+.score-ok { background: #dcfce7; color: var(--correct); }
+.score-ng { background: #fee2e2; color: var(--wrong); }
+
+/* 全問採点 */
+.total-ctrl { text-align: center; margin: 8px 0 16px; }
+.btn-total { background: var(--primary-dark); color: #fff; padding: 11px 30px;
+  font-size: 15px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+.btn-total:hover { opacity: .9; }
+.score-total { text-align: center; padding: 12px; border-radius: 8px;
+  font-size: 17px; font-weight: bold; display: none; margin-bottom: 20px; }
+.score-total.show { display: block; }
+
+/* ナビリンク */
+.nav-links { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
+.nav-links a { padding: 9px 20px; background: var(--primary); color: #fff;
+  border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: bold; }
+.nav-links a:hover { background: var(--primary-dark); }
+
+/* 紙吹雪 */
+#confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 9999; display: none; }
+
+@media(max-width:600px){ .dq { font-size: 14px; } }
+
+/* 問題カード */
+.q-card{background:var(--card);border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:18px;overflow:hidden;}
+.q-hd{background:var(--primary);color:#fff;padding:11px 18px;
+  display:flex;align-items:center;gap:9px;}
+.q-badge{background:rgba(255,255,255,.25);border-radius:50%;width:27px;
+  height:27px;display:flex;align-items:center;justify-content:center;
+  font-weight:bold;font-size:13px;flex-shrink:0;}
+.q-hd h3{font-size:14px;font-weight:bold;line-height:1.45;}
+.q-body{padding:16px 18px;}
+.choices{display:grid;gap:9px;margin-top:4px;}
+.choice-btn{padding:10px 14px;border:2px solid var(--border);border-radius:8px;
+  background:#fff;font-size:14px;cursor:pointer;text-align:left;
+  display:flex;align-items:flex-start;gap:9px;line-height:1.5;transition:all .15s;}
+.choice-btn:hover:not(:disabled){border-color:var(--primary);background:var(--primary-light);}
+.choice-num{font-weight:bold;color:var(--primary);min-width:18px;}
+.choice-btn.correct{border-color:var(--correct);background:#dcfce7;}
+.choice-btn.wrong{border-color:var(--wrong);background:#fee2e2;}
+.choice-btn:disabled{cursor:default;}
+.feedback{margin-top:10px;padding:11px 13px;border-radius:8px;
+  font-size:13px;display:none;line-height:1.6;}
+.feedback.show{display:block;}
+.feedback.ok{background:#dcfce7;border-left:4px solid var(--correct);}
+.feedback.ng{background:#fee2e2;border-left:4px solid var(--wrong);}
+.feedback .fb-title{font-weight:bold;margin-bottom:3px;}
+/* 結果 */
+.total-wrap{background:var(--card);border-radius:12px;padding:22px 18px;
+  text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);
+  margin-top:8px;display:none;}
+.total-wrap.show{display:block;}
+.total-score{font-size:46px;font-weight:bold;color:var(--primary);margin:6px 0;}
+.total-label{font-size:14px;color:var(--text-sub);}
+.total-msg{margin-top:8px;font-size:15px;font-weight:bold;}
+.submit-wrap{text-align:center;margin:22px 0 10px;}
+.btn-submit{background:var(--primary-dark);color:#fff;padding:12px 32px;
+  font-size:15px;border-radius:8px;border:none;cursor:pointer;font-weight:bold;}
+.btn-submit:hover{opacity:.9;}
+.btn-retry{background:var(--accent);color:#fff;padding:9px 24px;
+  font-size:14px;border-radius:8px;border:none;cursor:pointer;
+  font-weight:bold;margin-top:14px;}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<nav>
+  <a href="index.html">🏠 ホーム</a>
+  <span class="sep">›</span>
+  <a href="saibou3.html">細胞③解説</a>
+  <span class="sep">›</span>
+  <span class="current">確認テスト</span>
+</nav>
+<div class="page-hd">
+  <div class="hd-label">生物基礎 細胞③ 確認テスト</div>
+  <h1 class="hd-title">🔬 細胞③ATP・代謝・酵素 確認テスト</h1>
+  <div class="hd-sub">全10問・四択です。全問答えてから「採点する」を押してください。</div>
+</div>
+<div class="wrap">
+  <div class="prog-wrap">
+    <div class="prog-label"><span>回答済み</span><span id="prog-text">0 / 10 問</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">1</div><h3>ATPの正式名称はどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices1">
+      <button class="choice-btn" onclick="answer(1,this,false)"><span class="choice-num">①</span> アデノシン二リン酸</button>
+<button class="choice-btn" onclick="answer(1,this,true)"><span class="choice-num">②</span> アデノシン三リン酸</button>
+<button class="choice-btn" onclick="answer(1,this,false)"><span class="choice-num">③</span> アデニン三リン酸</button>
+<button class="choice-btn" onclick="answer(1,this,false)"><span class="choice-num">④</span> アデノシン一リン酸</button>
+
+    </div>
+    <div class="feedback" id="fb1">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">2</div><h3>ATPが分解されるとき放出されるエネルギーを利用して、生物が行わないものはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices2">
+      <button class="choice-btn" onclick="answer(2,this,false)"><span class="choice-num">①</span> 筋肉を収縮させる（運動）</button>
+<button class="choice-btn" onclick="answer(2,this,false)"><span class="choice-num">②</span> 体温を維持する（発熱）</button>
+<button class="choice-btn" onclick="answer(2,this,true)"><span class="choice-num">③</span> DNAをATPに変換する</button>
+<button class="choice-btn" onclick="answer(2,this,false)"><span class="choice-num">④</span> 物質を能動輸送する</button>
+
+    </div>
+    <div class="feedback" id="fb2">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">3</div><h3>ATPを最も多く合成する場所はどこですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices3">
+      <button class="choice-btn" onclick="answer(3,this,false)"><span class="choice-num">①</span> 核</button>
+<button class="choice-btn" onclick="answer(3,this,false)"><span class="choice-num">②</span> 細胞膜</button>
+<button class="choice-btn" onclick="answer(3,this,true)"><span class="choice-num">③</span> ミトコンドリア</button>
+<button class="choice-btn" onclick="answer(3,this,false)"><span class="choice-num">④</span> リボソーム</button>
+
+    </div>
+    <div class="feedback" id="fb3">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">4</div><h3>「同化」の説明として正しいのはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices4">
+      <button class="choice-btn" onclick="answer(4,this,false)"><span class="choice-num">①</span> 有機物を分解してエネルギーを取り出す反応</button>
+<button class="choice-btn" onclick="answer(4,this,true)"><span class="choice-num">②</span> 単純な物質から複雑な物質を合成する反応</button>
+<button class="choice-btn" onclick="answer(4,this,false)"><span class="choice-num">③</span> ATPをADPに分解する反応</button>
+<button class="choice-btn" onclick="answer(4,this,false)"><span class="choice-num">④</span> 酸素を消費してCO₂を出す反応</button>
+
+    </div>
+    <div class="feedback" id="fb4">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">5</div><h3>酵素について誤っているものはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices5">
+      <button class="choice-btn" onclick="answer(5,this,false)"><span class="choice-num">①</span> タンパク質でできている</button>
+<button class="choice-btn" onclick="answer(5,this,false)"><span class="choice-num">②</span> 化学反応を促進する触媒として働く</button>
+<button class="choice-btn" onclick="answer(5,this,true)"><span class="choice-num">③</span> 反応後に自身も変化して消費される</button>
+<button class="choice-btn" onclick="answer(5,this,false)"><span class="choice-num">④</span> 基質特異性を持つ</button>
+
+    </div>
+    <div class="feedback" id="fb5">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">6</div><h3>アミラーゼについて正しいのはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices6">
+      <button class="choice-btn" onclick="answer(6,this,false)"><span class="choice-num">①</span> タンパク質をペプチドに分解し、胃液に含まれる</button>
+<button class="choice-btn" onclick="answer(6,this,true)"><span class="choice-num">②</span> デンプンをマルトースに分解し、だ液・すい液に含まれる</button>
+<button class="choice-btn" onclick="answer(6,this,false)"><span class="choice-num">③</span> 脂肪を脂肪酸とグリセロールに分解する</button>
+<button class="choice-btn" onclick="answer(6,this,false)"><span class="choice-num">④</span> 過酸化水素を水と酸素に分解する</button>
+
+    </div>
+    <div class="feedback" id="fb6">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">7</div><h3>ペプシンの最適pHとして正しいのはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices7">
+      <button class="choice-btn" onclick="answer(7,this,false)"><span class="choice-num">①</span> pH約7（中性）</button>
+<button class="choice-btn" onclick="answer(7,this,false)"><span class="choice-num">②</span> pH約8.2（弱アルカリ性）</button>
+<button class="choice-btn" onclick="answer(7,this,true)"><span class="choice-num">③</span> pH約2（強酸性）</button>
+<button class="choice-btn" onclick="answer(7,this,false)"><span class="choice-num">④</span> pH約5（弱酸性）</button>
+
+    </div>
+    <div class="feedback" id="fb7">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">8</div><h3>カタラーゼの実験について正しいのはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices8">
+      <button class="choice-btn" onclick="answer(8,this,false)"><span class="choice-num">①</span> カタラーゼは強酸性でよく働く</button>
+<button class="choice-btn" onclick="answer(8,this,true)"><span class="choice-num">②</span> 肝臓片に過酸化水素水を加えると酸素が発生する</button>
+<button class="choice-btn" onclick="answer(8,this,false)"><span class="choice-num">③</span> 煮沸した肝臓片でも同じように反応する</button>
+<button class="choice-btn" onclick="answer(8,this,false)"><span class="choice-num">④</span> カタラーゼは基質特異性を持たない</button>
+
+    </div>
+    <div class="feedback" id="fb8">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">9</div><h3>酵素の「基質特異性」について正しい説明はどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices9">
+      <button class="choice-btn" onclick="answer(9,this,false)"><span class="choice-num">①</span> 酵素はすべての物質に作用できる</button>
+<button class="choice-btn" onclick="answer(9,this,true)"><span class="choice-num">②</span> 酵素は特定の基質にしか作用しない</button>
+<button class="choice-btn" onclick="answer(9,this,false)"><span class="choice-num">③</span> 酵素は温度にかかわらず一定の速さで働く</button>
+<button class="choice-btn" onclick="answer(9,this,false)"><span class="choice-num">④</span> 酵素は酸・アルカリに強い</button>
+
+    </div>
+    <div class="feedback" id="fb9">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">10</div><h3>酵素の失活について正しいのはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices10">
+      <button class="choice-btn" onclick="answer(10,this,false)"><span class="choice-num">①</span> 高温にしても酵素の働きは変わらない</button>
+<button class="choice-btn" onclick="answer(10,this,true)"><span class="choice-num">②</span> 酵素はタンパク質なので、高温・強酸・強塩基で変性して働かなくなる</button>
+<button class="choice-btn" onclick="answer(10,this,false)"><span class="choice-num">③</span> 低温にすると酵素は永久に破壊される</button>
+<button class="choice-btn" onclick="answer(10,this,false)"><span class="choice-num">④</span> pHが変化しても酵素は影響を受けない</button>
+
+    </div>
+    <div class="feedback" id="fb10">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+  <div class="submit-wrap">
+    <button class="btn-submit" onclick="submitAll()">📝 採点する</button>
+  </div>
+  <div class="total-wrap" id="total-wrap">
+    <div class="total-label">あなたの得点</div>
+    <div class="total-score" id="total-score"></div>
+    <div class="total-msg" id="total-msg"></div>
+    <div style="margin-top:5px;font-size:12px;color:var(--text-sub)" id="total-sub"></div>
+    <button class="btn-retry" onclick="location.reload()">もう一度チャレンジ</button>
+  </div>
+  <div class="nav-links">
+    <a href="saibou3_drill.html">← ドリルへ</a>
+    <a href="saibou3.html">解説へ戻る</a>
+  </div>
+</div>
+<script>
+
+const answered={};
+let correctCount=0;
+const QDATA={"1": {"ok": "正解は②アデノシン三リン酸です。ATP=Adenosine Triphosphate で、リン酸基が3つ付いています。", "ng": "不正解。ATPはアデノシン三リン酸です。「三」はリン酸基が3つあることを示します。ADP（アデノシン二リン酸）とは別物です。"}, "2": {"ok": "正解は③です。ATPは運動・発熱・能動輸送などの生命活動に使われますが、「DNAをATPに変換する」というプロセスは存在しません。", "ng": "不正解。ATPは①運動②発熱④能動輸送などに使われます。③「DNAをATPに変換する」というプロセスは存在しません。"}, "3": {"ok": "正解は③ミトコンドリアです。ミトコンドリアは酸素を使って有機物を分解し（細胞呼吸）、大量のATPを合成します。", "ng": "不正解。ATPを最も多く合成するのはミトコンドリアです（細胞呼吸）。細胞質基質でも少量合成されます。"}, "4": {"ok": "正解は②です。同化は「単純な物質から複雑な物質を合成する反応」で、光合成（CO₂→糖）が代表例です。エネルギーを必要とします。", "ng": "不正解。同化は「合成する反応（光合成など）」、異化は「分解する反応（細胞呼吸など）」です。①③④は異化の説明に近いです。"}, "5": {"ok": "正解（誤り）は③です。酵素は触媒なので反応前後で自身は変化せず、くり返し働くことができます。", "ng": "不正解。誤っているのは③です。酵素は触媒として働くため、反応後に自身は変化・消費されません。くり返し使われます。"}, "6": {"ok": "正解は②です。アミラーゼはデンプンを分解する酵素で、だ液とすい液に含まれます。最適pHは約7（中性）です。", "ng": "不正解。アミラーゼはデンプン→マルトースを分解する酵素（だ液・すい液）です。①はペプシン、③はリパーゼ、④はカタラーゼの説明です。"}, "7": {"ok": "正解は③pH約2（強酸性）です。ペプシンは胃液の中で働く酵素で、胃液はpH1〜2の強酸性です。", "ng": "不正解。ペプシンの最適pHは約2（強酸性）です。アミラーゼ≒7（中性）、トリプシン≒8.2（弱アルカリ性）と覚えましょう。"}, "8": {"ok": "正解は②です。肝臓にはカタラーゼが多く含まれており、過酸化水素水を加えると過酸化水素→水+酸素の反応が起こり、泡（O₂）が発生します。", "ng": "不正解。正解は②です。③煮沸した肝臓はタンパク質が変性（失活）するので反応しません。カタラーゼは基質特異性を持ちます。"}, "9": {"ok": "正解は②です。基質特異性とは「酵素が特定の基質（反応する相手）にしか結合・作用しない」という性質です。鍵と鍵穴の関係に例えられます。", "ng": "不正解。基質特異性は「特定の基質にしか作用しない性質」です。①全物質に作用できるわけではなく、③温度の影響を強く受け、④強酸・強塩基で失活します。"}, "10": {"ok": "正解は②です。酵素はタンパク質でできているため、高温・強酸・強塩基によって立体構造が変化（変性・失活）し、働かなくなります。", "ng": "不正解。正解は②です。酵素はタンパク質なので高温・強酸・強塩基で「変性（失活）」します。低温では活性が下がるだけで破壊はされません。"}};
+
+function answer(qnum,btn,isCorrect){
+  if(answered[qnum])return;
+  answered[qnum]=isCorrect?'correct':'wrong';
+  const choices=document.getElementById('choices'+qnum).querySelectorAll('.choice-btn');
+  choices.forEach(b=>b.disabled=true);
+  choices.forEach(b=>{ if(b.getAttribute('onclick').includes(',true)'))b.classList.add('correct'); });
+  if(!isCorrect)btn.classList.add('wrong');
+  const fb=document.getElementById('fb'+qnum);
+  const q=QDATA[qnum];
+  fb.querySelector('.fb-title').textContent=isCorrect?'✅ 正解！':'❌ 不正解';
+  fb.querySelector('.fb-body').textContent=isCorrect?q.ok:q.ng;
+  fb.className='feedback show '+(isCorrect?'ok':'ng');
+  const done=Object.keys(answered).length;
+  document.getElementById('prog-text').textContent=done+' / 10 問';
+  document.getElementById('prog-fill').style.width=(done/10*100)+'%';
+}
+
+function submitAll(){
+  correctCount=Object.values(answered).filter(v=>v==='correct').length;
+  const wrap=document.getElementById('total-wrap');
+  wrap.className='total-wrap show';
+  document.getElementById('total-score').textContent=correctCount+' / 10';
+  let msg='',sub='';
+  if(correctCount===10){msg='🎉 満点！完璧です！';sub='しっかり理解できています。次のページへ進みましょう。';fireConfetti();}
+  else if(correctCount>=10*0.8){msg='👏 よくできました！';sub='間違えた問題の解説を読んで復習しましょう。';}
+  else if(correctCount>=10*0.6){msg='📖 もう一度復習しましょう。';sub='ドリルに戻って確認してから再チャレンジ！';}
+  else{msg='💪 くり返し練習しましょう！';sub='解説ページをもう一度読んでみましょう。';}
+  document.getElementById('total-msg').textContent=msg;
+  document.getElementById('total-sub').textContent=sub;
+  wrap.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function fireConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const cols = ['#0e7490','#f59e0b','#3b82f6','#ec4899','#10b981','#f97316'];
+  const ps = [];
+  for (let i=0;i<130;i++) ps.push({x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height-canvas.height,
+    w:Math.random()*9+5,h:Math.random()*5+3,
+    color:cols[Math.floor(Math.random()*cols.length)],
+    vx:(Math.random()-.5)*3,vy:Math.random()*3+2,
+    angle:Math.random()*360,spin:(Math.random()-.5)*5});
+  let fr=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ps.forEach(p=>{
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.angle*Math.PI/180);
+      ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
+      p.x+=p.vx;p.y+=p.vy;p.angle+=p.spin;
+    });
+    fr++;
+    if(fr<130)requestAnimationFrame(draw);else canvas.style.display='none';
+  }
+  draw();
+}
+
+</script>
+</body>
+</html>

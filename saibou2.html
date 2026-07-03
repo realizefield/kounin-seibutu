@@ -1,276 +1,290 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>生物基礎：②原核細胞の構造と構造の比較</title>
-    <style>
-        :root { --primary-color: #2c3e50; --bg-color: #f8f9fa; --drop-zone-bg: #fff9c4; --line-green: #06C755; }
-        body { font-family: sans-serif; background-color: var(--bg-color); margin: 0; padding: 0; overflow-x: hidden; }
-        
-        /* 固定ヘッダー */
-        .sticky-header { 
-            position: sticky; top: 0; background: var(--bg-color); 
-            padding: 10px 0; z-index: 1000; border-bottom: 2px solid #ddd; 
-        }
-
-        /* ナビゲーションボタン */
-        .page-nav {
-            max-width: 1050px;
-            margin: 0 auto 10px;
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-        .nav-btn {
-            text-decoration: none;
-            background: #7f8c8d;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-        .nav-btn:hover { background: #34495e; }
-        .nav-btn.active { background: #2c3e50; border: 2px solid #f1c40f; }
-
-        .challenge-panel { 
-            background: #333; color: #fff; padding: 10px; border-radius: 8px; 
-            display: flex; justify-content: space-around; align-items: center; 
-            max-width: 1050px; margin: 0 auto 10px; 
-        }
-        .timer { font-size: 1.5em; color: #f1c40f; font-family: monospace; }
-        
-        /* 音声コントロールエリア */
-        .audio-summary-area {
-            background: #fff3e0; padding: 15px; border-radius: 8px; margin: 10px auto 10px;
-            display: flex; align-items: center; justify-content: space-between;
-            border: 1px solid #ffe0b2; max-width: 1050px;
-        }
-        .speaker-btn-large { 
-            background: #e67e22; color: white; border: none; cursor: pointer; 
-            padding: 10px 25px; border-radius: 30px; font-weight: bold;
-            display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .speaker-btn-large.playing { background: #c0392b; }
-        .volume-control { display: flex; align-items: center; gap: 10px; }
-        input[type="range"] { cursor: pointer; width: 150px; }
-
-        /* 語群コンテナ */
-        .word-bank-container { 
-            background: #eee; padding: 15px; border-radius: 8px; border: 1px solid #ccc; 
-            max-width: 1050px; margin: 0 auto; 
-        }
-        .word-bank { display: flex; flex-wrap: wrap; gap: 8px; min-height: 40px; }
-        .drag-item { 
-            background: #fff; color: #ff0000; border: 1px solid #333; padding: 4px 12px; 
-            cursor: pointer; font-weight: bold; font-size: 0.9em; 
-        }
-        .drag-item.selected { background: #f1c40f; color: #333; }
-
-        .container { max-width: 1050px; margin: 20px auto; background: white; padding: 30px; border-radius: 12px; }
-        .section-box { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
-        .section-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; border-left: 6px solid #2c3e50; padding-left: 10px; }
-
-        /* ドロップゾーン設定 */
-        .drop-zone-inline { 
-            display: inline-block; min-width: 120px; height: 1.6em; 
-            background: var(--drop-zone-bg); border: 1px solid #333; 
-            vertical-align: middle; cursor: pointer; text-align: center;
-            font-weight: bold; color: #ff0000; padding: 2px 5px;
-            white-space: nowrap;
-        }
-        .drop-zone-inline.symbol { min-width: 40px; }
-        .drop-zone-inline.correct { background: #d4edda !important; border: 2px solid #28a745 !important; color: #155724; }
-        .drop-zone-inline.wrong { background: #f8d7da !important; border: 2px solid #dc3545 !important; }
-
-        /* 原核細胞図 */
-        .genkaku-detail-box { position: relative; width: 450px; height: 350px; margin: 20px auto; border: 1px solid #eee; background: #fff; }
-        .genkaku-img { width: 300px; display: block; margin: 60px auto; }
-        
-        /* 300px画像への正確な座標 */
-        .pos-ribo { position: absolute; top: 20px; left: 10px; } 
-        .pos-nuc-like { position: absolute; top: 10px; left: 180px; }
-        .pos-cap { position: absolute; top: 40px; left: 300px; } 
-        .pos-flag { position: absolute; top: 160px; right: 10px; } 
-        .pos-wall-g { position: absolute; bottom: 20px; left: 180px; } 
-        .pos-mem-g { position: absolute; bottom: 20px; left: 10px; } 
-        .pos-dna-g { position: absolute; bottom: 20px; left: 300px; } 
-
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #333; padding: 12px; text-align: left; }
-        th { background: #f2f2f2; text-align: center; }
-        td.center { text-align: center; }
-
-        .line-float-btn {
-            position: fixed; bottom: 30px; right: 30px; background: var(--line-green); color: white;
-            width: 75px; height: 75px; border-radius: 50%; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-decoration: none; font-weight: bold;
-            font-size: 11px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 2000; transition: 0.2s;
-        }
-        .line-float-btn:hover { transform: scale(1.1); }
-
-        .controls { text-align: center; margin-top: 30px; padding-bottom: 100px; }
-        .main-btn { padding: 15px 30px; font-size: 1.1rem; cursor: pointer; border: none; border-radius: 8px; font-weight: bold; color: white; margin: 0 10px; }
-        
-        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>細胞②原核細胞の構造｜高認GAMBA 生物基礎</title>
+<style>
+:root{
+  --pri:#0e7490;--pri-d:#0c5e73;--pri-l:#a5f3fc;--pri-ll:#f0fdff;
+  --grn:#16a34a;--grn-bg:#dcfce7;--red:#dc2626;--red-bg:#fee2e2;
+  --amber:#b45309;--amber-bg:#fef3c7;
+  --ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;
+  --bg:#f0fdff;--radius:14px;--shadow:0 2px 12px rgba(0,0,0,.07);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.85;padding-bottom:60px;}
+.page-hd{background:linear-gradient(135deg,#075985 0%,#0e7490 55%,#0891b2 100%);
+  color:#fff;padding:28px 16px 24px;text-align:center;position:relative;overflow:hidden;}
+.page-hd::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;
+  border-radius:50%;background:rgba(255,255,255,.07);}
+.hd-label{font-size:.72rem;letter-spacing:.18em;opacity:.8;margin-bottom:6px;}
+.hd-title{font-size:1.4rem;font-weight:800;letter-spacing:.03em;margin-bottom:4px;}
+.hd-sub{font-size:.82rem;opacity:.75;}
+.back-btn{position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,.18);border:none;color:#fff;padding:6px 12px;
+  border-radius:8px;font-size:.8rem;cursor:pointer;text-decoration:none;}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px;}
+.page-nav{display:flex;gap:6px;background:#fff;border-bottom:1px solid var(--border);
+  padding:8px 12px;position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.pnav-btn{flex:1;min-width:60px;padding:6px 4px;border:1.5px solid var(--border);
+  border-radius:8px;font-size:.75rem;font-weight:700;text-align:center;
+  text-decoration:none;color:var(--ink);background:#fff;white-space:nowrap;}
+.pnav-btn.active{background:var(--pri);color:#fff;border-color:var(--pri);}
+.pnav-btn:hover:not(.active){border-color:var(--pri);background:var(--pri-ll);}
+.section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);
+  margin-bottom:20px;overflow:hidden;}
+.sec-hd{padding:14px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sec-num{background:var(--pri);color:#fff;font-size:.72rem;font-weight:700;
+  padding:3px 10px;border-radius:20px;}
+.sec-title{font-size:1.05rem;font-weight:700;}
+.freq-red{background:#fef2f2;color:var(--red);border:1px solid #fecaca;
+  font-size:.7rem;padding:2px 8px;border-radius:10px;font-weight:700;}
+.freq-yellow{background:#fefce8;color:#ca8a04;border:1px solid #fef08a;
+  font-size:.7rem;padding:2px 8px;border-radius:10px;font-weight:700;}
+.sec-body{padding:16px 18px;}
+.sec-body p{margin-bottom:.9em;}
+.sec-body h3{font-size:.95rem;color:var(--pri-d);margin:1em 0 .5em;
+  border-left:3px solid var(--pri);padding-left:8px;}
+.tbl{width:100%;border-collapse:collapse;font-size:.88rem;margin:10px 0;}
+.tbl th{background:var(--pri);color:#fff;padding:8px 10px;text-align:center;}
+.tbl td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle;}
+.tbl tr:nth-child(even) td{background:var(--gray-l);}
+.tbl .hl{background:#e0f7ff;font-weight:700;}
+.point{background:var(--pri-ll);border-left:4px solid var(--pri);
+  border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0;font-size:.9rem;}
+.memo{background:var(--grn-bg);border-left:4px solid var(--grn);
+  border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0;font-size:.88rem;}
+.warn{background:var(--red-bg);border-left:4px solid var(--red);
+  border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0;font-size:.88rem;}
+.amber-box{background:var(--amber-bg);border-left:4px solid var(--amber);
+  border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0;font-size:.88rem;}
+/* 構造カードグリッド */
+.struct-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:12px 0;}
+.struct-card{border-radius:10px;padding:12px 14px;border:1.5px solid var(--border);}
+.struct-card.c1{background:#e0f7ff;border-color:#67e8f9;}
+.struct-card.c2{background:#f0fdf4;border-color:#bbf7d0;}
+.struct-card.c3{background:#fef3c7;border-color:#fde68a;}
+.struct-card.c4{background:#fdf4ff;border-color:#e9d5ff;}
+.struct-card.c5{background:#fff1f2;border-color:#fda4af;}
+.struct-name{font-size:.95rem;font-weight:700;margin-bottom:4px;}
+.struct-desc{font-size:.83rem;line-height:1.55;}
+/* 問題スタイル */
+.q-box{background:#f8fafc;border:1.5px solid var(--pri-l);border-radius:10px;
+  padding:14px 16px;margin:14px 0;}
+.q-text{font-size:.95rem;font-weight:700;color:var(--pri-d);margin-bottom:12px;line-height:1.7;}
+.opts{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.opt-btn{background:#fff;border:1.5px solid var(--border);border-radius:8px;
+  padding:10px 14px;font-size:.88rem;cursor:pointer;text-align:left;
+  transition:.2s;font-family:inherit;color:var(--ink);}
+.opt-btn:hover{border-color:var(--pri);background:var(--pri-ll);}
+.opt-btn.correct{background:#dcfce7;border-color:#16a34a;color:#14532d;font-weight:700;}
+.opt-btn.wrong{background:var(--red-bg);border-color:var(--red);color:#7f1d1d;}
+.fb{display:none;margin-top:10px;padding:12px 14px;border-radius:8px;font-size:.88rem;line-height:1.7;}
+.fb.show{display:block;}
+.fb.ok{background:#dcfce7;border:1px solid #bbf7d0;color:#14532d;}
+.fb.ng{background:var(--red-bg);border:1px solid #fecaca;color:#7f1d1d;}
+</style>
 </head>
 <body>
+<div class="page-hd">
+  <a class="back-btn" href="index.html">← 目次へ</a>
+  <div class="hd-label">細胞② 生物基礎</div>
+  <div class="hd-title">原核細胞の構造</div>
+  <div class="hd-sub">各部位の名称・はたらき・細胞の比較</div>
+</div>
+<div class="page-nav">
+  <a class="pnav-btn" href="saibou1.html">①原核・真核</a>
+  <a class="pnav-btn" href="saibou1-1.html">①-1【演習】</a>
+  <a class="pnav-btn active" href="saibou2.html">②原核細胞の構造</a>
+  <a class="pnav-btn" href="saibou3.html">③代謝</a>
+  <a class="pnav-btn" href="saibou4.html">④ATP</a>
+  <a class="pnav-btn" href="saibou4-1.html">④-1【演習】</a>
+  <a class="pnav-btn" href="kenbi1.html">⑤顕微鏡名称</a>
+  <a class="pnav-btn" href="saibou2-2.html">⑥顕微鏡の使い方</a>
+  <a class="pnav-btn" href="saibou2-3.html">⑥-1【演習】</a>
+  <a class="pnav-btn" href="kenbi2.html">⑦ミクロメーター</a>
+  <a class="pnav-btn" href="kenbi3.html">⑦-1【演習】</a>
+</div>
+<div class="wrap">
 
-<canvas id="confetti-canvas"></canvas>
-
-<div class="sticky-header">
-    <nav class="page-nav">
-        <a href="saibou1.html" class="nav-btn">①原核・真核細胞</a>
-        <a href="saibou1-1.html" class="nav-btn">①-1【演習】</a>
-        <a href="saibou2.html" class="nav-btn active">②原核細胞の構造</a>
-        <a href="saibou3.html" class="nav-btn">③代謝・同化・異化</a>
-        <a href="saibou4.html" class="nav-btn">④ATPとADP</a>
-        <a href="saibou4-1.html" class="nav-btn">④-1【演習】</a>
-        <a href="kenbi1.html"    class="nav-btn">⑤細胞の発見と顕微鏡名称</a>
-        <a href="saibou2-2.html" class="nav-btn">⑥顕微鏡の使い方</a>
-        <a href="saibou2-3.html" class="nav-btn">⑥-1【演習】</a>
-        <a href="kenbi2.html"    class="nav-btn">⑦ミクロメーター</a>
-        <a href="kenbi3.html"    class="nav-btn">⑦-1【演習】</a>
-    </nav>
-
-    <div class="challenge-panel">
-        <div>TIME: <span id="timerDisplay" class="timer">00:00.0</span></div>
-        <div id="recordDisplay" style="font-size:0.8em;">記録なし</div>
+  <!-- セクション1：原核細胞の基本 -->
+  <div class="section">
+    <div class="sec-hd">
+      <span class="sec-num">1</span>
+      <span class="sec-title">原核細胞とは？</span>
+      <span class="freq-red">★★★ 最重要</span>
     </div>
-    <div class="audio-summary-area">
-        <button id="playBtn" class="speaker-btn-large" onclick="toggleAudio()">
-            <span id="btnIcon">📢</span> <span id="btnText">解説を聴く</span>
-        </button>
-        <div class="volume-control">
-            <span style="font-size:0.8em; font-weight:bold; color:#e67e22;">音量</span>
-            <input type="range" id="volSlider" min="0" max="1" step="0.01" value="1">
-            <span id="volNum" style="font-size:0.8em; min-width:35px;">100%</span>
+    <div class="sec-body">
+      <p>原核細胞（大腸菌・シアノバクテリアなど）には、真核細胞にある次の構造が<b>ありません</b>。</p>
+      <div class="point">
+        ❌ <b>核膜</b>（DNAがむき出しの「核様体」として存在）<br>
+        ❌ <b>ミトコンドリア</b>（エネルギー生産をする膜状の器官）<br>
+        ❌ <b>葉緑体</b>（光合成をする器官）
+      </div>
+      <p>一方、原核細胞に<b>あるもの</b>は次のとおりです。</p>
+      <div class="struct-grid">
+        <div class="struct-card c1"><div class="struct-name">細胞膜</div><div class="struct-desc">すべての細胞にある。内部と外部を仕切る膜。</div></div>
+        <div class="struct-card c2"><div class="struct-name">細胞壁</div><div class="struct-desc">細胞膜の外側にある硬い壁。形を保つ。</div></div>
+        <div class="struct-card c3"><div class="struct-name">DNA（核様体）</div><div class="struct-desc">遺伝情報をもつ。核膜に包まれず、細胞質にむき出しで存在。</div></div>
+        <div class="struct-card c4"><div class="struct-name">リボソーム</div><div class="struct-desc">タンパク質を合成する粒子。原核・真核すべての細胞にある。</div></div>
+        <div class="struct-card c5"><div class="struct-name">べん毛・<ruby>莢膜<rt>きょうまく</rt></ruby>など</div><div class="struct-desc">種類によって持つ付属構造。<ruby>莢膜<rt>きょうまく</rt></ruby>は細胞壁の外側のぬるぬる層。</div></div>
+      </div>
+      <div class="memo">💡 <b>覚え方</b>：「原核は"核膜"と"ミトコンドリア"と"葉緑体"の3つがない！」これだけまず覚えれば大丈夫です。</div>
+    </div>
+  </div>
+
+  <!-- ミニテスト1 -->
+  <div class="section">
+    <div class="sec-hd">
+      <span class="sec-num">🔎</span>
+      <span class="sec-title">ミニテスト①：原核細胞の構造</span>
+    </div>
+    <div class="sec-body">
+      <div class="q-box">
+        <div class="q-text">Q1. 原核細胞に存在する構造体はどれか？</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="ans('m1',this,false)">① 核膜</button>
+          <button class="opt-btn" onclick="ans('m1',this,false)">② ミトコンドリア</button>
+          <button class="opt-btn" onclick="ans('m1',this,true)">③ リボソーム</button>
+          <button class="opt-btn" onclick="ans('m1',this,false)">④ 葉緑体</button>
         </div>
+        <div id="m1fb" class="fb"></div>
+      </div>
+      <div class="q-box">
+        <div class="q-text">Q2. 原核細胞のDNAはどのような状態で存在するか？</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="ans('m2',this,false)">① 核膜に包まれた核の中にある</button>
+          <button class="opt-btn" onclick="ans('m2',this,true)">② 核膜がなく、細胞質にむき出し（核様体）で存在する</button>
+          <button class="opt-btn" onclick="ans('m2',this,false)">③ ミトコンドリアの中にある</button>
+          <button class="opt-btn" onclick="ans('m2',this,false)">④ 細胞壁の中に埋め込まれている</button>
+        </div>
+        <div id="m2fb" class="fb"></div>
+      </div>
     </div>
-    <div class="word-bank-container"><div id="wordBank" class="word-bank">「チャレンジ開始」をクリックしてください。</div></div>
+  </div>
+
+  <!-- セクション2：比較表 -->
+  <div class="section">
+    <div class="sec-hd">
+      <span class="sec-num">2</span>
+      <span class="sec-title">3種類の細胞の構造比較</span>
+      <span class="freq-red">★★★ 最重要</span>
+    </div>
+    <div class="sec-body">
+      <p>原核細胞・動物細胞（真核）・植物細胞（真核）の違いを整理しましょう。</p>
+      <table class="tbl">
+        <tr><th rowspan="2">構造体</th><th rowspan="2">原核細胞</th><th colspan="2">真核細胞</th></tr>
+        <tr><th>動物細胞</th><th>植物細胞</th></tr>
+        <tr><td>DNA</td><td>＋</td><td>＋</td><td>＋</td></tr>
+        <tr><td>細胞膜</td><td>＋</td><td>＋</td><td>＋</td></tr>
+        <tr><td>リボソーム</td><td>＋</td><td>＋</td><td>＋</td></tr>
+        <tr><td>細胞壁</td><td class="hl">＋</td><td class="hl">ー</td><td>＋</td></tr>
+        <tr><td>核膜（核）</td><td class="hl">ー</td><td>＋</td><td>＋</td></tr>
+        <tr><td>ミトコンドリア</td><td class="hl">ー</td><td class="hl">＋</td><td class="hl">＋</td></tr>
+        <tr><td>葉緑体</td><td class="hl">ー</td><td>ー</td><td class="hl">＋</td></tr>
+      </table>
+      <div class="warn">⚠️ <b>試験頻出</b>：<br>
+        ①「原核細胞＝核膜・ミトコンドリア・葉緑体がない」<br>
+        ②「動物細胞＝細胞壁・葉緑体がない」<br>
+        ③「DNA・細胞膜・リボソームはすべての細胞にある」</div>
+      <div class="amber-box">🔑 <b>植物細胞だけ</b>が葉緑体・液胞・細胞壁をもつ。動物細胞との最大の違いです。</div>
+    </div>
+  </div>
+
+  <!-- ミニテスト2 -->
+  <div class="section">
+    <div class="sec-hd">
+      <span class="sec-num">🔎</span>
+      <span class="sec-title">ミニテスト②：3種類の細胞比較</span>
+    </div>
+    <div class="sec-body">
+      <div class="q-box">
+        <div class="q-text">Q3. 次の組合せで正しいのはどれか。（＋あり、ーなし）</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="ans('m3',this,false)">① 原核細胞に核膜あり（＋）・動物細胞に細胞壁あり（＋）</button>
+          <button class="opt-btn" onclick="ans('m3',this,false)">② 原核細胞にミトコンドリアあり（＋）・植物細胞に葉緑体あり（＋）</button>
+          <button class="opt-btn" onclick="ans('m3',this,true)">③ 原核細胞に細胞壁あり（＋）・動物細胞にミトコンドリアあり（＋）</button>
+          <button class="opt-btn" onclick="ans('m3',this,false)">④ 動物細胞に葉緑体あり（＋）・植物細胞に核膜なし（ー）</button>
+        </div>
+        <div id="m3fb" class="fb"></div>
+      </div>
+      <div class="q-box">
+        <div class="q-text">Q4. 原核細胞・動物細胞・植物細胞の3種類すべてに共通して存在する構造体はどれか？</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="ans('m4',this,false)">① 細胞壁</button>
+          <button class="opt-btn" onclick="ans('m4',this,false)">② 核膜</button>
+          <button class="opt-btn" onclick="ans('m4',this,false)">③ ミトコンドリア</button>
+          <button class="opt-btn" onclick="ans('m4',this,true)">④ 細胞膜・DNA・リボソーム</button>
+        </div>
+        <div id="m4fb" class="fb"></div>
+      </div>
+      <div class="q-box">
+        <div class="q-text">Q5. 大腸菌の説明として誤っているものはどれか？</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="ans('m5',this,false)">① 原核細胞である</button>
+          <button class="opt-btn" onclick="ans('m5',this,false)">② 細胞壁をもつ</button>
+          <button class="opt-btn" onclick="ans('m5',this,true)">③ 核膜に包まれた核をもつ</button>
+          <button class="opt-btn" onclick="ans('m5',this,false)">④ DNAをもつ</button>
+        </div>
+        <div id="m5fb" class="fb"></div>
+      </div>
+      <div style="text-align:center;margin-top:16px;">
+        <div id="scoreDisp" style="font-size:1rem;font-weight:700;color:var(--pri-d);margin-bottom:8px;"></div>
+        <div id="progBar" style="height:10px;background:var(--border);border-radius:5px;overflow:hidden;margin-bottom:12px;">
+          <div id="progFill" style="height:100%;width:0%;background:var(--pri);transition:.5s;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<div class="container">
-    <div class="section-box">
-        <div class="section-title">2. 原核細胞の構造</div>
-        <p style="background: #fff; border: 1px solid #333; padding: 25px; line-height: 2.2; font-size: 1.1rem;">
-            原核細胞は<div class="drop-zone-inline" data-ans="核膜" onclick="zCl(this)"></div>，<div class="drop-zone-inline" data-ans="ミトコンドリア" onclick="zCl(this)"></div>，<br>
-            葉緑体をもちません。しかし<div class="drop-zone-inline" data-ans="細胞壁" onclick="zCl(this)"></div>があります。
-        </p>
-    </div>
-
-    <div class="section-box">
-        <div class="section-title">2-2. 原核細胞の各部構造</div>
-        <div class="genkaku-detail-box">
-            <img src="saibou01.png" class="genkaku-img" alt="原核細胞詳細">
-            
-        </div>
-        <p style="font-size: 0.9em; color: #555;">※リボソーム：タンパク質の合成を行う。<br>※核様体：核がなく DNA がむき出しの状態。</p>
-    </div>
-
-    <div class="section-box">
-        <div class="section-title">問）次は原核細胞内にある構造の有無の表です。</div>
-        <table>
-            <tr><th rowspan="2">構造体</th><th rowspan="2">原核細胞</th><th colspan="2">真核細胞</th></tr>
-            <tr><th>動物</th><th>植物</th></tr>
-            <tr><td class="center">DNA</td><td class="center">＋</td><td class="center">＋</td><td class="center">＋</td></tr>
-            <tr><td class="center">細胞膜</td><td class="center">＋</td><td class="center">＋</td><td class="center">＋</td></tr>
-            <tr><td class="center">細胞壁</td><td class="center"><div class="drop-zone-inline symbol" data-ans="＋" onclick="zCl(this)"></div></td><td class="center">ー</td><td class="center">＋</td></tr>
-            <tr><td class="center">核膜</td><td class="center"><div class="drop-zone-inline symbol" data-ans="ー" onclick="zCl(this)"></div></td><td class="center">＋</td><td class="center">＋</td></tr>
-            <tr><td class="center">ミトコンドリア</td><td class="center"><div class="drop-zone-inline symbol" data-ans="ー" onclick="zCl(this)"></div></td><td class="center"><div class="drop-zone-inline symbol" data-ans="＋" onclick="zCl(this)"></div></td><td class="center"><div class="drop-zone-inline symbol" data-ans="＋" onclick="zCl(this)"></div></td></tr>
-            <tr><td class="center">葉緑体</td><td class="center"><div class="drop-zone-inline symbol" data-ans="ー" onclick="zCl(this)"></div></td><td class="center">ー</td><td class="center">＋</td></tr>
-        </table>
-    </div>
-
-    <div class="controls">
-        <button class="main-btn challenge-btn" onclick="stCh()" style="background:#e67e22;">チャレンジ開始！</button>
-        <button class="main-btn check-btn" onclick="chAn()" style="background:#27ae60;">答え合わせ</button>
-        <button class="main-btn reset-btn" onclick="shMo()" style="background:#95a5a6;">お手本に戻す</button>
-    </div>
-</div>
-
-<audio id="mainAudio" src="saibou2.wav"></audio>
+<canvas id="confetti" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;"></canvas>
 
 <script>
-    const words = ["核膜","ミトコンドリア","細胞壁","リボソーム","核様体","莢膜","ベン(鞭)毛","細胞膜","DNA","＋","ー"];
-    let sT, tI, isR = false, sW = null, animationId = null;
-    const audio = document.getElementById('mainAudio');
-    const volSlider = document.getElementById('volSlider');
-    const volNum = document.getElementById('volNum');
-    const playBtn = document.getElementById('playBtn');
+const FBS = {
+  m1: { ok:'◎ 正解！ <b>リボソーム</b>は原核・真核すべての細胞に存在します。タンパク質合成を担います。', ng:'× 正解は③リボソーム。核膜・ミトコンドリア・葉緑体は真核細胞のみにある構造です。' },
+  m2: { ok:'◎ 正解！ 原核細胞は<b>核膜をもたない</b>ため、DNAが細胞質に直接むき出しの状態（核様体）で存在します。', ng:'× 正解は②。原核細胞には核膜がないので、DNAは核膜に包まれていません。' },
+  m3: { ok:'◎ 正解！ 原核細胞は細胞壁をもち（＋）、動物細胞はミトコンドリアをもちます（＋）。これが正しい組合せ。', ng:'× 正解は③。原核細胞に核膜・ミトコンドリアはなし。動物細胞に細胞壁・葉緑体はなし。植物細胞に核膜あり。' },
+  m4: { ok:'◎ 正解！ <b>細胞膜・DNA・リボソーム</b>は原核・動物・植物のすべての細胞に共通して存在します。', ng:'× 正解は④。細胞壁は動物細胞になし。核膜とミトコンドリアは原核細胞になし。細胞膜・DNA・リボソームは全共通。' },
+  m5: { ok:'◎ 正解！ 大腸菌は<b>原核細胞</b>なので、<b>核膜に包まれた核をもちません</b>。DNAは核様体として細胞質に存在します。', ng:'× 正解は③。大腸菌（原核細胞）には核膜がありません。細胞壁・DNAはあります。' },
+};
+const miniIds = ['m1','m2','m3','m4','m5'];
+const done = {};
+let correct = 0;
 
-    function toggleAudio() {
-        if (audio.paused) { audio.play(); updatePlayUI(true); } else { audio.pause(); updatePlayUI(false); }
-    }
-    audio.onended = () => updatePlayUI(false);
-    function updatePlayUI(isPlaying) {
-        document.getElementById('btnIcon').innerText = isPlaying ? "⏸" : "📢";
-        document.getElementById('btnText').innerText = isPlaying ? "停止中" : "解説を聴く";
-        playBtn.classList.toggle('playing', isPlaying);
-    }
-    volSlider.addEventListener('input', (e) => {
-        audio.volume = e.target.value;
-        volNum.innerText = Math.round(e.target.value * 100) + "%";
-    });
+function ans(id, btn, isOk) {
+  if (done[id]) return;
+  done[id] = true;
+  const opts = btn.parentElement.querySelectorAll('.opt-btn');
+  opts.forEach(b => b.disabled = true);
+  btn.classList.add(isOk ? 'correct' : 'wrong');
+  const fb = document.getElementById(id + 'fb');
+  const cfg = FBS[id];
+  if (cfg) {
+    fb.innerHTML = (isOk ? '✅ ' : '❌ ') + (isOk ? cfg.ok : cfg.ng);
+    fb.className = 'fb show ' + (isOk ? 'ok' : 'ng');
+  }
+  if (miniIds.includes(id)) {
+    if (isOk) correct++;
+    const total = miniIds.filter(k => done[k]).length;
+    document.getElementById('progFill').style.width = (total / miniIds.length * 100) + '%';
+    document.getElementById('scoreDisp').textContent = total + '/' + miniIds.length + '問中 ' + correct + '問正解';
+    if (total === miniIds.length && correct === miniIds.length) fireConfetti();
+  }
+}
 
-    function zCl(z){ if(isR && sW){ z.innerText = sW.innerText; sW.classList.remove('selected'); sW = null; } }
-    
-    function stCh(){
-        stopCnf(); 
-        isR = true; sT = Date.now();
-        if(tI) clearInterval(tI);
-        tI = setInterval(()=> { document.getElementById('timerDisplay').innerText = ((Date.now()-sT)/1000).toFixed(1)+"s"; }, 100);
-        document.querySelectorAll('.drop-zone-inline').forEach(z=>{ z.innerText=""; z.classList.remove('correct','wrong'); });
-        const b = document.getElementById('wordBank'); b.innerHTML = "";
-        [...new Set(words)].sort(()=>Math.random()-0.5).forEach(w=>{
-            const d = document.createElement('div'); d.className='drag-item'; d.innerText=w;
-            d.onclick=function(){ if(sW)sW.classList.remove('selected'); sW=this; this.classList.add('selected'); };
-            b.appendChild(d);
-        });
-    }
-
-    function chAn(){
-        let ok=true;
-        document.querySelectorAll('.drop-zone-inline').forEach(z=>{
-            if(z.innerText.trim()===z.getAttribute('data-ans')) z.classList.add('correct');
-            else { z.classList.add('wrong'); ok=false; }
-        });
-        if(ok && isR){ clearInterval(tI); isR=false; startCnf(); }
-    }
-
-    function shMo(){
-        stopCnf(); 
-        if(tI) clearInterval(tI);
-        isR = false;
-        document.querySelectorAll('.drop-zone-inline').forEach(z=>{ z.innerText=z.getAttribute('data-ans'); z.classList.remove('correct','wrong'); });
-        document.getElementById('wordBank').innerHTML = "お手本表示中です。";
-    }
-
-    const cvs = document.getElementById("confetti-canvas");
-    const ctx = cvs.getContext("2d");
-    let pts = [];
-    function startCnf() {
-        cvs.width = window.innerWidth; cvs.height = window.innerHeight;
-        pts = [];
-        for (let i = 0; i < 150; i++) {
-            pts.push({ x: Math.random() * cvs.width, y: Math.random() * cvs.height - cvs.height, s: Math.random() * 8 + 4, c: `hsl(${Math.random() * 360},70%,70%)`, sp: Math.random() * 3 + 2 });
-        }
-        updateCnf();
-    }
-    function updateCnf() {
-        ctx.clearRect(0, 0, cvs.width, cvs.height);
-        pts.forEach(p => { p.y += p.sp; ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.s, p.s); if (p.y > cvs.height) p.y = -20; });
-        animationId = requestAnimationFrame(updateCnf);
-    }
-    function stopCnf() {
-        if (animationId) cancelAnimationFrame(animationId);
-        animationId = null;
-        ctx.clearRect(0, 0, cvs.width, cvs.height);
-    }
-    shMo();
+function fireConfetti(){
+  const cv=document.getElementById('confetti');if(!cv)return;
+  cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
+  const ctx=cv.getContext('2d');const cols=['#0e7490','#e74c3c','#f1c40f','#2ecc71','#0891b2','#fff'];const pts=[];
+  for(let i=0;i<140;i++)pts.push({x:Math.random()*cv.width,y:-Math.random()*cv.height*.4,s:Math.random()*7+4,c:cols[i%cols.length],sp:2+Math.random()*2.5,vx:(Math.random()-.5)*2});
+  let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';})();
+}
 </script>
 </body>
 </html>

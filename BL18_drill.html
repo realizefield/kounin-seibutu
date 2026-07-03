@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL18 ドリル｜生態系のバランスと環境問題</title>
+<style>
+:root{
+  --pri:#be185d;--pri-dark:#9d174d;--pri-light:#fce7f3;--pri-mid:#fbcfe8;
+  --acc:#f59e0b;--acc-light:#fef3c7;
+  --text:#1e293b;--sub:#475569;--border:#e2e8f0;
+  --bg:#f8fafc;--white:#ffffff;
+  --red:#dc2626;--red-bg:#fee2e2;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;font-size:16px}
+.page-header{background:linear-gradient(135deg,var(--pri) 0%,var(--pri-dark) 100%);color:#fff;padding:2rem 1.5rem 1.5rem;text-align:center}
+.page-header .unit-label{font-size:.85rem;opacity:.8;margin-bottom:.4rem;letter-spacing:.1em}
+.page-header h1{font-size:1.7rem;font-weight:800;margin-bottom:.5rem}
+.page-header p{font-size:.95rem;opacity:.85}
+.container{max-width:860px;margin:0 auto;padding:1.5rem 1rem 4rem}
+.score-bar{background:var(--white);border:2px solid var(--pri);border-radius:12px;padding:1rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.score-label{font-weight:700;color:var(--pri-dark);font-size:.95rem}
+.score-num{font-size:1.6rem;font-weight:800;color:var(--pri-dark)}
+.score-detail{font-size:.85rem;color:var(--sub)}
+.progress-bar{flex:1;min-width:160px;height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--pri),#ec4899);border-radius:999px;transition:width .4s}
+.section{background:var(--white);border-radius:14px;border:1px solid var(--border);margin-bottom:2rem;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.section-header{background:linear-gradient(90deg,var(--pri),var(--pri-dark));color:#fff;padding:1rem 1.4rem;display:flex;align-items:center;gap:.8rem}
+.section-header .badge{background:rgba(255,255,255,.25);border-radius:8px;padding:.2rem .65rem;font-weight:800;font-size:.9rem;flex-shrink:0}
+.section-header h2{font-size:1.05rem;font-weight:800}
+.section-body{padding:1.5rem}
+.q-card{border:1.5px solid var(--border);border-radius:10px;padding:1.1rem 1.2rem;margin-bottom:1.2rem;background:#fafafa;transition:border-color .2s}
+.q-card.answered-ok{border-color:var(--pri);background:var(--pri-light)}
+.q-card.answered-ng{border-color:var(--red);background:var(--red-bg)}
+.q-num{font-weight:800;color:var(--pri-dark);font-size:.85rem;margin-bottom:.5rem}
+.q-text{font-size:.95rem;line-height:1.85;margin-bottom:.8rem}
+.blank{display:inline-block;min-width:90px;border-bottom:2.5px solid var(--pri-dark);color:var(--pri-dark);font-weight:800;text-align:center;padding:.1rem .4rem;margin:0 .1rem;cursor:pointer;transition:all .2s;background:transparent;vertical-align:bottom;font-size:.95rem}
+.blank.filled{background:var(--pri-light);border-color:var(--pri);border-radius:4px;border-style:solid;border-width:1.5px}
+.blank.correct{background:#fce7f3;border-color:#be185d;color:#9d174d}
+.blank.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+.word-bank{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem;padding:.8rem;background:#f1f5f9;border-radius:8px}
+.word-btn{padding:.35rem .85rem;background:var(--white);border:2px solid var(--pri);border-radius:999px;cursor:pointer;font-weight:700;font-size:.88rem;color:var(--pri-dark);transition:all .2s;user-select:none}
+.word-btn:hover{background:var(--pri-light)}
+.word-btn.selected-word{background:var(--pri);color:#fff}
+.word-btn.used{opacity:.35;cursor:not-allowed;background:#e2e8f0;border-color:#94a3b8;color:#64748b}
+.btn-row{display:flex;gap:.8rem;margin-top:1rem;flex-wrap:wrap}
+.btn-check{padding:.6rem 1.5rem;background:var(--pri);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.92rem;cursor:pointer;transition:background .2s}
+.btn-check:hover{background:var(--pri-dark)}
+.btn-reset{padding:.6rem 1.5rem;background:var(--white);color:var(--pri);border:2px solid var(--pri);border-radius:8px;font-weight:700;font-size:.92rem;cursor:pointer;transition:all .2s}
+.btn-reset:hover{background:var(--pri-light)}
+.result-msg{margin-top:.8rem;font-weight:700;font-size:.95rem;display:none}
+.result-msg.show{display:block}
+.confetti-piece{position:fixed;top:-20px;animation:confFall linear forwards;pointer-events:none;z-index:9999}
+@keyframes confFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.nav-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.btn-nav{padding:.65rem 1.4rem;border-radius:8px;font-weight:700;font-size:.92rem;text-decoration:none;transition:all .2s}
+.btn-back{background:var(--white);color:var(--pri);border:2px solid var(--pri)}
+.btn-back:hover{background:var(--pri-light)}
+.btn-next{background:var(--pri);color:#fff;border:2px solid var(--pri)}
+.btn-next:hover{background:var(--pri-dark)}
+@media(max-width:600px){.page-header h1{font-size:1.3rem}.score-bar{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="unit-label">生物基礎 ▶ 生態系</div>
+  <h1>BL18 ドリル｜生態系のバランスと環境問題</h1>
+  <p>語群から選んでタップ → 空欄を埋めよう</p>
+</header>
+
+<div class="container">
+
+<div class="score-bar">
+  <div>
+    <div class="score-label">正解数</div>
+    <div class="score-num"><span id="scoreOk">0</span> / <span id="scoreTotal">0</span></div>
+    <div class="score-detail" id="scoreDetail">まだ答え合わせをしていません</div>
+  </div>
+  <div style="flex:1">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- ===== セクション1：キーストーン種 ===== -->
+<div class="section">
+  <div class="section-header"><span class="badge">01</span><h2>キーストーン種</h2></div>
+  <div class="section-body">
+
+    <div class="q-card" id="q1-1">
+      <div class="q-num">問1</div>
+      <div class="q-text">アーチの要石（キーストーン）のように、生態系を支えるうえで特に重要な種を<span class="blank" id="b1-1">　　　</span>という。</div>
+      <div class="word-bank" id="wb1-1">
+        <button class="word-btn" onclick="selectWord(this,'b1-1')">キーストーン種</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-1')">優占種</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-1')">外来種</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-1')">絶滅危惧種</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-2">
+      <div class="q-num">問2</div>
+      <div class="q-text">キーストーン種は個体数が<span class="blank" id="b1-2">　　　</span>ても、生態系全体に大きな影響を与える。</div>
+      <div class="word-bank" id="wb1-2">
+        <button class="word-btn" onclick="selectWord(this,'b1-2')">少なく</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-2')">多く</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-2')">変化し</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-2')">増加し</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-3">
+      <div class="q-num">問3</div>
+      <div class="q-text">アラスカ沿岸の食物連鎖は「ラッコ →<span class="blank" id="b1-3">　　　</span>→ ジャイアントケルプ」である。</div>
+      <div class="word-bank" id="wb1-3">
+        <button class="word-btn" onclick="selectWord(this,'b1-3')">ウニ</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-3')">魚</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-3')">プランクトン</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-3')">カニ</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-4">
+      <div class="q-num">問4</div>
+      <div class="q-text">ラッコが乱獲された原因は、ラッコの<span class="blank" id="b1-4">　　　</span>を目的とした乱獲であった。</div>
+      <div class="word-bank" id="wb1-4">
+        <button class="word-btn" onclick="selectWord(this,'b1-4')">毛皮</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-4')">肉</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-4')">骨</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-4')">脂肪</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-5">
+      <div class="q-num">問5</div>
+      <div class="q-text">ラッコが激減した結果、ジャイアントケルプは<span class="blank" id="b1-5">　　　</span>した。</div>
+      <div class="word-bank" id="wb1-5">
+        <button class="word-btn" onclick="selectWord(this,'b1-5')">消滅</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-5')">増加</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-5')">変化しない</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-5')">回復</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-6">
+      <div class="q-num">問6</div>
+      <div class="q-text">キーストーン種が失われると、生態系の<span class="blank" id="b1-6">　　　</span>が低下する。</div>
+      <div class="word-bank" id="wb1-6">
+        <button class="word-btn" onclick="selectWord(this,'b1-6')">生物多様性</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-6')">温度</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-6')">水温</button>
+        <button class="word-btn" onclick="selectWord(this,'b1-6')">光量</button>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSection(1,6)">✅ 答え合わせ</button>
+      <button class="btn-reset" onclick="resetSection(1,6)">🔄 リセット</button>
+    </div>
+    <div class="result-msg" id="res-sec1"></div>
+  </div>
+</div>
+
+<!-- ===== セクション2：自然浄化と水質汚濁 ===== -->
+<div class="section">
+  <div class="section-header"><span class="badge">02</span><h2>自然浄化と水質汚濁</h2></div>
+  <div class="section-body">
+
+    <div class="q-card" id="q2-1">
+      <div class="q-num">問1</div>
+      <div class="q-text">河川の自然浄化を行う微生物は<span class="blank" id="b2-1">　　　</span>（分解者）である。</div>
+      <div class="word-bank" id="wb2-1">
+        <button class="word-btn" onclick="selectWord(this,'b2-1')">好気性細菌</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-1')">植物プランクトン</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-1')">シアノバクテリア</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-1')">動物プランクトン</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-2">
+      <div class="q-num">問2</div>
+      <div class="q-text">有機物が分解されてできる最終産物は CO₂・水・<span class="blank" id="b2-2">　　　</span>などである。</div>
+      <div class="word-bank" id="wb2-2">
+        <button class="word-btn" onclick="selectWord(this,'b2-2')">無機塩類</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-2')">有機塩類</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-2')">窒素ガス</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-2')">酸素</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-3">
+      <div class="q-num">問3</div>
+      <div class="q-text">自然浄化がはたらくのは、有機物の流入量と分解量が<span class="blank" id="b2-3">　　　</span>ているときである。</div>
+      <div class="word-bank" id="wb2-3">
+        <button class="word-btn" onclick="selectWord(this,'b2-3')">つり合っ</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-3')">流入量が多くなっ</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-3')">分解量が多くなっ</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-3')">どちらもゼロになっ</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-4">
+      <div class="q-num">問4</div>
+      <div class="q-text">水質汚濁の主な原因は、<span class="blank" id="b2-4">　　　</span>・工場排水などによる有機物の過剰流入である。</div>
+      <div class="word-bank" id="wb2-4">
+        <button class="word-btn" onclick="selectWord(this,'b2-4')">家庭排水</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-4')">雨水</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-4')">地下水</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-4')">海水</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-5">
+      <div class="q-num">問5</div>
+      <div class="q-text">水質汚濁が進むと、水生生物（魚など）の生息に必要な水中の<span class="blank" id="b2-5">　　　</span>が不足する。</div>
+      <div class="word-bank" id="wb2-5">
+        <button class="word-btn" onclick="selectWord(this,'b2-5')">酸素</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-5')">二酸化炭素</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-5')">窒素</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-5')">リン</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-6">
+      <div class="q-num">問6</div>
+      <div class="q-text">自然浄化では好気性細菌が有機物を<span class="blank" id="b2-6">　　　</span>して無機物に変える。</div>
+      <div class="word-bank" id="wb2-6">
+        <button class="word-btn" onclick="selectWord(this,'b2-6')">分解</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-6')">合成</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-6')">蓄積</button>
+        <button class="word-btn" onclick="selectWord(this,'b2-6')">濃縮</button>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSection(2,6)">✅ 答え合わせ</button>
+      <button class="btn-reset" onclick="resetSection(2,6)">🔄 リセット</button>
+    </div>
+    <div class="result-msg" id="res-sec2"></div>
+  </div>
+</div>
+
+<!-- ===== セクション3：富栄養化 ===== -->
+<div class="section">
+  <div class="section-header"><span class="badge">03</span><h2>富栄養化（アオコ・赤潮）</h2></div>
+  <div class="section-body">
+
+    <div class="q-card" id="q3-1">
+      <div class="q-num">問1</div>
+      <div class="q-text">富栄養化が起こると、水中の<span class="blank" id="b3-1">　　　</span>が大量に増殖して水質が悪化する。</div>
+      <div class="word-bank" id="wb3-1">
+        <button class="word-btn" onclick="selectWord(this,'b3-1')">特定の藻類・プランクトン</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-1')">魚</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-1')">貝類</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-1')">好気性細菌</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-2">
+      <div class="q-num">問2</div>
+      <div class="q-text">アオコが発生すると、水面が覆われて湖底に<span class="blank" id="b3-2">　　　</span>が届かなくなる。</div>
+      <div class="word-bank" id="wb3-2">
+        <button class="word-btn" onclick="selectWord(this,'b3-2')">光</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-2')">酸素</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-2')">熱</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-2')">CO₂</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-3">
+      <div class="q-num">問3</div>
+      <div class="q-text">アオコが死んで腐敗すると<span class="blank" id="b3-3">　　　</span>が大量発生し、水中の酸素を消費する。</div>
+      <div class="word-bank" id="wb3-3">
+        <button class="word-btn" onclick="selectWord(this,'b3-3')">分解者</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-3')">植物</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-3')">魚</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-3')">ウニ</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-4">
+      <div class="q-num">問4</div>
+      <div class="q-text">赤潮が発生した海域では水中の<span class="blank" id="b3-4">　　　</span>が不足して魚が死滅することがある。</div>
+      <div class="word-bank" id="wb3-4">
+        <button class="word-btn" onclick="selectWord(this,'b3-4')">酸素</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-4')">CO₂</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-4')">窒素</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-4')">リン</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-5">
+      <div class="q-num">問5</div>
+      <div class="q-text">アオコは<span class="blank" id="b3-5">　　　</span>（淡水）で発生し、赤潮は海（内湾）で発生する。</div>
+      <div class="word-bank" id="wb3-5">
+        <button class="word-btn" onclick="selectWord(this,'b3-5')">湖・池</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-5')">海</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-5')">大気中</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-5')">土壌</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-6">
+      <div class="q-num">問6</div>
+      <div class="q-text">富栄養化を防ぐには、家庭排水中の<span class="blank" id="b3-6">　　　</span>の削減が有効である。</div>
+      <div class="word-bank" id="wb3-6">
+        <button class="word-btn" onclick="selectWord(this,'b3-6')">窒素・リン</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-6')">CO₂</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-6')">酸素</button>
+        <button class="word-btn" onclick="selectWord(this,'b3-6')">有機水銀</button>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSection(3,6)">✅ 答え合わせ</button>
+      <button class="btn-reset" onclick="resetSection(3,6)">🔄 リセット</button>
+    </div>
+    <div class="result-msg" id="res-sec3"></div>
+  </div>
+</div>
+
+<!-- ===== セクション4：活性汚泥法・生物濃縮・地球温暖化 ===== -->
+<div class="section">
+  <div class="section-header"><span class="badge">04</span><h2>活性汚泥法・生物濃縮・地球温暖化</h2></div>
+  <div class="section-body">
+
+    <div class="q-card" id="q4-1">
+      <div class="q-num">問1</div>
+      <div class="q-text">活性汚泥法では、下水に<span class="blank" id="b4-1">　　　</span>を送り込んで好気性細菌の分解を促進する。</div>
+      <div class="word-bank" id="wb4-1">
+        <button class="word-btn" onclick="selectWord(this,'b4-1')">空気（酸素）</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-1')">CO₂</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-1')">窒素ガス</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-1')">熱</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-2">
+      <div class="q-num">問2</div>
+      <div class="q-text">活性汚泥の沈殿後、上澄みの<span class="blank" id="b4-2">　　　</span>が処理水として排出される。</div>
+      <div class="word-bank" id="wb4-2">
+        <button class="word-btn" onclick="selectWord(this,'b4-2')">澄んだ水</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-2')">汚泥</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-2')">細菌</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-2')">有機物</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-3">
+      <div class="q-num">問3</div>
+      <div class="q-text">生物濃縮の原因物質（PCB・DDTなど）は<span class="blank" id="b4-3">　　　</span>に溶けやすく体外へ排出されにくい。</div>
+      <div class="word-bank" id="wb4-3">
+        <button class="word-btn" onclick="selectWord(this,'b4-3')">脂肪</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-3')">水</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-3')">血液</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-3')">胃液</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-4">
+      <div class="q-num">問4</div>
+      <div class="q-text">生物濃縮は<span class="blank" id="b4-4">　　　</span>を経るほど有害物質の濃度が高くなる。</div>
+      <div class="word-bank" id="wb4-4">
+        <button class="word-btn" onclick="selectWord(this,'b4-4')">食物連鎖の段階</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-4')">時間</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-4')">水温変化</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-4')">季節</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-5">
+      <div class="q-num">問5</div>
+      <div class="q-text">大気中のCO₂濃度が上昇する主な原因は<span class="blank" id="b4-5">　　　</span>の大量消費である。</div>
+      <div class="word-bank" id="wb4-5">
+        <button class="word-btn" onclick="selectWord(this,'b4-5')">化石燃料</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-5')">食料</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-5')">水</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-5')">鉱物</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-6">
+      <div class="q-num">問6</div>
+      <div class="q-text">CO₂濃度グラフが春〜夏に下がるのは、植物の<span class="blank" id="b4-6">　　　</span>が盛んになってCO₂が吸収されるためである。</div>
+      <div class="word-bank" id="wb4-6">
+        <button class="word-btn" onclick="selectWord(this,'b4-6')">光合成</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-6')">呼吸</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-6')">蒸散</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-6')">発芽</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-7">
+      <div class="q-num">問7</div>
+      <div class="q-text">地球温暖化の影響として、気温上昇によるサンゴの<span class="blank" id="b4-7">　　　</span>が問題になっている。</div>
+      <div class="word-bank" id="wb4-7">
+        <button class="word-btn" onclick="selectWord(this,'b4-7')">白化</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-7')">増殖</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-7')">成長</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-7')">変色</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-8">
+      <div class="q-num">問8</div>
+      <div class="q-text">地球温暖化の影響として、南極・北極の氷が融けることで<span class="blank" id="b4-8">　　　</span>が起こる。</div>
+      <div class="word-bank" id="wb4-8">
+        <button class="word-btn" onclick="selectWord(this,'b4-8')">海面上昇</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-8')">海面低下</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-8')">富栄養化</button>
+        <button class="word-btn" onclick="selectWord(this,'b4-8')">生物濃縮</button>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSection(4,8)">✅ 答え合わせ</button>
+      <button class="btn-reset" onclick="resetSection(4,8)">🔄 リセット</button>
+    </div>
+    <div class="result-msg" id="res-sec4"></div>
+  </div>
+</div>
+
+<div class="nav-links">
+  <a href="BL18.html" class="btn-nav btn-back">← 解説に戻る</a>
+  <a href="BL18_exam.html" class="btn-nav btn-next">過去問演習へ →</a>
+</div>
+
+</div><!-- /container -->
+
+<script>
+const ANSWERS = {
+  'b1-1':'キーストーン種','b1-2':'少なく','b1-3':'ウニ','b1-4':'毛皮','b1-5':'消滅','b1-6':'生物多様性',
+  'b2-1':'好気性細菌','b2-2':'無機塩類','b2-3':'つり合っ','b2-4':'家庭排水','b2-5':'酸素','b2-6':'分解',
+  'b3-1':'特定の藻類・プランクトン','b3-2':'光','b3-3':'分解者','b3-4':'酸素','b3-5':'湖・池','b3-6':'窒素・リン',
+  'b4-1':'空気（酸素）','b4-2':'澄んだ水','b4-3':'脂肪','b4-4':'食物連鎖の段階','b4-5':'化石燃料','b4-6':'光合成','b4-7':'白化','b4-8':'海面上昇'
+};
+
+function selectWord(btn, blankId) {
+  const wb = btn.closest('.word-bank');
+  wb.querySelectorAll('.word-btn').forEach(b => b.classList.remove('selected-word'));
+  btn.classList.add('selected-word');
+  const blank = document.getElementById(blankId);
+  blank.textContent = btn.textContent.trim();
+  blank.classList.add('filled');
+  blank.dataset.chosen = btn.textContent.trim();
+}
+
+function checkSection(sec, count) {
+  let ok = 0, total = 0;
+  for (let i = 1; i <= count; i++) {
+    const bid = 'b' + sec + '-' + i;
+    const blank = document.getElementById(bid);
+    if (!blank) continue;
+    total++;
+    const chosen = blank.dataset.chosen || '';
+    blank.classList.remove('correct','wrong');
+    if (chosen === ANSWERS[bid]) { ok++; blank.classList.add('correct'); }
+    else if (chosen !== '') { blank.classList.add('wrong'); }
+  }
+  const res = document.getElementById('res-sec' + sec);
+  res.classList.add('show');
+  if (ok === total && total > 0) {
+    res.innerHTML = '🎉 全問正解！　' + ok + '/' + total;
+    res.style.color = '#9d174d';
+    launchConfetti();
+  } else {
+    res.innerHTML = '📝 ' + ok + '/' + total + '　赤い空欄を見直してください。';
+    res.style.color = '#dc2626';
+  }
+  updateScore();
+}
+
+function resetSection(sec, count) {
+  for (let i = 1; i <= count; i++) {
+    const bid = 'b' + sec + '-' + i;
+    const blank = document.getElementById(bid);
+    if (!blank) continue;
+    blank.textContent = '　　　';
+    blank.classList.remove('correct','wrong','filled');
+    delete blank.dataset.chosen;
+    const wb = document.getElementById('wb' + sec + '-' + i);
+    if (wb) wb.querySelectorAll('.word-btn').forEach(b => b.classList.remove('used','selected-word'));
+  }
+  const res = document.getElementById('res-sec' + sec);
+  res.classList.remove('show');
+  res.textContent = '';
+  updateScore();
+}
+
+function updateScore() {
+  let ok = 0, answered = 0, total = Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(bid => {
+    const blank = document.getElementById(bid);
+    if (!blank) return;
+    if (blank.dataset.chosen) {
+      answered++;
+      if (blank.dataset.chosen === ANSWERS[bid]) ok++;
+    }
+  });
+  document.getElementById('scoreOk').textContent = ok;
+  document.getElementById('scoreTotal').textContent = total;
+  document.getElementById('scoreDetail').textContent = answered + '問回答済み';
+  document.getElementById('progressFill').style.width = (total > 0 ? (ok / total * 100) : 0) + '%';
+}
+
+function launchConfetti() {
+  const colors = ['#be185d','#f59e0b','#2563eb','#dc2626','#7c3aed','#ec4899','#06b6d4'];
+  for (let i = 0; i < 100; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = 'left:' + (Math.random()*100) + 'vw;width:' + (8+Math.random()*10) + 'px;height:' + (8+Math.random()*10) + 'px;background:' + colors[Math.floor(Math.random()*colors.length)] + ';border-radius:' + (Math.random()>.5?'50%':'2px') + ';animation-duration:' + (1.5+Math.random()*2) + 's;animation-delay:' + (Math.random()*.8) + 's';
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+</script>
+</body>
+</html>

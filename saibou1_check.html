@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>細胞①原核・真核細胞の構造 確認テスト｜高認GAMBA 生物基礎</title>
+<style>
+:root {
+  --primary: #0e7490;
+  --primary-dark: #0c5e73;
+  --primary-light: #f0fdff;
+  --accent: #f59e0b;
+  --bg: #f0fdff;
+  --card: #ffffff;
+  --text: #1f2937;
+  --text-sub: #6b7280;
+  --border: #e5e7eb;
+  --correct: #16a34a;
+  --wrong: #dc2626;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+  background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.8;
+  padding-bottom: 60px; }
+
+nav { background: var(--primary); padding: 11px 16px; display: flex; align-items: center; gap: 10px; }
+nav a { color: #fff; text-decoration: none; font-size: 13px; opacity: 0.85; }
+nav a:hover { opacity: 1; }
+nav span.sep { color: rgba(255,255,255,0.4); }
+nav span.current { color: #fff; font-weight: bold; }
+
+.page-hd { background: linear-gradient(135deg,#075985 0%,#0e7490 55%,#0891b2 100%);
+  color: #fff; padding: 26px 16px 22px; text-align: center; }
+.hd-label { font-size: 11px; letter-spacing: .18em; opacity: .8; margin-bottom: 6px; }
+.hd-title { font-size: clamp(18px,4vw,23px); font-weight: 800; margin-bottom: 4px; }
+.hd-sub { font-size: 13px; opacity: .75; }
+
+.wrap { max-width: 780px; margin: 0 auto; padding: 18px 14px; }
+
+/* 進捗バー */
+.prog-wrap { background: var(--card); border-radius: 10px; padding: 14px 18px;
+  margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.prog-label { font-size: 12px; color: var(--text-sub); margin-bottom: 5px;
+  display: flex; justify-content: space-between; }
+.prog-bar { height: 9px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.prog-fill { height: 100%; background: var(--primary); border-radius: 99px; transition: width .4s; }
+
+/* ユニット */
+.unit { background: var(--card); border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 22px; overflow: hidden; }
+.unit-hd { background: var(--primary); color: #fff; padding: 12px 18px;
+  display: flex; align-items: center; gap: 10px; }
+.unit-num { background: rgba(255,255,255,.25); border-radius: 50%; width: 28px;
+  height: 28px; display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 13px; flex-shrink: 0; }
+.unit-hd h2 { font-size: 15px; font-weight: bold; }
+.unit-body { padding: 16px 18px; }
+
+/* 穴埋め問題 */
+.dq { margin-bottom: 12px; font-size: 15px; line-height: 2.1; }
+.dq .qn { display: inline-block; background: var(--primary); color: #fff;
+  border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: bold;
+  margin-right: 5px; vertical-align: middle; }
+.blank { display: inline-block; min-width: 88px; padding: 2px 8px;
+  border-bottom: 2px solid var(--primary); background: #e0f2fe;
+  border-radius: 4px 4px 0 0; text-align: center; font-weight: bold;
+  color: var(--primary-dark); margin: 0 3px; cursor: default;
+  transition: all .15s; vertical-align: bottom; font-size: 14px; }
+.blank.empty { background: #e5e7eb; color: transparent; cursor: pointer; }
+.blank.chip-target:hover { background: #a5f3fc; }
+.blank.correct { background: #dcfce7; color: var(--correct); border-color: var(--correct); }
+.blank.wrong { background: #fee2e2; color: var(--wrong); border-color: var(--wrong); }
+
+/* 語群 */
+.chips-wrap { background: #f8fafc; border-radius: 8px; padding: 10px 13px; margin: 12px 0; }
+.chips-label { font-size: 11px; color: var(--text-sub); margin-bottom: 7px; font-weight: bold; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; min-height: 32px; }
+.chip { display: inline-block; padding: 4px 13px; background: var(--primary); color: #fff;
+  border-radius: 20px; font-size: 13px; cursor: pointer; transition: all .15s;
+  user-select: none; }
+.chip:hover { background: var(--primary-dark); transform: scale(1.04); }
+.chip.used { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; pointer-events: none; }
+
+/* ボタン */
+.unit-ctrl { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+.btn { padding: 7px 16px; border-radius: 6px; border: none; font-size: 13px;
+  font-weight: bold; cursor: pointer; transition: all .15s; }
+.btn-start { background: var(--primary); color: #fff; }
+.btn-start:hover { background: var(--primary-dark); }
+.btn-judge { background: var(--accent); color: #fff; }
+.btn-judge:hover { background: #d97706; }
+.btn-show { background: #94a3b8; color: #fff; }
+.btn-show:hover { background: #64748b; }
+
+.score-box { margin-top: 8px; padding: 7px 13px; border-radius: 6px;
+  font-size: 14px; font-weight: bold; display: none; }
+.score-box.show { display: block; }
+.score-ok { background: #dcfce7; color: var(--correct); }
+.score-ng { background: #fee2e2; color: var(--wrong); }
+
+/* 全問採点 */
+.total-ctrl { text-align: center; margin: 8px 0 16px; }
+.btn-total { background: var(--primary-dark); color: #fff; padding: 11px 30px;
+  font-size: 15px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+.btn-total:hover { opacity: .9; }
+.score-total { text-align: center; padding: 12px; border-radius: 8px;
+  font-size: 17px; font-weight: bold; display: none; margin-bottom: 20px; }
+.score-total.show { display: block; }
+
+/* ナビリンク */
+.nav-links { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
+.nav-links a { padding: 9px 20px; background: var(--primary); color: #fff;
+  border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: bold; }
+.nav-links a:hover { background: var(--primary-dark); }
+
+/* 紙吹雪 */
+#confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 9999; display: none; }
+
+@media(max-width:600px){ .dq { font-size: 14px; } }
+
+/* 問題カード */
+.q-card{background:var(--card);border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:18px;overflow:hidden;}
+.q-hd{background:var(--primary);color:#fff;padding:11px 18px;
+  display:flex;align-items:center;gap:9px;}
+.q-badge{background:rgba(255,255,255,.25);border-radius:50%;width:27px;
+  height:27px;display:flex;align-items:center;justify-content:center;
+  font-weight:bold;font-size:13px;flex-shrink:0;}
+.q-hd h3{font-size:14px;font-weight:bold;line-height:1.45;}
+.q-body{padding:16px 18px;}
+.choices{display:grid;gap:9px;margin-top:4px;}
+.choice-btn{padding:10px 14px;border:2px solid var(--border);border-radius:8px;
+  background:#fff;font-size:14px;cursor:pointer;text-align:left;
+  display:flex;align-items:flex-start;gap:9px;line-height:1.5;transition:all .15s;}
+.choice-btn:hover:not(:disabled){border-color:var(--primary);background:var(--primary-light);}
+.choice-num{font-weight:bold;color:var(--primary);min-width:18px;}
+.choice-btn.correct{border-color:var(--correct);background:#dcfce7;}
+.choice-btn.wrong{border-color:var(--wrong);background:#fee2e2;}
+.choice-btn:disabled{cursor:default;}
+.feedback{margin-top:10px;padding:11px 13px;border-radius:8px;
+  font-size:13px;display:none;line-height:1.6;}
+.feedback.show{display:block;}
+.feedback.ok{background:#dcfce7;border-left:4px solid var(--correct);}
+.feedback.ng{background:#fee2e2;border-left:4px solid var(--wrong);}
+.feedback .fb-title{font-weight:bold;margin-bottom:3px;}
+/* 結果 */
+.total-wrap{background:var(--card);border-radius:12px;padding:22px 18px;
+  text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);
+  margin-top:8px;display:none;}
+.total-wrap.show{display:block;}
+.total-score{font-size:46px;font-weight:bold;color:var(--primary);margin:6px 0;}
+.total-label{font-size:14px;color:var(--text-sub);}
+.total-msg{margin-top:8px;font-size:15px;font-weight:bold;}
+.submit-wrap{text-align:center;margin:22px 0 10px;}
+.btn-submit{background:var(--primary-dark);color:#fff;padding:12px 32px;
+  font-size:15px;border-radius:8px;border:none;cursor:pointer;font-weight:bold;}
+.btn-submit:hover{opacity:.9;}
+.btn-retry{background:var(--accent);color:#fff;padding:9px 24px;
+  font-size:14px;border-radius:8px;border:none;cursor:pointer;
+  font-weight:bold;margin-top:14px;}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<nav>
+  <a href="index.html">🏠 ホーム</a>
+  <span class="sep">›</span>
+  <a href="saibou1.html">細胞①解説</a>
+  <span class="sep">›</span>
+  <span class="current">確認テスト</span>
+</nav>
+<div class="page-hd">
+  <div class="hd-label">生物基礎 細胞① 確認テスト</div>
+  <h1 class="hd-title">🔬 細胞①原核・真核細胞の構造 確認テスト</h1>
+  <div class="hd-sub">全10問・四択です。全問答えてから「採点する」を押してください。</div>
+</div>
+<div class="wrap">
+  <div class="prog-wrap">
+    <div class="prog-label"><span>回答済み</span><span id="prog-text">0 / 10 問</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">1</div><h3>真核細胞のみが持ち、遺伝情報（DNA）を保管する「細胞の司令塔」とよばれる器官はどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices1">
+      <button class="choice-btn" onclick="answer(1,this,true)"><span class="choice-num">①</span> 核膜を持つ核</button>
+<button class="choice-btn" onclick="answer(1,this,false)"><span class="choice-num">②</span> リボソーム</button>
+<button class="choice-btn" onclick="answer(1,this,false)"><span class="choice-num">③</span> 細胞壁</button>
+<button class="choice-btn" onclick="answer(1,this,false)"><span class="choice-num">④</span> ゴルジ体</button>
+
+    </div>
+    <div class="feedback" id="fb1">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">2</div><h3>ミトコンドリアの主なはたらきはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices2">
+      <button class="choice-btn" onclick="answer(2,this,false)"><span class="choice-num">①</span> タンパク質を合成する</button>
+<button class="choice-btn" onclick="answer(2,this,false)"><span class="choice-num">②</span> 光合成を行い有機物を作る</button>
+<button class="choice-btn" onclick="answer(2,this,true)"><span class="choice-num">③</span> 酸素を使って有機物を分解しATPを生産する</button>
+<button class="choice-btn" onclick="answer(2,this,false)"><span class="choice-num">④</span> 物質の出入りを調節する</button>
+
+    </div>
+    <div class="feedback" id="fb2">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">3</div><h3>リボソームについて正しいのはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices3">
+      <button class="choice-btn" onclick="answer(3,this,false)"><span class="choice-num">①</span> 植物細胞にしかない</button>
+<button class="choice-btn" onclick="answer(3,this,true)"><span class="choice-num">②</span> 原核細胞・真核細胞のすべての細胞にある</button>
+<button class="choice-btn" onclick="answer(3,this,false)"><span class="choice-num">③</span> 光合成を担当する</button>
+<button class="choice-btn" onclick="answer(3,this,false)"><span class="choice-num">④</span> ATPを生産する</button>
+
+    </div>
+    <div class="feedback" id="fb3">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">4</div><h3>植物細胞だけに存在し、光エネルギーでCO₂と水から有機物を作る器官はどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices4">
+      <button class="choice-btn" onclick="answer(4,this,false)"><span class="choice-num">①</span> ミトコンドリア</button>
+<button class="choice-btn" onclick="answer(4,this,false)"><span class="choice-num">②</span> リソソーム</button>
+<button class="choice-btn" onclick="answer(4,this,true)"><span class="choice-num">③</span> 葉緑体</button>
+<button class="choice-btn" onclick="answer(4,this,false)"><span class="choice-num">④</span> 液胞</button>
+
+    </div>
+    <div class="feedback" id="fb4">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">5</div><h3>次のうち、動物細胞だけに存在する器官はどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices5">
+      <button class="choice-btn" onclick="answer(5,this,false)"><span class="choice-num">①</span> ミトコンドリア</button>
+<button class="choice-btn" onclick="answer(5,this,false)"><span class="choice-num">②</span> 細胞膜</button>
+<button class="choice-btn" onclick="answer(5,this,true)"><span class="choice-num">③</span> 中心体</button>
+<button class="choice-btn" onclick="answer(5,this,false)"><span class="choice-num">④</span> 核</button>
+
+    </div>
+    <div class="feedback" id="fb5">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">6</div><h3>細胞の大きさについて、電子顕微鏡が必要なものはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices6">
+      <button class="choice-btn" onclick="answer(6,this,false)"><span class="choice-num">①</span> ゾウリムシ（約250µm）</button>
+<button class="choice-btn" onclick="answer(6,this,false)"><span class="choice-num">②</span> ヒトの赤血球（約7µm）</button>
+<button class="choice-btn" onclick="answer(6,this,true)"><span class="choice-num">③</span> DNA分子（約2nm）</button>
+<button class="choice-btn" onclick="answer(6,this,false)"><span class="choice-num">④</span> ミトコンドリア（約1µm）</button>
+
+    </div>
+    <div class="feedback" id="fb6">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">7</div><h3>細胞膜について正しい説明はどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices7">
+      <button class="choice-btn" onclick="answer(7,this,false)"><span class="choice-num">①</span> 植物細胞にだけある</button>
+<button class="choice-btn" onclick="answer(7,this,false)"><span class="choice-num">②</span> セルロースでできた硬い壁である</button>
+<button class="choice-btn" onclick="answer(7,this,true)"><span class="choice-num">③</span> すべての細胞にあり、物質の出入りを選択的に調節する</button>
+<button class="choice-btn" onclick="answer(7,this,false)"><span class="choice-num">④</span> 光合成を担当する</button>
+
+    </div>
+    <div class="feedback" id="fb7">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">8</div><h3>液胞についての正しい説明はどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices8">
+      <button class="choice-btn" onclick="answer(8,this,false)"><span class="choice-num">①</span> 動物細胞に多く見られる消化器官</button>
+<button class="choice-btn" onclick="answer(8,this,true)"><span class="choice-num">②</span> 成熟した植物細胞で大きく発達し、水分などを蓄える</button>
+<button class="choice-btn" onclick="answer(8,this,false)"><span class="choice-num">③</span> ATPを生産するエネルギー工場</button>
+<button class="choice-btn" onclick="answer(8,this,false)"><span class="choice-num">④</span> タンパク質を合成する粒子状の器官</button>
+
+    </div>
+    <div class="feedback" id="fb8">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">9</div><h3>ゴルジ体のはたらきとして正しいのはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices9">
+      <button class="choice-btn" onclick="answer(9,this,false)"><span class="choice-num">①</span> 酸素を使って有機物を分解する</button>
+<button class="choice-btn" onclick="answer(9,this,true)"><span class="choice-num">②</span> リボソームで合成されたタンパク質を加工・分泌する</button>
+<button class="choice-btn" onclick="answer(9,this,false)"><span class="choice-num">③</span> 光合成を行う</button>
+<button class="choice-btn" onclick="answer(9,this,false)"><span class="choice-num">④</span> 遺伝情報を保管する</button>
+
+    </div>
+    <div class="feedback" id="fb9">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card">
+  <div class="q-hd"><div class="q-badge">10</div><h3>小胞体の説明として正しいのはどれですか？</h3></div>
+  <div class="q-body">
+    <div class="choices" id="choices10">
+      <button class="choice-btn" onclick="answer(10,this,false)"><span class="choice-num">①</span> 細胞膜の外側にある硬い壁</button>
+<button class="choice-btn" onclick="answer(10,this,false)"><span class="choice-num">②</span> 細胞分裂で紡錘糸を形成する</button>
+<button class="choice-btn" onclick="answer(10,this,true)"><span class="choice-num">③</span> 膜の網目状構造でタンパク質・脂質の合成・輸送を担う</button>
+<button class="choice-btn" onclick="answer(10,this,false)"><span class="choice-num">④</span> 不要な物質を消化・分解する袋</button>
+
+    </div>
+    <div class="feedback" id="fb10">
+      <div class="fb-title"></div>
+      <div class="fb-body"></div>
+    </div>
+  </div>
+</div>
+
+  <div class="submit-wrap">
+    <button class="btn-submit" onclick="submitAll()">📝 採点する</button>
+  </div>
+  <div class="total-wrap" id="total-wrap">
+    <div class="total-label">あなたの得点</div>
+    <div class="total-score" id="total-score"></div>
+    <div class="total-msg" id="total-msg"></div>
+    <div style="margin-top:5px;font-size:12px;color:var(--text-sub)" id="total-sub"></div>
+    <button class="btn-retry" onclick="location.reload()">もう一度チャレンジ</button>
+  </div>
+  <div class="nav-links">
+    <a href="saibou1_drill.html">← ドリルへ</a>
+    <a href="saibou1.html">解説へ戻る</a>
+  </div>
+</div>
+<script>
+
+const answered={};
+let correctCount=0;
+const QDATA={"1": {"ok": "正解は①核です。核は核膜に包まれ、内部に染色体（DNA）と核小体を持つ司令塔です。", "ng": "不正解。正解は「核」です。核膜に包まれた核の中に遺伝情報（DNA）が保管されています。"}, "2": {"ok": "正解は③です。ミトコンドリアは細胞呼吸の場で、酸素を使って有機物を分解し、大量のATPを生産します。", "ng": "不正解。ミトコンドリアは「細胞呼吸」でATPを生産する器官です。光合成は葉緑体、タンパク質合成はリボソームの役割です。"}, "3": {"ok": "正解は②です。リボソームはタンパク質を合成する器官で、原核細胞・真核細胞（動物・植物）のすべての細胞に存在する最も普遍的な器官です。", "ng": "不正解。リボソームはすべての細胞（原核・真核の両方）に存在するタンパク質合成の場です。"}, "4": {"ok": "正解は③葉緑体です。葉緑体は光合成を行い、光エネルギーを使ってCO₂と水から糖（有機物）とO₂を作ります。", "ng": "不正解。光合成は葉緑体の役割です。ミトコンドリアは細胞呼吸（分解）を行います。"}, "5": {"ok": "正解は③中心体です。中心体は細胞分裂のとき紡錘糸を形成し、染色体を引き分ける役割をします。動物細胞にのみ存在します。", "ng": "不正解。正解は「中心体」です。ミトコンドリア・細胞膜・核は動物・植物の両方にあります。"}, "6": {"ok": "正解は③です。nm（ナノメートル）単位のDNA分子・リボソームを観察するには電子顕微鏡が必要です。µm単位の細菌・赤血球は光学顕微鏡で見えます。", "ng": "不正解。最も小さいDNA分子（約2nm）は電子顕微鏡が必要です。ゾウリムシ・赤血球・ミトコンドリアは光学顕微鏡で観察できます。"}, "7": {"ok": "正解は③です。細胞膜はすべての細胞に共通して存在し、選択的透過性によって物質の出入りをコントロールします。", "ng": "不正解。細胞膜はすべての細胞にあります（動物・植物・原核細胞すべて）。セルロースでできた硬い壁は「細胞壁」です。"}, "8": {"ok": "正解は②です。液胞は水分・無機塩類・老廃物などを蓄え、植物細胞の膨圧（張り）を維持します。", "ng": "不正解。液胞は植物細胞で発達し、水分や老廃物を蓄える器官です。消化器官はリソソーム、ATPはミトコンドリア、タンパク質合成はリボソームの役割です。"}, "9": {"ok": "正解は②です。ゴルジ体は扁平な袋が重なった構造で、リボソームが作ったタンパク質を受け取り、加工・仕分け・分泌します。", "ng": "不正解。ゴルジ体はタンパク質の加工・分泌を担当します。それぞれ①はミトコンドリア、③は葉緑体、④は核の役割です。"}, "10": {"ok": "正解は③です。小胞体は膜の網目状構造で、粗面小胞体（リボソーム付き）はタンパク質合成に、滑面小胞体は脂質合成に関わります。", "ng": "不正解。①は細胞壁、②は中心体、④はリソソームの説明です。小胞体は膜の網目状構造でタンパク質・脂質の合成・輸送を担います。"}};
+
+function answer(qnum,btn,isCorrect){
+  if(answered[qnum])return;
+  answered[qnum]=isCorrect?'correct':'wrong';
+  const choices=document.getElementById('choices'+qnum).querySelectorAll('.choice-btn');
+  choices.forEach(b=>b.disabled=true);
+  choices.forEach(b=>{ if(b.getAttribute('onclick').includes(',true)'))b.classList.add('correct'); });
+  if(!isCorrect)btn.classList.add('wrong');
+  const fb=document.getElementById('fb'+qnum);
+  const q=QDATA[qnum];
+  fb.querySelector('.fb-title').textContent=isCorrect?'✅ 正解！':'❌ 不正解';
+  fb.querySelector('.fb-body').textContent=isCorrect?q.ok:q.ng;
+  fb.className='feedback show '+(isCorrect?'ok':'ng');
+  const done=Object.keys(answered).length;
+  document.getElementById('prog-text').textContent=done+' / 10 問';
+  document.getElementById('prog-fill').style.width=(done/10*100)+'%';
+}
+
+function submitAll(){
+  correctCount=Object.values(answered).filter(v=>v==='correct').length;
+  const wrap=document.getElementById('total-wrap');
+  wrap.className='total-wrap show';
+  document.getElementById('total-score').textContent=correctCount+' / 10';
+  let msg='',sub='';
+  if(correctCount===10){msg='🎉 満点！完璧です！';sub='しっかり理解できています。次のページへ進みましょう。';fireConfetti();}
+  else if(correctCount>=10*0.8){msg='👏 よくできました！';sub='間違えた問題の解説を読んで復習しましょう。';}
+  else if(correctCount>=10*0.6){msg='📖 もう一度復習しましょう。';sub='ドリルに戻って確認してから再チャレンジ！';}
+  else{msg='💪 くり返し練習しましょう！';sub='解説ページをもう一度読んでみましょう。';}
+  document.getElementById('total-msg').textContent=msg;
+  document.getElementById('total-sub').textContent=sub;
+  wrap.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function fireConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const cols = ['#0e7490','#f59e0b','#3b82f6','#ec4899','#10b981','#f97316'];
+  const ps = [];
+  for (let i=0;i<130;i++) ps.push({x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height-canvas.height,
+    w:Math.random()*9+5,h:Math.random()*5+3,
+    color:cols[Math.floor(Math.random()*cols.length)],
+    vx:(Math.random()-.5)*3,vy:Math.random()*3+2,
+    angle:Math.random()*360,spin:(Math.random()-.5)*5});
+  let fr=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ps.forEach(p=>{
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.angle*Math.PI/180);
+      ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
+      p.x+=p.vx;p.y+=p.vy;p.angle+=p.spin;
+    });
+    fr++;
+    if(fr<130)requestAnimationFrame(draw);else canvas.style.display='none';
+  }
+  draw();
+}
+
+</script>
+</body>
+</html>

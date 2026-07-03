@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)file:///C:/Users/kogen/Downloads/BL17_drill.html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL17 エネルギーの流れ ドリル</title>
+<style>
+:root{
+  --pri:#16a34a;--pri-dark:#15803d;--pri-light:#dcfce7;--pri-mid:#bbf7d0;
+  --acc:#f59e0b;--acc-light:#fef3c7;
+  --text:#1e293b;--sub:#475569;--border:#e2e8f0;
+  --bg:#f8fafc;--white:#ffffff;
+  --red:#dc2626;--red-bg:#fee2e2;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;font-size:16px}
+.page-header{background:linear-gradient(135deg,var(--pri) 0%,var(--pri-dark) 100%);color:#fff;padding:2rem 1.5rem 1.5rem;text-align:center}
+.page-header .unit-label{font-size:.85rem;opacity:.8;margin-bottom:.4rem;letter-spacing:.1em}
+.page-header h1{font-size:1.7rem;font-weight:800;margin-bottom:.5rem}
+.page-header p{font-size:.95rem;opacity:.85}
+.container{max-width:860px;margin:0 auto;padding:1.5rem 1rem 4rem}
+
+/* スコアバー */
+.score-bar{background:var(--white);border:2px solid var(--pri);border-radius:12px;padding:1rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.score-label{font-weight:700;color:var(--pri-dark);font-size:.95rem}
+.score-num{font-size:1.6rem;font-weight:800;color:var(--pri-dark)}
+.score-detail{font-size:.85rem;color:var(--sub)}
+.progress-bar{flex:1;min-width:160px;height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--pri),#22c55e);border-radius:999px;transition:width .4s}
+
+/* セクション */
+.section{background:var(--white);border-radius:14px;border:1px solid var(--border);margin-bottom:2rem;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.section-header{background:linear-gradient(90deg,var(--pri),var(--pri-dark));color:#fff;padding:1rem 1.4rem;display:flex;align-items:center;gap:.8rem}
+.section-header .badge{background:rgba(255,255,255,.25);border-radius:8px;padding:.2rem .65rem;font-weight:800;font-size:.9rem;flex-shrink:0}
+.section-header h2{font-size:1.05rem;font-weight:800}
+.section-body{padding:1.5rem}
+
+/* 問題カード */
+.q-card{border:1.5px solid var(--border);border-radius:10px;padding:1.1rem 1.2rem;margin-bottom:1.2rem;background:#fafafa;transition:border-color .2s}
+.q-card.answered-ok{border-color:var(--pri);background:var(--pri-light)}
+.q-card.answered-ng{border-color:var(--red);background:var(--red-bg)}
+.q-num{font-weight:800;color:var(--pri-dark);font-size:.85rem;margin-bottom:.5rem}
+.q-text{font-size:.95rem;line-height:1.85;margin-bottom:.8rem}
+.blank{display:inline-block;min-width:90px;border-bottom:2.5px solid var(--pri-dark);color:var(--pri-dark);font-weight:800;text-align:center;padding:.1rem .4rem;margin:0 .1rem;cursor:pointer;transition:all .2s;background:transparent;vertical-align:bottom;font-size:.95rem}
+.blank.filled{background:var(--pri-light);border-color:var(--pri);border-radius:4px;border-style:solid;border-width:1.5px}
+.blank.correct{background:#d1fae5;border-color:#059669;color:#065f46}
+.blank.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+
+/* 語群 */
+.word-bank{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem;padding:.8rem;background:#f1f5f9;border-radius:8px}
+.word-btn{padding:.35rem .85rem;background:var(--white);border:2px solid var(--pri);border-radius:999px;cursor:pointer;font-weight:700;font-size:.88rem;color:var(--pri-dark);transition:all .2s;user-select:none}
+.word-btn:hover{background:var(--pri-light)}
+.word-btn.used{opacity:.35;cursor:not-allowed;background:#e2e8f0;border-color:#94a3b8;color:#64748b}
+
+/* 答え合わせ・リセット */
+.btn-row{display:flex;gap:.8rem;margin-top:1rem;flex-wrap:wrap}
+.btn-check{padding:.6rem 1.5rem;background:var(--pri);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.92rem;cursor:pointer;transition:background .2s}
+.btn-check:hover{background:var(--pri-dark)}
+.btn-reset{padding:.6rem 1.5rem;background:var(--white);color:var(--pri);border:2px solid var(--pri);border-radius:8px;font-weight:700;font-size:.92rem;cursor:pointer;transition:all .2s}
+.btn-reset:hover{background:var(--pri-light)}
+.result-msg{margin-top:.8rem;font-weight:700;font-size:.95rem;display:none}
+.result-msg.show{display:block}
+
+/* 花吹雪 */
+.confetti-piece{position:fixed;top:-20px;animation:confFall linear forwards;pointer-events:none;z-index:9999}
+@keyframes confFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* ナビ */
+.nav-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.btn-nav{padding:.65rem 1.4rem;border-radius:8px;font-weight:700;font-size:.92rem;text-decoration:none;transition:all .2s}
+.btn-back{background:var(--white);color:var(--pri);border:2px solid var(--pri)}
+.btn-back:hover{background:var(--pri-light)}
+.btn-next{background:var(--pri);color:#fff;border:2px solid var(--pri)}
+.btn-next:hover{background:var(--pri-dark)}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-label">UNIT 18 ドリル</div>
+  <h1>エネルギーの流れ</h1>
+  <p>語群から選んでタップ→空欄を埋めよう</p>
+</div>
+
+<div class="container">
+
+<!-- スコア表示 -->
+<div class="score-bar">
+  <div>
+    <div class="score-label">正解数</div>
+    <div class="score-num"><span id="scoreOk">0</span> / <span id="scoreTotal">0</span></div>
+    <div class="score-detail" id="scoreDetail">まだ答え合わせをしていません</div>
+  </div>
+  <div style="flex:1">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- ===== 単元1：生産者のエネルギー収支 ===== -->
+<div class="section">
+  <div class="section-header"><span class="badge">単元1</span><h2>生産者（植物）のエネルギー収支</h2></div>
+  <div class="section-body">
+
+    <div class="q-card" id="q1-1">
+      <div class="q-num">問1</div>
+      <div class="q-text">植物が光合成で作った有機物の総量を<span class="blank" id="b1-1" onclick="fillBlank(&#39;b1-1&#39;,&#39;q1-1&#39;)">   </span>という。</div>
+      <div class="word-bank" id="wb1-1">
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-1&#39;)">総生産量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-1&#39;)">純生産量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-1&#39;)">成長量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-1&#39;)">呼吸量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-2">
+      <div class="q-num">問2</div>
+      <div class="q-text">植物が呼吸で消費するエネルギー量を<span class="blank" id="b1-2" onclick="fillBlank(&#39;b1-2&#39;,&#39;q1-2&#39;)">   </span>という。</div>
+      <div class="word-bank" id="wb1-2">
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-2&#39;)">呼吸量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-2&#39;)">枯死量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-2&#39;)">被食量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-2&#39;)">総生産量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-3">
+      <div class="q-num">問3</div>
+      <div class="q-text">総生産量から呼吸量を引いた量を<span class="blank" id="b1-3" onclick="fillBlank(&#39;b1-3&#39;,&#39;q1-3&#39;)">   </span>という。</div>
+      <div class="word-bank" id="wb1-3">
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-3&#39;)">純生産量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-3&#39;)">成長量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-3&#39;)">同化量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-3&#39;)">被食量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-4">
+      <div class="q-num">問4</div>
+      <div class="q-text">純生産量から枯死量と被食量を引いた残りを<span class="blank" id="b1-4" onclick="fillBlank(&#39;b1-4&#39;,&#39;q1-4&#39;)">   </span>という。</div>
+      <div class="word-bank" id="wb1-4">
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-4&#39;)">成長量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-4&#39;)">純生産量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-4&#39;)">総生産量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-4&#39;)">呼吸量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-5">
+      <div class="q-num">問5</div>
+      <div class="q-text">総生産量が1000、呼吸量が350のとき、純生産量は<span class="blank" id="b1-5" onclick="fillBlank(&#39;b1-5&#39;,&#39;q1-5&#39;)">   </span>である。</div>
+      <div class="word-bank" id="wb1-5">
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-5&#39;)">650</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-5&#39;)">350</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-5&#39;)">1350</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-5&#39;)">1000</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-6">
+      <div class="q-num">問6</div>
+      <div class="q-text">純生産量が500、枯死量が120、被食量が180のとき、成長量は<span class="blank" id="b1-6" onclick="fillBlank(&#39;b1-6&#39;,&#39;q1-6&#39;)">   </span>である。</div>
+      <div class="word-bank" id="wb1-6">
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-6&#39;)">200</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-6&#39;)">300</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-6&#39;)">380</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-6&#39;)">800</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-7">
+      <div class="q-num">問7</div>
+      <div class="q-text">純生産量は「成長量」＋「枯死量」＋「<span class="blank" id="b1-7" onclick="fillBlank(&#39;b1-7&#39;,&#39;q1-7&#39;)">   </span>」で表せる。</div>
+      <div class="word-bank" id="wb1-7">
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-7&#39;)">被食量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-7&#39;)">呼吸量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-7&#39;)">同化量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-7&#39;)">不消化排出量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q1-8">
+      <div class="q-num">問8</div>
+      <div class="q-text">記号Sで生産者の総生産量を表す場合、S₁ ＝ <span class="blank" id="b1-8" onclick="fillBlank(&#39;b1-8&#39;,&#39;q1-8&#39;)">   </span> ＋ R₁（呼吸量）と表せる。（純生産量の記号を使え）</div>
+      <div class="word-bank" id="wb1-8">
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-8&#39;)">G₁＋C₁＋D₁</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-8&#39;)">G₁＋R₁</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-8&#39;)">C₁＋D₁</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b1-8&#39;)">S₁＋G₁</button>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSection(1,8)">答え合わせ</button>
+      <button class="btn-reset" onclick="resetSection(1,8)">リセット</button>
+    </div>
+    <div class="result-msg" id="res-sec1"></div>
+  </div>
+</div>
+
+<!-- ===== 単元2：消費者のエネルギー収支 ===== -->
+<div class="section">
+  <div class="section-header"><span class="badge">単元2</span><h2>消費者（動物）のエネルギー収支</h2></div>
+  <div class="section-body">
+
+    <div class="q-card" id="q2-1">
+      <div class="q-num">問1</div>
+      <div class="q-text">草食動物が植物を食べる量（食べた量の合計）を<span class="blank" id="b2-1" onclick="fillBlank(&#39;b2-1&#39;,&#39;q2-1&#39;)">   </span>という。</div>
+      <div class="word-bank" id="wb2-1">
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-1&#39;)">摂食量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-1&#39;)">同化量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-1&#39;)">被食量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-1&#39;)">成長量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-2">
+      <div class="q-num">問2</div>
+      <div class="q-text">消化・吸収されずにフンとして排出される量を<span class="blank" id="b2-2" onclick="fillBlank(&#39;b2-2&#39;,&#39;q2-2&#39;)">   </span>という。</div>
+      <div class="word-bank" id="wb2-2">
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-2&#39;)">不消化排出量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-2&#39;)">死滅量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-2&#39;)">呼吸量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-2&#39;)">被食量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-3">
+      <div class="q-num">問3</div>
+      <div class="q-text">摂食量から不消化排出量を引いた、体内に吸収された量を<span class="blank" id="b2-3" onclick="fillBlank(&#39;b2-3&#39;,&#39;q2-3&#39;)">   </span>という。</div>
+      <div class="word-bank" id="wb2-3">
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-3&#39;)">同化量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-3&#39;)">摂食量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-3&#39;)">成長量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-3&#39;)">総生産量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-4">
+      <div class="q-num">問4</div>
+      <div class="q-text">消費者の同化量は、生産者の<span class="blank" id="b2-4" onclick="fillBlank(&#39;b2-4&#39;,&#39;q2-4&#39;)">   </span>に相当する。</div>
+      <div class="word-bank" id="wb2-4">
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-4&#39;)">総生産量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-4&#39;)">純生産量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-4&#39;)">成長量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-4&#39;)">被食量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-5">
+      <div class="q-num">問5</div>
+      <div class="q-text">摂食量が600、不消化排出量が150のとき、同化量は<span class="blank" id="b2-5" onclick="fillBlank(&#39;b2-5&#39;,&#39;q2-5&#39;)">   </span>である。</div>
+      <div class="word-bank" id="wb2-5">
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-5&#39;)">450</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-5&#39;)">150</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-5&#39;)">750</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-5&#39;)">600</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-6">
+      <div class="q-num">問6</div>
+      <div class="q-text">同化量が400、呼吸量が200、被食量が60、死滅量が40のとき、成長量は<span class="blank" id="b2-6" onclick="fillBlank(&#39;b2-6&#39;,&#39;q2-6&#39;)">   </span>である。</div>
+      <div class="word-bank" id="wb2-6">
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-6&#39;)">100</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-6&#39;)">200</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-6&#39;)">300</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-6&#39;)">160</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-7">
+      <div class="q-num">問7</div>
+      <div class="q-text">不消化排出量は植物（生産者）には<span class="blank" id="b2-7" onclick="fillBlank(&#39;b2-7&#39;,&#39;q2-7&#39;)">   </span>。</div>
+      <div class="word-bank" id="wb2-7">
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-7&#39;)">存在しない</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-7&#39;)">存在する</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-7&#39;)">多く存在する</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-7&#39;)">少量存在する</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q2-8">
+      <div class="q-num">問8</div>
+      <div class="q-text">消費者の同化量 ＝ G₂ ＋ <span class="blank" id="b2-8" onclick="fillBlank(&#39;b2-8&#39;,&#39;q2-8&#39;)">   </span> ＋ D₂ ＋ R₂　（G：成長量、C：被食量、D：死滅量、R：呼吸量）</div>
+      <div class="word-bank" id="wb2-8">
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-8&#39;)">C₂</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-8&#39;)">U₂</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-8&#39;)">S₂</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b2-8&#39;)">P₂</button>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSection(2,8)">答え合わせ</button>
+      <button class="btn-reset" onclick="resetSection(2,8)">リセット</button>
+    </div>
+    <div class="result-msg" id="res-sec2"></div>
+  </div>
+</div>
+
+<!-- ===== 単元3：記号と計算式 ===== -->
+<div class="section">
+  <div class="section-header"><span class="badge">単元3</span><h2>記号（S・G・C・D・R・U）と計算式</h2></div>
+  <div class="section-body">
+
+    <div class="q-card" id="q3-1">
+      <div class="q-num">問1</div>
+      <div class="q-text">記号Gが表すのは<span class="blank" id="b3-1" onclick="fillBlank(&#39;b3-1&#39;,&#39;q3-1&#39;)">   </span>である。</div>
+      <div class="word-bank" id="wb3-1">
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-1&#39;)">成長量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-1&#39;)">呼吸量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-1&#39;)">被食量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-1&#39;)">死滅量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-2">
+      <div class="q-num">問2</div>
+      <div class="q-text">記号Rが表すのは<span class="blank" id="b3-2" onclick="fillBlank(&#39;b3-2&#39;,&#39;q3-2&#39;)">   </span>である。</div>
+      <div class="word-bank" id="wb3-2">
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-2&#39;)">呼吸量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-2&#39;)">成長量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-2&#39;)">被食量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-2&#39;)">不消化排出量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-3">
+      <div class="q-num">問3</div>
+      <div class="q-text">記号Uが表すのは<span class="blank" id="b3-3" onclick="fillBlank(&#39;b3-3&#39;,&#39;q3-3&#39;)">   </span>である。</div>
+      <div class="word-bank" id="wb3-3">
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-3&#39;)">不消化排出量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-3&#39;)">呼吸量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-3&#39;)">死滅量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-3&#39;)">成長量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-4">
+      <div class="q-num">問4</div>
+      <div class="q-text">記号Cが表すのは<span class="blank" id="b3-4" onclick="fillBlank(&#39;b3-4&#39;,&#39;q3-4&#39;)">   </span>である。</div>
+      <div class="word-bank" id="wb3-4">
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-4&#39;)">被食量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-4&#39;)">呼吸量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-4&#39;)">成長量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-4&#39;)">不消化排出量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-5">
+      <div class="q-num">問5</div>
+      <div class="q-text">生産者の純生産量 ＝ S₁（総生産量）−<span class="blank" id="b3-5" onclick="fillBlank(&#39;b3-5&#39;,&#39;q3-5&#39;)">   </span>（記号で答えよ）</div>
+      <div class="word-bank" id="wb3-5">
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-5&#39;)">R₁</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-5&#39;)">G₁</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-5&#39;)">C₁</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-5&#39;)">D₁</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-6">
+      <div class="q-num">問6</div>
+      <div class="q-text">消費者の同化量 ＝ 摂食量 −<span class="blank" id="b3-6" onclick="fillBlank(&#39;b3-6&#39;,&#39;q3-6&#39;)">   </span>（記号で答えよ）</div>
+      <div class="word-bank" id="wb3-6">
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-6&#39;)">U₂</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-6&#39;)">R₂</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-6&#39;)">G₂</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-6&#39;)">C₂</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-7">
+      <div class="q-num">問7</div>
+      <div class="q-text">エネルギーの流れにおいて、呼吸量は熱エネルギーとして<span class="blank" id="b3-7" onclick="fillBlank(&#39;b3-7&#39;,&#39;q3-7&#39;)">   </span>する。</div>
+      <div class="word-bank" id="wb3-7">
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-7&#39;)">散失</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-7&#39;)">循環</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-7&#39;)">蓄積</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-7&#39;)">固定</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q3-8">
+      <div class="q-num">問8</div>
+      <div class="q-text">エネルギーは物質と異なり、生態系内を<span class="blank" id="b3-8" onclick="fillBlank(&#39;b3-8&#39;,&#39;q3-8&#39;)">   </span>しない。</div>
+      <div class="word-bank" id="wb3-8">
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-8&#39;)">循環</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-8&#39;)">散失</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-8&#39;)">蓄積</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b3-8&#39;)">固定</button>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSection(3,8)">答え合わせ</button>
+      <button class="btn-reset" onclick="resetSection(3,8)">リセット</button>
+    </div>
+    <div class="result-msg" id="res-sec3"></div>
+  </div>
+</div>
+
+<!-- ===== 単元4：エネルギー効率と図の読み取り ===== -->
+<div class="section">
+  <div class="section-header"><span class="badge">単元4</span><h2>エネルギー効率と図の読み取り</h2></div>
+  <div class="section-body">
+
+    <div class="q-card" id="q4-1">
+      <div class="q-num">問1</div>
+      <div class="q-text">食物連鎖の上位段階になるにつれ、エネルギー量は<span class="blank" id="b4-1" onclick="fillBlank(&#39;b4-1&#39;,&#39;q4-1&#39;)">   </span>する。</div>
+      <div class="word-bank" id="wb4-1">
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-1&#39;)">減少</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-1&#39;)">増加</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-1&#39;)">一定</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-1&#39;)">循環</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-2">
+      <div class="q-num">問2</div>
+      <div class="q-text">エネルギー効率（%）＝ （ある栄養段階のエネルギー量 ÷ 一つ下の栄養段階のエネルギー量）×<span class="blank" id="b4-2" onclick="fillBlank(&#39;b4-2&#39;,&#39;q4-2&#39;)">   </span></div>
+      <div class="word-bank" id="wb4-2">
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-2&#39;)">100</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-2&#39;)">10</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-2&#39;)">1000</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-2&#39;)">50</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-3">
+      <div class="q-num">問3</div>
+      <div class="q-text">一般に、生態系のエネルギー効率はおよそ<span class="blank" id="b4-3" onclick="fillBlank(&#39;b4-3&#39;,&#39;q4-3&#39;)">   </span>%程度である。</div>
+      <div class="word-bank" id="wb4-3">
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-3&#39;)">10〜20</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-3&#39;)">50〜60</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-3&#39;)">1〜2</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-3&#39;)">80〜90</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-4">
+      <div class="q-num">問4</div>
+      <div class="q-text">図のエネルギー流れの矢印で、すべての栄養段階から横向きに出ているのは<span class="blank" id="b4-4" onclick="fillBlank(&#39;b4-4&#39;,&#39;q4-4&#39;)">   </span>を表す矢印である。</div>
+      <div class="word-bank" id="wb4-4">
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-4&#39;)">呼吸量（R）</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-4&#39;)">被食量（C）</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-4&#39;)">不消化排出量（U）</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-4&#39;)">枯死量（D）</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-5">
+      <div class="q-num">問5</div>
+      <div class="q-text">図中で「ア」が純生産量、「イ」が枯死量、「ウ」が被食量のとき、「エ」は<span class="blank" id="b4-5" onclick="fillBlank(&#39;b4-5&#39;,&#39;q4-5&#39;)">   </span>を表す。</div>
+      <div class="word-bank" id="wb4-5">
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-5&#39;)">不消化排出量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-5&#39;)">呼吸量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-5&#39;)">死滅量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-5&#39;)">成長量</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-6">
+      <div class="q-num">問6</div>
+      <div class="q-text">枯死量・死滅量は最終的に<span class="blank" id="b4-6" onclick="fillBlank(&#39;b4-6&#39;,&#39;q4-6&#39;)">   </span>者によって分解される。</div>
+      <div class="word-bank" id="wb4-6">
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-6&#39;)">分解</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-6&#39;)">生産</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-6&#39;)">消費</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-6&#39;)">捕食</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-7">
+      <div class="q-num">問7</div>
+      <div class="q-text">生産者の総生産量S₁＝4000、一次消費者の同化量＝800のとき、エネルギー効率は<span class="blank" id="b4-7" onclick="fillBlank(&#39;b4-7&#39;,&#39;q4-7&#39;)">   </span>%である。</div>
+      <div class="word-bank" id="wb4-7">
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-7&#39;)">20</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-7&#39;)">10</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-7&#39;)">25</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-7&#39;)">5</button>
+      </div>
+    </div>
+
+    <div class="q-card" id="q4-8">
+      <div class="q-num">問8</div>
+      <div class="q-text">不消化排出量は分解者に渡るのではなく、下の栄養段階（下位段階）の<span class="blank" id="b4-8" onclick="fillBlank(&#39;b4-8&#39;,&#39;q4-8&#39;)">   </span>と同じ扱いになる。</div>
+      <div class="word-bank" id="wb4-8">
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-8&#39;)">純生産量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-8&#39;)">総生産量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-8&#39;)">呼吸量</button>
+        <button class="word-btn" onclick="selectWord(this,&#39;b4-8&#39;)">被食量</button>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkSection(4,8)">答え合わせ</button>
+      <button class="btn-reset" onclick="resetSection(4,8)">リセット</button>
+    </div>
+    <div class="result-msg" id="res-sec4"></div>
+  </div>
+</div>
+
+<!-- ナビ -->
+<div class="nav-links">
+  <a href="file:///C:/Users/kogen/Downloads/BL17.html" class="btn-nav btn-back">◀ BL17 解説</a>
+  <a href="file:///C:/Users/kogen/Downloads/BL17_exam.html" class="btn-nav btn-next">BL17 過去問演習 ▶</a>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// 正解データ
+const ANSWERS = {
+  'b1-1':'総生産量','b1-2':'呼吸量','b1-3':'純生産量','b1-4':'成長量','b1-5':'650','b1-6':'200','b1-7':'被食量','b1-8':'G₁＋C₁＋D₁',
+  'b2-1':'摂食量','b2-2':'不消化排出量','b2-3':'同化量','b2-4':'総生産量','b2-5':'450','b2-6':'100','b2-7':'存在しない','b2-8':'C₂',
+  'b3-1':'成長量','b3-2':'呼吸量','b3-3':'不消化排出量','b3-4':'被食量','b3-5':'R₁','b3-6':'U₂','b3-7':'散失','b3-8':'循環',
+  'b4-1':'減少','b4-2':'100','b4-3':'10〜20','b4-4':'呼吸量（R）','b4-5':'不消化排出量','b4-6':'分解','b4-7':'20','b4-8':'純生産量'
+};
+
+// 選択中の語（空欄→語）
+const SELECTED = {}; // blankId -> word
+const BLANK_WBMAP = {}; // blankId -> wbId (word bankがどれか)
+
+// 語群ボタンクリック→選択状態に
+function selectWord(btn, blankId) {
+  if (btn.classList.contains('used')) return;
+  // 同じ語群内の選択を解除
+  const wb = btn.closest('.word-bank');
+  wb.querySelectorAll('.word-btn').forEach(b => b.classList.remove('selected-word'));
+  btn.classList.add('selected-word');
+  SELECTED[blankId] = btn.dataset ? btn.dataset.word : btn.textContent.trim();
+  // blankをクリックで確定
+  const blank = document.getElementById(blankId);
+  blank.textContent = btn.textContent.trim();
+  blank.classList.add('filled');
+  blank.dataset.chosen = btn.textContent.trim();
+  blank.dataset.wbBtn = btn.textContent.trim();
+  // 語群ボタン管理
+  wb.querySelectorAll('.word-btn').forEach(b => b.classList.remove('used'));
+}
+
+function fillBlank(blankId, qId) { /* click on blank - not used separately */ }
+
+function checkSection(sec, count) {
+  let ok = 0, total = 0;
+  for (let i = 1; i <= count; i++) {
+    const bid = 'b' + sec + '-' + i;
+    const blank = document.getElementById(bid);
+    if (!blank) continue;
+    total++;
+    const chosen = blank.dataset.chosen || '';
+    blank.classList.remove('correct','wrong');
+    if (chosen === ANSWERS[bid]) { ok++; blank.classList.add('correct'); }
+    else if (chosen !== '') { blank.classList.add('wrong'); }
+  }
+  const res = document.getElementById('res-sec' + sec);
+  res.classList.add('show');
+  if (ok === total && total > 0) {
+    res.innerHTML = '✅ 全問正解！　' + ok + '/' + total;
+    res.style.color = '#16a34a';
+    launchConfetti();
+  } else {
+    res.innerHTML = '📝 ' + ok + '/' + total + '　赤い空欄を見直してください。';
+    res.style.color = '#dc2626';
+  }
+  updateScore();
+}
+
+function resetSection(sec, count) {
+  for (let i = 1; i <= count; i++) {
+    const bid = 'b' + sec + '-' + i;
+    const blank = document.getElementById(bid);
+    if (!blank) continue;
+    blank.textContent = '\u2003\u2003\u2003';
+    blank.classList.remove('correct','wrong','filled');
+    delete blank.dataset.chosen;
+    const card = document.getElementById('q' + sec + '-' + i);
+    if (card) card.classList.remove('answered-ok','answered-ng');
+    const wb = document.getElementById('wb' + sec + '-' + i);
+    if (wb) wb.querySelectorAll('.word-btn').forEach(b => { b.classList.remove('used','selected-word'); });
+  }
+  const res = document.getElementById('res-sec' + sec);
+  res.classList.remove('show');
+  res.textContent = '';
+  updateScore();
+}
+
+function updateScore() {
+  let ok = 0, answered = 0, total = Object.keys(ANSWERS).length;
+  Object.keys(ANSWERS).forEach(bid => {
+    const blank = document.getElementById(bid);
+    if (!blank) return;
+    if (blank.dataset.chosen) {
+      answered++;
+      if (blank.dataset.chosen === ANSWERS[bid]) ok++;
+    }
+  });
+  document.getElementById('scoreOk').textContent = ok;
+  document.getElementById('scoreTotal').textContent = total;
+  document.getElementById('scoreDetail').textContent = answered + '問回答済み';
+  document.getElementById('progressFill').style.width = (total > 0 ? (ok / total * 100) : 0) + '%';
+}
+
+function launchConfetti() {
+  const colors = ['#16a34a','#f59e0b','#2563eb','#dc2626','#7c3aed','#ea580c','#06b6d4','#ec4899'];
+  for (let i = 0; i < 100; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.width = (8 + Math.random() * 10) + 'px';
+    el.style.height = (8 + Math.random() * 10) + 'px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+    el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    el.style.animationDelay = (Math.random() * 0.8) + 's';
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+</script>
+
+
+</body></html>

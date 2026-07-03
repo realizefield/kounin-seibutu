@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)file:///C:/Users/kogen/Downloads/BL17_exam_1.html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL17 エネルギーの流れ 過去問演習</title>
+<style>
+:root{
+  --pri:#16a34a;--pri-dark:#15803d;--pri-light:#dcfce7;--pri-mid:#bbf7d0;
+  --acc:#f59e0b;--acc-light:#fef3c7;
+  --text:#1e293b;--sub:#475569;--border:#e2e8f0;
+  --bg:#f8fafc;--white:#ffffff;
+  --red:#dc2626;--red-bg:#fee2e2;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:var(--bg);color:var(--text);line-height:1.9;font-size:16px}
+.page-header{background:linear-gradient(135deg,var(--pri) 0%,var(--pri-dark) 100%);color:#fff;padding:2rem 1.5rem 1.5rem;text-align:center}
+.page-header .unit-label{font-size:.85rem;opacity:.8;margin-bottom:.4rem;letter-spacing:.1em}
+.page-header h1{font-size:1.7rem;font-weight:800;margin-bottom:.5rem}
+.page-header p{font-size:.95rem;opacity:.85}
+.container{max-width:880px;margin:0 auto;padding:1.5rem 1rem 4rem}
+
+/* スコアバー */
+.score-bar{background:var(--white);border:2px solid var(--pri);border-radius:12px;padding:1rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.score-label{font-weight:700;color:var(--pri-dark);font-size:.95rem}
+.score-num{font-size:1.6rem;font-weight:800;color:var(--pri-dark)}
+.score-detail{font-size:.85rem;color:var(--sub)}
+.progress-bar{flex:1;min-width:160px;height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--pri),#22c55e);border-radius:999px;transition:width .4s}
+
+/* 大問 */
+.daim{background:var(--white);border-radius:14px;border:1px solid var(--border);margin-bottom:2.5rem;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.daim-header{background:linear-gradient(90deg,var(--pri),var(--pri-dark));color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;gap:.9rem}
+.daim-num{background:rgba(255,255,255,.25);border-radius:8px;padding:.2rem .7rem;font-weight:800;font-size:.9rem;white-space:nowrap}
+.daim-header h2{font-size:1rem;font-weight:800}
+.daim-body{padding:1.5rem 1.5rem 1.2rem}
+
+/* 問題文 */
+.mondai-bun{background:var(--pri-light);border-left:4px solid var(--pri);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:.95rem}
+.bun-label{font-weight:800;color:var(--pri-dark);font-size:.82rem;margin-bottom:.4rem}
+
+/* 図 */
+.exam-fig{margin:1rem 0;text-align:center}
+.exam-fig img{max-width:100%;border-radius:10px;border:1px solid var(--border)}
+.exam-fig figcaption{font-size:.82rem;color:var(--sub);margin-top:.5rem;font-weight:600}
+
+/* 小問 */
+.question{margin-bottom:1.4rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.question:last-of-type{border-bottom:none}
+.q-num{font-weight:800;color:var(--pri-dark);margin-right:.3rem;font-size:.88rem}
+.q-text{font-weight:600;line-height:1.85;margin-bottom:.7rem;font-size:.95rem}
+.choices{display:flex;flex-direction:column;gap:.5rem}
+.choice{display:flex;align-items:flex-start;gap:.6rem;padding:.5rem .7rem;border-radius:8px;cursor:pointer;border:1.5px solid transparent;font-size:.92rem;transition:all .2s;line-height:1.65}
+.choice:hover{background:var(--pri-light);border-color:var(--pri-mid)}
+.choice input{flex-shrink:0;margin-top:.22rem;accent-color:var(--pri)}
+.choice.correct-mark{background:#d1fae5;border-color:#059669;font-weight:700;color:#065f46}
+.choice.wrong-mark{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+
+/* 解説 */
+.exp-box{background:var(--acc-light);border:2px solid var(--acc);border-radius:8px;padding:.8rem 1rem;margin-top:.6rem;font-size:.88rem;display:none;line-height:1.75}
+.exp-box.show{display:block}
+.exp-label{font-weight:800;color:#92400e;font-size:.82rem;margin-bottom:.3rem}
+
+/* ボタン */
+.daim-btn-row{display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap}
+.daim-btn{padding:.6rem 1.5rem;border-radius:8px;font-weight:700;font-size:.92rem;cursor:pointer;transition:all .2s;border:none}
+.daim-btn-check{background:var(--pri);color:#fff}
+.daim-btn-check:hover{background:var(--pri-dark)}
+.daim-btn-reset{background:var(--white);color:var(--pri);border:2px solid var(--pri)}
+.daim-btn-reset:hover{background:var(--pri-light)}
+.daim-result{margin-top:.8rem;font-weight:700;font-size:.95rem;display:none}
+.daim-result.show{display:block}
+.score{font-size:1.2rem;color:var(--pri);font-weight:800}
+
+/* 花吹雪 */
+.confetti-piece{position:fixed;top:-20px;animation:confFall linear forwards;pointer-events:none;z-index:9999}
+@keyframes confFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* ナビ */
+.nav-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.btn-nav{padding:.65rem 1.4rem;border-radius:8px;font-weight:700;font-size:.92rem;text-decoration:none;transition:all .2s;display:inline-block}
+.btn-back{background:var(--white);color:var(--pri);border:2px solid var(--pri)}
+.btn-back:hover{background:var(--pri-light)}
+.btn-next{background:var(--pri);color:#fff;border:2px solid var(--pri)}
+.btn-next:hover{background:var(--pri-dark)}
+
+/* 表 */
+.sym-table{width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.9rem}
+.sym-table th{background:var(--pri);color:#fff;padding:.5rem .8rem;text-align:left;font-weight:700}
+.sym-table td{padding:.5rem .8rem;border:1px solid var(--border)}
+.sym-table tr:nth-child(even) td{background:#f8fafc}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-label">UNIT 18 過去問演習</div>
+  <h1>エネルギーの流れ</h1>
+  <p>過去問形式の問題で実力を確認しよう</p>
+</div>
+
+<div class="container">
+
+<!-- スコアバー -->
+<div class="score-bar">
+  <div>
+    <div class="score-label">正解数</div>
+    <div class="score-num"><span id="scoreOk">0</span> / <span id="scoreTotal">9</span></div>
+    <div class="score-detail" id="scoreDetail">まだ答え合わせをしていません</div>
+  </div>
+  <div style="flex:1">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- ===== 第1問 ===== -->
+<div class="daim" id="e1">
+  <div class="daim-header"><div class="daim-num">第1問</div><h2>生産者・消費者の用語と式</h2></div>
+  <div class="daim-body">
+    <div class="mondai-bun">
+      <div class="bun-label">📄 問題文</div>
+      <p>生態系のエネルギーの流れに関する次の問いに答えよ。</p>
+    </div>
+
+    <div class="question" data-ans="3" id="e1q1">
+      <div><span class="q-num">問1</span><span class="q-text">生産者（植物）の総生産量の行き先として、あてはまらないものはどれか。</span></div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="e1q1" value="1"> 呼吸量</label>
+        <label class="choice" data-val="2"><input type="radio" name="e1q1" value="2"> 枯死量</label>
+        <label class="choice" data-val="3"><input type="radio" name="e1q1" value="3"> 不消化排出量</label>
+        <label class="choice" data-val="4"><input type="radio" name="e1q1" value="4"> 被食量</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>生産者の総生産量は「呼吸量＋純生産量」に分かれ、純生産量はさらに「成長量＋枯死量＋被食量」に分かれる。<strong>不消化排出量</strong>は草食動物など消費者にのみ存在する量であり、植物（生産者）には存在しない。</div>
+    </div>
+
+    <div class="question" data-ans="3" id="e1q2">
+      <div><span class="q-num">問2</span><span class="q-text">草食動物が植物を食べた量から消化・吸収されずにフンとして排出された量を引いた値を何というか。</span></div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="e1q2" value="1"> 摂食量</label>
+        <label class="choice" data-val="2"><input type="radio" name="e1q2" value="2"> 純生産量</label>
+        <label class="choice" data-val="3"><input type="radio" name="e1q2" value="3"> 同化量</label>
+        <label class="choice" data-val="4"><input type="radio" name="e1q2" value="4"> 被食量</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>摂食量（食べた全量）から不消化排出量（フン）を引いたものが<strong>同化量</strong>。同化量＝体内に取り込んだ量で、生産者の総生産量に相当する。</div>
+    </div>
+
+    <div class="question" data-ans="1" id="e1q3">
+      <div><span class="q-num">問3</span><span class="q-text">生産者の純生産量をG₁（成長量）・C₁（被食量）・D₁（枯死量）を使って表すと、次のうちどれが正しいか。</span></div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="e1q3" value="1"> G₁ ＋ C₁ ＋ D₁</label>
+        <label class="choice" data-val="2"><input type="radio" name="e1q3" value="2"> G₁ ＋ C₁</label>
+        <label class="choice" data-val="3"><input type="radio" name="e1q3" value="3"> G₁ ＋ D₁</label>
+        <label class="choice" data-val="4"><input type="radio" name="e1q3" value="4"> G₁ ＋ C₁ ＋ D₁ ＋ R₁</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>純生産量は成長量（G₁）＋枯死量（D₁）＋被食量（C₁）に使われる。R₁（呼吸量）は総生産量から引いて純生産量を出すときに使うので、純生産量には含まれない。</div>
+    </div>
+
+    <div class="daim-btn-row">
+      <button class="daim-btn daim-btn-check" onclick="checkDaim(&#39;e1&#39;)">答え合わせ</button>
+      <button class="daim-btn daim-btn-reset" onclick="resetDaim(&#39;e1&#39;)">リセット</button>
+    </div>
+    <div class="daim-result" id="res-e1"></div>
+  </div>
+</div>
+
+<!-- ===== 第2問 ===== -->
+<div class="daim" id="e2">
+  <div class="daim-header"><div class="daim-num">第2問</div><h2>図の読み取り・記号の意味</h2></div>
+  <div class="daim-body">
+    <div class="mondai-bun">
+      <div class="bun-label">📄 問題文</div>
+      <p>下の表はエネルギーの流れに使う記号とその意味をまとめたものである。（ア）〜（エ）にあてはまる語句を選べ。</p>
+      <table class="sym-table" style="margin-top:.8rem">
+        <tbody><tr><th>記号</th><th>名称</th><th>説明</th></tr>
+        <tr><td>S</td><td>（ア）</td><td>光合成で作られた有機物の総量</td></tr>
+        <tr><td>R</td><td>（イ）</td><td>生物が呼吸で消費するエネルギー量</td></tr>
+        <tr><td>C</td><td>（ウ）</td><td>上の栄養段階に食べられる量</td></tr>
+        <tr><td>U</td><td>（エ）</td><td>消化されずにフンとして排出される量</td></tr>
+      </tbody></table>
+    </div>
+
+    <div class="question" data-ans="1" id="e2q1">
+      <div><span class="q-num">問1</span><span class="q-text">（ア）にあてはまる語句はどれか。</span></div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="e2q1" value="1"> 総生産量</label>
+        <label class="choice" data-val="2"><input type="radio" name="e2q1" value="2"> 純生産量</label>
+        <label class="choice" data-val="3"><input type="radio" name="e2q1" value="3"> 成長量</label>
+        <label class="choice" data-val="4"><input type="radio" name="e2q1" value="4"> 同化量</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>Sは「Sum of production（全生産量）」から来ており、光合成で作られた<strong>総生産量</strong>を表す。植物の場合S₁、一次消費者の同化量はS₂と書く場合もある。</div>
+    </div>
+
+    <div class="question" data-ans="2" id="e2q2">
+      <div><span class="q-num">問2</span><span class="q-text">（イ）にあてはまる語句はどれか。</span></div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="e2q2" value="1"> 成長量</label>
+        <label class="choice" data-val="2"><input type="radio" name="e2q2" value="2"> 呼吸量</label>
+        <label class="choice" data-val="3"><input type="radio" name="e2q2" value="3"> 被食量</label>
+        <label class="choice" data-val="4"><input type="radio" name="e2q2" value="4"> 不消化排出量</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>RはRespiration（呼吸）から来ており、<strong>呼吸量</strong>を表す。生産者・消費者いずれにも存在し、エネルギーを熱として環境に放出する。</div>
+    </div>
+
+    <div class="question" data-ans="3" id="e2q3">
+      <div><span class="q-num">問3</span><span class="q-text">（ウ）にあてはまる語句はどれか。</span></div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="e2q3" value="1"> 不消化排出量</label>
+        <label class="choice" data-val="2"><input type="radio" name="e2q3" value="2"> 成長量</label>
+        <label class="choice" data-val="3"><input type="radio" name="e2q3" value="3"> 被食量</label>
+        <label class="choice" data-val="4"><input type="radio" name="e2q3" value="4"> 呼吸量</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>CはConsumption（消費）から来ており、上の栄養段階に食べられる<strong>被食量</strong>を表す。植物ならC₁（草食動物に食べられる量）、草食動物ならC₂（肉食動物に食べられる量）となる。</div>
+    </div>
+
+    <div class="daim-btn-row">
+      <button class="daim-btn daim-btn-check" onclick="checkDaim(&#39;e2&#39;)">答え合わせ</button>
+      <button class="daim-btn daim-btn-reset" onclick="resetDaim(&#39;e2&#39;)">リセット</button>
+    </div>
+    <div class="daim-result" id="res-e2"></div>
+  </div>
+</div>
+
+<!-- ===== 第3問 ===== -->
+<div class="daim" id="e3">
+  <div class="daim-header"><div class="daim-num">第3問</div><h2>計算問題・正誤判定</h2></div>
+  <div class="daim-body">
+    <div class="mondai-bun">
+      <div class="bun-label">📄 問題文</div>
+      <p>エネルギーの流れに関する計算問題と正誤問題に答えよ。</p>
+    </div>
+
+    <div class="question" data-ans="3" id="e3q1">
+      <div><span class="q-num">問1</span><span class="q-text">ある植物の総生産量が2000、呼吸量が600、枯死量が200、被食量が400のとき、成長量はいくらか。</span></div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="e3q1" value="1"> 400</label>
+        <label class="choice" data-val="2"><input type="radio" name="e3q1" value="2"> 600</label>
+        <label class="choice" data-val="3"><input type="radio" name="e3q1" value="3"> 800</label>
+        <label class="choice" data-val="4"><input type="radio" name="e3q1" value="4"> 1000</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>純生産量＝2000−600＝1400。成長量＝1400−200−400＝<strong>800</strong>。順番に計算しよう。</div>
+    </div>
+
+    <div class="question" data-ans="2" id="e3q2">
+      <div><span class="q-num">問2</span><span class="q-text">ある草食動物の摂食量が800、不消化排出量が200、呼吸量が300、被食量が80、死滅量が70のとき、成長量はいくらか。</span></div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="e3q2" value="1"> 100</label>
+        <label class="choice" data-val="2"><input type="radio" name="e3q2" value="2"> 150</label>
+        <label class="choice" data-val="3"><input type="radio" name="e3q2" value="3"> 200</label>
+        <label class="choice" data-val="4"><input type="radio" name="e3q2" value="4"> 250</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>同化量＝800−200＝600。成長量＝600−300−80−70＝<strong>150</strong>。消費者は不消化排出量を先に引くことを忘れずに。</div>
+    </div>
+
+    <div class="question" data-ans="4" id="e3q3">
+      <div><span class="q-num">問3</span><span class="q-text">エネルギーの流れについて、次のうち正しいものはどれか。</span></div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="e3q3" value="1"> 物質もエネルギーも生態系内を循環する</label>
+        <label class="choice" data-val="2"><input type="radio" name="e3q3" value="2"> エネルギー効率は一般に50〜60%程度である</label>
+        <label class="choice" data-val="3"><input type="radio" name="e3q3" value="3"> 植物にも不消化排出量が存在する</label>
+        <label class="choice" data-val="4"><input type="radio" name="e3q3" value="4"> 呼吸量は熱エネルギーとして環境に散失し、循環しない</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>選択肢4が正しい。物質は循環するが<strong>エネルギーは循環しない</strong>（一方向に流れ、熱として散失）。エネルギー効率は通常10〜20%程度。植物に不消化排出量はない。</div>
+    </div>
+
+    <div class="daim-btn-row">
+      <button class="daim-btn daim-btn-check" onclick="checkDaim(&#39;e3&#39;)">答え合わせ</button>
+      <button class="daim-btn daim-btn-reset" onclick="resetDaim(&#39;e3&#39;)">リセット</button>
+    </div>
+    <div class="daim-result" id="res-e3"></div>
+  </div>
+</div>
+
+<!-- ナビ -->
+<div class="nav-links">
+  <a href="file:///C:/Users/kogen/Downloads/BL17_drill.html" class="btn-nav btn-back">◀ BL17 ドリル</a>
+  <a href="file:///C:/Users/kogen/Downloads/BL17.html" class="btn-nav btn-back">BL17 解説に戻る</a>
+</div>
+
+</div><!-- /container -->
+
+<script>
+const TOTAL = 9;
+
+function checkDaim(id) {
+  const sec = document.getElementById(id);
+  const qs = sec.querySelectorAll('.question[data-ans]');
+  let ok = 0, tot = qs.length;
+  qs.forEach(q => {
+    const ans = q.dataset.ans;
+    const chosen = q.querySelector('input[type=radio]:checked');
+    q.querySelectorAll('.choice').forEach(c => c.classList.remove('correct-mark','wrong-mark'));
+    const correct = q.querySelector('.choice[data-val="' + ans + '"]');
+    if (correct) correct.classList.add('correct-mark');
+    if (chosen) {
+      if (chosen.value === ans) { ok++; }
+      else { q.querySelector('.choice[data-val="' + chosen.value + '"]').classList.add('wrong-mark'); }
+    }
+    const exp = q.querySelector('.exp-box');
+    if (exp) exp.classList.add('show');
+  });
+  const res = document.getElementById('res-' + id);
+  res.classList.add('show');
+  if (ok === tot && tot > 0) {
+    res.innerHTML = '<span class="score">' + ok + '/' + tot + '</span>　🎉 全問正解！すばらしい！';
+    launchConfetti();
+  } else {
+    res.innerHTML = '<span class="score">' + ok + '/' + tot + '</span>　緑が正解です。解説を確認してください。';
+  }
+  updateScore();
+}
+
+function resetDaim(id) {
+  const sec = document.getElementById(id);
+  sec.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+  sec.querySelectorAll('.choice').forEach(c => c.classList.remove('correct-mark','wrong-mark'));
+  sec.querySelectorAll('.exp-box').forEach(e => e.classList.remove('show'));
+  const res = document.getElementById('res-' + id);
+  res.classList.remove('show');
+  res.innerHTML = '';
+  updateScore();
+}
+
+function updateScore() {
+  let ok = 0, answered = 0;
+  document.querySelectorAll('.question[data-ans]').forEach(q => {
+    const chosen = q.querySelector('input[type=radio]:checked');
+    if (chosen) {
+      answered++;
+      if (chosen.value === q.dataset.ans) ok++;
+    }
+  });
+  document.getElementById('scoreOk').textContent = ok;
+  document.getElementById('scoreTotal').textContent = TOTAL;
+  document.getElementById('scoreDetail').textContent = answered + '問回答済み';
+  document.getElementById('progressFill').style.width = (ok / TOTAL * 100) + '%';
+}
+
+function launchConfetti() {
+  const colors = ['#16a34a','#f59e0b','#2563eb','#dc2626','#7c3aed','#ea580c','#06b6d4','#ec4899'];
+  for (let i = 0; i < 100; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.width = (8 + Math.random() * 10) + 'px';
+    el.style.height = (8 + Math.random() * 10) + 'px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+    el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    el.style.animationDelay = (Math.random() * 0.8) + 's';
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+</script>
+
+
+</body></html>

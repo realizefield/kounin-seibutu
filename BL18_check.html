@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL18 確認テスト｜生態系のバランスと環境問題</title>
+<style>
+:root{
+  --pri:#be185d;--pri-dark:#9d174d;--pri-light:#fce7f3;
+  --acc:#f59e0b;--acc-light:#fef3c7;
+  --text:#1e293b;--sub:#475569;--border:#e2e8f0;
+  --bg:#f8fafc;--white:#ffffff;
+  --red:#dc2626;--red-bg:#fee2e2;
+  --green:#16a34a;--green-bg:#dcfce7;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:var(--bg);color:var(--text);line-height:1.9;font-size:16px}
+.page-header{background:linear-gradient(135deg,var(--pri) 0%,var(--pri-dark) 100%);color:#fff;padding:2rem 1.5rem 1.5rem;text-align:center}
+.page-header .unit-label{font-size:.85rem;opacity:.8;margin-bottom:.4rem;letter-spacing:.1em}
+.page-header h1{font-size:1.7rem;font-weight:800;margin-bottom:.5rem}
+.page-header p{font-size:.95rem;opacity:.85}
+.container{max-width:860px;margin:0 auto;padding:1.5rem 1rem 4rem}
+.score-area{background:var(--white);border:2px solid var(--pri);border-radius:12px;padding:1rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.score-label{font-weight:700;color:var(--pri-dark);font-size:.95rem}
+.score-num{font-size:1.6rem;font-weight:800;color:var(--pri-dark)}
+.score-detail{font-size:.85rem;color:var(--sub)}
+.progress-bar{flex:1;min-width:160px;height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--pri),#ec4899);border-radius:999px;transition:width .4s}
+.chapter{background:var(--white);border-radius:14px;border:1px solid var(--border);margin-bottom:2rem;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.chapter-header{background:linear-gradient(90deg,var(--pri),var(--pri-dark));color:#fff;padding:1rem 1.4rem;display:flex;align-items:center;gap:.7rem}
+.chapter-header .badge{background:rgba(255,255,255,.25);border-radius:8px;padding:.2rem .65rem;font-weight:800;font-size:.9rem;flex-shrink:0}
+.chapter-header h2{font-size:1.05rem;font-weight:800}
+.chapter-body{padding:1.5rem}
+.question{border:1.5px solid var(--border);border-radius:10px;padding:1.1rem 1.2rem;margin-bottom:1rem;background:#fafafa}
+.q-num{font-weight:800;color:var(--pri-dark);font-size:.85rem;margin-bottom:.6rem}
+.q-text{font-size:.95rem;line-height:1.85;margin-bottom:.8rem}
+.choices{display:flex;flex-direction:column;gap:.45rem}
+.choice{display:flex;align-items:center;gap:.6rem;padding:.55rem .9rem;border-radius:8px;border:1.5px solid var(--border);cursor:pointer;transition:all .2s;font-size:.92rem;background:var(--white)}
+.choice:hover{border-color:var(--pri);background:var(--pri-light)}
+.choice input[type=radio]{accent-color:var(--pri);width:16px;height:16px;flex-shrink:0}
+.choice.correct-mark{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:700}
+.choice.wrong-mark{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+.exp-box{background:#fdf2f8;border:1.5px solid #f9a8d4;border-radius:8px;padding:.8rem 1rem;margin-top:.8rem;font-size:.88rem;line-height:1.75;display:none}
+.exp-box.show{display:block}
+.exp-label{color:var(--pri-dark);font-weight:800;font-size:.82rem;margin-bottom:.3rem}
+.btn-row{display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap}
+.btn-check{padding:.6rem 1.5rem;background:var(--pri);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.92rem;cursor:pointer;transition:background .2s}
+.btn-check:hover{background:var(--pri-dark)}
+.btn-reset{padding:.6rem 1.5rem;background:var(--white);color:var(--pri);border:2px solid var(--pri);border-radius:8px;font-weight:700;font-size:.92rem;cursor:pointer}
+.btn-reset:hover{background:var(--pri-light)}
+.result-box{margin-top:.8rem;font-weight:700;font-size:.95rem;display:none}
+.result-box.show{display:block}
+.score{font-size:1.3rem;color:var(--pri-dark)}
+.confetti-piece{position:fixed;top:-20px;animation:confFall linear forwards;pointer-events:none;z-index:9999}
+@keyframes confFall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.nav-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.btn-nav{padding:.65rem 1.4rem;border-radius:8px;font-weight:700;font-size:.92rem;text-decoration:none;transition:all .2s}
+.btn-back{background:var(--white);color:var(--pri);border:2px solid var(--pri)}
+.btn-back:hover{background:var(--pri-light)}
+.btn-next{background:var(--pri);color:#fff;border:2px solid var(--pri)}
+.btn-next:hover{background:var(--pri-dark)}
+@media(max-width:600px){.page-header h1{font-size:1.3rem}}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="unit-label">生物基礎 ▶ 生態系</div>
+  <h1>BL18 確認テスト｜生態系のバランスと環境問題</h1>
+  <p>各章ごとに答え合わせができます</p>
+</header>
+
+<div class="container">
+
+<div class="score-area">
+  <div>
+    <div class="score-label">正解数</div>
+    <div class="score-num"><span id="scoreOk">0</span> / <span id="scoreTotal">9</span></div>
+    <div class="score-detail" id="scoreDetail">まだ答え合わせをしていません</div>
+  </div>
+  <div style="flex:1"><div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div></div>
+</div>
+
+<!-- ===== 章1：キーストーン種 ===== -->
+<div class="chapter" id="ch1">
+  <div class="chapter-header"><span class="badge">01</span><h2>キーストーン種</h2></div>
+  <div class="chapter-body">
+
+    <div class="question" data-ans="3" id="c1q1">
+      <div class="q-num">問1</div>
+      <div class="q-text">キーストーン種について述べた文として、最も適切なものはどれか。</div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="c1q1" value="1"> 必ず個体数が最も多い種である</label>
+        <label class="choice" data-val="2"><input type="radio" name="c1q1" value="2"> 外来種のことを指す言葉である</label>
+        <label class="choice" data-val="3"><input type="radio" name="c1q1" value="3"> 個体数が少なくても生態系の多様性維持に大きく貢献する種である</label>
+        <label class="choice" data-val="4"><input type="radio" name="c1q1" value="4"> 食物連鎖の最下位に位置する生産者のことである</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div><strong>キーストーン種</strong>は「個体数が少なくても生態系全体の多様性維持に大きな役割を果たす種」です。ラッコはその代表例で、個体数は少なくてもウニを抑制することでケルプ林と豊かな生態系を維持しています。</div>
+    </div>
+
+    <div class="question" data-ans="2" id="c1q2">
+      <div class="q-num">問2</div>
+      <div class="q-text">ラッコが減少すると、次のような連鎖が起こる。（　）に入る語の組み合わせとして正しいものはどれか。<br>「ラッコ減少 → ウニが（ア） → ジャイアントケルプが（イ） → 魚介類が（ウ）」</div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="c1q2" value="1"> ア：減少　イ：増加　ウ：増加</label>
+        <label class="choice" data-val="2"><input type="radio" name="c1q2" value="2"> ア：増加　イ：消滅　ウ：激減</label>
+        <label class="choice" data-val="3"><input type="radio" name="c1q2" value="3"> ア：増加　イ：増加　ウ：増加</label>
+        <label class="choice" data-val="4"><input type="radio" name="c1q2" value="4"> ア：減少　イ：消滅　ウ：増加</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>ラッコが減少すると、捕食されなくなったウニが<strong>爆発的に増加</strong>します。ウニが増えてケルプを食べ尽くすと、ケルプは<strong>消滅</strong>し、ケルプを住みかにしていた魚介類は<strong>激減</strong>します。</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkChapter('ch1')">✅ 答え合わせ</button>
+      <button class="btn-reset" onclick="resetChapter('ch1')">🔄 リセット</button>
+    </div>
+    <div class="result-box" id="res-ch1"></div>
+  </div>
+</div>
+
+<!-- ===== 章2：自然浄化・富栄養化 ===== -->
+<div class="chapter" id="ch2">
+  <div class="chapter-header"><span class="badge">02</span><h2>自然浄化・富栄養化</h2></div>
+  <div class="chapter-body">
+
+    <div class="question" data-ans="4" id="c2q1">
+      <div class="q-num">問1</div>
+      <div class="q-text">自然浄化と水質汚濁の関係について、正しい記述はどれか。</div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="c2q1" value="1"> 河川は有機物がどれだけ流入しても自然に浄化できる</label>
+        <label class="choice" data-val="2"><input type="radio" name="c2q1" value="2"> 水質汚濁は海水にのみ起こり、淡水では起こらない</label>
+        <label class="choice" data-val="3"><input type="radio" name="c2q1" value="3"> 好気性細菌が増えすぎると水質汚濁が進む</label>
+        <label class="choice" data-val="4"><input type="radio" name="c2q1" value="4"> 有機物の流入量が自然浄化能力を超えると水質汚濁が進む</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>自然浄化には限界があります。有機物の<strong>流入量が分解能力（自然浄化能力）を超える</strong>と分解が追いつかず、有機物が蓄積して水質汚濁が進みます。</div>
+    </div>
+
+    <div class="question" data-ans="1" id="c2q2">
+      <div class="q-num">問2</div>
+      <div class="q-text">富栄養化の原因物質として最も適切なものはどれか。</div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="c2q2" value="1"> 窒素・リンなどの栄養塩類</label>
+        <label class="choice" data-val="2"><input type="radio" name="c2q2" value="2"> PCB・DDTなどの有害有機物</label>
+        <label class="choice" data-val="3"><input type="radio" name="c2q2" value="3"> 二酸化炭素</label>
+        <label class="choice" data-val="4"><input type="radio" name="c2q2" value="4"> 酸性雨の原因となる硫黄酸化物</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>富栄養化は家庭排水・農業排水などに含まれる<strong>窒素・リン（栄養塩類）</strong>が水域に過剰に流入することで起こります。PCBやDDTは生物濃縮の原因物質です。</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkChapter('ch2')">✅ 答え合わせ</button>
+      <button class="btn-reset" onclick="resetChapter('ch2')">🔄 リセット</button>
+    </div>
+    <div class="result-box" id="res-ch2"></div>
+  </div>
+</div>
+
+<!-- ===== 章3：活性汚泥法・生物濃縮・地球温暖化 ===== -->
+<div class="chapter" id="ch3">
+  <div class="chapter-header"><span class="badge">03</span><h2>活性汚泥法・生物濃縮・地球温暖化</h2></div>
+  <div class="chapter-body">
+
+    <div class="question" data-ans="2" id="c3q1">
+      <div class="q-num">問1</div>
+      <div class="q-text">活性汚泥法の曝気槽で行われることとして正しいものはどれか。</div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="c3q1" value="1"> 紫外線を照射して病原菌を殺菌する</label>
+        <label class="choice" data-val="2"><input type="radio" name="c3q1" value="2"> 空気（酸素）を送り込んで好気性細菌が有機物を分解する</label>
+        <label class="choice" data-val="3"><input type="radio" name="c3q1" value="3"> 化学薬品を加えて有機物を沈殿させる</label>
+        <label class="choice" data-val="4"><input type="radio" name="c3q1" value="4"> 加熱して有機物を蒸発させる</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>曝気槽では<strong>空気（酸素）</strong>を送り込むことで好気性細菌の活動を促進し、有機物を急速に分解します。「曝気」とは「空気を送り込む」という意味です。</div>
+    </div>
+
+    <div class="question" data-ans="4" id="c3q2">
+      <div class="q-num">問2</div>
+      <div class="q-text">生物濃縮と水俣病の関係について、正しいものはどれか。</div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="c3q2" value="1"> 水俣病はPCBによる生物濃縮が原因である</label>
+        <label class="choice" data-val="2"><input type="radio" name="c3q2" value="2"> 水俣病はリンの過剰摂取が原因である</label>
+        <label class="choice" data-val="3"><input type="radio" name="c3q2" value="3"> 水俣病はカドミウムによる生物濃縮が原因である</label>
+        <label class="choice" data-val="4"><input type="radio" name="c3q2" value="4"> 水俣病は有機水銀による生物濃縮が原因である</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>水俣病は工場から排出された<strong>有機水銀</strong>が食物連鎖を通じて濃縮され、魚介類を食べた人々に神経障害を引き起こした公害病です。カドミウムはイタイイタイ病の原因です。</div>
+    </div>
+
+    <div class="question" data-ans="3" id="c3q3">
+      <div class="q-num">問3</div>
+      <div class="q-text">大気中のCO₂濃度について述べた次の文のうち、正しいものはどれか。</div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="c3q3" value="1"> 大気中のCO₂濃度は1950年代から現在まで一定で変化していない</label>
+        <label class="choice" data-val="2"><input type="radio" name="c3q3" value="2"> CO₂濃度の季節変動は、動物の呼吸量の変化によるものである</label>
+        <label class="choice" data-val="3"><input type="radio" name="c3q3" value="3"> CO₂濃度は長期的に上昇しており、その主な原因は化石燃料の消費である</label>
+        <label class="choice" data-val="4"><input type="radio" name="c3q3" value="4"> CO₂濃度は夏に最も高く、冬に最も低くなる</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>CO₂濃度は<strong>長期的に上昇</strong>しており、主な原因は<strong>化石燃料の大量消費</strong>です。季節変動は植物の光合成量の変化によるもので、夏（光合成が盛ん）にCO₂が吸収されて低くなり、冬に高くなります。</div>
+    </div>
+
+    <div class="question" data-ans="2" id="c3q4">
+      <div class="q-num">問4</div>
+      <div class="q-text">次のうち、地球温暖化・生物濃縮・富栄養化をそれぞれ引き起こす原因の組み合わせとして正しいものはどれか。</div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="c3q4" value="1"> 温暖化：窒素・リン　生物濃縮：CO₂　富栄養化：DDT</label>
+        <label class="choice" data-val="2"><input type="radio" name="c3q4" value="2"> 温暖化：CO₂　生物濃縮：DDT・PCB　富栄養化：窒素・リン</label>
+        <label class="choice" data-val="3"><input type="radio" name="c3q4" value="3"> 温暖化：DDT　生物濃縮：CO₂　富栄養化：窒素・リン</label>
+        <label class="choice" data-val="4"><input type="radio" name="c3q4" value="4"> 温暖化：CO₂　生物濃縮：窒素・リン　富栄養化：DDT・PCB</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>3つの環境問題の原因物質をまとめて覚えましょう。<br>・地球温暖化 → <strong>CO₂</strong>（温室効果ガス）<br>・生物濃縮 → <strong>DDT・PCB</strong>（脂肪溶性・難分解性）<br>・富栄養化 → <strong>窒素・リン</strong>（栄養塩類）</div>
+    </div>
+
+    <div class="question" data-ans="1" id="c3q5">
+      <div class="q-num">問5</div>
+      <div class="q-text">アオコと赤潮の比較として、正しいものはどれか。</div>
+      <div class="choices">
+        <label class="choice" data-val="1"><input type="radio" name="c3q5" value="1"> アオコは淡水（湖・池）で起こり、赤潮は海（内湾）で起こる</label>
+        <label class="choice" data-val="2"><input type="radio" name="c3q5" value="2"> アオコは海で起こり、赤潮は淡水（湖・池）で起こる</label>
+        <label class="choice" data-val="3"><input type="radio" name="c3q5" value="3"> アオコも赤潮も海でのみ起こる</label>
+        <label class="choice" data-val="4"><input type="radio" name="c3q5" value="4"> アオコと赤潮はどちらも富栄養化とは無関係に起こる</label>
+      </div>
+      <div class="exp-box"><div class="exp-label">💡 解説</div>アオコは<strong>淡水（湖・池）</strong>で起こり（シアノバクテリアが原因）、赤潮は<strong>海・内湾</strong>で起こります（植物性プランクトンが原因）。どちらも富栄養化が原因という点は共通です。</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkChapter('ch3')">✅ 答え合わせ</button>
+      <button class="btn-reset" onclick="resetChapter('ch3')">🔄 リセット</button>
+    </div>
+    <div class="result-box" id="res-ch3"></div>
+  </div>
+</div>
+
+<div class="nav-links">
+  <a href="BL18.html" class="btn-nav btn-back">← 解説に戻る</a>
+  <a href="BL18_drill.html" class="btn-nav btn-back">✏️ ドリルへ</a>
+  <a href="BL18_exam.html" class="btn-nav btn-next">過去問演習へ →</a>
+</div>
+
+</div><!-- /container -->
+
+<script>
+const TOTAL = 9;
+
+function checkChapter(chId) {
+  const sec = document.getElementById(chId);
+  const qs = sec.querySelectorAll('.question[data-ans]');
+  let ok = 0, tot = qs.length;
+  qs.forEach(q => {
+    const ans = q.dataset.ans;
+    const chosen = q.querySelector('input[type=radio]:checked');
+    q.querySelectorAll('.choice').forEach(c => c.classList.remove('correct-mark','wrong-mark'));
+    const correct = q.querySelector('.choice[data-val="' + ans + '"]');
+    if (correct) correct.classList.add('correct-mark');
+    if (chosen) {
+      if (chosen.value === ans) { ok++; }
+      else { q.querySelector('.choice[data-val="' + chosen.value + '"]').classList.add('wrong-mark'); }
+    }
+    const exp = q.querySelector('.exp-box');
+    if (exp) exp.classList.add('show');
+  });
+  const res = document.getElementById('res-' + chId);
+  res.classList.add('show');
+  if (ok === tot && tot > 0) {
+    res.innerHTML = '<span class="score">' + ok + '/' + tot + '</span>　🎉 全問正解！すばらしい！';
+    launchConfetti();
+  } else {
+    res.innerHTML = '<span class="score">' + ok + '/' + tot + '</span>　緑が正解です。解説を確認してください。';
+  }
+  updateScore();
+}
+
+function resetChapter(chId) {
+  const sec = document.getElementById(chId);
+  sec.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+  sec.querySelectorAll('.choice').forEach(c => c.classList.remove('correct-mark','wrong-mark'));
+  sec.querySelectorAll('.exp-box').forEach(e => e.classList.remove('show'));
+  const res = document.getElementById('res-' + chId);
+  res.classList.remove('show');
+  res.innerHTML = '';
+  updateScore();
+}
+
+function updateScore() {
+  let ok = 0, answered = 0;
+  document.querySelectorAll('.question[data-ans]').forEach(q => {
+    const chosen = q.querySelector('input[type=radio]:checked');
+    if (chosen) {
+      answered++;
+      if (chosen.value === q.dataset.ans) ok++;
+    }
+  });
+  document.getElementById('scoreOk').textContent = ok;
+  document.getElementById('scoreDetail').textContent = answered + '問回答済み';
+  document.getElementById('progressFill').style.width = (ok / TOTAL * 100) + '%';
+}
+
+function launchConfetti() {
+  const colors = ['#be185d','#f59e0b','#2563eb','#dc2626','#7c3aed','#ec4899','#06b6d4'];
+  for (let i = 0; i < 100; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = 'left:' + (Math.random()*100) + 'vw;width:' + (8+Math.random()*10) + 'px;height:' + (8+Math.random()*10) + 'px;background:' + colors[Math.floor(Math.random()*colors.length)] + ';border-radius:' + (Math.random()>.5?'50%':'2px') + ';animation-duration:' + (1.5+Math.random()*2) + 's;animation-delay:' + (Math.random()*.8) + 's';
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+</script>
+</body>
+</html>

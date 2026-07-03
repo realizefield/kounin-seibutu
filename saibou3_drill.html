@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>細胞③ATP・代謝・酵素 ドリル｜高認GAMBA 生物基礎</title>
+<style>
+:root {
+  --primary: #0e7490;
+  --primary-dark: #0c5e73;
+  --primary-light: #f0fdff;
+  --accent: #f59e0b;
+  --bg: #f0fdff;
+  --card: #ffffff;
+  --text: #1f2937;
+  --text-sub: #6b7280;
+  --border: #e5e7eb;
+  --correct: #16a34a;
+  --wrong: #dc2626;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+  background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.8;
+  padding-bottom: 60px; }
+
+nav { background: var(--primary); padding: 11px 16px; display: flex; align-items: center; gap: 10px; }
+nav a { color: #fff; text-decoration: none; font-size: 13px; opacity: 0.85; }
+nav a:hover { opacity: 1; }
+nav span.sep { color: rgba(255,255,255,0.4); }
+nav span.current { color: #fff; font-weight: bold; }
+
+.page-hd { background: linear-gradient(135deg,#075985 0%,#0e7490 55%,#0891b2 100%);
+  color: #fff; padding: 26px 16px 22px; text-align: center; }
+.hd-label { font-size: 11px; letter-spacing: .18em; opacity: .8; margin-bottom: 6px; }
+.hd-title { font-size: clamp(18px,4vw,23px); font-weight: 800; margin-bottom: 4px; }
+.hd-sub { font-size: 13px; opacity: .75; }
+
+.wrap { max-width: 780px; margin: 0 auto; padding: 18px 14px; }
+
+/* 進捗バー */
+.prog-wrap { background: var(--card); border-radius: 10px; padding: 14px 18px;
+  margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.prog-label { font-size: 12px; color: var(--text-sub); margin-bottom: 5px;
+  display: flex; justify-content: space-between; }
+.prog-bar { height: 9px; background: var(--border); border-radius: 99px; overflow: hidden; }
+.prog-fill { height: 100%; background: var(--primary); border-radius: 99px; transition: width .4s; }
+
+/* ユニット */
+.unit { background: var(--card); border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 22px; overflow: hidden; }
+.unit-hd { background: var(--primary); color: #fff; padding: 12px 18px;
+  display: flex; align-items: center; gap: 10px; }
+.unit-num { background: rgba(255,255,255,.25); border-radius: 50%; width: 28px;
+  height: 28px; display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 13px; flex-shrink: 0; }
+.unit-hd h2 { font-size: 15px; font-weight: bold; }
+.unit-body { padding: 16px 18px; }
+
+/* 穴埋め問題 */
+.dq { margin-bottom: 12px; font-size: 15px; line-height: 2.1; }
+.dq .qn { display: inline-block; background: var(--primary); color: #fff;
+  border-radius: 4px; padding: 1px 7px; font-size: 11px; font-weight: bold;
+  margin-right: 5px; vertical-align: middle; }
+.blank { display: inline-block; min-width: 88px; padding: 2px 8px;
+  border-bottom: 2px solid var(--primary); background: #e0f2fe;
+  border-radius: 4px 4px 0 0; text-align: center; font-weight: bold;
+  color: var(--primary-dark); margin: 0 3px; cursor: default;
+  transition: all .15s; vertical-align: bottom; font-size: 14px; }
+.blank.empty { background: #e5e7eb; color: transparent; cursor: pointer; }
+.blank.chip-target:hover { background: #a5f3fc; }
+.blank.correct { background: #dcfce7; color: var(--correct); border-color: var(--correct); }
+.blank.wrong { background: #fee2e2; color: var(--wrong); border-color: var(--wrong); }
+
+/* 語群 */
+.chips-wrap { background: #f8fafc; border-radius: 8px; padding: 10px 13px; margin: 12px 0; }
+.chips-label { font-size: 11px; color: var(--text-sub); margin-bottom: 7px; font-weight: bold; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; min-height: 32px; }
+.chip { display: inline-block; padding: 4px 13px; background: var(--primary); color: #fff;
+  border-radius: 20px; font-size: 13px; cursor: pointer; transition: all .15s;
+  user-select: none; }
+.chip:hover { background: var(--primary-dark); transform: scale(1.04); }
+.chip.used { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; pointer-events: none; }
+
+/* ボタン */
+.unit-ctrl { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+.btn { padding: 7px 16px; border-radius: 6px; border: none; font-size: 13px;
+  font-weight: bold; cursor: pointer; transition: all .15s; }
+.btn-start { background: var(--primary); color: #fff; }
+.btn-start:hover { background: var(--primary-dark); }
+.btn-judge { background: var(--accent); color: #fff; }
+.btn-judge:hover { background: #d97706; }
+.btn-show { background: #94a3b8; color: #fff; }
+.btn-show:hover { background: #64748b; }
+
+.score-box { margin-top: 8px; padding: 7px 13px; border-radius: 6px;
+  font-size: 14px; font-weight: bold; display: none; }
+.score-box.show { display: block; }
+.score-ok { background: #dcfce7; color: var(--correct); }
+.score-ng { background: #fee2e2; color: var(--wrong); }
+
+/* 全問採点 */
+.total-ctrl { text-align: center; margin: 8px 0 16px; }
+.btn-total { background: var(--primary-dark); color: #fff; padding: 11px 30px;
+  font-size: 15px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+.btn-total:hover { opacity: .9; }
+.score-total { text-align: center; padding: 12px; border-radius: 8px;
+  font-size: 17px; font-weight: bold; display: none; margin-bottom: 20px; }
+.score-total.show { display: block; }
+
+/* ナビリンク */
+.nav-links { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
+.nav-links a { padding: 9px 20px; background: var(--primary); color: #fff;
+  border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: bold; }
+.nav-links a:hover { background: var(--primary-dark); }
+
+/* 紙吹雪 */
+#confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 9999; display: none; }
+
+@media(max-width:600px){ .dq { font-size: 14px; } }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<nav>
+  <a href="index.html">🏠 ホーム</a>
+  <span class="sep">›</span>
+  <a href="saibou3.html">細胞③解説</a>
+  <span class="sep">›</span>
+  <span class="current">ドリル</span>
+</nav>
+<div class="page-hd">
+  <div class="hd-label">生物基礎 細胞③ ドリル</div>
+  <h1 class="hd-title">🔬 細胞③ATP・代謝・酵素 ドリル</h1>
+  <div class="hd-sub">語群からタップして空欄を埋めましょう。満点で紙吹雪！</div>
+</div>
+<div class="wrap">
+  <div class="prog-wrap">
+    <div class="prog-label"><span>進捗</span><span id="prog-text">0 / 21 問正解</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+  
+<div class="unit" id="unit1">
+  <div class="unit-hd">
+    <div class="unit-num">1</div>
+    <h2>ATPと代謝</h2>
+  </div>
+  <div class="unit-body">
+    <div class="unit-ctrl">
+      <button class="btn btn-start" onclick="startUnit('1')">チャレンジ開始</button>
+      <button class="btn btn-judge" onclick="judgeUnit('1')">判定</button>
+      <button class="btn btn-show" onclick="showUnit('1')">お手本を見る</button>
+    </div>
+    <div class="chips-wrap" id="chips1">
+      <div class="chips-label">【語群】</div>
+      <div class="chips" id="chiparea1"></div>
+    </div>
+    <div id="blanks1">
+      <div class="dq"><span class="qn">1</span> <span class='blank' id='u1_1' data-ans='ATP'>ATP</span>は「アデノシン三リン酸」の略で、生命活動の直接のエネルギー源となる物質である。</div>
+<div class="dq"><span class="qn">2</span> ATPが分解されるとリン酸が1つ外れ、<span class='blank' id='u1_2' data-ans='ADP'>ADP</span>（アデノシン二リン酸）とリン酸になり、エネルギーが放出される。</div>
+<div class="dq"><span class="qn">3</span> ATPの正式名称は<span class='blank' id='u1_3' data-ans='アデノシン三リン酸'>アデノシン三リン酸</span>で、「三」はリン酸基が3つあることを示す。</div>
+<div class="dq"><span class="qn">4</span> ATPは「生命の<span class='blank' id='u1_4' data-ans='エネルギー'>エネルギー</span>通貨」とも呼ばれる。</div>
+<div class="dq"><span class="qn">5</span> 物質を合成する反応を<span class='blank' id='u1_5' data-ans='同化'>同化</span>（光合成など）といい、分解する反応を異化という。</div>
+<div class="dq"><span class="qn">6</span> 物質を分解する反応を<span class='blank' id='u1_6' data-ans='異化'>異化</span>（細胞呼吸など）といい、エネルギーが取り出される。</div>
+<div class="dq"><span class="qn">7</span> ATPを最も多く合成するのは<span class='blank' id='u1_7' data-ans='ミトコンドリア'>ミトコンドリア</span>で、酸素を使って有機物を分解する。</div>
+
+    </div>
+    <div class="score-box" id="score1"></div>
+  </div>
+</div>
+
+<div class="unit" id="unit2">
+  <div class="unit-hd">
+    <div class="unit-num">2</div>
+    <h2>酵素のはたらきと性質</h2>
+  </div>
+  <div class="unit-body">
+    <div class="unit-ctrl">
+      <button class="btn btn-start" onclick="startUnit('2')">チャレンジ開始</button>
+      <button class="btn btn-judge" onclick="judgeUnit('2')">判定</button>
+      <button class="btn btn-show" onclick="showUnit('2')">お手本を見る</button>
+    </div>
+    <div class="chips-wrap" id="chips2">
+      <div class="chips-label">【語群】</div>
+      <div class="chips" id="chiparea2"></div>
+    </div>
+    <div id="blanks2">
+      <div class="dq"><span class="qn">1</span> 生体内の化学反応を促進する物質を<span class='blank' id='u2_1' data-ans='酵素'>酵素</span>という。</div>
+<div class="dq"><span class="qn">2</span> 酵素は<span class='blank' id='u2_2' data-ans='タンパク質'>タンパク質</span>でできており、熱や強酸・強塩基で変性（失活）する。</div>
+<div class="dq"><span class="qn">3</span> 酵素が作用する物質（反応する相手）を<span class='blank' id='u2_3' data-ans='基質'>基質</span>という。</div>
+<div class="dq"><span class="qn">4</span> 酵素が特定の基質にしか作用しない性質を<span class='blank' id='u2_4' data-ans='基質特異性'>基質特異性</span>という。</div>
+<div class="dq"><span class="qn">5</span> 酵素が最もよく働く温度を<span class='blank' id='u2_5' data-ans='最適温度'>最適温度</span>という（多くは体温付近）。</div>
+<div class="dq"><span class="qn">6</span> 酵素が最もよく働くpHを<span class='blank' id='u2_6' data-ans='最適pH'>最適pH</span>という（酵素によって異なる）。</div>
+<div class="dq"><span class="qn">7</span> 酵素は反応の前後で自身は変化しない（<span class='blank' id='u2_7' data-ans='触媒'>触媒</span>と同じ働き）。</div>
+<div class="dq"><span class="qn">8</span> 過酸化水素を水と酸素に分解する酵素は<span class='blank' id='u2_8' data-ans='カタラーゼ'>カタラーゼ</span>で、肝臓に多く含まれる。</div>
+
+    </div>
+    <div class="score-box" id="score2"></div>
+  </div>
+</div>
+
+<div class="unit" id="unit3">
+  <div class="unit-hd">
+    <div class="unit-num">3</div>
+    <h2>主な酵素と最適pH</h2>
+  </div>
+  <div class="unit-body">
+    <div class="unit-ctrl">
+      <button class="btn btn-start" onclick="startUnit('3')">チャレンジ開始</button>
+      <button class="btn btn-judge" onclick="judgeUnit('3')">判定</button>
+      <button class="btn btn-show" onclick="showUnit('3')">お手本を見る</button>
+    </div>
+    <div class="chips-wrap" id="chips3">
+      <div class="chips-label">【語群】</div>
+      <div class="chips" id="chiparea3"></div>
+    </div>
+    <div id="blanks3">
+      <div class="dq"><span class="qn">1</span> <span class='blank' id='u3_1' data-ans='アミラーゼ'>アミラーゼ</span>はデンプンをマルトース（麦芽糖）に分解し、だ液・すい液に含まれる。最適pH≒7（中性）。</div>
+<div class="dq"><span class="qn">2</span> <span class='blank' id='u3_2' data-ans='ペプシン'>ペプシン</span>はタンパク質をペプチドに分解する胃液の酵素。最適pH≒2（強酸性）。</div>
+<div class="dq"><span class="qn">3</span> <span class='blank' id='u3_3' data-ans='トリプシン'>トリプシン</span>はタンパク質をアミノ酸に分解するすい液の酵素。最適pH≒8.2（弱アルカリ性）。</div>
+<div class="dq"><span class="qn">4</span> アミラーゼが作用する基質は<span class='blank' id='u3_4' data-ans='デンプン'>デンプン</span>である。</div>
+<div class="dq"><span class="qn">5</span> ペプシン・トリプシンが作用する基質は<span class='blank' id='u3_5' data-ans='タンパク質'>タンパク質</span>である。</div>
+<div class="dq"><span class="qn">6</span> リパーゼが作用する基質は<span class='blank' id='u3_6' data-ans='脂肪'>脂肪</span>で、脂肪酸とグリセロールに分解する。</div>
+
+    </div>
+    <div class="score-box" id="score3"></div>
+  </div>
+</div>
+
+  <div class="total-ctrl">
+    <button class="btn-total" onclick="judgeAll()">📝 全問まとめて採点する</button>
+  </div>
+  <div class="score-total" id="score-total"></div>
+  <div class="nav-links">
+    <a href="saibou3.html">← 解説へ戻る</a>
+    <a href="saibou3_check.html">確認テストへ →</a>
+  </div>
+</div>
+<script>
+
+const UNITS = {"1": {"blanks": ["u1_1", "u1_2", "u1_3", "u1_4", "u1_5", "u1_6", "u1_7"], "words": ["ATP", "ADP", "アデノシン三リン酸", "エネルギー", "同化", "異化", "ミトコンドリア"]}, "2": {"blanks": ["u2_1", "u2_2", "u2_3", "u2_4", "u2_5", "u2_6", "u2_7", "u2_8"], "words": ["酵素", "基質", "基質特異性", "最適温度", "最適pH", "タンパク質", "触媒", "カタラーゼ"]}, "3": {"blanks": ["u3_1", "u3_2", "u3_3", "u3_4", "u3_5", "u3_6"], "words": ["アミラーゼ", "ペプシン", "トリプシン", "デンプン", "タンパク質", "脂肪"]}};
+let scores = {};
+const TOTAL = 21;
+Object.keys(UNITS).forEach(k => { scores[k]=0; });
+
+window.onload = function(){
+  Object.keys(UNITS).forEach(uid => {
+    UNITS[uid].blanks.forEach(bid => {
+      const el=document.getElementById(bid);
+      el.textContent=el.dataset.ans; el.className='blank'; el.onclick=null;
+    });
+    document.getElementById('chiparea'+uid).innerHTML='';
+  });
+};
+
+function startUnit(uid){
+  const d=UNITS[uid];
+  d.blanks.forEach(bid=>{
+    const el=document.getElementById(bid);
+    el.textContent='　　　　'; el.className='blank empty chip-target';
+    el.dataset.filled='';
+    el.onclick=function(){ returnChip(uid,this); };
+  });
+  const area=document.getElementById('chiparea'+uid);
+  area.innerHTML='';
+  [...d.words].sort(()=>Math.random()-.5).forEach(w=>{
+    const c=document.createElement('span');
+    c.className='chip'; c.textContent=w;
+    c.onclick=function(){ placeChip(uid,this); };
+    area.appendChild(c);
+  });
+  const sb=document.getElementById('score'+uid);
+  sb.className='score-box'; sb.textContent='';
+}
+
+function placeChip(uid,chip){
+  if(chip.classList.contains('used'))return;
+  const d=UNITS[uid];
+  const empty=d.blanks.map(b=>document.getElementById(b)).find(el=>el.dataset.filled==='');
+  if(!empty)return;
+  empty.textContent=chip.textContent; empty.dataset.filled=chip.textContent;
+  chip.classList.add('used');
+}
+
+function returnChip(uid,blank){
+  const val=blank.dataset.filled; if(!val)return;
+  blank.textContent='　　　　'; blank.dataset.filled='';
+  document.getElementById('chiparea'+uid).querySelectorAll('.chip')
+    .forEach(c=>{ if(c.textContent===val)c.classList.remove('used'); });
+}
+
+function judgeUnit(uid){
+  const d=UNITS[uid]; let correct=0;
+  d.blanks.forEach(bid=>{
+    const el=document.getElementById(bid);
+    const filled=el.dataset.filled||el.textContent.trim();
+    if(filled===el.dataset.ans){ el.className='blank correct'; correct++; }
+    else { el.className='blank wrong'; }
+  });
+  scores[uid]=correct;
+  const sb=document.getElementById('score'+uid);
+  sb.textContent=correct+' / '+d.blanks.length+' 正解';
+  sb.className='score-box show '+(correct===d.blanks.length?'score-ok':'score-ng');
+  if(correct===d.blanks.length)fireConfetti();
+  updateProgress();
+}
+
+function showUnit(uid){
+  const d=UNITS[uid];
+  d.blanks.forEach(bid=>{
+    const el=document.getElementById(bid);
+    el.textContent=el.dataset.ans; el.className='blank'; el.onclick=null;
+  });
+  document.getElementById('chiparea'+uid).innerHTML='';
+  const sb=document.getElementById('score'+uid);
+  sb.className='score-box'; sb.textContent='';
+}
+
+function judgeAll(){
+  Object.keys(UNITS).forEach(uid=>judgeUnit(uid));
+  const total=Object.values(scores).reduce((a,b)=>a+b,0);
+  const sb=document.getElementById('score-total');
+  sb.textContent='合計 '+total+' / '+TOTAL+' 正解！';
+  sb.className='score-total show '+(total===TOTAL?'score-ok':'score-ng');
+  if(total===TOTAL)fireConfetti();
+}
+
+function updateProgress(){
+  const total=Object.values(scores).reduce((a,b)=>a+b,0);
+  document.getElementById('prog-text').textContent=total+' / '+TOTAL+' 問正解';
+  document.getElementById('prog-fill').style.width=(total/TOTAL*100)+'%';
+}
+
+function fireConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.style.display = 'block';
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const cols = ['#0e7490','#f59e0b','#3b82f6','#ec4899','#10b981','#f97316'];
+  const ps = [];
+  for (let i=0;i<130;i++) ps.push({x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height-canvas.height,
+    w:Math.random()*9+5,h:Math.random()*5+3,
+    color:cols[Math.floor(Math.random()*cols.length)],
+    vx:(Math.random()-.5)*3,vy:Math.random()*3+2,
+    angle:Math.random()*360,spin:(Math.random()-.5)*5});
+  let fr=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ps.forEach(p=>{
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.angle*Math.PI/180);
+      ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
+      p.x+=p.vx;p.y+=p.vy;p.angle+=p.spin;
+    });
+    fr++;
+    if(fr<130)requestAnimationFrame(draw);else canvas.style.display='none';
+  }
+  draw();
+}
+
+</script>
+</body>
+</html>
