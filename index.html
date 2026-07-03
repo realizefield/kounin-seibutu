@@ -101,7 +101,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
 
 <div class="top-header">
   <h1>🧬 GAMBA 生物基礎 単元表</h1>
-  <p>高認 生物基礎 — 遺伝子のはたらき・体内環境とその維持</p>
+  <p>高認・公務員・大学受験 生物基礎 — 遺伝子のはたらき・体内環境とその維持</p>
   <div class="summary-bar">
     <div class="sum-item"><span class="sum-dot sum-dot-a"></span>A わかった <span class="sum-count" id="cnt-a">0</span></div>
     <div class="sum-item"><span class="sum-dot sum-dot-b"></span>B 要復習 <span class="sum-count" id="cnt-b">0</span></div>
@@ -125,6 +125,101 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
       <div class="flow-step">④ check で過去問類題</div>
       <span class="flow-arrow">→</span>
       <div class="flow-step">⑤ A/B/C 自己評価</div>
+    </div>
+  </div>
+
+  <!-- ══ 補足単元：細胞・顕微鏡 ══ -->
+  <div class="unit">
+    <div class="unit-hd" style="background:linear-gradient(90deg,#0f766e,#0d9488);">
+      <span class="unit-num">補足</span>
+      <span class="unit-title">細胞のしくみ・顕微鏡</span>
+      <span class="unit-badge">saibou1〜3・kenbi</span>
+    </div>
+    <div class="unit-body">
+      <div class="group-label">🔬 細胞構造・代謝・顕微鏡操作</div>
+      <div class="sec-grid">
+
+        <!-- saibou1 -->
+        <div class="sec-card" data-id="saibou1">
+          <div class="sc-hd"><span class="sc-num">細胞①</span><span class="sc-title">細胞の構造とオルガネラ</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>原核細胞・真核細胞のちがい</li>
+            <li>細胞小器官の名前とはたらき</li>
+            <li>植物細胞・動物細胞の比較</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="saibou1.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="saibou1_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="saibou1_check.html">確認問題</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('saibou1','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('saibou1','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('saibou1','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+        <!-- saibou2 -->
+        <div class="sec-card" data-id="saibou2">
+          <div class="sc-hd"><span class="sc-num">細胞②</span><span class="sc-title">原核細胞の特徴と三細胞比較</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>細菌・藍藻の構造</li>
+            <li>原核細胞・植物細胞・動物細胞の比較表</li>
+            <li>共生説（ミトコンドリア・葉緑体の起源）</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="saibou2.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="saibou2_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="saibou2_check.html">確認問題</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('saibou2','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('saibou2','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('saibou2','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+        <!-- saibou3 -->
+        <div class="sec-card" data-id="saibou3">
+          <div class="sc-hd"><span class="sc-num">細胞③</span><span class="sc-title">代謝・酵素・ATP</span><span class="sc-stars">★★★</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>同化と異化・ATPのしくみ</li>
+            <li>酵素の性質（基質特異性・最適温度・最適pH）</li>
+            <li>カタラーゼ実験・アミラーゼ実験</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="saibou3.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="saibou3_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="saibou3_check.html">確認問題</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('saibou3','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('saibou3','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('saibou3','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+        <!-- kenbi -->
+        <div class="sec-card" data-id="kenbi">
+          <div class="sc-hd"><span class="sc-num">顕微鏡</span><span class="sc-title">顕微鏡の操作とミクロメーター</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>顕微鏡各部の名称とはたらき</li>
+            <li>接眼ミクロメーター・対物ミクロメーターの使い方</li>
+            <li>細胞の大きさの計算（μm換算）</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="kenbi.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="kenbi_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="kenbi_check.html">確認問題</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('kenbi','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('kenbi','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('kenbi','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -316,7 +411,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
     <div class="unit-hd" style="background:linear-gradient(90deg,#0f766e,#0d9488);">
       <span class="unit-num">第3章</span>
       <span class="unit-title">体内環境とその維持</span>
-      <span class="unit-badge">BL05〜BL06・BL09〜BL13 公開中</span>
+      <span class="unit-badge">BL05〜BL06・BL09〜BL14 公開中</span>
     </div>
     <div class="unit-body">
       <div class="group-label">🩸 体液・血液・循環・調節・免疫</div>
@@ -325,7 +420,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
           <div class="sc-hd"><span class="sc-num">BL-09</span><span class="sc-title">体内環境と血液</span><span class="sc-stars">★★☆</span></div>
           <div class="sc-body"><ul class="sc-topics"><li>恒常性・体液の種類</li><li>赤血球・白血球・血小板</li><li>血しょう・組織液・リンパ液</li><li>拡散とガス交換・血液凝固</li></ul></div>
           <div class="sc-btn-row">
-            <a href="BL09.html" class="sc-btn">📖 intro</a>
+            <a href="BL09_intro.html" class="sc-btn">📖 intro</a>
             <a href="BL09_exam.html" class="sc-btn">📝 確認問題</a>
           </div>
           <div class="abc-row"><button class="abc-btn abc-a" onclick="setABC('BL09','a',this)">A OK</button><button class="abc-btn abc-b" onclick="setABC('BL09','b',this)">B 復習</button><button class="abc-btn abc-c" onclick="setABC('BL09','c',this)">C もう一度</button></div>
@@ -379,9 +474,130 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
           </div>
           <div class="abc-row"><button class="abc-btn abc-a" onclick="setABC('BL13','a',this)">A OK</button><button class="abc-btn abc-b" onclick="setABC('BL13','b',this)">B 復習</button><button class="abc-btn abc-c" onclick="setABC('BL13','c',this)">C もう一度</button></div>
         </div>
+        <!-- BL14 -->
+        <div class="sec-card" data-id="BL14">
+          <div class="sc-hd"><span class="sc-num">BL-14</span><span class="sc-title">神経とホルモンによる調節</span><span class="sc-stars">★★★</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>ニューロン・興奮の伝導・シナプス</li>
+            <li>自律神経（交感・副交感）のはたらき</li>
+            <li>ホルモンの種類とフィードバック調節</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="BL14.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="BL14_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="BL14_check.html">確認問題</a>
+            <a class="sc-btn sc-btn-exam" href="BL14_exam.html">過去問</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL14','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL14','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL14','c',this)">C もう一度</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+
+  <!-- ══ 第4章 生態系 ══ -->
+  <div class="unit">
+    <div class="unit-hd" style="background:linear-gradient(90deg,#15803d,#16a34a);">
+      <span class="unit-num">第4章</span>
+      <span class="unit-title">生態と環境</span>
+      <span class="unit-badge">BL15〜BL18</span>
+    </div>
+    <div class="unit-body">
+      <div class="group-label">🌿 植生・バイオーム・生態系・物質循環</div>
+      <div class="sec-grid">
+
+        <!-- BL15 -->
+        <div class="sec-card" data-id="BL15">
+          <div class="sc-hd"><span class="sc-num">BL-15</span><span class="sc-title">植生とバイオーム</span><span class="sc-stars">★★★</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>植生・優占種・階層構造</li>
+            <li>遷移（一次・二次）・極相</li>
+            <li>バイオームの種類と分布</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="BL15.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="BL15_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="BL15_check.html">確認問題</a>
+            <a class="sc-btn sc-btn-exam" href="BL15_exam.html">過去問</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL15','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL15','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL15','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+        <!-- BL16 -->
+        <div class="sec-card" data-id="BL16">
+          <div class="sc-hd"><span class="sc-num">BL-16</span><span class="sc-title">生態系・食物連鎖・物質循環</span><span class="sc-stars">★★★</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>生態系の構造・生産者と消費者</li>
+            <li>食物連鎖・食物網・生態ピラミッド</li>
+            <li>炭素循環・窒素循環</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="BL16.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="BL16_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="BL16_check.html">確認問題</a>
+            <a class="sc-btn sc-btn-exam" href="BL16_exam.html">過去問</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL16','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL16','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL16','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+        <!-- BL17 -->
+        <div class="sec-card" data-id="BL17">
+          <div class="sc-hd"><span class="sc-num">BL-17</span><span class="sc-title">エネルギーの流れ</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>総生産量・純生産量・呼吸量</li>
+            <li>同化量・被食量・枯死量</li>
+            <li>エネルギー効率の計算</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn" href="BL17.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="BL17_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="BL17_check.html">確認問題</a>
+            <a class="sc-btn sc-btn-exam" href="BL17_exam.html">過去問</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL17','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL17','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL17','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+        <!-- BL18 -->
+        <div class="sec-card" data-id="BL18">
+          <div class="sc-hd"><span class="sc-num">BL-18</span><span class="sc-title">生態系のバランスと保全</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics">
+            <li>キーストーン種・自然浄化・富栄養化</li>
+            <li>外来生物・絶滅危惧種・生物多様性</li>
+            <li>生態系サービス・地球温暖化</li>
+          </ul></div>
+          <div class="sc-btn-row">
+            <a class="sc-btn sc-btn-drill" href="BL18_drill.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="BL18_check.html">確認問題</a>
+            <a class="sc-btn sc-btn-exam" href="BL18_exam.html">過去問</a>
+          </div>
+          <div class="abc-row">
+            <button class="abc-btn abc-a" onclick="setABC('BL18','a',this)">A OK</button>
+            <button class="abc-btn abc-b" onclick="setABC('BL18','b',this)">B 復習</button>
+            <button class="abc-btn abc-c" onclick="setABC('BL18','c',this)">C もう一度</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
 
   <!-- 早見表 -->
   <div class="ref-table">
@@ -400,7 +616,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
   </div>
 
   <div class="back-link">
-    <a href="../gamba_kounin.html" class="back-btn">← 高認メニューに戻る</a>
+    <a href="../gamba_kounin.html" class="back-btn">← メニューに戻る</a>
   </div>
 </div>
 

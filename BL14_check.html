@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL14 確認テスト｜神経・ホルモンによる調節</title>
+<style>
+:root{
+  --pri:#ea580c;
+  --pri-light:#fff7ed;
+  --pri-dark:#c2410c;
+  --correct:#16a34a;
+  --wrong:#dc2626;
+  --bg:#fafafa;
+  --card:#fff;
+  --border:#e5e7eb;
+  --text:#1f2937;
+  --muted:#6b7280;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+header{background:var(--pri);color:#fff;padding:12px 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.header-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.unit-badge{background:rgba(255,255,255,.25);border-radius:6px;padding:2px 10px;font-size:.75rem;font-weight:700;white-space:nowrap}
+header h1{font-size:1rem;font-weight:700}
+
+.nav-bar{background:#fff;border-bottom:2px solid var(--pri);padding:8px 16px;position:sticky;top:49px;z-index:99}
+.nav-inner{max-width:720px;margin:0 auto;display:flex;gap:6px;flex-wrap:wrap}
+.nav-btn{display:inline-block;padding:5px 12px;border-radius:20px;border:1.5px solid var(--pri);color:var(--pri);font-size:.8rem;font-weight:600;text-decoration:none;transition:.2s}
+.nav-btn:hover,.nav-btn.active{background:var(--pri);color:#fff}
+
+.prog-wrap{max-width:720px;margin:0 auto;padding:10px 16px 0}
+.prog-bar-bg{background:#e5e7eb;border-radius:99px;height:8px;overflow:hidden}
+.prog-bar-fill{background:var(--pri);height:8px;border-radius:99px;transition:width .4s}
+.prog-label{font-size:.75rem;color:var(--muted);margin-top:4px;text-align:right}
+
+main{max-width:720px;margin:0 auto;padding:16px}
+
+/* イントロ */
+.intro-card{background:var(--pri-light);border:1.5px solid #fed7aa;border-radius:10px;padding:14px 16px;margin-bottom:20px;font-size:.88rem;line-height:1.7}
+.intro-card strong{color:var(--pri)}
+
+.q-card{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px;position:relative}
+.q-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.q-num{background:var(--pri);color:#fff;border-radius:5px;padding:2px 10px;font-size:.75rem;font-weight:700}
+.q-source{font-size:.72rem;color:var(--muted);background:#f3f4f6;border-radius:4px;padding:2px 7px}
+.q-text{font-size:.95rem;line-height:1.7;margin-bottom:14px}
+.q-text em{font-style:normal;color:var(--pri);font-weight:700}
+
+/* 表・図の代替ボックス */
+.data-box{background:#f9fafb;border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:.85rem;line-height:1.8}
+.data-box table{width:100%;border-collapse:collapse}
+.data-box th,.data-box td{border:1px solid #d1d5db;padding:4px 8px;font-size:.83rem}
+.data-box th{background:#f3f4f6;font-weight:600}
+
+.choices{display:flex;flex-direction:column;gap:8px}
+.choice-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:10px 14px;font-size:.9rem;text-align:left;cursor:pointer;transition:.15s;line-height:1.5}
+.choice-btn:hover{border-color:var(--pri);background:var(--pri-light)}
+.choice-btn.correct{border-color:var(--correct);background:#f0fdf4;color:var(--correct);font-weight:700}
+.choice-btn.wrong{border-color:var(--wrong);background:#fef2f2;color:var(--wrong)}
+.choice-btn:disabled{cursor:default}
+
+.feedback{display:none;margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.88rem;line-height:1.6}
+.feedback.show{display:block}
+.feedback.ok{background:#f0fdf4;border:1px solid #86efac;color:#166534}
+.feedback.ng{background:#fef2f2;border:1px solid #fca5a5;color:#991b1b}
+
+/* 採点ボタン */
+.submit-area{text-align:center;margin-top:20px;padding-bottom:16px}
+.submit-btn{background:var(--pri);color:#fff;border:none;border-radius:8px;padding:12px 36px;font-size:1rem;font-weight:700;cursor:pointer;display:none}
+.submit-btn.show{display:inline-block}
+.submit-btn:hover{background:var(--pri-dark)}
+
+/* スコア */
+.score-area{display:none;background:var(--card);border:2px solid var(--pri);border-radius:12px;padding:24px;text-align:center;margin:20px 0}
+.score-area.show{display:block}
+.score-big{font-size:2.5rem;font-weight:800;color:var(--pri)}
+.score-row{display:flex;justify-content:center;gap:24px;margin-top:12px;flex-wrap:wrap}
+.score-item{font-size:.85rem;color:var(--muted)}
+.score-item span{display:block;font-size:1.3rem;font-weight:700;color:var(--text)}
+.score-msg{margin-top:12px;font-size:1rem;color:var(--text)}
+.retry-btn{margin-top:16px;background:var(--pri);color:#fff;border:none;border-radius:8px;padding:10px 28px;font-size:1rem;font-weight:700;cursor:pointer}
+.retry-btn:hover{background:var(--pri-dark)}
+
+.confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;animation:fall 2.5s ease-in forwards;pointer-events:none;z-index:9999}
+@keyframes fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <span class="unit-badge">BL14</span>
+    <h1>神経・ホルモンによる調節　確認テスト</h1>
+  </div>
+</header>
+
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <a href="BL14.html" class="nav-btn">📖 解説</a>
+    <a href="BL14_drill.html" class="nav-btn">✏️ ドリル</a>
+    <a href="BL14_check.html" class="nav-btn active">✅ 確認テスト</a>
+    <a href="BL14_exam.html" class="nav-btn">📝 過去問演習</a>
+  </div>
+</nav>
+
+<div class="prog-wrap">
+  <div class="prog-bar-bg"><div class="prog-bar-fill" id="progBar" style="width:0%"></div></div>
+  <div class="prog-label"><span id="progText">0 / 10 問</span></div>
+</div>
+
+<main>
+
+<div class="intro-card">
+  <strong>確認テスト</strong>（10問）：高認過去問をベースにした問題です。全問答えてから採点します。
+</div>
+
+<!-- 問1 R7-1 大問3 問1 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">問 1</span>
+    <span class="q-source">R7-1 大問3 問1 改</span>
+  </div>
+  <div class="data-box">
+    デジタル腕時計で午前中の脈拍数を記録した。<br>
+    ・2時限目の授業中：脈拍数が低下していた<br>
+    ・3時限目終わりにスマホを落とした直後：脈拍数が急上昇した
+  </div>
+  <div class="q-text">
+    2時限目に脈拍が低下したとき優勢な神経を<em>ア</em>、スマホを落として急上昇したとき優勢な神経を<em>ウ</em>とした場合、正しい組合せはどれか。
+  </div>
+  <div class="choices" data-correct="3">
+    <button class="choice-btn">① ア：交感神経　　ウ：副交感神経</button>
+    <button class="choice-btn">② ア：交感神経　　ウ：感覚神経</button>
+    <button class="choice-btn">③ ア：副交感神経　ウ：交感神経</button>
+    <button class="choice-btn">④ ア：副交感神経　ウ：運動神経</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問2 R7-1 大問3 問2 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">問 2</span>
+    <span class="q-source">R7-1 大問3 問2 改</span>
+  </div>
+  <div class="q-text">
+    2時限目に副交感神経が優勢に働いていたとすると、アユムの状態として最も適切なものはどれか。
+  </div>
+  <div class="choices" data-correct="2">
+    <button class="choice-btn">① 激しく運動していた</button>
+    <button class="choice-btn">② 居眠りしていた</button>
+    <button class="choice-btn">③ 緊張するプレゼンテーションをしていた</button>
+    <button class="choice-btn">④ 指名されて焦っていた</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問3 R7-1 大問3 問3 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">問 3</span>
+    <span class="q-source">R7-1 大問3 問3 改</span>
+  </div>
+  <div class="data-box">
+    【脳の各部位のはたらき（教科書図より）】<br>
+    大脳：視覚・聴覚の感覚、意識による運動、言語・記憶・思考などの高度な精神活動の中枢<br>
+    小脳：筋肉運動の調節や体の平衡を保つ中枢<br>
+    間脳（視床下部）：自律神経系と内分泌系の中枢として働く
+  </div>
+  <div class="q-text">
+    脳出血の症状として「歩行や平衡感覚の維持が困難」→<em>エ</em>、「植物状態（意識による運動・言語が不能）」→<em>オ</em>が機能停止。正しい組合せはどれか。
+  </div>
+  <div class="choices" data-correct="3">
+    <button class="choice-btn">① エ：視床下部　　オ：大脳</button>
+    <button class="choice-btn">② エ：視床下部　　オ：小脳</button>
+    <button class="choice-btn">③ エ：小脳　　　　オ：大脳</button>
+    <button class="choice-btn">④ エ：小脳　　　　オ：視床下部</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問4 R7-1 大問3 問4 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">問 4</span>
+    <span class="q-source">R7-1 大問3 問4 改</span>
+  </div>
+  <div class="q-text">ヒトの神経系に関して、<em>誤っている</em>文章はどれか。</div>
+  <div class="choices" data-correct="4">
+    <button class="choice-btn">① 神経系はニューロン（神経細胞）と呼ばれる細胞からなる</button>
+    <button class="choice-btn">② 神経系は中枢神経系と末梢神経系に分けられる</button>
+    <button class="choice-btn">③ 末梢神経系には自律神経系が含まれる</button>
+    <button class="choice-btn">④ 神経系の情報伝達の特徴は、細胞から血液中に分泌された物質が血液によって体中を回ることである</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問5 R7-2 大問3 問1 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">問 5</span>
+    <span class="q-source">R7-2 大問3 問1 改</span>
+  </div>
+  <div class="q-text">
+    血糖濃度調節の図において、間脳の視床下部からランゲルハンス島への<em>ア</em>（太線矢印）による調節と、最終的な血糖変化が前の段階に戻る<em>イ</em>の仕組みとして正しい組合せはどれか。
+  </div>
+  <div class="choices" data-correct="1">
+    <button class="choice-btn">① ア：自律神経　　イ：フィードバック</button>
+    <button class="choice-btn">② ア：自律神経　　イ：二次応答</button>
+    <button class="choice-btn">③ ア：中枢神経　　イ：フィードバック</button>
+    <button class="choice-btn">④ ア：中枢神経　　イ：二次応答</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問6 R7-2 大問3 問2 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">問 6</span>
+    <span class="q-source">R7-2 大問3 問2 改</span>
+  </div>
+  <div class="q-text">
+    血糖濃度が<em>ウ（　）状態</em>が続く病気を<em>エ</em>という。正しい組合せはどれか。
+  </div>
+  <div class="choices" data-correct="3">
+    <button class="choice-btn">① ウ：低い　　エ：糖尿病</button>
+    <button class="choice-btn">② ウ：低い　　エ：エイズ</button>
+    <button class="choice-btn">③ ウ：高い　　エ：糖尿病</button>
+    <button class="choice-btn">④ ウ：高い　　エ：エイズ</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問7 R7-2 大問3 問3 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">問 7</span>
+    <span class="q-source">R7-2 大問3 問3 改</span>
+  </div>
+  <div class="data-box">
+    <table>
+      <tr><th>測定した時</th><th>運動前</th><th>運動直後</th><th>運動1分後</th><th>運動3分後</th></tr>
+      <tr><td>心拍数（回/分）</td><td>75</td><td>108</td><td>84</td><td>72</td></tr>
+    </table>
+  </div>
+  <div class="q-text">
+    運動直後の心拍数は運動前の<em>約オ倍</em>まで上がっている。このとき働く<em>カ神経</em>として正しい組合せはどれか。
+  </div>
+  <div class="choices" data-correct="3">
+    <button class="choice-btn">① オ：約2倍　　カ：交感神経</button>
+    <button class="choice-btn">② オ：約2倍　　カ：副交感神経</button>
+    <button class="choice-btn">③ オ：約1.5倍　カ：交感神経</button>
+    <button class="choice-btn">④ オ：約1.5倍　カ：副交感神経</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問8 R6-2 大問3 問1 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">問 8</span>
+    <span class="q-source">R6-2 大問3 問1 改</span>
+  </div>
+  <div class="q-text">
+    自律神経系について、神経系の区分と調節の特徴の<em>正しい</em>組合せはどれか。
+  </div>
+  <div class="choices" data-correct="4">
+    <button class="choice-btn">① 中枢神経系　／　交感神経は常に器官の働きを促進させる</button>
+    <button class="choice-btn">② 中枢神経系　／　交感神経と副交感神経は互いに拮抗的に働く</button>
+    <button class="choice-btn">③ 末梢神経系　／　交感神経は常に器官の働きを促進させる</button>
+    <button class="choice-btn">④ 末梢神経系　／　交感神経と副交感神経は互いに拮抗的に働く</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問9 R6-2 大問3 問4 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">問 9</span>
+    <span class="q-source">R6-2 大問3 問4 改</span>
+  </div>
+  <div class="q-text">
+    血糖濃度が低下したとき、すい臓のランゲルハンス島A細胞から分泌されて<em>血糖濃度を上昇させる</em>ホルモンの名称はどれか。
+  </div>
+  <div class="choices" data-correct="1">
+    <button class="choice-btn">① グルカゴン</button>
+    <button class="choice-btn">② インスリン</button>
+    <button class="choice-btn">③ バソプレシン</button>
+    <button class="choice-btn">④ アドレナリン</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+<!-- 問10 R6-1 大問3 問1 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">問 10</span>
+    <span class="q-source">R6-1 大問3 問1 改</span>
+  </div>
+  <div class="q-text">
+    「外部環境に変動があってもヒトの体内環境は一定になっている」この性質を何というか。
+  </div>
+  <div class="choices" data-correct="4">
+    <button class="choice-btn">① 洞房結節（ペースメーカー）</button>
+    <button class="choice-btn">② フィードバック</button>
+    <button class="choice-btn">③ ホルモン</button>
+    <button class="choice-btn">④ 恒常性（ホメオスタシス）</button>
+  </div>
+  <div class="feedback"></div>
+</div>
+
+</main>
+
+<div class="submit-area">
+  <button class="submit-btn" id="submitBtn" onclick="showScore()">採点する</button>
+</div>
+
+<div class="score-area" id="scoreArea">
+  <div class="score-big" id="scoreBig"></div>
+  <div class="score-row">
+    <div class="score-item">正解<span id="scoreCorrect">-</span></div>
+    <div class="score-item">不正解<span id="scoreWrong">-</span></div>
+    <div class="score-item">正解率<span id="scorePct">-</span></div>
+  </div>
+  <div class="score-msg" id="scoreMsg"></div>
+  <button class="retry-btn" onclick="location.reload()">もう一度やり直す</button>
+</div>
+
+<script>
+const TOTAL = 10;
+let answered = 0;
+let correct = 0;
+
+const feedbacks = [
+  // 問1
+  {ok:'正解！脈拍低下＝リラックス→副交感神経が優勢。急な驚き・緊張→交感神経が優勢。拮抗的に働くのが特徴です。',ng:'不正解。安静・休息時は副交感神経が優勢（脈拍低下）。驚き・緊張時は交感神経が優勢（脈拍上昇）です。正解は③です。'},
+  // 問2
+  {ok:'正解！副交感神経が優勢な状態＝安静・リラックス。授業中の居眠りがこれにあたります。',ng:'不正解。副交感神経優勢＝リラックス状態です。運動・緊張・焦りは交感神経優勢です。正解は②です。'},
+  // 問3
+  {ok:'正解！小脳＝筋肉運動・平衡の中枢。大脳＝意識的運動・言語・記憶の中枢。この組み合わせが頻出です。',ng:'不正解。歩行・平衡が困難→小脳の障害。意識的運動・言語が不能→大脳の機能停止です。正解は③です。'},
+  // 問4
+  {ok:'正解！④は内分泌系の説明です。神経系は神経線維を通じて電気信号で情報を伝えます。血液を介するのはホルモン（内分泌系）の特徴です。',ng:'不正解。「血液で全身を回る」のは内分泌系（ホルモン）の特徴で、神経系の説明として誤りです。正解は④です。'},
+  // 問5
+  {ok:'正解！視床下部から自律神経が出てランゲルハンス島を支配します。フィードバックは結果が原因に戻って調節する仕組みです。',ng:'不正解。視床下部から出るのは自律神経です（中枢神経は脳・脊髄そのもの）。結果が原因に戻る仕組みはフィードバックです。正解は①です。'},
+  // 問6
+  {ok:'正解！糖尿病は血糖濃度が慢性的に高い状態が続く病気です。インスリンの分泌不足や効果低下が原因です。',ng:'不正解。血糖が高い状態が続く→糖尿病です。正解は③です。'},
+  // 問7
+  {ok:'正解！75→108は1.44倍≈約1.5倍。運動時に心拍数を増やすのは交感神経です。',ng:'不正解。108÷75≈1.44倍≈約1.5倍です。運動で心拍数を増やすのは交感神経です。正解は③です。'},
+  // 問8
+  {ok:'正解！自律神経系は末梢神経系に含まれます。交感神経と副交感神経は拮抗的（対抗的）に働き、器官を調節します。',ng:'不正解。自律神経系は末梢神経系の一部です。また、交感神経は器官によって促進・抑制どちらにも働くため「常に促進」は誤りです。正解は④です。'},
+  // 問9
+  {ok:'正解！グルカゴン（A細胞）→血糖上昇。インスリン（B細胞）→血糖低下。高認で最重要の2ホルモンです！',ng:'不正解。A細胞からはグルカゴンが分泌されて血糖を上げます。インスリンはB細胞から出て血糖を下げます。正解は①です。'},
+  // 問10
+  {ok:'正解！恒常性（ホメオスタシス）は体内環境を一定に保つ重要な性質です。神経系・内分泌系・免疫系が協調して維持しています。',ng:'不正解。外部環境が変わっても体内環境を一定に保つ性質を恒常性（ホメオスタシス）といいます。フィードバックはその調節の仕組みの一つです。正解は④です。'},
+];
+
+// すべての問題を一括表示→最後に採点
+let answeredMap = {};
+
+document.querySelectorAll('.choices').forEach((choices, qi) => {
+  const correctNum = parseInt(choices.dataset.correct);
+  const btns = choices.querySelectorAll('.choice-btn');
+  const fb = choices.parentElement.querySelector('.feedback');
+
+  btns.forEach((btn, bi) => {
+    btn.addEventListener('click', () => {
+      if(answeredMap[qi] !== undefined) return;
+      btns.forEach(b => b.disabled = true);
+      const isCorrect = (bi + 1) === correctNum;
+      btn.classList.add(isCorrect ? 'correct' : 'wrong');
+      if(!isCorrect) btns[correctNum-1].classList.add('correct');
+      fb.className = 'feedback show ' + (isCorrect ? 'ok' : 'ng');
+      fb.textContent = isCorrect ? feedbacks[qi].ok : feedbacks[qi].ng;
+      answeredMap[qi] = isCorrect;
+      if(isCorrect) correct++;
+      answered++;
+      updateProg();
+      if(answered === TOTAL) document.getElementById('submitBtn').classList.add('show');
+    });
+  });
+});
+
+function updateProg(){
+  const pct = Math.round(answered/TOTAL*100);
+  document.getElementById('progBar').style.width = pct+'%';
+  document.getElementById('progText').textContent = answered+' / '+TOTAL+' 問';
+}
+
+function showScore(){
+  document.getElementById('submitBtn').style.display='none';
+  const sa = document.getElementById('scoreArea');
+  sa.classList.add('show');
+  const pct = Math.round(correct/TOTAL*100);
+  document.getElementById('scoreBig').textContent = correct+' / '+TOTAL+' 問正解';
+  document.getElementById('scoreCorrect').textContent = correct+'問';
+  document.getElementById('scoreWrong').textContent = (TOTAL-correct)+'問';
+  document.getElementById('scorePct').textContent = pct+'%';
+  let msg='';
+  if(pct===100) msg='🎉 満点！高認本番もバッチリです！';
+  else if(pct>=80) msg='✨ よくできました！あと少しで満点です。';
+  else if(pct>=60) msg='👍 半分以上正解！間違えた問題を解説で確認しましょう。';
+  else msg='📖 解説ページに戻って基礎から確認しましょう。';
+  document.getElementById('scoreMsg').textContent = msg;
+  if(pct===100) fireConfetti();
+  try{localStorage.setItem('BL14_check_score', JSON.stringify({score:correct,total:TOTAL,pct,date:new Date().toISOString()}))}catch(e){}
+  try{sa.scrollIntoView({behavior:'smooth'})}catch(e){}
+}
+
+function fireConfetti(){
+  const colors=['#ea580c','#f97316','#fb923c','#fdba74','#fff','#fde68a'];
+  for(let i=0;i<80;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}vw;top:-10px;background:${colors[i%colors.length]};animation-delay:${Math.random()*1.5}s;animation-duration:${2+Math.random()*2}s`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),5000);
+  }
+}
+</script>
+</body>
+</html>
