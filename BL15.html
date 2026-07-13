@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL15 植生とバイオーム</title>
+<style>
+
+:root{
+  --pri:#16a34a;--pri-dark:#15803d;--pri-light:#dcfce7;--pri-mid:#bbf7d0;
+  --acc:#f59e0b;--acc-light:#fef3c7;
+  --text:#1e293b;--sub:#475569;--border:#e2e8f0;
+  --bg:#f8fafc;--white:#ffffff;
+  --red:#dc2626;--red-bg:#fee2e2;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+  --purple:#7c3aed;--purple-bg:#ede9fe;
+  --orange:#ea580c;--orange-bg:#ffedd5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:var(--bg);color:var(--text);line-height:1.9;font-size:16px}
+
+/* ヘッダー */
+.page-header{background:linear-gradient(135deg,var(--pri) 0%,var(--pri-dark) 100%);color:#fff;padding:2.5rem 1.5rem 2rem;text-align:center}
+.page-header .unit-label{font-size:.85rem;opacity:.8;margin-bottom:.4rem;letter-spacing:.1em}
+.page-header h1{font-size:2rem;font-weight:800;margin-bottom:.5rem}
+.page-header p{font-size:.95rem;opacity:.85}
+.page-header .chapter-badge{display:inline-block;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.5);border-radius:999px;padding:.3rem 1rem;font-size:.82rem;font-weight:700;margin-top:.8rem;letter-spacing:.05em}
+
+/* コンテナ */
+.container{max-width:880px;margin:0 auto;padding:2rem 1rem 3rem}
+
+/* ページナビ */
+.page-nav{display:flex;justify-content:space-between;align-items:center;margin:0 0 2rem;gap:1rem;flex-wrap:wrap}
+.pnav-btn{display:inline-flex;align-items:center;padding:.6rem 1.2rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s;border:2px solid var(--pri);color:var(--pri);background:var(--white)}
+.pnav-btn:hover{background:var(--pri);color:#fff}
+.pnav-prev{margin-right:auto}
+.pnav-next{margin-left:auto;background:var(--pri);color:#fff}
+.pnav-next:hover{background:var(--pri-dark)}
+
+/* セクション */
+.section{background:var(--white);border-radius:14px;border:1px solid var(--border);margin-bottom:2rem;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.section-header{background:linear-gradient(90deg,var(--pri),var(--pri-dark));color:#fff;padding:1.1rem 1.5rem;display:flex;align-items:center;gap:.8rem}
+.section-header .badge{background:rgba(255,255,255,.25);border-radius:8px;padding:.2rem .65rem;font-weight:800;font-size:.9rem;flex-shrink:0}
+.section-header h2{font-size:1.1rem;font-weight:800}
+.section-body{padding:1.6rem 1.5rem}
+
+/* 概要テキスト */
+.lead{font-size:1.02rem;color:var(--text);background:var(--pri-light);border-radius:8px;padding:.85rem 1.1rem;margin-bottom:1.2rem;border-left:4px solid var(--pri);line-height:1.85}
+p{margin-bottom:.9rem;line-height:1.9}
+
+/* キーワード */
+.kw{background:var(--pri-light);border:1.5px solid var(--pri);border-radius:4px;padding:.05rem .45rem;font-weight:800;color:var(--pri-dark);white-space:nowrap}
+.kw-red{background:var(--red-bg);border:1.5px solid var(--red);border-radius:4px;padding:.05rem .45rem;font-weight:800;color:var(--red)}
+.kw-blue{background:var(--blue-bg);border:1.5px solid var(--blue);border-radius:4px;padding:.05rem .45rem;font-weight:800;color:var(--blue)}
+.kw-orange{background:var(--orange-bg);border:1.5px solid var(--orange);border-radius:4px;padding:.05rem .45rem;font-weight:800;color:var(--orange)}
+
+/* ページカードグリッド */
+.page-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;margin:1.2rem 0}
+.page-card{border-radius:12px;overflow:hidden;text-decoration:none;display:block;transition:transform .2s,box-shadow .2s;box-shadow:0 2px 10px rgba(0,0,0,.08);border:2px solid var(--border)}
+.page-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(22,163,74,.18);border-color:var(--pri)}
+.card-head{background:linear-gradient(90deg,var(--pri),var(--pri-dark));color:#fff;padding:.85rem 1.1rem;display:flex;align-items:center;gap:.7rem}
+.card-head .c-num{background:rgba(255,255,255,.25);border-radius:8px;padding:.2rem .6rem;font-weight:800;font-size:.88rem;flex-shrink:0}
+.card-head .c-title{font-weight:800;font-size:.97rem}
+.card-body{background:#fff;padding:1rem 1.1rem}
+.card-body .c-desc{color:var(--sub);font-size:.88rem;line-height:1.75;margin-bottom:.7rem}
+.card-body .c-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.card-body .c-tag{background:var(--pri-light);color:var(--pri-dark);border-radius:999px;padding:.15rem .65rem;font-size:.78rem;font-weight:700}
+.card-foot{background:var(--pri-light);padding:.6rem 1.1rem;color:var(--pri-dark);font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:.4rem}
+
+/* 重要ボックス */
+.important-box{background:var(--acc-light);border:2.5px solid var(--acc);border-radius:10px;padding:1rem 1.2rem;margin:1.2rem 0}
+.important-box .imp-label{color:#92400e;font-weight:800;font-size:.85rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.3rem}
+
+/* ポイントボックス */
+.point-box{background:var(--pri-light);border:2px solid var(--pri);border-radius:10px;padding:1rem 1.2rem;margin:1.2rem 0}
+.point-box .pt-label{color:var(--pri-dark);font-weight:800;font-size:.85rem;margin-bottom:.5rem}
+
+/* キーワード一覧 */
+.kw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin:.8rem 0}
+.kw-item{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:.75rem 1rem;display:flex;align-items:flex-start;gap:.7rem}
+.kw-item .ki-num{background:var(--pri);color:#fff;border-radius:6px;padding:.1rem .5rem;font-size:.78rem;font-weight:800;flex-shrink:0;margin-top:.15rem}
+.kw-item .ki-body{}
+.kw-item .ki-word{font-weight:800;color:var(--pri-dark);font-size:.95rem}
+.kw-item .ki-desc{font-size:.8rem;color:var(--sub);line-height:1.6;margin-top:.15rem}
+
+/* 学習ルートフロー */
+.flow-route{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin:1rem 0;justify-content:center}
+.fr-step{display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.fr-box{border-radius:10px;padding:.55rem 1rem;font-weight:700;font-size:.88rem;text-align:center;text-decoration:none;transition:all .2s;min-width:110px}
+.fr-box.cur{background:var(--pri);color:#fff;box-shadow:0 3px 10px rgba(22,163,74,.3)}
+.fr-box.ex{background:var(--pri-light);color:var(--pri-dark);border:2px solid var(--pri)}
+.fr-box.ex:hover{background:var(--pri);color:#fff}
+.fr-box.dr{background:var(--acc-light);color:#92400e;border:2px solid var(--acc)}
+.fr-box.dr:hover{background:var(--acc);color:#fff}
+.fr-box.ck{background:var(--blue-bg);color:#1e40af;border:2px solid var(--blue)}
+.fr-box.ck:hover{background:var(--blue);color:#fff}
+.fr-box.em{background:var(--purple-bg);color:#5b21b6;border:2px solid var(--purple)}
+.fr-box.em:hover{background:var(--purple);color:#fff}
+.fr-label{font-size:.72rem;color:var(--sub);font-weight:600}
+.fr-arr{color:var(--pri);font-size:1.4rem;font-weight:800;align-self:center;margin-bottom:.8rem}
+
+/* スタートボタン */
+.start-btn{display:block;text-align:center;background:linear-gradient(135deg,var(--pri),var(--pri-dark));color:#fff;font-size:1.1rem;font-weight:800;padding:1rem 2rem;border-radius:12px;text-decoration:none;margin:1.5rem 0;box-shadow:0 4px 14px rgba(22,163,74,.35);transition:all .2s}
+.start-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(22,163,74,.45)}
+
+/* リソースリンク */
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin:1rem 0}
+.res-btn{display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:1rem .8rem;border-radius:12px;text-decoration:none;font-weight:700;font-size:.9rem;transition:all .2s;text-align:center}
+.res-btn:hover{transform:translateY(-2px)}
+.res-btn .res-icon{font-size:1.6rem}
+.res-drill{background:var(--pri-light);color:var(--pri-dark);border:2px solid var(--pri)}
+.res-drill:hover{background:var(--pri);color:#fff}
+.res-check{background:var(--acc-light);color:#92400e;border:2px solid var(--acc)}
+.res-check:hover{background:var(--acc);color:#fff}
+.res-exam{background:var(--blue-bg);color:#1e40af;border:2px solid var(--blue)}
+.res-exam:hover{background:var(--blue);color:#fff}
+
+/* 下部ナビ */
+.nav-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:2.5rem;padding-bottom:1rem}
+.nav-links a{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.4rem;border-radius:10px;font-weight:700;text-decoration:none;font-size:.92rem;transition:all .2s}
+.btn-drill{background:var(--pri-light);color:var(--pri-dark);border:2px solid var(--pri)}
+.btn-check{background:var(--acc-light);color:#92400e;border:2px solid var(--acc)}
+.btn-exam{background:var(--blue-bg);color:#1e40af;border:2px solid var(--blue)}
+.btn-drill:hover{background:var(--pri);color:#fff}
+.btn-check:hover{background:var(--acc);color:#fff}
+.btn-exam:hover{background:var(--blue);color:#fff}
+
+@media(max-width:600px){
+  .page-header h1{font-size:1.4rem}
+  .section-body{padding:1.2rem 1rem}
+  .flow-route{flex-direction:column;align-items:stretch}
+  .fr-arr{transform:rotate(90deg);align-self:center}
+  .fr-box{min-width:unset;width:100%}
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="unit-label">高認GAMBA 生物基礎 ｜ BL15</div>
+  <h1>🌿 植生とバイオーム</h1>
+  <p>植物の集まり・光合成・遷移・世界と日本の生物群系を学ぼう</p>
+  <span class="chapter-badge">第4章　生物の多様性と生態系</span>
+</header>
+
+<div class="container">
+
+  <div class="page-nav">
+    <a href="BL14.html" class="pnav-btn pnav-prev">◀ 前の単元（BL14）</a>
+    <a href="BL15a.html" class="pnav-btn pnav-next">解説スタート（BL15a） ▶</a>
+  </div>
+
+  <!-- ===== 単元概要 ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="badge">概要</div>
+      <h2>BL15 でなにを学ぶか</h2>
+    </div>
+    <div class="section-body">
+      <div class="lead">
+        地球上には、熱帯雨林・砂漠・ツンドラなど多様な植物の世界（バイオーム）があります。BL15 では、植物の集まり（植生）の成り立ちから始め、光合成のしくみ、植生がどのように移り変わるか（遷移）、そして世界・日本のバイオームの分布まで体系的に学びます。
+      </div>
+      <p>この単元は <strong>4 ページ＋ドリル＋確認テスト＋過去問演習</strong> で構成されています。下の「解説スタート」ボタンから順番に読み進めましょう。</p>
+
+      <div class="important-box">
+        <div class="imp-label">⭐ 高認試験での重要度</div>
+        <p>バイオームの種類・分布・日本の垂直分布は頻出テーマです。植生の遷移（一次遷移・二次遷移）や光補償点・光飽和点も毎年のように出題されます。しっかりマスターしましょう。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 学習フロー ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="badge">ルート</div>
+      <h2>学習の進め方</h2>
+    </div>
+    <div class="section-body">
+      <div class="flow-route">
+        <div class="fr-step">
+          <span class="fr-box cur">📖 BL15（今ここ）</span>
+          <span class="fr-label">単元概要</span>
+        </div>
+        <span class="fr-arr">▶</span>
+        <div class="fr-step">
+          <a href="BL15a.html" class="fr-box ex">BL15a</a>
+          <span class="fr-label">植生・階層構造</span>
+        </div>
+        <span class="fr-arr">▶</span>
+        <div class="fr-step">
+          <a href="BL15b.html" class="fr-box ex">BL15b</a>
+          <span class="fr-label">光合成速度</span>
+        </div>
+        <span class="fr-arr">▶</span>
+        <div class="fr-step">
+          <a href="BL15c.html" class="fr-box ex">BL15c</a>
+          <span class="fr-label">植生の遷移</span>
+        </div>
+        <span class="fr-arr">▶</span>
+        <div class="fr-step">
+          <a href="BL15d.html" class="fr-box ex">BL15d</a>
+          <span class="fr-label">バイオーム</span>
+        </div>
+        <span class="fr-arr">▶</span>
+        <div class="fr-step">
+          <a href="BL15_drill.html" class="fr-box dr">📝 ドリル</a>
+          <span class="fr-label">穴埋め練習</span>
+        </div>
+        <span class="fr-arr">▶</span>
+        <div class="fr-step">
+          <a href="BL15_check.html" class="fr-box ck">✅ 確認テスト</a>
+          <span class="fr-label">理解チェック</span>
+        </div>
+        <span class="fr-arr">▶</span>
+        <div class="fr-step">
+          <a href="BL15_exam.html" class="fr-box em">📋 過去問</a>
+          <span class="fr-label">本番演習</span>
+        </div>
+      </div>
+
+      <a href="BL15a.html" class="start-btn">🚀 解説を読み始める（BL15a へ）</a>
+    </div>
+  </section>
+
+  <!-- ===== 4ページカード ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="badge">内容</div>
+      <h2>各ページの内容</h2>
+    </div>
+    <div class="section-body">
+      <div class="page-cards">
+
+        <!-- BL15a -->
+        <a href="BL15a.html" class="page-card">
+          <div class="card-head">
+            <div class="c-num">1/4</div>
+            <div class="c-title">🌱 植生と森林の階層構造</div>
+          </div>
+          <div class="card-body">
+            <div class="c-desc">
+              植生・相観・優占種・バイオームの基本概念を学びます。さらに、森林がなぜ複数の層（高木層〜地表層）に分かれているのか、光と関係づけながら理解します。
+            </div>
+            <div class="c-tags">
+              <span class="c-tag">植生</span>
+              <span class="c-tag">相観</span>
+              <span class="c-tag">優占種</span>
+              <span class="c-tag">階層構造</span>
+              <span class="c-tag">相対照度</span>
+            </div>
+          </div>
+          <div class="card-foot">📖 BL15a を読む →</div>
+        </a>
+
+        <!-- BL15b -->
+        <a href="BL15b.html" class="page-card">
+          <div class="card-head">
+            <div class="c-num">2/4</div>
+            <div class="c-title">☀️ 光の強さと光合成速度</div>
+          </div>
+          <div class="card-body">
+            <div class="c-desc">
+              陽生植物・陰生植物の違い、光補償点・光飽和点のグラフの読み方を学びます。試験で頻出のグラフ問題を攻略するための重要ページです。
+            </div>
+            <div class="c-tags">
+              <span class="c-tag">光補償点</span>
+              <span class="c-tag">光飽和点</span>
+              <span class="c-tag">陽生植物</span>
+              <span class="c-tag">陰生植物</span>
+              <span class="c-tag">見かけの光合成</span>
+            </div>
+          </div>
+          <div class="card-foot">📖 BL15b を読む →</div>
+        </a>
+
+        <!-- BL15c -->
+        <a href="BL15c.html" class="page-card">
+          <div class="card-head">
+            <div class="c-num">3/4</div>
+            <div class="c-title">🌾 植生の遷移</div>
+          </div>
+          <div class="card-body">
+            <div class="c-desc">
+              植生が時間とともに変化していくしくみ（遷移）を学びます。一次遷移・二次遷移の違い、極相（クライマックス）まで至る流れを順序立てて整理します。
+            </div>
+            <div class="c-tags">
+              <span class="c-tag">一次遷移</span>
+              <span class="c-tag">二次遷移</span>
+              <span class="c-tag">極相</span>
+              <span class="c-tag">先駆種</span>
+              <span class="c-tag">陽樹・陰樹</span>
+            </div>
+          </div>
+          <div class="card-foot">📖 BL15c を読む →</div>
+        </a>
+
+        <!-- BL15d -->
+        <a href="BL15d.html" class="page-card">
+          <div class="card-head">
+            <div class="c-num">4/4</div>
+            <div class="c-title">🌍 バイオーム（世界・日本）</div>
+          </div>
+          <div class="card-body">
+            <div class="c-desc">
+              世界の11種のバイオームと、日本の水平分布・垂直分布を学びます。気温・降水量との関係をおさえ、各バイオームの代表的な植物も覚えましょう。
+            </div>
+            <div class="c-tags">
+              <span class="c-tag">熱帯多雨林</span>
+              <span class="c-tag">照葉樹林</span>
+              <span class="c-tag">水平分布</span>
+              <span class="c-tag">垂直分布</span>
+              <span class="c-tag">高山帯</span>
+            </div>
+          </div>
+          <div class="card-foot">📖 BL15d を読む →</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== この単元のキーワード ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="badge">用語</div>
+      <h2>BL15 の重要キーワード一覧</h2>
+    </div>
+    <div class="section-body">
+      <p>ドリルや確認テストで問われる主なキーワードです。読み始める前に確認し、学習後にどれだけ説明できるかチェックしましょう。</p>
+
+      <div class="kw-grid">
+        <div class="kw-item">
+          <span class="ki-num">1</span>
+          <div class="ki-body">
+            <div class="ki-word">植生</div>
+            <div class="ki-desc">ある地域に生育する植物の集まり全体</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">2</span>
+          <div class="ki-body">
+            <div class="ki-word">相観</div>
+            <div class="ki-desc">植生を外から見たときの全体的な見た目</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">3</span>
+          <div class="ki-body">
+            <div class="ki-word">優占種</div>
+            <div class="ki-desc">個体数・面積が最も多く相観を決める植物</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">4</span>
+          <div class="ki-body">
+            <div class="ki-word">バイオーム（生物群系）</div>
+            <div class="ki-desc">同じ気候条件のもとで形成される植生のまとまり</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">5</span>
+          <div class="ki-body">
+            <div class="ki-word">階層構造</div>
+            <div class="ki-desc">高木層・亜高木層・低木層・草本層・地表層・地中層</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">6</span>
+          <div class="ki-body">
+            <div class="ki-word">相対照度</div>
+            <div class="ki-desc">林内の明るさを林外の光量を100として表した値</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">7</span>
+          <div class="ki-body">
+            <div class="ki-word">光補償点</div>
+            <div class="ki-desc">光合成速度＝呼吸速度になる光の強さ</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">8</span>
+          <div class="ki-body">
+            <div class="ki-word">光飽和点</div>
+            <div class="ki-desc">これ以上光が強くなっても光合成速度が増えない値</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">9</span>
+          <div class="ki-body">
+            <div class="ki-word">陽生植物・陰生植物</div>
+            <div class="ki-desc">強光を好む植物 vs 弱光でも育つ植物</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">10</span>
+          <div class="ki-body">
+            <div class="ki-word">遷移</div>
+            <div class="ki-desc">植生が時間とともに変化していく現象</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">11</span>
+          <div class="ki-body">
+            <div class="ki-word">一次遷移・二次遷移</div>
+            <div class="ki-desc">土壌なし裸地から始まる遷移 vs 土壌が残る状態からの遷移</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">12</span>
+          <div class="ki-body">
+            <div class="ki-word">極相（クライマックス）</div>
+            <div class="ki-desc">遷移の最終的な安定した植生状態</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">13</span>
+          <div class="ki-body">
+            <div class="ki-word">先駆種（パイオニア植物）</div>
+            <div class="ki-desc">遷移の初期に裸地に侵入する植物（コケ類など）</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">14</span>
+          <div class="ki-body">
+            <div class="ki-word">陽樹・陰樹</div>
+            <div class="ki-desc">光を好む先駆樹種 vs 陰でも育つ極相樹種</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">15</span>
+          <div class="ki-body">
+            <div class="ki-word">熱帯多雨林・照葉樹林</div>
+            <div class="ki-desc">バイオームの代表例（高温多湿 / 温暖・冬乾燥）</div>
+          </div>
+        </div>
+        <div class="kw-item">
+          <span class="ki-num">16</span>
+          <div class="ki-body">
+            <div class="ki-word">水平分布・垂直分布</div>
+            <div class="ki-desc">緯度による分布 / 標高による分布（日本のバイオーム）</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="point-box">
+        <div class="pt-label">📌 学習のコツ</div>
+        <p>まずページを読んで流れをつかみ、次に<strong>穴埋めドリル</strong>でキーワードを書けるか確認しましょう。バイオームの表は繰り返し見ることで自然に覚えられます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== リソースリンク ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="badge">練習</div>
+      <h2>練習・テストへ進む</h2>
+    </div>
+    <div class="section-body">
+      <p>解説を読み終えたら、以下の練習メニューに取り組みましょう。</p>
+      <div class="resource-grid">
+        <a href="BL15_drill.html" class="res-btn res-drill">
+          <span class="res-icon">📝</span>
+          穴埋めドリル
+          <span style="font-size:.78rem;font-weight:400">語句を思い出す練習</span>
+        </a>
+        <a href="BL15_check.html" class="res-btn res-check">
+          <span class="res-icon">✅</span>
+          確認テスト
+          <span style="font-size:.78rem;font-weight:400">理解度チェック</span>
+        </a>
+        <a href="BL15_exam.html" class="res-btn res-exam">
+          <span class="res-icon">📋</span>
+          過去問演習
+          <span style="font-size:.78rem;font-weight:400">本番形式で腕試し</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-nav">
+    <a href="BL14.html" class="pnav-btn pnav-prev">◀ 前の単元（BL14）</a>
+    <a href="BL15a.html" class="pnav-btn pnav-next">解説スタート（BL15a） ▶</a>
+  </div>
+
+  <div class="nav-links">
+    <a href="BL15_drill.html" class="btn-drill">📝 穴埋めドリル</a>
+    <a href="BL15_check.html" class="btn-check">✅ 確認テスト</a>
+    <a href="BL15_exam.html" class="btn-exam">📋 過去問演習</a>
+  </div>
+
+</div><!-- /container -->
+
+</body>
+</html>
