@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)file:///C:/Users/yn/Downloads/BL09%20(3).html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL09｜体内環境と血液｜GAMBA高認 生命の科学</title>
+<style>
+:root{
+  --primary:#b91c1c;--primary-d:#991b1b;--primary-l:#fee2e2;
+  --ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;
+  --accent:#0891b2;--accent-l:#ecfeff;
+  --ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;
+  --drop:#fef3c7;--answer:#b91c1c;
+  --bg:#fdf4f4;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.85;overflow-x:hidden;}
+
+/* ── sticky header ── */
+.sticky-header{position:sticky;top:0;z-index:200;background:rgba(253,244,244,0.96);
+  backdrop-filter:blur(8px);border-bottom:2px solid #fca5a5;padding:8px 0;}
+.header-inner{max-width:1000px;margin:0 auto;padding:0 14px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.back-btn{color:var(--gray);text-decoration:none;font-size:0.82rem;padding:4px 10px;
+  border:1px solid var(--border);border-radius:6px;background:#fff;white-space:nowrap;}
+.back-btn:hover{background:var(--gray-l);}
+.page-title{font-size:0.95rem;font-weight:bold;flex:1;}
+.chapter-badge{background:var(--primary);color:#fff;font-size:0.72rem;
+  padding:2px 8px;border-radius:4px;margin-right:6px;}
+.menu-toggle{background:var(--primary);color:#fff;border:none;cursor:pointer;
+  padding:5px 13px;border-radius:6px;font-size:0.82rem;font-weight:bold;font-family:inherit;}
+.page-nav{display:none;width:100%;flex-wrap:wrap;gap:6px;padding:6px 0 2px;}
+.page-nav.open{display:flex;}
+.nav-btn{background:#fff;border:1px solid #fca5a5;color:var(--primary);
+  padding:4px 10px;border-radius:6px;font-size:0.78rem;cursor:pointer;text-decoration:none;}
+.nav-btn:hover{background:var(--primary-l);}
+
+/* ── hero ── */
+.hero{background:linear-gradient(135deg,#7f1d1d 0%,#b91c1c 55%,#ef4444 100%);
+  color:#fff;padding:32px 16px 28px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'🩸';position:absolute;font-size:8rem;opacity:0.08;
+  top:-10px;right:-10px;transform:rotate(-15deg);}
+.hero h1{font-size:1.5rem;font-weight:bold;margin-bottom:6px;}
+.hero p{font-size:0.9rem;opacity:0.9;max-width:560px;margin:0 auto;}
+.hero-badges{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;}
+.hero-badge{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);
+  color:#fff;font-size:0.75rem;padding:3px 10px;border-radius:999px;}
+
+/* ── main layout ── */
+.main{max-width:1000px;margin:0 auto;padding:24px 14px 60px;}
+
+/* ── section ── */
+.section{background:#fff;border-radius:14px;border:1px solid var(--border);
+  padding:22px 20px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.section-title{font-size:1.05rem;font-weight:bold;color:var(--primary);
+  border-left:4px solid var(--primary);padding-left:10px;margin-bottom:14px;}
+
+/* ── boxes ── */
+.point-box{background:#fff7ed;border-left:4px solid #f97316;border-radius:8px;
+  padding:12px 14px;margin:12px 0;}
+.point-tag{display:inline-block;background:#f97316;color:#fff;font-size:0.72rem;
+  font-weight:bold;padding:1px 8px;border-radius:4px;margin-bottom:6px;}
+.important-box{background:var(--primary-l);border-left:4px solid var(--primary);
+  border-radius:8px;padding:12px 14px;margin:12px 0;}
+.important-tag{display:inline-block;background:var(--primary);color:#fff;font-size:0.72rem;
+  font-weight:bold;padding:1px 8px;border-radius:4px;margin-bottom:6px;}
+.note-box{background:#f0f9ff;border-left:4px solid #0284c7;border-radius:8px;
+  padding:12px 14px;margin:12px 0;}
+.note-tag{display:inline-block;background:#0284c7;color:#fff;font-size:0.72rem;
+  font-weight:bold;padding:1px 8px;border-radius:4px;margin-bottom:6px;}
+
+/* ── table ── */
+table{width:100%;border-collapse:collapse;font-size:0.9rem;margin:10px 0;}
+th{background:var(--primary);color:#fff;padding:8px 10px;text-align:left;}
+td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.7;}
+tr:nth-child(even) td{background:#fef2f2;}
+
+/* ── flow diagram ── */
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:12px 0;}
+.flow-box{background:var(--primary-l);border:2px solid #fca5a5;border-radius:8px;
+  padding:8px 14px;font-size:0.88rem;font-weight:bold;color:var(--primary);text-align:center;}
+.flow-box.enzyme{background:#fefce8;border-color:#fbbf24;color:#92400e;}
+.flow-arrow{color:var(--primary);font-size:1.1rem;font-weight:bold;}
+.flow-label{font-size:0.75rem;color:var(--gray);white-space:nowrap;}
+
+/* ── term cards ── */
+.term-section{margin:20px 0;}
+.term-section-title{font-size:0.85rem;font-weight:bold;color:var(--gray);
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.term-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+.term-card{background:#fff;border:1px solid var(--border);border-radius:10px;
+  padding:12px 14px;cursor:pointer;transition:all 0.2s;position:relative;}
+.term-card:hover{border-color:#fca5a5;box-shadow:0 3px 10px rgba(185,28,28,0.12);}
+.term-card .term{font-size:0.95rem;font-weight:bold;color:var(--primary);}
+.term-card .reading{font-size:0.75rem;color:var(--gray);margin-bottom:4px;}
+.term-card .def{font-size:0.82rem;color:var(--ink);display:none;margin-top:6px;
+  padding-top:6px;border-top:1px dashed var(--border);}
+.term-card.open .def{display:block;}
+.term-card .freq{position:absolute;top:8px;right:10px;font-size:0.7rem;
+  background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:4px;}
+
+/* ── challenge (drill) ── */
+.challenge-section{background:#fff;border-radius:14px;border:2px dashed #fca5a5;
+  padding:22px 20px;margin-bottom:20px;}
+.challenge-title{font-size:1rem;font-weight:bold;color:var(--primary);margin-bottom:14px;}
+.timer-bar{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.timer-display{background:var(--primary);color:#fff;font-size:1rem;font-weight:bold;
+  padding:4px 14px;border-radius:6px;min-width:60px;text-align:center;}
+.timer-label{font-size:0.82rem;color:var(--gray);}
+
+/* word bank */
+.word-bank-wrap{position:fixed;bottom:16px;right:16px;z-index:300;}
+.word-bank-btn{background:var(--primary);color:#fff;border:none;cursor:pointer;
+  padding:8px 14px;border-radius:8px;font-size:0.82rem;font-weight:bold;font-family:inherit;
+  box-shadow:0 3px 10px rgba(0,0,0,0.2);}
+.word-bank{display:none;position:absolute;bottom:42px;right:0;background:#fff;
+  border:2px solid #fca5a5;border-radius:10px;padding:12px 14px;min-width:200px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+.word-bank.open{display:block;}
+.word-bank-title{font-size:0.75rem;font-weight:bold;color:var(--gray);margin-bottom:6px;}
+.word-item{display:inline-block;background:var(--primary-l);color:var(--primary);
+  font-size:0.8rem;font-weight:bold;padding:3px 9px;border-radius:5px;
+  margin:2px;cursor:pointer;border:1px solid #fca5a5;}
+.word-item:hover{background:#fca5a5;color:#fff;}
+
+.question{margin-bottom:14px;line-height:1.9;}
+.q-num{display:inline-block;background:var(--primary);color:#fff;
+  font-size:0.72rem;font-weight:bold;padding:1px 7px;border-radius:4px;margin-right:6px;}
+.dz{display:inline-block;border-bottom:2px solid var(--primary);
+  min-width:80px;padding:0 4px;cursor:pointer;color:var(--answer);font-weight:bold;
+  text-align:center;border-radius:3px 3px 0 0;transition:background 0.15s;}
+.dz.wide{min-width:120px;}
+.dz.short{min-width:50px;}
+.dz:hover{background:var(--drop);}
+.dz.filled{background:#fef3c7;}
+.dz.correct{background:var(--ok-bg);border-color:var(--ok);color:var(--ok);}
+.dz.wrong{background:var(--ng-bg);border-color:var(--ng);color:var(--ng);}
+
+.drill-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;}
+.drill-btn{padding:8px 18px;border-radius:8px;font-weight:bold;cursor:pointer;
+  font-size:0.88rem;border:none;font-family:inherit;}
+.drill-btn.primary{background:var(--primary);color:#fff;}
+.drill-btn.secondary{background:var(--gray-l);color:var(--ink);border:1px solid var(--border);}
+.drill-result{margin-top:10px;font-size:0.9rem;font-weight:bold;display:none;}
+
+/* ── mondai (practice problems) ── */
+.drill-section{background:#fff;border-radius:14px;border:1px solid var(--border);
+  padding:22px 20px;margin-bottom:20px;}
+.drill-title{font-size:1rem;font-weight:bold;color:var(--primary);
+  border-bottom:2px solid var(--primary-l);padding-bottom:8px;margin-bottom:16px;}
+.mondai-block{margin-bottom:24px;padding-bottom:20px;border-bottom:1px dashed var(--border);}
+.mondai-block:last-child{border-bottom:none;margin-bottom:0;}
+.mondai-label{display:inline-block;background:var(--primary);color:#fff;
+  font-size:0.78rem;font-weight:bold;padding:2px 10px;border-radius:4px;margin-bottom:8px;}
+.mondai-text{font-size:0.92rem;line-height:1.85;margin-bottom:10px;}
+.choice-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.choice-list li{background:var(--gray-l);border:1.5px solid var(--border);border-radius:8px;
+  padding:8px 12px;cursor:pointer;font-size:0.88rem;display:flex;gap:8px;align-items:flex-start;
+  transition:all 0.15s;}
+.choice-list li:hover{background:var(--primary-l);border-color:#fca5a5;}
+.choice-list li.selected{background:#fef3c7;border-color:#f59e0b;}
+.choice-num{background:var(--primary);color:#fff;border-radius:3px;
+  font-size:0.72rem;font-weight:bold;padding:1px 6px;white-space:nowrap;margin-top:2px;}
+.ans-btn{background:var(--primary);color:#fff;border:none;cursor:pointer;
+  padding:7px 18px;border-radius:7px;font-size:0.85rem;font-weight:bold;
+  font-family:inherit;margin-top:10px;}
+.kaisetsu{display:none;margin-top:10px;background:#f0fdf4;border-left:4px solid #22c55e;
+  padding:10px 14px;border-radius:0 8px 8px 0;font-size:0.86rem;line-height:1.8;}
+.kaisetsu.show{display:block;}
+.kaisetsu.ng{background:var(--ng-bg);border-left-color:#ef4444;}
+
+/* ── mini test ── */
+.mini-section{background:linear-gradient(135deg,#fff7f7,#fff);border-radius:14px;
+  border:2px solid #fca5a5;padding:20px;margin-bottom:20px;}
+.mini-title{font-size:1rem;font-weight:bold;color:var(--primary);margin-bottom:14px;}
+.mini-q{background:#fff;border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;margin-bottom:12px;}
+.mini-q-num{display:inline-block;background:var(--primary);color:#fff;
+  font-size:0.72rem;font-weight:bold;padding:1px 8px;border-radius:4px;margin-bottom:8px;}
+.mini-q-text{font-size:0.92rem;margin-bottom:10px;}
+.opts{display:flex;flex-direction:column;gap:6px;}
+.opt{background:var(--gray-l);border:1.5px solid var(--border);border-radius:7px;
+  padding:8px 12px;cursor:pointer;font-size:0.88rem;text-align:left;
+  transition:all 0.15s;font-family:inherit;}
+.opt:hover:not(:disabled){background:var(--primary-l);border-color:#fca5a5;}
+.opt.correct{background:var(--ok-bg);border-color:#22c55e;color:var(--ok);}
+.opt.wrong{background:var(--ng-bg);border-color:#ef4444;color:var(--ng);}
+.explain{display:none;margin-top:8px;padding:8px 12px;background:#f0fdf4;
+  border-radius:6px;font-size:0.84rem;line-height:1.7;color:#166534;}
+.explain.show{display:block;}
+.explain.ng{background:var(--ng-bg);color:#991b1b;}
+.mini-result{text-align:center;font-size:0.95rem;font-weight:bold;margin-top:14px;display:none;}
+
+
+
+/* ── mondai accordion tabs ── */
+.mondai-tab-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.mondai-tab{background:#fff;border:2px solid #fca5a5;color:var(--primary);
+  font-weight:bold;font-size:0.92rem;padding:8px 20px;border-radius:8px;
+  cursor:pointer;font-family:inherit;transition:all 0.18s;}
+.mondai-tab:hover{background:var(--primary-l);}
+.mondai-tab.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.mondai-panel{display:none;border:2px solid #fca5a5;border-radius:0 10px 10px 10px;
+  padding:18px 16px;background:#fff;margin-bottom:16px;
+  animation:fadeIn 0.2s ease;}
+.mondai-panel.open{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── fold / accordion ── */
+.fold-header{display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;user-select:none;padding:12px 16px;border-radius:10px;
+  background:var(--primary-l);border:2px solid #fca5a5;margin-bottom:0;
+  transition:background 0.15s;}
+.fold-header:hover{background:#fecaca;}
+.fold-header .fold-title{font-size:1rem;font-weight:bold;color:var(--primary);}
+.fold-header .fold-icon{font-size:1.1rem;color:var(--primary);transition:transform 0.25s;}
+.fold-header.open .fold-icon{transform:rotate(180deg);}
+.fold-body{display:none;border:2px solid #fca5a5;border-top:none;
+  border-radius:0 0 10px 10px;padding:18px 16px 14px;
+  background:#fff;margin-bottom:20px;}
+.fold-body.open{display:block;}
+.fold-wrap{margin-bottom:4px;}
+
+/* ── next page link ── */
+.next-section{text-align:center;padding:20px 0;}
+.next-btn{display:inline-block;background:var(--primary);color:#fff;text-decoration:none;
+  padding:12px 28px;border-radius:10px;font-weight:bold;font-size:0.95rem;}
+
+/* ── confetti ── */
+#cnf{position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:9999;display:none;}
+
+@media(max-width:600px){
+  .term-grid{grid-template-columns:1fr 1fr;}
+  .hero h1{font-size:1.2rem;}
+  .flow{gap:4px;}
+  .flow-box{padding:6px 10px;font-size:0.82rem;}
+}
+</style>
+</head>
+<body>
+<canvas id="cnf"></canvas>
+
+<!-- ========== HEADER ========== -->
+<div class="sticky-header">
+  <div class="header-inner">
+    <a href="file:///C:/Users/yn/Downloads/index.html" class="back-btn">← 一覧へ</a>
+    <div class="page-title">
+      <span class="chapter-badge">BL09</span>体内環境と血液
+    </div>
+    <button class="menu-toggle" onclick="toggleNav()">目次 ▾</button>
+  </div>
+  <div class="header-inner">
+    <nav class="page-nav" id="pageNav">
+      <a href="file:///C:/Users/yn/Downloads/BL09%20(3).html#sec1" class="nav-btn">①ホメオスタシス</a>
+      <a href="file:///C:/Users/yn/Downloads/BL09%20(3).html#sec2" class="nav-btn">②血液成分</a>
+      <a href="file:///C:/Users/yn/Downloads/BL09%20(3).html#sec3" class="nav-btn">③組織液・リンパ液</a>
+      <a href="file:///C:/Users/yn/Downloads/BL09%20(3).html#sec4" class="nav-btn">④血液凝固</a>
+      <a href="file:///C:/Users/yn/Downloads/BL09%20(3).html#terms" class="nav-btn">⑤用語カード</a>
+      <a href="file:///C:/Users/yn/Downloads/BL09%20(3).html#challenge" class="nav-btn">⑥穴埋め</a>
+      <a href="file:///C:/Users/yn/Downloads/BL09%20(3).html#mondai" class="nav-btn">⑦実戦問題</a>
+      <a href="file:///C:/Users/yn/Downloads/BL09%20(3).html#mini0" class="nav-btn">ミニテスト①</a><a href="file:///C:/Users/yn/Downloads/BL09%20(3).html#mini1" class="nav-btn">ミニテスト②</a><a href="file:///C:/Users/yn/Downloads/BL09%20(3).html#mini2" class="nav-btn">ミニテスト③</a>
+    </nav>
+  </div>
+  <div class="header-inner">
+    <nav class="page-nav open" style="padding-top:0;">
+      <a href="file:///C:/Users/yn/Downloads/BL09_check.html" class="nav-btn" style="background:var(--primary);color:#fff;">✅ 確認テスト</a>
+      <a href="file:///C:/Users/yn/Downloads/BL09_drill.html" class="nav-btn" style="background:var(--primary);color:#fff;">✏️ ドリル</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+  <h1>🩸 体内環境と血液のしくみ</h1>
+  <p>ホメオスタシス・血液成分・血液凝固のメカニズムを理解しよう</p>
+  <div class="hero-badges">
+    <span class="hero-badge">🔴 出題頻度：最高</span>
+    <span class="hero-badge">📋 高認 第3章</span>
+    <span class="hero-badge">⚗️ 計算あり</span>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ========== SEC 1: ホメオスタシス ========== -->
+<div class="section" id="sec1">
+  <div class="section-title">1. ホメオスタシス（恒常性）</div>
+
+  <p>私たちの体は、外の環境が変わっても体の中の状態を一定に保つ働きをもっています。これを<strong>ホメオスタシス（恒常性）</strong>といいます。</p>
+
+  <div class="important-box">
+    <span class="important-tag">🌡️ ホメオスタシス（恒常性）とは</span>
+    <p><strong>体外環境</strong>……生物をとりまく外側の環境（外部環境）のことです。気温・湿度・光など。</p>
+    <p style="margin-top:6px;"><strong>体内環境</strong>……生物の体内の環境（内部環境）のことです。体液の温度・pH・成分など。</p>
+    <p style="margin-top:10px; padding-top:10px;border-top:1px dashed #fca5a5;">
+      <strong>ホメオスタシス（恒常性）</strong>……体外環境が変化しても、体内環境を一定に保つ働きのことをいいます。<br>
+      例）気温が下がっても体温を36〜37℃に保つ、血液中のグルコース濃度を約0.1%に保つ など
+    </p>
+  </div>
+
+  <div class="point-box">
+    <span class="point-tag">💡 覚え方</span>
+    <p>「ホメオ＝同じ」「スタシス＝状態を保つ」と覚えましょう。外が変わっても中は変わらない、それがホメオスタシスです。</p>
+  </div>
+</div>
+
+<!-- ミニテスト0：セクション1直下 -->
+<div class="fold-wrap" id="mini0">
+  <div class="fold-header" onclick="toggleFold(&#39;fold-mini0&#39;)" id="fold-mini0-hdr">
+    <span class="fold-title">⚡ ミニテスト①　体外環境・体内環境とホメオスタシス</span>
+    <span class="fold-icon">▼</span>
+  </div>
+  <div class="fold-body" id="fold-mini0">
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q1</span>
+    <div class="mini-q-text">「ホメオスタシス」の説明として正しいものはどれか。</div>
+    <div class="opts" data-correct="1" data-explain="ホメオスタシス（恒常性）は、体外環境（気温・湿度・光など）が変化しても、体内環境（体液の温度・pH・成分など）を一定に保つ働きのことです。">
+      <button class="opt" onclick="pickMini(this)">体内環境が変化しても体外環境を一定に保つ働き</button>
+      <button class="opt" onclick="pickMini(this)">体外環境が変化しても体内環境を一定に保つ働き</button>
+      <button class="opt" onclick="pickMini(this)">体内の老廃物をすべて体外に排出する働き</button>
+      <button class="opt" onclick="pickMini(this)">体外環境と体内環境を常に同じ状態にする働き</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q2</span>
+    <div class="mini-q-text">次のうち「体内環境」にあたるものはどれか。</div>
+    <div class="opts" data-correct="2" data-explain="体内環境は生物の体内の環境（内部環境）のことで、体液の温度・pH・成分などを指します。気温・湿度・光は体外環境（外部環境）です。">
+      <button class="opt" onclick="pickMini(this)">気温</button>
+      <button class="opt" onclick="pickMini(this)">湿度</button>
+      <button class="opt" onclick="pickMini(this)">血液中のグルコース濃度</button>
+      <button class="opt" onclick="pickMini(this)">光の強さ</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q3</span>
+    <div class="mini-q-text">ホメオスタシスの例として正しいものはどれか。</div>
+    <div class="opts" data-correct="1" data-explain="ホメオスタシスの代表例は、気温が下がっても体温を36〜37℃に保つことや、血液中のグルコース濃度を約0.1%に保つことです。体外環境の変化に関わらず体内環境を一定に保つ点がポイントです。">
+      <button class="opt" onclick="pickMini(this)">気温が上がると体温も同じだけ上昇する</button>
+      <button class="opt" onclick="pickMini(this)">気温が下がっても体温を36〜37℃に保つ</button>
+      <button class="opt" onclick="pickMini(this)">血糖値は季節によって大きく変動する</button>
+      <button class="opt" onclick="pickMini(this)">湿度が高いと血液中の水分量が際限なく増加する</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-result" id="miniResult0"></div>
+  </div>
+</div>
+
+<!-- ========== SEC 2: 血液成分 ========== -->
+<div class="section" id="sec2">
+  <div class="section-title">2. ヒトの血液成分</div>
+
+  <p>血液は、大きく<strong>有形成分</strong>（細胞成分）と<strong>血漿（血しょう）</strong>（液体成分）に分けられます。</p>
+
+  <table>
+    <tbody><tr>
+      <th>成分</th>
+      <th>形状・特徴</th>
+      <th>主な働き</th>
+      <th>寿命</th>
+    </tr>
+    <tr>
+      <td><strong>赤血球</strong></td>
+      <td>核なし・円盤形。表面に<strong>ヘモグロビン</strong>（鉄を含む赤色タンパク質）をもつ</td>
+      <td>酸素圧の高い肺で酸素と結合→体内の低酸素な組織で酸素を放出し供給する（<strong>酸素運搬</strong>）</td>
+      <td>約120日</td>
+    </tr>
+    <tr>
+      <td><strong>白血球</strong></td>
+      <td>核あり・アメーバ状。好中球・樹状細胞・マクロファージなど</td>
+      <td>細菌などの異物を取り込んで分解する（<strong>食作用</strong>）。免疫の主役</td>
+      <td>約2週間</td>
+    </tr>
+    <tr>
+      <td><strong>血小板</strong></td>
+      <td>核なし・不規則な小片</td>
+      <td>血管が傷ついたとき<strong>血液凝固</strong>に関わり傷をふさぐ</td>
+      <td>約10日</td>
+    </tr>
+    <tr>
+      <td><strong>血漿（血しょう）</strong></td>
+      <td>液体部分。91%が水分、約9%がアルブミン・免疫グロブリン・血液凝固因子などのタンパク質</td>
+      <td>栄養分・酸素・ホルモンを運ぶ。老廃物（CO₂・尿素など）を肺や腎臓へ運ぶ</td>
+      <td>—</td>
+    </tr>
+  </tbody></table>
+
+  <div style="margin:14px 0;text-align:center;">
+    <img src="file:///C:/Users/yn/Downloads/BL9-1.png" alt="ヒトの血液成分（赤血球・白血球・血小板・血しょう）のはたらきイラスト図解" style="max-width:100%;height:auto;border-radius:10px;border:1px solid var(--border);">
+  </div>
+
+  <!-- ===== 拡散の図 ===== -->
+  <div style="margin:14px 0;text-align:center;">
+    <img src="file:///C:/Users/yn/Downloads/BL09-2.png" alt="拡散のしくみ（たばこの部屋のたとえ）と肺胞でのガス交換の図解" style="max-width:100%;height:auto;border-radius:10px;border:1px solid var(--border);">
+  </div>
+
+  <!-- ===== 血液成分イラスト ===== -->
+  <div style="margin:14px 0;text-align:center;">
+    <img src="file:///C:/Users/yn/Downloads/BL9-3.png" alt="血液成分イラスト（赤血球・白血球・血小板・血しょうの特徴と主な働き）" style="max-width:100%;height:auto;border-radius:10px;border:1px solid var(--border);">
+  </div>
+
+  <div class="important-box">
+    <span class="important-tag">🔴 ヘモグロビンのしくみ（高認頻出！）</span>
+    <p>ヘモグロビン（Hb）は<strong>酸素圧が高いところ</strong>（肺）で酸素と結合し、<strong>酸素圧が低いところ</strong>（組織・細胞）で酸素を切り離します。これにより全身の細胞に酸素を届けることができます。</p>
+    <div class="flow" style="margin-top:10px;">
+      <div class="flow-box">肺（酸素圧高）</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box">Hb＋O₂ 結合</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box">組織（酸素圧低）</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box">Hb から O₂ 放出</div>
+    </div>
+  </div>
+
+  <div class="point-box">
+    <span class="point-tag">💡 血液成分の覚え方</span>
+    <p><strong>赤血球</strong>＝酸素運搬、<strong>白血球</strong>＝免疫（食作用）、<strong>血小板</strong>＝凝固、<strong>血漿</strong>＝運搬・輸送。この4つを役割とセットで覚えましょう。</p>
+  </div>
+</div>
+
+
+<!-- ミニテスト1：セクション2直下 -->
+<div class="fold-wrap" id="mini1">
+  <div class="fold-header" onclick="toggleFold(&#39;fold-mini1&#39;)" id="fold-mini1-hdr">
+    <span class="fold-title">⚡ ミニテスト②　血液成分の働き・特徴</span>
+    <span class="fold-icon">▼</span>
+  </div>
+  <div class="fold-body" id="fold-mini1">
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q1</span>
+    <div class="mini-q-text">赤血球の働きとして正しいものはどれか。</div>
+    <div class="opts" data-correct="2" data-explain="赤血球の表面にはヘモグロビン（鉄を含む赤色タンパク質）があり、酸素圧が高い肺で酸素と結合し、酸素圧が低い組織で酸素を放出して酸素を運搬します。寿命は約120日です。">
+      <button class="opt" onclick="pickMini(this)">細菌などの異物を取り込んで分解する</button>
+      <button class="opt" onclick="pickMini(this)">血管が傷ついたとき血液を固める</button>
+      <button class="opt" onclick="pickMini(this)">ヘモグロビンで酸素を運搬する</button>
+      <button class="opt" onclick="pickMini(this)">栄養分・ホルモンを全身に運ぶ</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q2</span>
+    <div class="mini-q-text">白血球について正しいものはどれか。</div>
+    <div class="opts" data-correct="1" data-explain="白血球は核をもつアメーバ状の血球で、好中球・樹状細胞・マクロファージなどが含まれます。細菌などの異物を取り込んで分解する「食作用」をもち、免疫の主役です。寿命は約2週間です。">
+      <button class="opt" onclick="pickMini(this)">核なし・円盤形で、酸素を運ぶ</button>
+      <button class="opt" onclick="pickMini(this)">核あり・アメーバ状で、食作用により免疫に関わる</button>
+      <button class="opt" onclick="pickMini(this)">核なし・不規則な小片で、血液凝固に関わる</button>
+      <button class="opt" onclick="pickMini(this)">液体成分で、老廃物を腎臓へ運ぶ</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q3</span>
+    <div class="mini-q-text">血小板の主な働きはどれか。</div>
+    <div class="opts" data-correct="0" data-explain="血小板は核をもたない不規則な小片で、血管が傷ついたときに血液凝固に関わり傷をふさぎます。寿命は約10日です。">
+      <button class="opt" onclick="pickMini(this)">血管が傷ついたとき血液凝固に関わり傷をふさぐ</button>
+      <button class="opt" onclick="pickMini(this)">酸素圧の高い肺で酸素と結合する</button>
+      <button class="opt" onclick="pickMini(this)">細菌などを取り込んで分解する食作用をもつ</button>
+      <button class="opt" onclick="pickMini(this)">栄養分・酸素・ホルモンを運ぶ液体成分</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q4</span>
+    <div class="mini-q-text">血漿（血しょう）の成分として正しいものはどれか。</div>
+    <div class="opts" data-correct="3" data-explain="血漿は血液の液体成分で、91%が水分、残りの約9%はアルブミン・免疫グロブリン（抗体）・血液凝固因子などのタンパク質です。栄養分・酸素・ホルモンを運び、老廃物（CO₂・尿素など）を肺や腎臓へ運びます。">
+      <button class="opt" onclick="pickMini(this)">ヘモグロビンを含む赤色のタンパク質</button>
+      <button class="opt" onclick="pickMini(this)">核をもつアメーバ状の細胞</button>
+      <button class="opt" onclick="pickMini(this)">フィブリンと血球が絡み合ったかたまり</button>
+      <button class="opt" onclick="pickMini(this)">91%が水分で、アルブミンや凝固因子などのタンパク質を含む液体</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q5</span>
+    <div class="mini-q-text">赤血球・白血球・血小板の寿命の組合せとして正しいものはどれか。</div>
+    <div class="opts" data-correct="2" data-explain="赤血球：約120日、白血球：約2週間、血小板：約10日です。赤血球が最も長く、血小板が最も短いと覚えましょう。">
+      <button class="opt" onclick="pickMini(this)">赤血球：約10日、白血球：約120日、血小板：約2週間</button>
+      <button class="opt" onclick="pickMini(this)">赤血球：約2週間、白血球：約10日、血小板：約120日</button>
+      <button class="opt" onclick="pickMini(this)">赤血球：約120日、白血球：約2週間、血小板：約10日</button>
+      <button class="opt" onclick="pickMini(this)">赤血球：約120日、白血球：約10日、血小板：約2週間</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-result" id="miniResult1"></div>
+  </div>
+</div>
+
+<!-- ========== SEC 3: 組織液・リンパ液 ========== -->
+<div class="section" id="sec3">
+  <div class="section-title">3. 組織液とリンパ液</div>
+
+  <p>血液・組織液・リンパ液を合わせて<strong>体液</strong>といいます。体液は体内環境そのものです。</p>
+
+  <div class="important-box">
+    <span class="important-tag">体液の3種類</span>
+    <p><strong>血液</strong>……血管内を流れる体液。心臓が送り出し全身を循環する。</p>
+    <p style="margin-top:8px;"><strong>組織液</strong>……血漿の一部が毛細血管からしみ出たもの。細胞と血管の間で物質のやりとりをする。</p>
+    <p style="margin-top:8px;"><strong>リンパ液</strong>……組織液の一部がリンパ管に入ったもの。T細胞・B細胞・NK細胞などのリンパ球を含み免疫に関わる。</p>
+  </div>
+
+  <div class="note-box">
+    <span class="note-tag">🔵 体液の流れ</span>
+    <div class="flow">
+      <div class="flow-box">血漿（毛細血管）</div>
+      <span class="flow-arrow">→しみ出す</span>
+      <div class="flow-box">組織液（細胞間）</div>
+      <span class="flow-arrow">→一部流入</span>
+      <div class="flow-box">リンパ液（リンパ管）</div>
+    </div>
+    <p style="margin-top:8px;font-size:0.87rem;">組織液のほとんどは毛細血管に戻り、一部だけがリンパ管に入ります。</p>
+  </div>
+</div>
+
+<!-- ========== SEC 4: 血液凝固 ========== -->
+<div class="section" id="sec4">
+  <div class="section-title">4. 血液の凝固（血液が固まるしくみ）</div>
+
+  <p>毛細血管は壁が薄く、傷つきやすい血管です。血管が傷つくと次のように修復されます。</p>
+
+  <div style="margin:14px 0;text-align:center;">
+    <img src="file:///C:/Users/yn/Downloads/BL9-4.png" alt="血液凝固の流れ（血小板の集合からフィブリン形成・血餅・線溶まで）の図解" style="max-width:100%;height:auto;border-radius:10px;border:1px solid var(--border);">
+  </div>
+
+  <div class="note-box">
+    <span class="note-tag">🔵 血清と血餅</span>
+    <p>血液を試験管に入れて放置すると…</p>
+    <div class="flow" style="margin-top:8px;">
+      <div class="flow-box">血液</div>
+      <span class="flow-arrow">放置</span>
+      <div class="flow-box">上澄み：<strong>血清</strong>（フィブリノーゲンを除いた液体）</div>
+      <span class="flow-arrow">＋</span>
+      <div class="flow-box">下に沈む：<strong>血餅</strong>（フィブリン＋血球）</div>
+    </div>
+    <p style="margin-top:8px;font-size:0.87rem;">血清＝血しょうからフィブリノーゲンを取り除いたもの。抗体（免疫グロブリン）を含む。</p>
+  </div>
+
+  <div class="point-box">
+    <span class="point-tag">💡 混同注意！</span>
+    <p><strong>血漿</strong>（けっしょう）＝血液の液体部分（フィブリノーゲンを含む）</p>
+    <p><strong>血清</strong>（けっせい）＝血漿からフィブリノーゲンを除いたもの（凝固後の上澄み）</p>
+  </div>
+</div>
+
+
+<!-- ミニテスト2：セクション4直下 -->
+<div class="fold-wrap" id="mini2">
+  <div class="fold-header" onclick="toggleFold(&#39;fold-mini2&#39;)" id="fold-mini2-hdr">
+    <span class="fold-title">⚡ ミニテスト③　血液凝固</span>
+    <span class="fold-icon">▼</span>
+  </div>
+  <div class="fold-body" id="fold-mini2">
+  <div class="mini-title">⚡ ミニテスト③</div>
+  <div class="mini-q">
+    <span class="mini-q-num">Q1</span>
+    <div class="mini-q-text">血液凝固の順序として正しいものを選べ。</div>
+    <div class="opts" data-correct="1" data-explain="正しい順序は「血小板が集まる→血液凝固因子+Ca²⁺がプロトロンビンをトロンビンに変える→トロンビンがフィブリノーゲンをフィブリンに変える→フィブリン+血球=血餅」です。">
+      <button class="opt" onclick="pickMini(this)">赤血球→フィブリン→血餅→血小板</button>
+      <button class="opt" onclick="pickMini(this)">血小板→プロトロンビン→フィブリン→血餅</button>
+      <button class="opt" onclick="pickMini(this)">血漿→血餅→フィブリノーゲン→血小板</button>
+      <button class="opt" onclick="pickMini(this)">白血球→トロンビン→血清→フィブリン</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q2</span>
+    <div class="mini-q-text">血管が傷ついたとき、最初に集まってくる血球はどれか。</div>
+    <div class="opts" data-correct="0" data-explain="血管が傷つくと、まず血小板が集まって血液凝固因子を放出します。赤血球は酸素運搬、白血球は食作用（免疫）、リンパ球は免疫に関わる細胞で、最初に集まるのは血小板です。">
+      <button class="opt" onclick="pickMini(this)">血小板</button>
+      <button class="opt" onclick="pickMini(this)">赤血球</button>
+      <button class="opt" onclick="pickMini(this)">白血球</button>
+      <button class="opt" onclick="pickMini(this)">リンパ球</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q3</span>
+    <div class="mini-q-text">血漿中のタンパク質フィブリノーゲンを、繊維状のフィブリンに変える物質はどれか。</div>
+    <div class="opts" data-correct="2" data-explain="酵素トロンビンがフィブリノーゲンを繊維状のフィブリンに変えます。プロトロンビンはトロンビンの前駆体、カルシウムイオンはプロトロンビン→トロンビンの反応に関わる物質です。">
+      <button class="opt" onclick="pickMini(this)">プロトロンビン</button>
+      <button class="opt" onclick="pickMini(this)">カルシウムイオン</button>
+      <button class="opt" onclick="pickMini(this)">トロンビン</button>
+      <button class="opt" onclick="pickMini(this)">血液凝固因子</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q4</span>
+    <div class="mini-q-text">血液を試験管に入れて放置したとき、上澄みにできる液体を何というか。</div>
+    <div class="opts" data-correct="3" data-explain="血液を放置すると、上澄みに血清（フィブリノーゲンを除いた血漿）ができ、下にはフィブリンと血球からなる血餅が沈みます。血漿はフィブリノーゲンを含む液体成分そのものです。">
+      <button class="opt" onclick="pickMini(this)">血漿</button>
+      <button class="opt" onclick="pickMini(this)">組織液</button>
+      <button class="opt" onclick="pickMini(this)">リンパ液</button>
+      <button class="opt" onclick="pickMini(this)">血清</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-q">
+    <span class="mini-q-num">Q5</span>
+    <div class="mini-q-text">血餅（けっぺい）の説明として正しいものはどれか。</div>
+    <div class="opts" data-correct="0" data-explain="血餅は、繊維状のフィブリンに赤血球・白血球などの血球が絡み合ってできたかたまりで、傷口をふさぎます。血小板だけのかたまりではなく、血清はフィブリノーゲンを除いた液体、組織液はリンパ管に入るとリンパ液になります。">
+      <button class="opt" onclick="pickMini(this)">フィブリンに赤血球・白血球が絡み合ってできたかたまり</button>
+      <button class="opt" onclick="pickMini(this)">血小板だけが集まってできたかたまり</button>
+      <button class="opt" onclick="pickMini(this)">血漿からフィブリノーゲンを除いた液体</button>
+      <button class="opt" onclick="pickMini(this)">リンパ管に入った組織液</button>
+    </div>
+    <div class="explain"></div>
+  </div>
+
+  <div class="mini-result" id="miniResult2"></div>
+  </div>
+</div>
+
+<!-- ========== TERMS ========== -->
+<div class="section" id="terms">
+  <div class="section-title">5. 用語カード（タップして意味を確認）</div>
+  <div class="term-grid">
+    <div class="term-card" onclick="toggleCard(this)">
+      <div class="freq">🔴必出</div>
+      <div class="reading">ほめおすたしす</div>
+      <div class="term">ホメオスタシス</div>
+      <div class="def">体外環境が変化しても体内環境を一定に保つ働き。恒常性ともいう。例：体温調節・血糖調節</div>
+    </div>
+    <div class="term-card" onclick="toggleCard(this)">
+      <div class="freq">🔴必出</div>
+      <div class="reading">へもぐろびん</div>
+      <div class="term">ヘモグロビン</div>
+      <div class="def">赤血球の表面にある鉄を含む赤色のタンパク質。酸素圧が高い肺で酸素と結合し、酸素圧が低い組織で酸素を放出する。</div>
+    </div>
+    <div class="term-card" onclick="toggleCard(this)">
+      <div class="freq">🔴必出</div>
+      <div class="reading">しょくさよう</div>
+      <div class="term">食作用</div>
+      <div class="def">白血球（好中球・マクロファージ・樹状細胞）が細菌などの異物を取り込んで分解する働き。自然免疫の中心。</div>
+    </div>
+    <div class="term-card" onclick="toggleCard(this)">
+      <div class="reading">けっしょう</div>
+      <div class="term">血漿（血しょう）</div>
+      <div class="def">血液の液体成分。91%が水分で、残りはアルブミン・免疫グロブリン・凝固因子などのタンパク質。フィブリノーゲンを含む。</div>
+    </div>
+    <div class="term-card" onclick="toggleCard(this)">
+      <div class="reading">そしきえき</div>
+      <div class="term">組織液</div>
+      <div class="def">血漿が毛細血管からしみ出たもの。細胞と血管の間にあり、細胞への栄養・酸素の供給と、老廃物の回収を行う。</div>
+    </div>
+    <div class="term-card" onclick="toggleCard(this)">
+      <div class="reading">りんぱえき</div>
+      <div class="term">リンパ液</div>
+      <div class="def">組織液がリンパ管に入ったもの。T細胞・B細胞・NK細胞などのリンパ球を含み免疫に関わる。</div>
+    </div>
+    <div class="term-card" onclick="toggleCard(this)">
+      <div class="freq">🔴必出</div>
+      <div class="reading">ふぃぶりのーげん</div>
+      <div class="term">フィブリノーゲン</div>
+      <div class="def">血漿中に含まれるタンパク質。酵素トロンビンの作用で繊維状のフィブリンに変化する。血液凝固の材料。</div>
+    </div>
+    <div class="term-card" onclick="toggleCard(this)">
+      <div class="freq">🔴必出</div>
+      <div class="reading">ふぃぶりん</div>
+      <div class="term">フィブリン</div>
+      <div class="def">フィブリノーゲンがトロンビンの作用で変化した繊維状の不溶性タンパク質。血球と絡み合って血餅を形成する。</div>
+    </div>
+    <div class="term-card" onclick="toggleCard(this)">
+      <div class="reading">けっぺい</div>
+      <div class="term">血餅（けっぺい）</div>
+      <div class="def">フィブリンに赤血球・白血球が絡み合ってできたかたまり。傷口をふさぎ出血を止める。修復後に溶かされて取り除かれる。</div>
+    </div>
+    <div class="term-card" onclick="toggleCard(this)">
+      <div class="reading">けっせい</div>
+      <div class="term">血清（けっせい）</div>
+      <div class="def">血漿からフィブリノーゲンを除いた液体。血液を放置すると上澄みとして残る。抗体（免疫グロブリン）を含む。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CHALLENGE ========== -->
+<div class="fold-wrap" id="challenge">
+  <div class="fold-header" onclick="toggleFold(&#39;fold-challenge&#39;)" id="fold-challenge-hdr">
+    <span class="fold-title">⚡ 穴埋めチャレンジ（タイムアタック）</span>
+    <span class="fold-icon">▼</span>
+  </div>
+  <div class="fold-body" id="fold-challenge">
+  <div class="challenge-title">⚡ 穴埋めチャレンジ（タイムアタック）</div>
+  <div class="timer-bar">
+    <div class="timer-display" id="timer">0:00</div>
+    <div class="timer-label">⏱ 記録を残そう！</div>
+    <button class="drill-btn secondary" onclick="startTimer()" style="margin-left:auto;">スタート</button>
+  </div>
+
+  <div class="question">
+    <span class="q-num">1</span>
+    生物が体外環境の変化に関わらず体内環境を一定に保つ働きを
+    <span class="dz wide" data-ans="ホメオスタシス" onclick="zCl(this)"></span>（恒常性）という。
+  </div>
+  <div class="question">
+    <span class="q-num">2</span>
+    赤血球の表面にある鉄を含む赤色のタンパク質を
+    <span class="dz wide" data-ans="ヘモグロビン" onclick="zCl(this)"></span>といい、
+    酸素圧の<span class="dz short" data-ans="高い" onclick="zCl(this)"></span>ところで酸素と結合する。
+  </div>
+  <div class="question">
+    <span class="q-num">3</span>
+    白血球が細菌などの異物を取り込んで分解する働きを
+    <span class="dz wide" data-ans="食作用" onclick="zCl(this)"></span>という。
+  </div>
+  <div class="question">
+    <span class="q-num">4</span>
+    血漿が毛細血管からしみ出たものを
+    <span class="dz wide" data-ans="組織液" onclick="zCl(this)"></span>といい、
+    それがリンパ管に入ったものを<span class="dz wide" data-ans="リンパ液" onclick="zCl(this)"></span>という。
+  </div>
+  <div class="question">
+    <span class="q-num">5</span>
+    血管に傷がつくと血小板が集まり、
+    <span class="dz wide" data-ans="血液凝固因子" onclick="zCl(this)"></span>を放出する。
+  </div>
+  <div class="question">
+    <span class="q-num">6</span>
+    血漿中のタンパク質<span class="dz wide" data-ans="プロトロンビン" onclick="zCl(this)"></span>が、
+    酵素<span class="dz wide" data-ans="トロンビン" onclick="zCl(this)"></span>に変えられる。
+  </div>
+  <div class="question">
+    <span class="q-num">7</span>
+    トロンビンは血漿中の<span class="dz wide" data-ans="フィブリノーゲン" onclick="zCl(this)"></span>を
+    繊維状の<span class="dz wide" data-ans="フィブリン" onclick="zCl(this)"></span>に変える。
+  </div>
+  <div class="question">
+    <span class="q-num">8</span>
+    血液を放置すると、下に<span class="dz wide" data-ans="血餅" onclick="zCl(this)"></span>がたまり、
+    上澄み部分には<span class="dz wide" data-ans="血清" onclick="zCl(this)"></span>ができる。
+  </div>
+
+  <div class="drill-btns">
+    <button class="drill-btn primary" onclick="applyAll()">✅ 全部確認</button>
+    <button class="drill-btn secondary" onclick="resetAll()">🔄 リセット</button>
+  </div>
+  <div class="drill-result" id="drillResult"></div>
+</div>
+</div>
+
+<!-- ========== 語群<!-- ========== 語群 ========== -->
+<div class="word-bank-wrap">
+  <button class="word-bank-btn" onclick="toggleBank()">語群 📋</button>
+  <div class="word-bank" id="wordBank">
+    <div class="word-bank-title">語群（タップで挿入）</div>
+    <span class="word-item" onclick="insertWord(&#39;ホメオスタシス&#39;)">ホメオスタシス</span>
+    <span class="word-item" onclick="insertWord(&#39;ヘモグロビン&#39;)">ヘモグロビン</span>
+    <span class="word-item" onclick="insertWord(&#39;高い&#39;)">高い</span>
+    <span class="word-item" onclick="insertWord(&#39;食作用&#39;)">食作用</span>
+    <span class="word-item" onclick="insertWord(&#39;組織液&#39;)">組織液</span>
+    <span class="word-item" onclick="insertWord(&#39;リンパ液&#39;)">リンパ液</span>
+    <span class="word-item" onclick="insertWord(&#39;血液凝固因子&#39;)">血液凝固因子</span>
+    <span class="word-item" onclick="insertWord(&#39;プロトロンビン&#39;)">プロトロンビン</span>
+    <span class="word-item" onclick="insertWord(&#39;トロンビン&#39;)">トロンビン</span>
+    <span class="word-item" onclick="insertWord(&#39;フィブリノーゲン&#39;)">フィブリノーゲン</span>
+    <span class="word-item" onclick="insertWord(&#39;フィブリン&#39;)">フィブリン</span>
+    <span class="word-item" onclick="insertWord(&#39;血餅&#39;)">血餅</span>
+    <span class="word-item" onclick="insertWord(&#39;血清&#39;)">血清</span>
+  </div>
+</div>
+
+<!-- ========== 実戦問題 ========== -->
+<div class="drill-section" id="mondai">
+  <div class="drill-title">📋 実戦問題（過去問レベル）</div>
+
+  <!-- 問ボタン行 -->
+  <div class="mondai-tab-row">
+    <button class="mondai-tab" id="tab-q1" onclick="openMondai(1)" aria-expanded="false">問1</button>
+      <button class="mondai-tab" id="tab-q2" onclick="openMondai(2)" aria-expanded="false">問2</button>
+      <button class="mondai-tab" id="tab-q3" onclick="openMondai(3)" aria-expanded="false">問3</button>
+      <button class="mondai-tab" id="tab-q4" onclick="openMondai(4)" aria-expanded="false">問4</button>
+  </div>
+
+  <!-- 各問パネル -->
+  
+  <!-- 問1パネル -->
+  <div class="mondai-panel" id="panel-q1" aria-hidden="true">
+    <div class="mondai-block" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+      <span class="mondai-label">問1</span>
+    <div class="mondai-text">
+      次の文章は、血球の種類と働きについて述べたものです。
+      血管を流れる血液は液体成分と有形成分に分けられ、有形成分は3種類に大別されます。
+      液体成分に働く細胞である赤血球（ア）、白血球（イ）について、正しい組合せを選べ。
+    </div>
+    <ul class="choice-list" id="q1">
+      <li onclick="selChoice(this,&#39;q1&#39;,&#39;1&#39;)"><span class="choice-num">①</span>ア：血液凝固、イ：免疫</li>
+      <li onclick="selChoice(this,&#39;q1&#39;,&#39;2&#39;)"><span class="choice-num">②</span>ア：血液凝固、イ：酸素運搬</li>
+      <li onclick="selChoice(this,&#39;q1&#39;,&#39;3&#39;)"><span class="choice-num">③</span>ア：免疫、イ：血液凝固</li>
+      <li onclick="selChoice(this,&#39;q1&#39;,&#39;4&#39;)"><span class="choice-num">④</span>ア：酸素運搬、イ：免疫</li>
+    </ul>
+    <button class="ans-btn" onclick="showAns(&#39;q1&#39;,&#39;4&#39;,&#39;k1&#39;)">答えを確認する</button>
+    <div class="kaisetsu" id="k1">
+      <strong>✅ 正解：④</strong><br>
+      <strong>赤血球（ア）</strong>はヘモグロビンにより<strong>酸素を運搬</strong>します。<strong>白血球（イ）</strong>は食作用により細菌などを排除する<strong>免疫</strong>の中心です。血液凝固に関わるのは「血小板」です。
+    </div>
+    </div>
+  </div>
+
+  <!-- 問2パネル -->
+  <div class="mondai-panel" id="panel-q2" aria-hidden="true">
+    <div class="mondai-block" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+      <span class="mondai-label">問2</span>
+    <div class="mondai-text">
+      血液凝固について正しいものを選べ。
+    </div>
+    <ul class="choice-list" id="q2">
+      <li onclick="selChoice(this,&#39;q2&#39;,&#39;1&#39;)"><span class="choice-num">①</span>血管が傷つくと、まず白血球が集まって傷口をふさぐ。</li>
+      <li onclick="selChoice(this,&#39;q2&#39;,&#39;2&#39;)"><span class="choice-num">②</span>トロンビンはプロトロンビンに変化することで血液凝固を進める。</li>
+      <li onclick="selChoice(this,&#39;q2&#39;,&#39;3&#39;)"><span class="choice-num">③</span>フィブリノーゲンがトロンビンの作用でフィブリンに変わる。</li>
+      <li onclick="selChoice(this,&#39;q2&#39;,&#39;4&#39;)"><span class="choice-num">④</span>血液を放置すると上澄みには血餅ができる。</li>
+    </ul>
+    <button class="ans-btn" onclick="showAns(&#39;q2&#39;,&#39;3&#39;,&#39;k2&#39;)">答えを確認する</button>
+    <div class="kaisetsu" id="k2">
+      <strong>✅ 正解：③</strong><br>
+      フィブリノーゲン（血漿中のタンパク質）がトロンビン（酵素）の作用で繊維状のフィブリンに変わります。①は白血球ではなく血小板です。②は逆（プロトロンビン→トロンビン）。④は上澄みが血清、下に血餅です。
+    </div>
+    </div>
+  </div>
+
+  <!-- 問3パネル -->
+  <div class="mondai-panel" id="panel-q3" aria-hidden="true">
+    <div class="mondai-block" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+      <span class="mondai-label">問3</span>
+    <div class="mondai-text">
+      次の文章は体液について述べたものです。空欄ア〜ウに入る語の正しい組合せを選べ。<br><br>
+      「血液は心臓の働きによって血管を循環している。血液の液体成分の一部が、毛細血管からしみ出して（ア）となり、組織の細胞へ物質を渡したり老廃物を受け取ったりする。また（ア）の一部はリンパ管に入り（イ）となる。（イ）には免疫細胞の（ウ）などが含まれる。」
+    </div>
+    <ul class="choice-list" id="q3">
+      <li onclick="selChoice(this,&#39;q3&#39;,&#39;1&#39;)"><span class="choice-num">①</span>ア：組織液、イ：リンパ液、ウ：T細胞・B細胞</li>
+      <li onclick="selChoice(this,&#39;q3&#39;,&#39;2&#39;)"><span class="choice-num">②</span>ア：リンパ液、イ：組織液、ウ：T細胞・B細胞</li>
+      <li onclick="selChoice(this,&#39;q3&#39;,&#39;3&#39;)"><span class="choice-num">③</span>ア：組織液、イ：リンパ液、ウ：赤血球</li>
+      <li onclick="selChoice(this,&#39;q3&#39;,&#39;4&#39;)"><span class="choice-num">④</span>ア：血清、イ：リンパ液、ウ：T細胞・B細胞</li>
+    </ul>
+    <button class="ans-btn" onclick="showAns(&#39;q3&#39;,&#39;1&#39;,&#39;k3&#39;)">答えを確認する</button>
+    <div class="kaisetsu" id="k3">
+      <strong>✅ 正解：①</strong><br>
+      血漿がしみ出たものが<strong>組織液（ア）</strong>、組織液がリンパ管に入ったものが<strong>リンパ液（イ）</strong>です。リンパ液にはT細胞・B細胞・NK細胞などのリンパ球（ウ）が含まれます。
+    </div>
+    </div>
+  </div>
+
+  <!-- 問4パネル -->
+  <div class="mondai-panel" id="panel-q4" aria-hidden="true">
+    <div class="mondai-block" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+      <span class="mondai-label">問4</span>
+    <div class="mondai-text">
+      次の文章は出血を止めるしくみについて述べたものです。空欄ア〜ウに入る語の正しい組合せを選べ。<br><br>
+      「ヒトのからだでは、外傷によって血液が流出すると、体外への損失を防ごうとして体内環境を保つしくみが働く。体外から病原菌が浸入するのを防ぐとともに、傷口から流出する血液を止めるために、まず（ア）が集まってきて傷口をふさぐ。血しょう中にフィブリンが形成される。フィブリンは血液を固まらせてできた（イ）にかたまりを形成する。この傷口をふさぐようなネット状の構造は（ウ）とよばれる。」
+    </div>
+    <ul class="choice-list" id="q4">
+      <li onclick="selChoice(this,&#39;q4&#39;,&#39;1&#39;)"><span class="choice-num">①</span>ア：白血球、イ：血清、ウ：血餅</li>
+      <li onclick="selChoice(this,&#39;q4&#39;,&#39;2&#39;)"><span class="choice-num">②</span>ア：白血球、イ：血液、ウ：血餅</li>
+      <li onclick="selChoice(this,&#39;q4&#39;,&#39;3&#39;)"><span class="choice-num">③</span>ア：血小板、イ：血清、ウ：拒絶反応</li>
+      <li onclick="selChoice(this,&#39;q4&#39;,&#39;4&#39;)"><span class="choice-num">④</span>ア：血小板、イ：血液、ウ：血餅</li>
+    </ul>
+    <button class="ans-btn" onclick="showAns(&#39;q4&#39;,&#39;4&#39;,&#39;k4&#39;)">答えを確認する</button>
+    <div class="kaisetsu" id="k4">
+      <strong>✅ 正解：④</strong><br>
+      傷口に最初に集まるのは<strong>血小板（ア）</strong>です。フィブリンが<strong>血液（イ）</strong>中の血球と絡み合い、できる固まりが<strong>血餅（ウ）</strong>です。血清は血漿からフィブリノーゲンを除いた液体で、血球を含みません。
+    </div>
+  </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ========== NEXT ========== -->
+<div class="next-section">
+  <a href="file:///C:/Users/yn/Downloads/BL09_check.html" class="next-btn">📋 確認テストへ進む →</a>
+  <a href="file:///C:/Users/yn/Downloads/BL09_drill.html" class="next-btn" style="margin-left:10px;background:#fff;color:var(--primary);border:2px solid var(--primary);">✏️ ドリルへ進む →</a>
+</div>
+
+<!-- /main -->
+
+<script>
+
+
+// ── mondai tab accordion ──
+function openMondai(n){
+  const total = 4;
+  for(let i=1;i<=total;i++){
+    const panel = document.getElementById('panel-q'+i);
+    const tab   = document.getElementById('tab-q'+i);
+    if(i===n){
+      const isOpen = panel.classList.contains('open');
+      panel.classList.toggle('open', !isOpen);
+      tab.classList.toggle('active', !isOpen);
+      tab.setAttribute('aria-expanded', String(!isOpen));
+    } else {
+      panel.classList.remove('open');
+      tab.classList.remove('active');
+      tab.setAttribute('aria-expanded','false');
+    }
+  }
+}
+
+// ── fold accordion ──
+function toggleFold(id){
+  const body = document.getElementById(id);
+  const hdr = document.getElementById(id + '-hdr');
+  body.classList.toggle('open');
+  hdr.classList.toggle('open');
+}
+
+// ── nav toggle ──
+function toggleNav(){
+  document.getElementById('pageNav').classList.toggle('open');
+}
+
+// ── term card ──
+function toggleCard(el){el.classList.toggle('open');}
+
+// ── word bank ──
+let activeBlank = null;
+function toggleBank(){document.getElementById('wordBank').classList.toggle('open');}
+function insertWord(w){
+  if(activeBlank){
+    activeBlank.textContent = w;
+    activeBlank.classList.add('filled');
+    if(w === activeBlank.dataset.ans){
+      fireConfetti();
+    }
+    activeBlank = null;
+    document.getElementById('wordBank').classList.remove('open');
+  }
+}
+
+// ── blank click ──
+function zCl(el){
+  if(el.classList.contains('correct')) return;
+  document.querySelectorAll('.dz.filled:not(.correct):not(.wrong)').forEach(d=>{
+    if(d!==el){d.style.outline='none';}
+  });
+  activeBlank = el;
+  el.style.outline = '2px solid var(--primary)';
+}
+
+// ── apply all ──
+function applyAll(){
+  let correct=0, total=0;
+  document.querySelectorAll('.dz').forEach(el=>{
+    total++;
+    const ans = el.dataset.ans;
+    const val = el.textContent.trim();
+    if(val === ans){
+      el.classList.add('correct'); el.classList.remove('wrong','filled');
+      correct++;
+    } else {
+      el.classList.add('wrong'); el.classList.remove('correct','filled');
+      el.textContent = ans;
+    }
+  });
+  const r = document.getElementById('drillResult');
+  r.style.display = 'block';
+  if(correct === total){
+    r.style.color = 'var(--ok)';
+    r.textContent = `🎉 全問正解！ ${correct}/${total}`;
+    fireConfetti();
+    try{localStorage.setItem('gamba_score_BL09', correct);}catch(e){}
+  } else {
+    r.style.color = 'var(--ng)';
+    r.textContent = `✅ ${correct}/${total}問 正解。もう一度挑戦してみよう！`;
+  }
+  stopTimer();
+}
+
+function resetAll(){
+  document.querySelectorAll('.dz').forEach(el=>{
+    el.classList.remove('correct','wrong','filled');
+    el.textContent = '';
+    el.style.outline = '';
+  });
+  const r = document.getElementById('drillResult');
+  r.style.display = 'none';
+  activeBlank = null;
+  resetTimer();
+}
+
+// ── mondai ──
+function selChoice(el, qid, val){
+  document.querySelectorAll(`#${qid} li`).forEach(li=>{
+    li.classList.remove('selected');
+  });
+  el.classList.add('selected');
+  el.dataset.selected = val;
+}
+
+function showAns(qid, correct, kid){
+  const sel = document.querySelector(`#${qid} li.selected`);
+  const k = document.getElementById(kid);
+  if(!sel){ k.textContent='選択肢を選んでください。'; k.classList.add('show','ng'); return; }
+  if(sel.dataset.selected === correct){
+    k.classList.add('show'); k.classList.remove('ng');
+    fireConfetti();
+  } else {
+    k.classList.add('show','ng');
+  }
+}
+
+// ── mini test ──
+function pickMini(btn){
+  const opts = btn.parentElement;
+  if(opts.dataset.answered) return;
+  opts.dataset.answered = '1';
+  const correct = parseInt(opts.dataset.correct);
+  const explain = opts.dataset.explain;
+  const btns = opts.querySelectorAll('.opt');
+  const isOk = btn === btns[correct];
+  btns.forEach((b,i)=>{
+    b.disabled = true;
+    if(i === correct) b.classList.add('correct');
+    else if(b === btn) b.classList.add('wrong');
+  });
+  const ex = opts.nextElementSibling;
+  ex.textContent = (isOk ? '⭕ 正解！ ' : '❌ 残念… ') + explain;
+  ex.className = 'explain show' + (isOk ? '' : ' ng');
+  if(isOk) fireConfetti();
+
+  // どのmini-bodyに属するか探して結果を更新
+  const body = btn.closest('.fold-body');
+  if(!body) return;
+  const allOpts = body.querySelectorAll('.opts');
+  const answered = Array.from(allOpts).filter(o => o.dataset.answered).length;
+  const correct2 = Array.from(allOpts).filter(o => {
+    if(!o.dataset.answered) return false;
+    const c = parseInt(o.dataset.correct);
+    const chosen = o.querySelector('.opt.correct, .opt.wrong');
+    return o.querySelector('.opt.correct') === Array.from(o.querySelectorAll('.opt'))[c]
+      && !o.querySelector('.opt.wrong:not(.correct)');
+  }).length;
+
+  // 正解数カウント（シンプル版）
+  let okCount = 0;
+  allOpts.forEach(o => {
+    if(!o.dataset.answered) return;
+    const c = parseInt(o.dataset.correct);
+    const bs = o.querySelectorAll('.opt');
+    if(bs[c].classList.contains('correct') && !Array.from(bs).some((b,i)=>i!==c&&b.classList.contains('wrong'))) okCount++;
+  });
+
+  const total = allOpts.length;
+  const result = body.querySelector('.mini-result');
+  if(result && answered === total){
+    result.style.display = 'block';
+    if(okCount === total){
+      result.style.color = 'var(--ok)';
+      result.textContent = '🎉 全問正解！ バッチリです！';
+      fireConfetti();
+    } else {
+      result.style.color = 'var(--ng)';
+      result.textContent = `✅ ${okCount}/${total}問 正解。解説を読んで復習しましょう。`;
+    }
+  }
+}
+
+function checkMiniDone(){
+  if(miniAnswered < 2) return;
+  const r = document.getElementById('miniResult');
+  r.style.display = 'block';
+  if(miniCorrect === 2){
+    r.style.color = 'var(--ok)';
+    r.textContent = '🎉 2問全部正解！ 血液の基本はバッチリです！';
+    fireConfetti();
+  } else {
+    r.style.color = 'var(--ng)';
+    r.textContent = `✅ ${miniCorrect}/2問 正解。解説を読んで復習しましょう。`;
+  }
+}
+
+// ── timer ──
+let timerInterval = null, timerSec = 0, running = false;
+function startTimer(){
+  if(running) return;
+  running = true; timerSec = 0;
+  timerInterval = setInterval(()=>{
+    timerSec++;
+    const m = Math.floor(timerSec/60), s = timerSec%60;
+    document.getElementById('timer').textContent = `${m}:${s<10?'0'+s:s}`;
+  }, 1000);
+}
+function stopTimer(){if(timerInterval){clearInterval(timerInterval);timerInterval=null;running=false;}}
+function resetTimer(){stopTimer();timerSec=0;document.getElementById('timer').textContent='0:00';}
+
+// ── confetti ──
+function fireConfetti(){
+  const cv = document.getElementById('cnf');
+  cv.style.display = 'block';
+  cv.width = window.innerWidth; cv.height = window.innerHeight;
+  const ctx = cv.getContext('2d');
+  const cols = ['#fbbf24','#ef4444','#60a5fa','#f472b6','#34d399','#a78bfa'];
+  let pts = [];
+  for(let i=0;i<160;i++){
+    pts.push({x:Math.random()*cv.width,y:Math.random()*cv.height-cv.height,
+      s:Math.random()*8+4,c:cols[Math.floor(Math.random()*cols.length)],
+      sp:Math.random()*3+2,vx:(Math.random()-.5)*2,rot:Math.random()*6,vr:(Math.random()-.5)*.1});
+  }
+  let frame=0;
+  function tick(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;p.rot+=p.vr;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);
+      ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s);ctx.restore();});
+    frame++;
+    if(frame<300)requestAnimationFrame(tick);
+    else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}
+  }
+  tick();
+}
+
+// load saved score
+try{
+  const saved = localStorage.getItem('gamba_score_BL09');
+  if(saved) console.log('前回スコア:', saved);
+}catch(e){}
+</script>
+
+
+</body></html>
