@@ -120,7 +120,7 @@
 function confetti(){
   const cv=document.getElementById('cnf');cv.style.display='block';
   const ctx=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;
-  const W=cv.width,H=cv.height,cols=['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6'];
+  const W=cv.width,H=cv.height,cols=['#fecdd3','#fda4af','#fb7185','#f472b6','#ec4899','#f9a8d4','#ffe4e6'];
   let ps=[];
   function petal(x,y,vx,vy){return{x,y,vx,vy,s:Math.random()*7+6,c:cols[Math.floor(Math.random()*cols.length)],
     rot:Math.random()*6,vr:(Math.random()-.5)*.3,sw:Math.random()*6,shape:Math.random()<.5?'p':'s'};}

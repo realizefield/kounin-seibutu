@@ -84,6 +84,7 @@ canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-event
     <div class="wb-words" id="word-bank">
       <span class="wb-word" onclick="selectWord(this,'細胞周期')">細胞周期</span>
       <span class="wb-word" onclick="selectWord(this,'S')">S</span>
+      <span class="wb-word" onclick="selectWord(this,'S')">S</span>
       <span class="wb-word" onclick="selectWord(this,'核膜と核小体が消失')">核膜と核小体が消失</span>
       <span class="wb-word" onclick="selectWord(this,'紡錘糸')">紡錘糸</span>
       <span class="wb-word" onclick="selectWord(this,'赤道面')">赤道面</span>
@@ -174,7 +175,7 @@ function resetAll(){
 }
 function fireConfetti(){
   const cv=document.getElementById('confetti');cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
-  const ctx=cv.getContext('2d');const cols=['#0891b2','#e74c3c','#f1c40f','#2ecc71','#e67e22','#fff'];const pts=[];
+  const ctx=cv.getContext('2d');const cols=['#fecdd3','#fda4af','#fb7185','#f472b6','#ec4899','#ffe4e6'];const pts=[];
   for(let i=0;i<140;i++)pts.push({x:Math.random()*cv.width,y:-Math.random()*cv.height*.4,s:Math.random()*7+4,c:cols[i%cols.length],sp:2+Math.random()*2.5,vx:(Math.random()-.5)*2});
   let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';})();
 }

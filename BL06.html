@@ -988,7 +988,7 @@
   const ctx=cvs.getContext("2d");let pts=[];
   function startCnf(){
     cvs.width=window.innerWidth;cvs.height=window.innerHeight;pts=[];
-    for(let i=0;i<150;i++){pts.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height-cvs.height,s:Math.random()*8+4,c:`hsl(${Math.random()*360},70%,70%)`,sp:Math.random()*3+2});}
+    for(let i=0;i<150;i++){pts.push({x:Math.random()*cvs.width,y:Math.random()*cvs.height-cvs.height,s:Math.random()*8+4,c:`hsl(${330 + Math.random() * 25},75%,${72 + Math.random() * 12}%)`,sp:Math.random()*3+2});}
     updateCnf();
   }
   function updateCnf(){
