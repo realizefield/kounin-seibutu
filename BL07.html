@@ -193,7 +193,7 @@
   <p>転写・翻訳・RNA・パフ ―― DNAの設計図はどう使われる？</p>
 </header>
 
-<div class="backbar"><a class="back-btn" href="index.html">← 一覧へ</a></div>
+<div class="backbar" style="display:flex;gap:8px;flex-wrap:wrap;"><a class="back-btn" href="index.html">← 一覧へ</a><a class="back-btn" href="BL07_drill.html">✏️ ドリル</a><a class="back-btn" href="BL07_check.html">📝 確認テスト</a><a class="back-btn" href="BL07_exam.html">📋 確認問題</a></div>
 
 <div class="wrap">
 
@@ -270,29 +270,29 @@
       <div class="mini-head" onclick="toggleMini('mini1')">✅ ミニテスト①（RNA）<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">Q1. RNAについて正しいものはどれ？</p>
-        <div class="opts" data-correct="2" data-explain="RNAの糖はリボース、塩基はTのかわりにU（ウラシル）をもち、ふつう一本鎖です。二重らせんはDNAの特徴。">
+        <div class="opts" data-correct="0" data-explain="RNAの糖はリボース、塩基はTのかわりにU（ウラシル）をもち、ふつう一本鎖です。二重らせんはDNAの特徴。">
+          <button class="opt" onclick="pickMini(this)">塩基はTのかわりにUをもつ</button>
           <button class="opt" onclick="pickMini(this)">糖はデオキシリボースである</button>
           <button class="opt" onclick="pickMini(this)">二重らせん構造をしている</button>
-          <button class="opt" onclick="pickMini(this)">塩基はTのかわりにUをもつ</button>
           <button class="opt" onclick="pickMini(this)">DNAより塩基の種類が多い</button>
         </div>
         <div class="explain"></div>
 
         <p class="q">Q2. RNAの糖の名前は？</p>
-        <div class="opts" data-correct="1" data-explain="RNAの糖はリボース。DNAの糖はデオキシリボースです。「R」NAと「リ」ボースで結びつけると覚えやすい。">
+        <div class="opts" data-correct="3" data-explain="RNAの糖はリボース。DNAの糖はデオキシリボースです。「R」NAと「リ」ボースで結びつけると覚えやすい。">
           <button class="opt" onclick="pickMini(this)">デオキシリボース</button>
-          <button class="opt" onclick="pickMini(this)">リボース</button>
           <button class="opt" onclick="pickMini(this)">グルコース</button>
           <button class="opt" onclick="pickMini(this)">フルクトース</button>
+          <button class="opt" onclick="pickMini(this)">リボース</button>
         </div>
         <div class="explain"></div>
 
         <p class="q">Q3. DNAでAと対になる塩基はT。ではRNAでAと対になる塩基は？</p>
-        <div class="opts" data-correct="3" data-explain="RNAにはTがなく、かわりにU（ウラシル）があります。だからAの相手はU。G–Cの組合せはDNAと同じです。">
+        <div class="opts" data-correct="0" data-explain="RNAにはTがなく、かわりにU（ウラシル）があります。だからAの相手はU。G–Cの組合せはDNAと同じです。">
+          <button class="opt" onclick="pickMini(this)">U（ウラシル）</button>
           <button class="opt" onclick="pickMini(this)">T（チミン）</button>
           <button class="opt" onclick="pickMini(this)">G（グアニン）</button>
           <button class="opt" onclick="pickMini(this)">C（シトシン）</button>
-          <button class="opt" onclick="pickMini(this)">U（ウラシル）</button>
         </div>
         <div class="explain"></div>
       </div>
@@ -354,28 +354,28 @@
       <div class="mini-head" onclick="toggleMini('mini2')">✅ ミニテスト②（転写）<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">Q1. DNAの塩基配列が「C A T G」のとき、転写でできるmRNAの塩基配列は？</p>
-        <div class="opts" data-correct="1" data-explain="C→G、A→U、T→A、G→C。TのかわりにUを使うので「G U A C」が正解です。">
+        <div class="opts" data-correct="2" data-explain="C→G、A→U、T→A、G→C。TのかわりにUを使うので「G U A C」が正解です。">
           <button class="opt" onclick="pickMini(this)">G T A C</button>
-          <button class="opt" onclick="pickMini(this)">G U A C</button>
           <button class="opt" onclick="pickMini(this)">C A U G</button>
+          <button class="opt" onclick="pickMini(this)">G U A C</button>
           <button class="opt" onclick="pickMini(this)">A T G C</button>
         </div>
         <div class="explain"></div>
 
         <p class="q">Q2. 転写とは、何から何が作られる過程？</p>
-        <div class="opts" data-correct="0" data-explain="転写はDNA→RNA（mRNA）。RNA→タンパク質は翻訳です。漢字「写」＝写しとる、で覚えましょう。">
-          <button class="opt" onclick="pickMini(this)">DNAからmRNAが作られる</button>
+        <div class="opts" data-correct="1" data-explain="転写はDNA→RNA（mRNA）。RNA→タンパク質は翻訳です。漢字「写」＝写しとる、で覚えましょう。">
           <button class="opt" onclick="pickMini(this)">mRNAからタンパク質が作られる</button>
+          <button class="opt" onclick="pickMini(this)">DNAからmRNAが作られる</button>
           <button class="opt" onclick="pickMini(this)">タンパク質からDNAが作られる</button>
           <button class="opt" onclick="pickMini(this)">アミノ酸からmRNAが作られる</button>
         </div>
         <div class="explain"></div>
 
         <p class="q">Q3. 転写は細胞のどこで行われる？</p>
-        <div class="opts" data-correct="2" data-explain="転写はDNAのある核の中で起こります。できたmRNAが核外へ出て、細胞質のリボソームで翻訳されます。">
+        <div class="opts" data-correct="1" data-explain="転写はDNAのある核の中で起こります。できたmRNAが核外へ出て、細胞質のリボソームで翻訳されます。">
           <button class="opt" onclick="pickMini(this)">リボソーム</button>
-          <button class="opt" onclick="pickMini(this)">ミトコンドリア</button>
           <button class="opt" onclick="pickMini(this)">核の中</button>
+          <button class="opt" onclick="pickMini(this)">ミトコンドリア</button>
           <button class="opt" onclick="pickMini(this)">細胞膜</button>
         </div>
         <div class="explain"></div>
@@ -495,10 +495,10 @@
       <div class="mini-head" onclick="toggleMini('mini3')">✅ ミニテスト③（翻訳）<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">Q1. アミノ酸を運んでリボソームへ届けるのはどれ？</p>
-        <div class="opts" data-correct="1" data-explain="tRNA（運搬RNA）がアミノ酸を運びます。mRNAは設計のコピー、リボソームは組み立て場所、DNAは原本です。">
+        <div class="opts" data-correct="2" data-explain="tRNA（運搬RNA）がアミノ酸を運びます。mRNAは設計のコピー、リボソームは組み立て場所、DNAは原本です。">
           <button class="opt" onclick="pickMini(this)">mRNA</button>
-          <button class="opt" onclick="pickMini(this)">tRNA</button>
           <button class="opt" onclick="pickMini(this)">リボソーム</button>
+          <button class="opt" onclick="pickMini(this)">tRNA</button>
           <button class="opt" onclick="pickMini(this)">DNA</button>
         </div>
         <div class="explain"></div>
@@ -513,11 +513,11 @@
         <div class="explain"></div>
 
         <p class="q">Q3. mRNAの塩基いくつ1組で、1つのアミノ酸が指定される？</p>
-        <div class="opts" data-correct="2" data-explain="mRNAの塩基3つ1組（コドン）で1つのアミノ酸が決まります。これが翻訳の基本ルールです。">
+        <div class="opts" data-correct="3" data-explain="mRNAの塩基3つ1組（コドン）で1つのアミノ酸が決まります。これが翻訳の基本ルールです。">
           <button class="opt" onclick="pickMini(this)">1つ</button>
           <button class="opt" onclick="pickMini(this)">2つ</button>
-          <button class="opt" onclick="pickMini(this)">3つ</button>
           <button class="opt" onclick="pickMini(this)">4つ</button>
+          <button class="opt" onclick="pickMini(this)">3つ</button>
         </div>
         <div class="explain"></div>
       </div>
@@ -578,28 +578,28 @@
       <div class="mini-head" onclick="toggleMini('mini5')">✅ ミニテスト④（パフ）<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">Q1. だ腺染色体のパフの部分で、さかんに行われているのは？</p>
-        <div class="opts" data-correct="0" data-explain="パフはDNAがほどけて転写（mRNA合成）が活発な部分で、遺伝子が発現している場所です。">
-          <button class="opt" onclick="pickMini(this)">転写</button>
+        <div class="opts" data-correct="1" data-explain="パフはDNAがほどけて転写（mRNA合成）が活発な部分で、遺伝子が発現している場所です。">
           <button class="opt" onclick="pickMini(this)">DNAの複製</button>
+          <button class="opt" onclick="pickMini(this)">転写</button>
           <button class="opt" onclick="pickMini(this)">細胞分裂</button>
           <button class="opt" onclick="pickMini(this)">受精</button>
         </div>
         <div class="explain"></div>
 
         <p class="q">Q2. だ腺染色体は、ふつうの染色体とくらべてどんな特徴がある？</p>
-        <div class="opts" data-correct="1" data-explain="だ腺染色体は通常の100〜200倍の太さの巨大染色体で、しま模様が観察しやすいのが特徴です。">
-          <button class="opt" onclick="pickMini(this)">ふつうより小さい</button>
+        <div class="opts" data-correct="0" data-explain="だ腺染色体は通常の100〜200倍の太さの巨大染色体で、しま模様が観察しやすいのが特徴です。">
           <button class="opt" onclick="pickMini(this)">100〜200倍も太い巨大染色体</button>
+          <button class="opt" onclick="pickMini(this)">ふつうより小さい</button>
           <button class="opt" onclick="pickMini(this)">色がつかない</button>
           <button class="opt" onclick="pickMini(this)">1本しかない</button>
         </div>
         <div class="explain"></div>
 
         <p class="q">Q3. パフをRNAの色素（ピロニン）で染めると、何色に染まる？</p>
-        <div class="opts" data-correct="2" data-explain="ピロニンはRNAを赤桃色に染めます。パフでは転写でRNAがさかんに作られているため赤桃色に染まります（DNAはメチルグリーンで青緑）。">
+        <div class="opts" data-correct="0" data-explain="ピロニンはRNAを赤桃色に染めます。パフでは転写でRNAがさかんに作られているため赤桃色に染まります（DNAはメチルグリーンで青緑）。">
+          <button class="opt" onclick="pickMini(this)">赤桃色</button>
           <button class="opt" onclick="pickMini(this)">青緑色</button>
           <button class="opt" onclick="pickMini(this)">染まらない</button>
-          <button class="opt" onclick="pickMini(this)">赤桃色</button>
           <button class="opt" onclick="pickMini(this)">黄色</button>
         </div>
         <div class="explain"></div>
@@ -697,11 +697,11 @@
       <div class="mini-head" onclick="toggleMini('kako3')">問3　だ腺染色体とパフ<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">ユスリカ幼虫のだ腺染色体について、しま模様から位置がわかるもの「ケ」と、パフでさかんな過程「コ」の組合せは？</p>
-        <div class="opts" data-correct="0" data-explain="しま模様は遺伝子の位置の目安、パフでは転写が活発。よってケ＝遺伝子、コ＝転写。">
-          <button class="opt" onclick="pickMini(this)">ケ＝遺伝子　コ＝転写</button>
+        <div class="opts" data-correct="3" data-explain="しま模様は遺伝子の位置の目安、パフでは転写が活発。よってケ＝遺伝子、コ＝転写。">
           <button class="opt" onclick="pickMini(this)">ケ＝遺伝子　コ＝翻訳</button>
           <button class="opt" onclick="pickMini(this)">ケ＝ゲノム　コ＝転写</button>
           <button class="opt" onclick="pickMini(this)">ケ＝DNA　コ＝翻訳</button>
+          <button class="opt" onclick="pickMini(this)">ケ＝遺伝子　コ＝転写</button>
         </div>
         <div class="explain"></div>
       </div>
@@ -854,7 +854,7 @@
     ctx=cvs.getContext('2d');
     cvs.width=window.innerWidth;cvs.height=window.innerHeight;pts=[];
     const W=cvs.width,H=cvs.height;
-    const colors=['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6','#facc15'];
+    const colors=['#fecdd3','#fda4af','#fb7185','#f472b6','#ec4899','#ffe4e6'];
     function petal(x,y,vx,vy){
       return {x,y,vx,vy,
         s:Math.random()*7+6,

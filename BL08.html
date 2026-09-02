@@ -186,7 +186,7 @@
   <p>「遺伝子の正体はDNAだ」――どうやって突き止めた？</p>
 </header>
 
-<div class="backbar"><a class="back-btn" href="index.html">← 一覧へ</a></div>
+<div class="backbar" style="display:flex;gap:8px;flex-wrap:wrap;"><a class="back-btn" href="index.html">← 一覧へ</a><a class="back-btn" href="BL08_drill.html">✏️ ドリル</a><a class="back-btn" href="BL08_check.html">📝 確認テスト</a><a class="back-btn" href="BL08_exam.html">📋 確認問題</a></div>
 
 <div class="wrap">
 
@@ -296,28 +296,28 @@
       <div class="mini-head" onclick="toggleMini('mini1')">✅ ミニテスト①（グリフィス）<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">Q1. グリフィスの実験で示された、R型菌がS型菌に変わる現象を何という？</p>
-        <div class="opts" data-correct="2" data-explain="死んだS型菌の物質がR型菌の性質を変えた現象を形質転換といいます。原因物質の特定はエイブリーが行いました。">
+        <div class="opts" data-correct="0" data-explain="死んだS型菌の物質がR型菌の性質を変えた現象を形質転換といいます。原因物質の特定はエイブリーが行いました。">
+          <button class="opt" onclick="pickMini(this)">形質転換</button>
           <button class="opt" onclick="pickMini(this)">突然変異</button>
           <button class="opt" onclick="pickMini(this)">セントラルドグマ</button>
-          <button class="opt" onclick="pickMini(this)">形質転換</button>
           <button class="opt" onclick="pickMini(this)">相補性</button>
         </div>
         <div class="explain"></div>
 
         <p class="q">Q2. 病原性が強く、ネズミを死なせるのはどちらの菌？</p>
-        <div class="opts" data-correct="0" data-explain="さやのあるS型菌が病原性をもち、ネズミは死にます。R型菌はさやがなく無害です。">
-          <button class="opt" onclick="pickMini(this)">S型菌</button>
+        <div class="opts" data-correct="1" data-explain="さやのあるS型菌が病原性をもち、ネズミは死にます。R型菌はさやがなく無害です。">
           <button class="opt" onclick="pickMini(this)">R型菌</button>
+          <button class="opt" onclick="pickMini(this)">S型菌</button>
           <button class="opt" onclick="pickMini(this)">どちらも死なせる</button>
           <button class="opt" onclick="pickMini(this)">どちらも死なせない</button>
         </div>
         <div class="explain"></div>
 
         <p class="q">Q3. 加熱して殺したS型菌だけをネズミに注射すると、結果はどうなる？</p>
-        <div class="opts" data-correct="1" data-explain="加熱でS型菌は死に無害になるので、ネズミは生きます（実験③）。生きたR型菌と混ぜたとき（実験④）だけ形質転換で死にます。">
+        <div class="opts" data-correct="2" data-explain="加熱でS型菌は死に無害になるので、ネズミは生きます（実験③）。生きたR型菌と混ぜたとき（実験④）だけ形質転換で死にます。">
           <button class="opt" onclick="pickMini(this)">死ぬ</button>
-          <button class="opt" onclick="pickMini(this)">生きる</button>
           <button class="opt" onclick="pickMini(this)">R型菌に変わる</button>
+          <button class="opt" onclick="pickMini(this)">生きる</button>
           <button class="opt" onclick="pickMini(this)">毒性が強まる</button>
         </div>
         <div class="explain"></div>
@@ -373,20 +373,20 @@
       <div class="mini-head" onclick="toggleMini('mini2')">✅ ミニテスト②（エイブリー）<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">Q1. エイブリーの実験でわかった、形質転換の原因物質は？</p>
-        <div class="opts" data-correct="1" data-explain="DNAだけを混ぜたときに形質転換が起きたので、原因物質はDNAだと特定できました。">
+        <div class="opts" data-correct="2" data-explain="DNAだけを混ぜたときに形質転換が起きたので、原因物質はDNAだと特定できました。">
           <button class="opt" onclick="pickMini(this)">タンパク質</button>
-          <button class="opt" onclick="pickMini(this)">DNA</button>
           <button class="opt" onclick="pickMini(this)">RNA</button>
+          <button class="opt" onclick="pickMini(this)">DNA</button>
           <button class="opt" onclick="pickMini(this)">糖（リボース）</button>
         </div>
         <div class="explain"></div>
 
         <p class="q">Q2. S型菌から「DNA以外」を取り出してR型菌と混ぜると、結果はどうなる？</p>
-        <div class="opts" data-correct="1" data-explain="DNA以外では形質転換が起きず、R型菌のまま。DNAを入れたときだけ変化したことが、原因＝DNAの証拠になりました。">
+        <div class="opts" data-correct="3" data-explain="DNA以外では形質転換が起きず、R型菌のまま。DNAを入れたときだけ変化したことが、原因＝DNAの証拠になりました。">
           <button class="opt" onclick="pickMini(this)">S型菌が現れる</button>
-          <button class="opt" onclick="pickMini(this)">R型菌のまま変化しない</button>
           <button class="opt" onclick="pickMini(this)">両方の菌が死ぬ</button>
           <button class="opt" onclick="pickMini(this)">ネズミが死ぬ</button>
+          <button class="opt" onclick="pickMini(this)">R型菌のまま変化しない</button>
         </div>
         <div class="explain"></div>
 
@@ -455,28 +455,28 @@
       <div class="mini-head" onclick="toggleMini('mini3')">✅ ミニテスト③（ハーシー&チェイス）<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">Q1. 実験で、大腸菌の中から検出された放射性の目印は？</p>
-        <div class="opts" data-correct="0" data-explain="DNAの目印³²Pが菌内から検出され、タンパク質の目印³⁵Sは外（殻）に残りました。だから中に入ったのはDNA。">
-          <button class="opt" onclick="pickMini(this)">³²P（DNAの目印）</button>
+        <div class="opts" data-correct="3" data-explain="DNAの目印³²Pが菌内から検出され、タンパク質の目印³⁵Sは外（殻）に残りました。だから中に入ったのはDNA。">
           <button class="opt" onclick="pickMini(this)">³⁵S（タンパク質の目印）</button>
           <button class="opt" onclick="pickMini(this)">両方とも検出された</button>
           <button class="opt" onclick="pickMini(this)">どちらも検出されなかった</button>
+          <button class="opt" onclick="pickMini(this)">³²P（DNAの目印）</button>
         </div>
         <div class="explain"></div>
 
         <p class="q">Q2. T2ファージは、どんな物質からできている？</p>
-        <div class="opts" data-correct="1" data-explain="T2ファージはDNAとタンパク質だけからできています。だからこの2つに別々の目印をつけて区別できました。">
-          <button class="opt" onclick="pickMini(this)">DNAと糖</button>
+        <div class="opts" data-correct="0" data-explain="T2ファージはDNAとタンパク質だけからできています。だからこの2つに別々の目印をつけて区別できました。">
           <button class="opt" onclick="pickMini(this)">DNAとタンパク質</button>
+          <button class="opt" onclick="pickMini(this)">DNAと糖</button>
           <button class="opt" onclick="pickMini(this)">タンパク質と脂質</button>
           <button class="opt" onclick="pickMini(this)">RNAとタンパク質</button>
         </div>
         <div class="explain"></div>
 
         <p class="q">Q3. この実験から決定づけられた結論はどれ？</p>
-        <div class="opts" data-correct="2" data-explain="菌内に入って子ファージを作らせたのはDNA。よって遺伝子の本体はDNAだと決定づけられました。">
+        <div class="opts" data-correct="1" data-explain="菌内に入って子ファージを作らせたのはDNA。よって遺伝子の本体はDNAだと決定づけられました。">
           <button class="opt" onclick="pickMini(this)">遺伝子の本体はタンパク質</button>
-          <button class="opt" onclick="pickMini(this)">遺伝子の本体は硫黄</button>
           <button class="opt" onclick="pickMini(this)">遺伝子の本体はDNA</button>
+          <button class="opt" onclick="pickMini(this)">遺伝子の本体は硫黄</button>
           <button class="opt" onclick="pickMini(this)">遺伝子の本体はRNA</button>
         </div>
         <div class="explain"></div>
@@ -515,9 +515,9 @@
       <div class="mini-head" onclick="toggleMini('mini4')">✅ ミニテスト④（シャルガフ）<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">Q1. 「どんな生物でもAとT、GとCの数の割合が等しい」ことを発見したのは？</p>
-        <div class="opts" data-correct="1" data-explain="A=T, G=Cの発見はシャルガフ。ワトソン&クリックはこの法則を手がかりに二重らせん構造を解明しました。">
-          <button class="opt" onclick="pickMini(this)">ワトソンとクリック</button>
+        <div class="opts" data-correct="0" data-explain="A=T, G=Cの発見はシャルガフ。ワトソン&クリックはこの法則を手がかりに二重らせん構造を解明しました。">
           <button class="opt" onclick="pickMini(this)">シャルガフ</button>
+          <button class="opt" onclick="pickMini(this)">ワトソンとクリック</button>
           <button class="opt" onclick="pickMini(this)">グリフィス</button>
           <button class="opt" onclick="pickMini(this)">ハーシーとチェイス</button>
         </div>
@@ -533,10 +533,10 @@
         <div class="explain"></div>
 
         <p class="q">Q3. あるDNAでAが30%のとき、シャルガフの法則からTの割合は？</p>
-        <div class="opts" data-correct="2" data-explain="A=Tなので、Aが30%ならTも30%。残り40%をGとCで半分ずつ（G=C=20%）分け合います。">
+        <div class="opts" data-correct="1" data-explain="A=Tなので、Aが30%ならTも30%。残り40%をGとCで半分ずつ（G=C=20%）分け合います。">
           <button class="opt" onclick="pickMini(this)">10%</button>
-          <button class="opt" onclick="pickMini(this)">20%</button>
           <button class="opt" onclick="pickMini(this)">30%</button>
+          <button class="opt" onclick="pickMini(this)">20%</button>
           <button class="opt" onclick="pickMini(this)">70%</button>
         </div>
         <div class="explain"></div>
@@ -606,9 +606,9 @@
       <div class="mini-head" onclick="toggleMini('kako1')">問1　DNAの塩基組成<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">「どんな生物のDNAでも、Aの割合とTの割合、Gの割合とCの割合が等しい」ことを見つけた人物（ア）と、DNAの構造（イ）の組合せは？</p>
-        <div class="opts" data-correct="0" data-explain="ア＝シャルガフ、イ＝二重らせん構造。共通テスト頻出の組合せ問題です。">
-          <button class="opt" onclick="pickMini(this)">ア＝シャルガフ　イ＝二重らせん構造</button>
+        <div class="opts" data-correct="1" data-explain="ア＝シャルガフ、イ＝二重らせん構造。共通テスト頻出の組合せ問題です。">
           <button class="opt" onclick="pickMini(this)">ア＝シャルガフ　イ＝一本鎖構造</button>
+          <button class="opt" onclick="pickMini(this)">ア＝シャルガフ　イ＝二重らせん構造</button>
           <button class="opt" onclick="pickMini(this)">ア＝フランクリン　イ＝二重らせん構造</button>
           <button class="opt" onclick="pickMini(this)">ア＝ハーシー　イ＝一本鎖構造</button>
         </div>
@@ -620,10 +620,10 @@
       <div class="mini-head" onclick="toggleMini('kako2')">問2　肺炎双球菌の実験<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">加熱して殺したS型菌と、生きたR型菌を混ぜてネズミに注射した。結果として正しいのは？</p>
-        <div class="opts" data-correct="2" data-explain="加熱S型菌の物質（DNA）がR型菌を形質転換させ、S型菌が増えてネズミは死にます。これがグリフィスの実験④。">
+        <div class="opts" data-correct="0" data-explain="加熱S型菌の物質（DNA）がR型菌を形質転換させ、S型菌が増えてネズミは死にます。これがグリフィスの実験④。">
+          <button class="opt" onclick="pickMini(this)">S型菌が現れてネズミは死ぬ</button>
           <button class="opt" onclick="pickMini(this)">ネズミは生きる（変化なし）</button>
           <button class="opt" onclick="pickMini(this)">R型菌だけが増える</button>
-          <button class="opt" onclick="pickMini(this)">S型菌が現れてネズミは死ぬ</button>
           <button class="opt" onclick="pickMini(this)">両方の菌が消える</button>
         </div>
         <div class="explain"></div>
@@ -634,10 +634,10 @@
       <div class="mini-head" onclick="toggleMini('kako3')">問3　肝臓からの物質抽出<span class="chev">▾</span></div>
       <div class="mini-body">
         <p class="q">冷凍した肝臓をすりつぶし、食塩水・湯せん・ろ過の後、冷やしたエタノールを注ぐと白い繊維状のものが現れた。抽出された物質と、同じ手順で使える別の材料の組合せは？</p>
-        <div class="opts" data-correct="0" data-explain="エタノールで析出する白い繊維はDNA。核の多い材料が向くので、ブロッコリーのつぼみが適します。">
-          <button class="opt" onclick="pickMini(this)">DNA ／ ブロッコリーのつぼみ</button>
+        <div class="opts" data-correct="2" data-explain="エタノールで析出する白い繊維はDNA。核の多い材料が向くので、ブロッコリーのつぼみが適します。">
           <button class="opt" onclick="pickMini(this)">タンパク質 ／ ニワトリの卵</button>
           <button class="opt" onclick="pickMini(this)">ATP ／ ニワトリの卵</button>
+          <button class="opt" onclick="pickMini(this)">DNA ／ ブロッコリーのつぼみ</button>
           <button class="opt" onclick="pickMini(this)">RNA ／ 食塩</button>
         </div>
         <div class="explain"></div>
@@ -769,7 +769,7 @@
     cvs=document.getElementById('cnf');cvs.style.display="block";ctx=cvs.getContext('2d');
     cvs.width=window.innerWidth;cvs.height=window.innerHeight;pts=[];
     const W=cvs.width,H=cvs.height;
-    const colors=['#f87171','#fb923c','#fbbf24','#34d399','#60a5fa','#a78bfa','#f472b6','#facc15'];
+    const colors=['#fecdd3','#fda4af','#fb7185','#f472b6','#ec4899','#ffe4e6'];
     function petal(x,y,vx,vy){
       return {x,y,vx,vy,
         s:Math.random()*7+6,

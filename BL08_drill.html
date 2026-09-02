@@ -5,10 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BL08 ドリル — 遺伝子の本体をさぐる実験</title>
 <style>
-:root{--pri:#7c3aed;--pri-l:#ede9fe;--pri-ll:#faf5ff;--teal:#7c3aed;--teal-bg:#faf5ff;--teal-l:#ddd6fe;--ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;--ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;--bg:#fdf4ff;--radius:12px;--shadow:0 2px 12px rgba(0,0,0,.07);}
+:root{--pri:#7c3aed;--pri-l:#dbeafe;--pri-ll:#eff6ff;--teal:#7c3aed;--teal-bg:#f0fdfa;--teal-l:#99f6e4;
+  --ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;
+  --ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;--bg:#f7f8fc;
+  --radius:12px;--shadow:0 2px 12px rgba(0,0,0,.07);}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;background:var(--bg);color:var(--ink);line-height:1.85;min-height:100vh;padding-bottom:60px;}
-.page-hd{background:linear-gradient(135deg,#5b21b6,#7c3aed,#8b5cf6);color:#fff;padding:26px 16px 22px;text-align:center;position:relative;overflow:hidden;}
+.page-hd{background:linear-gradient(135deg,#6d28d9,#7c3aed,#2563eb);color:#fff;padding:26px 16px 22px;text-align:center;position:relative;overflow:hidden;}
 .hd-label{font-size:.72rem;letter-spacing:.18em;opacity:.8;margin-bottom:5px;}
 .hd-title{font-size:1.35rem;font-weight:800;margin-bottom:3px;}
 .hd-sub{font-size:.82rem;opacity:.75;}
@@ -17,7 +20,7 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;ba
 .prog-bar-wrap{background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;position:sticky;top:0;z-index:100;}
 .prog-info{display:flex;justify-content:space-between;font-size:.78rem;color:var(--gray);margin-bottom:5px;}
 .prog-bar{height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--pri),#a78bfa);width:0%;transition:width .4s;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--pri),#06b6d4);width:0%;transition:width .4s;}
 .wrap{max-width:720px;margin:0 auto;padding:20px 16px;}
 .section{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden;}
 .sec-hd{background:var(--pri);color:#fff;padding:10px 16px;font-size:.88rem;font-weight:700;}
@@ -34,10 +37,10 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;ba
 .wb-word{background:#fff;border:1.5px solid var(--teal);color:var(--teal);border-radius:6px;padding:5px 13px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s;}
 .wb-word:hover{background:var(--teal);color:#fff;}
 .wb-word.used{opacity:.3;pointer-events:none;}
-.wb-word.selected{background:var(--teal);color:#fff;outline:2px solid #5b21b6;}
+.wb-word.selected{background:var(--teal);color:#fff;outline:2px solid #991b1b;}
 .btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
 .btn{padding:9px 22px;border-radius:24px;border:none;font-size:.88rem;font-weight:700;cursor:pointer;}
-.btn-check{background:var(--teal);color:#fff;}
+.btn-check{background:var(--pri);color:#fff;}
 .btn-reset{background:var(--gray-l);color:var(--ink);}
 .result-box{display:none;margin-top:12px;padding:12px 14px;border-radius:8px;font-size:.88rem;font-weight:600;}
 .result-box.show{display:block;}
@@ -48,8 +51,16 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;ba
 .final-score{font-size:2.4rem;font-weight:800;color:var(--pri);}
 .final-total{font-size:.95rem;color:var(--gray);margin-top:4px;}
 .final-msg{font-size:.95rem;margin:12px 0;}
-.final-btn{background:linear-gradient(135deg,var(--pri),#8b5cf6);color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
+.final-btn{background:linear-gradient(135deg,var(--pri),#06b6d4);color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
 canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+.page-nav{display:flex;gap:6px;background:#fff;border-bottom:1px solid var(--border);
+  padding:8px 12px;position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.pnav-btn{flex:1;min-width:60px;padding:6px 4px;border:1.5px solid var(--border);
+  border-radius:8px;font-size:.75rem;font-weight:700;text-align:center;
+  text-decoration:none;color:var(--ink);background:#fff;cursor:pointer;
+  transition:all .15s;white-space:nowrap;}
+.pnav-btn:hover{border-color:var(--pri);background:var(--pri-ll);}
+.pnav-btn.active{background:var(--pri);color:#fff;border-color:var(--pri);}
 </style>
 </head>
 <body>
@@ -59,6 +70,12 @@ canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-event
   <div class="hd-label">BL-08 ドリル</div>
   <div class="hd-title">遺伝子の本体をさぐる実験</div>
   <div class="hd-sub">語群から選んで空欄を埋めよう</div>
+</div>
+<div class="page-nav">
+  <a class="pnav-btn" href="BL08.html">📖 解説</a>
+  <span class="pnav-btn active">✏️ ドリル</span>
+  <a class="pnav-btn" href="BL08_check.html">📝 確認テスト</a>
+  <a class="pnav-btn" href="BL08_exam.html">📋 確認問題</a>
 </div>
 <div class="prog-bar-wrap">
   <div class="prog-info"><span id="prog-text">0 / 10 問完了</span><span id="score-text"></span></div>
@@ -73,6 +90,7 @@ canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-event
       <span class="wb-word" onclick="selectWord(this,'エイブリー')">エイブリー</span>
       <span class="wb-word" onclick="selectWord(this,'ハーシーとチェイス')">ハーシーとチェイス</span>
       <span class="wb-word" onclick="selectWord(this,'DNA')">DNA</span>
+      <span class="wb-word" onclick="selectWord(this,'DNA')">DNA</span>
       <span class="wb-word" onclick="selectWord(this,'32P')">32P</span>
       <span class="wb-word" onclick="selectWord(this,'35S')">35S</span>
       <span class="wb-word" onclick="selectWord(this,'シャルガフ')">シャルガフ</span>
@@ -83,15 +101,15 @@ canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-event
     <div class="sec-hd">📝 穴埋め問題（全10問）</div>
     <div class="sec-body">
       <div class="q-row"><span class="q-num-badge">Q1</span>R型菌がS型菌に変わる現象を <span class="blank" id="b0" onclick="fillBlank(0,this)">　　　</span> という。</div>
-      <div class="q-row"><span class="q-num-badge">Q2</span>形質転換という現象を発見したイギリスの科学者は <span class="blank" id="b1" onclick="fillBlank(1,this)">　　　</span> である。</div>
+      <div class="q-row"><span class="q-num-badge">Q2</span>上の現象を発見したイギリスの科学者は <span class="blank" id="b1" onclick="fillBlank(1,this)">　　　</span> である。</div>
       <div class="q-row"><span class="q-num-badge">Q3</span>形質転換の原因物質がDNAだと特定したのは <span class="blank" id="b2" onclick="fillBlank(2,this)">　　　</span> である。</div>
-      <div class="q-row"><span class="q-num-badge">Q4</span>T2ファージで遺伝子の本体がDNAだと決定づけたのは <span class="blank" id="b3" onclick="fillBlank(3,this)">　　　　　</span> である。</div>
-      <div class="q-row"><span class="q-num-badge">Q5</span>T2ファージは <span class="blank" id="b4" onclick="fillBlank(4,this)">　　</span> とタンパク質だけからできている。</div>
-      <div class="q-row"><span class="q-num-badge">Q6</span>DNAの目印に使った放射性同位体は <span class="blank" id="b5" onclick="fillBlank(5,this)">　　</span>（リン）である。</div>
-      <div class="q-row"><span class="q-num-badge">Q7</span>タンパク質の目印に使った放射性同位体は <span class="blank" id="b6" onclick="fillBlank(6,this)">　　</span>（硫黄）である。</div>
+      <div class="q-row"><span class="q-num-badge">Q4</span>T2ファージを使って遺伝子の本体がDNAだと決定づけたのは <span class="blank" id="b3" onclick="fillBlank(3,this)">　　　</span> である。</div>
+      <div class="q-row"><span class="q-num-badge">Q5</span>T2ファージは <span class="blank" id="b4" onclick="fillBlank(4,this)">　　　</span> とタンパク質だけからできている。</div>
+      <div class="q-row"><span class="q-num-badge">Q6</span>実験でDNAの目印に使った放射性同位体は <span class="blank" id="b5" onclick="fillBlank(5,this)">　　　</span> である。</div>
+      <div class="q-row"><span class="q-num-badge">Q7</span>実験でタンパク質の目印に使った放射性同位体は <span class="blank" id="b6" onclick="fillBlank(6,this)">　　　</span> である。</div>
       <div class="q-row"><span class="q-num-badge">Q8</span>AとT、GとCの数が等しいことを <span class="blank" id="b7" onclick="fillBlank(7,this)">　　　</span> の法則という。</div>
-      <div class="q-row"><span class="q-num-badge">Q9</span>DNAの二重らせん構造を解明したのは <span class="blank" id="b8" onclick="fillBlank(8,this)">　　　　　</span> である。</div>
-      <div class="q-row"><span class="q-num-badge">Q10</span>DNA抽出実験で冷やしたエタノールを加えると白い繊維状の <span class="blank" id="b9" onclick="fillBlank(9,this)">　　</span> が析出する。</div>
+      <div class="q-row"><span class="q-num-badge">Q9</span>DNAの二重らせん構造を解明したのは <span class="blank" id="b8" onclick="fillBlank(8,this)">　　　</span> である。</div>
+      <div class="q-row"><span class="q-num-badge">Q10</span>これらの研究により、遺伝子の本体は <span class="blank" id="b9" onclick="fillBlank(9,this)">　　　</span> であると結論づけられた。</div>
       <div class="btn-row">
         <button class="btn btn-check" onclick="checkAll()">✅ 答え合わせ</button>
         <button class="btn btn-reset" onclick="resetAll()">🔄 リセット</button>
@@ -108,9 +126,9 @@ canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-event
 </div>
 <script>
 const ANSWERS=['形質転換','グリフィス','エイブリー','ハーシーとチェイス','DNA','32P','35S','シャルガフ','ワトソンとクリック','DNA'];
-const TOTAL=10;
-let filled=new Array(TOTAL).fill(null);
-let filledEls=new Array(TOTAL).fill(null);
+const TOTAL_BLANKS=10;
+let filled=new Array(TOTAL_BLANKS).fill(null);
+let filledEls=new Array(TOTAL_BLANKS).fill(null);
 let pending=null;
 
 function selectWord(el,word){
@@ -128,8 +146,8 @@ function fillBlank(idx,blankEl){
 }
 function updateProg(){
   const done=filled.filter(Boolean).length;
-  document.getElementById('prog-text').textContent=`${done} / ${TOTAL} 問完了`;
-  document.getElementById('prog-fill').style.width=(done/TOTAL*100)+'%';
+  document.getElementById('prog-text').textContent=`${done} / 10 問完了`;
+  document.getElementById('prog-fill').style.width=(done/10*100)+'%';
 }
 function checkAll(){
   let ok=0;
@@ -141,13 +159,13 @@ function checkAll(){
   const res=document.getElementById('result-box');
   document.getElementById('final-panel').className='final-panel show';
   document.getElementById('final-score').textContent=ok;
-  if(ok===TOTAL){res.textContent='🎉 全問正解！完璧です！';res.className='result-box show ok';document.getElementById('final-msg').textContent='満点達成！💯';fireConfetti();}
-  else{res.textContent=`${ok}/${TOTAL} 問正解。赤い空欄を確認しましょう。`;res.className='result-box show ng';document.getElementById('final-msg').textContent=ok>=7?'もう少し！':'解説ページで復習しよう。';}
+  if(ok===10){res.textContent='🎉 全問正解！完璧です！';res.className='result-box show ok';document.getElementById('final-msg').textContent='満点達成！💯';fireConfetti();}
+  else{res.textContent=`${ok}/10 問正解。赤い空欄を確認しましょう。`;res.className='result-box show ng';document.getElementById('final-msg').textContent=ok>=10*0.7?'もう少し！':'解説ページで復習しよう。';}
   document.getElementById('score-text').textContent=`正解 ${ok} 問`;
 }
 function resetAll(){
   filled.fill(null);filledEls.fill(null);pending=null;
-  for(let i=0;i<TOTAL;i++){const el=document.getElementById('b'+i);if(el){el.textContent='　　';el.className='blank';}}
+  for(let i=0;i<TOTAL_BLANKS;i++){const el=document.getElementById('b'+i);if(el){el.textContent='　　';el.className='blank';}}
   document.querySelectorAll('.wb-word').forEach(w=>w.classList.remove('used','selected'));
   document.getElementById('result-box').className='result-box';
   document.getElementById('final-panel').className='final-panel';
@@ -155,7 +173,7 @@ function resetAll(){
 }
 function fireConfetti(){
   const cv=document.getElementById('confetti');cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
-  const ctx=cv.getContext('2d');const cols=['#7c3aed','#e74c3c','#f1c40f','#2ecc71','#e67e22','#fff'];const pts=[];
+  const ctx=cv.getContext('2d');const cols=['#fecdd3','#fda4af','#fb7185','#f472b6','#ec4899','#ffe4e6'];const pts=[];
   for(let i=0;i<140;i++)pts.push({x:Math.random()*cv.width,y:-Math.random()*cv.height*.4,s:Math.random()*7+4,c:cols[i%cols.length],sp:2+Math.random()*2.5,vx:(Math.random()-.5)*2});
   let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';})();
 }

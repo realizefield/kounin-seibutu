@@ -3,237 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>高認GAMBA 生物基礎 BL07 確認テスト</title>
+<title>BL07 確認テスト — 遺伝情報の発現</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:#f8fafc;color:#1e293b;line-height:1.9;font-size:16px}
-.page-header{background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 100%);color:#fff;padding:2rem 1.5rem 1.5rem;text-align:center}
-.page-header .unit-label{font-size:.85rem;opacity:.8;margin-bottom:.4rem}
-.page-header h1{font-size:1.7rem;font-weight:800;margin-bottom:.5rem}
-.page-header p{font-size:.95rem;opacity:.85}
-.container{max-width:860px;margin:0 auto;padding:1.5rem 1rem 4rem}
-.score-area{background:#fff;border:2px solid #7c3aed;border-radius:12px;padding:1rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
-.score-label{font-weight:700;color:#6d28d9;font-size:.95rem}
-.score-num{font-size:1.6rem;font-weight:800;color:#6d28d9}
-.progress-bar{flex:1;min-width:160px;height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#6d28d9);border-radius:999px;transition:width .4s}
-.question{background:#fff;border-radius:14px;border:1px solid #e2e8f0;margin-bottom:1.5rem;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05)}
-.q-header{background:linear-gradient(90deg,#7c3aed,#6d28d9);color:#fff;padding:.7rem 1.2rem;font-weight:800;font-size:.9rem}
-.q-body{padding:1.2rem 1.4rem}
-.q-text{font-size:.98rem;line-height:1.85;margin-bottom:1rem;font-weight:600}
-.choices{display:flex;flex-direction:column;gap:.5rem}
-.choice{display:flex;align-items:center;gap:.7rem;padding:.6rem 1rem;border-radius:8px;border:1.5px solid #e2e8f0;cursor:pointer;transition:all .2s;font-size:.92rem;background:#fafafa}
-.choice:hover{border-color:#7c3aed;background:#ede9fe}
-.choice input[type=radio]{accent-color:#7c3aed;width:16px;height:16px;flex-shrink:0}
-.choice.correct-mark{background:#dcfce7;border-color:#16a34a;color:#15803d;font-weight:700}
-.choice.wrong-mark{background:#fee2e2;border-color:#dc2626;color:#dc2626}
-.exp-box{background:#f0f9ff;border:1.5px solid #7dd3fc;border-radius:8px;padding:.8rem 1rem;margin-top:.8rem;font-size:.88rem;line-height:1.75;display:none}
-.exp-box.show{display:block}
-.btn-row{display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap}
-.btn-check{padding:.6rem 1.5rem;background:#7c3aed;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.92rem;cursor:pointer}
-.btn-check:hover{background:#6d28d9}
-.result-box{margin-top:.8rem;font-weight:700;font-size:.95rem;display:none}
-.result-box.show{display:block}
-.nav-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
-.btn-nav{padding:.65rem 1.4rem;border-radius:8px;font-weight:700;font-size:.92rem;text-decoration:none;transition:all .2s}
-.btn-back{background:#fff;color:#7c3aed;border:2px solid #7c3aed}
-.btn-back:hover{background:#ede9fe}
-canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:none}
-@media(max-width:600px){.page-header h1{font-size:1.3rem}}
+:root{--pri:#0d9488;--pri-l:#e0e7ff;--pri-ll:#f5f7ff;--ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;--ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;--bg:#f7f8fc;--radius:12px;--shadow:0 2px 12px rgba(0,0,0,.07);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;min-height:100vh;padding-bottom:60px;}
+.page-hd{background:linear-gradient(135deg,#0f766e,#0d9488,#2563eb);color:#fff;padding:26px 16px 22px;text-align:center;position:relative;overflow:hidden;}
+.hd-label{font-size:.72rem;letter-spacing:.18em;opacity:.8;margin-bottom:5px;}
+.hd-title{font-size:1.35rem;font-weight:800;margin-bottom:3px;}
+.hd-sub{font-size:.82rem;opacity:.75;}
+.back-btn{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.18);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:.8rem;cursor:pointer;text-decoration:none;}
+.back-btn:hover{background:rgba(255,255,255,.28);}
+.prog-wrap{background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;position:sticky;top:0;z-index:100;}
+.prog-info{display:flex;justify-content:space-between;font-size:.78rem;color:var(--gray);margin-bottom:5px;}
+.prog-bar{height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--pri),#06b6d4);width:0%;transition:width .4s;}
+.wrap{max-width:700px;margin:0 auto;padding:20px 16px;}
+.q-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow);}
+.q-hd{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
+.q-badge{background:var(--pri);color:#fff;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;flex-shrink:0;margin-top:2px;}
+.q-text{font-size:.95rem;font-weight:500;line-height:1.6;}
+.opts{padding:10px 14px 12px;display:flex;flex-direction:column;gap:7px;}
+.opt{border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;font-size:.88rem;cursor:pointer;background:#fff;text-align:left;transition:all .15s;display:flex;align-items:center;gap:8px;}
+.opt:hover:not(:disabled){border-color:var(--pri);background:var(--pri-ll);}
+.opt-lbl{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;}
+.opt.correct{border-color:var(--ok);background:var(--ok-bg);}
+.opt.correct .opt-lbl{background:var(--ok);border-color:var(--ok);color:#fff;}
+.opt.wrong{border-color:var(--ng);background:var(--ng-bg);}
+.opt.wrong .opt-lbl{background:var(--ng);border-color:var(--ng);color:#fff;}
+.explain{margin:0 14px 12px;padding:10px 12px;border-radius:8px;font-size:.85rem;line-height:1.65;display:none;}
+.explain.show{display:block;}
+.explain.ok-ex{background:var(--ok-bg);border-left:3px solid var(--ok);}
+.explain.ng-ex{background:var(--ng-bg);border-left:3px solid var(--ng);}
+.final-panel{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 20px;text-align:center;margin-top:8px;display:none;}
+.final-panel.show{display:block;}
+.final-score{font-size:2.6rem;font-weight:800;color:var(--pri);}
+.final-total{font-size:.95rem;color:var(--gray);margin:4px 0 14px;}
+.final-msg{font-size:.95rem;margin-bottom:18px;}
+.final-btn{background:linear-gradient(135deg,var(--pri),#0284c7);color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
+canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+.page-nav{display:flex;gap:6px;background:#fff;border-bottom:1px solid var(--border);
+  padding:8px 12px;position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.pnav-btn{flex:1;min-width:60px;padding:6px 4px;border:1.5px solid var(--border);
+  border-radius:8px;font-size:.75rem;font-weight:700;text-align:center;
+  text-decoration:none;color:var(--ink);background:#fff;cursor:pointer;
+  transition:all .15s;white-space:nowrap;}
+.pnav-btn:hover{border-color:var(--pri);background:var(--pri-ll);}
+.pnav-btn.active{background:var(--pri);color:#fff;border-color:var(--pri);}
 </style>
 </head>
 <body>
-<header class="page-header">
-  <div class="unit-label">高認GAMBA 生物基礎 ｜ BL07</div>
-  <h1>✅ BL07 確認テスト｜遺伝情報の発現</h1>
-  <p>全10問・選択肢を選んで答え合わせしましょう</p>
-</header>
-<canvas id="cv"></canvas>
-<div class="container">
-  <div class="score-area">
-    <div><div class="score-label">正解数</div><div class="score-num" id="score-num">0</div></div>
-    <div><div class="score-label">/ 10問</div></div>
-    <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
-  </div>
-  <div id="q-area"></div>
-  <div class="nav-links">
-    <a href="BL07.html" class="btn-nav btn-back">← 解説に戻る</a>
-    <a href="index.html" class="btn-nav btn-back">📋 メニュー</a>
-  </div>
+<canvas id="confetti"></canvas>
+<div class="page-hd">
+  <a class="back-btn" href="BL07.html">← 解説へ</a>
+  <div class="hd-label">BL-07 確認テスト</div>
+  <div class="hd-title">遺伝情報の発現</div>
+  <div class="hd-sub">全9問 — 選んで答えよう</div>
 </div>
+<div class="page-nav">
+  <a class="pnav-btn" href="BL07.html">📖 解説</a>
+  <a class="pnav-btn" href="BL07_drill.html">✏️ ドリル</a>
+  <span class="pnav-btn active">📝 確認テスト</span>
+  <a class="pnav-btn" href="BL07_exam.html">📋 確認問題</a>
+</div>
+<div class="prog-wrap">
+  <div class="prog-info"><span id="prog-text">0 / 9 問回答済み</span><span id="score-text"></span></div>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+</div>
+<div class="wrap" id="qlist"></div>
 <script>
-const COLOR="#7c3aed",COLOR_DARK="#6d28d9";
 const QS=[
-  {
-    "q": "DNAからmRNAが合成される過程を何というか。",
-    "c": [
-      "複製",
-      "転写",
-      "翻訳",
-      "転移"
-    ],
-    "a": 1,
-    "e": "転写はDNAの塩基配列を鋳型にしてmRNAを合成する過程です。核の中で行われます。"
-  },
-  {
-    "q": "mRNAをもとにタンパク質が合成される過程を何というか。",
-    "c": [
-      "転写",
-      "複製",
-      "翻訳",
-      "転移"
-    ],
-    "a": 2,
-    "e": "翻訳はリボソームでmRNAのコドンを読み取り、アミノ酸をつなぎ合わせてタンパク質を作る過程です。"
-  },
-  {
-    "q": "RNAの糖として正しいものはどれか。",
-    "c": [
-      "デオキシリボース",
-      "グルコース",
-      "リボース",
-      "ガラクトース"
-    ],
-    "a": 2,
-    "e": "RNAの糖はリボース、DNAの糖はデオキシリボースです。「R（リボ）NA」の名前もここから来ています。"
-  },
-  {
-    "q": "RNAにはあるがDNAにはない塩基はどれか。",
-    "c": [
-      "アデニン",
-      "グアニン",
-      "ウラシル",
-      "シトシン"
-    ],
-    "a": 2,
-    "e": "DNAはチミン（T）を持ちますが、RNAはチミンの代わりにウラシル（U）を持ちます。"
-  },
-  {
-    "q": "翻訳の場となる細胞小器官はどれか。",
-    "c": [
-      "核",
-      "葉緑体",
-      "リボソーム",
-      "ミトコンドリア"
-    ],
-    "a": 2,
-    "e": "翻訳はリボソームで行われます。mRNAがリボソームに結合し、tRNAが運んできたアミノ酸をつなぎ合わせてタンパク質が合成されます。"
-  },
-  {
-    "q": "mRNAの連続した3つの塩基がアミノ酸1個を指定する単位を何というか。",
-    "c": [
-      "イントロン",
-      "コドン",
-      "エクソン",
-      "プロモーター"
-    ],
-    "a": 1,
-    "e": "コドン（codon）は3つの塩基からなり、特定のアミノ酸または「終止」を指定します。"
-  },
-  {
-    "q": "RNAとDNAの違いとして正しいものはどれか。",
-    "c": [
-      "RNAは二本鎖・DNAは一本鎖",
-      "RNAの糖はデオキシリボース",
-      "RNAはウラシルを持ち・DNAはチミンを持つ",
-      "RNAとDNAの塩基の種類は全く同じ"
-    ],
-    "a": 2,
-    "e": "RNAはウラシル（U）を持ち、DNAはチミン（T）を持ちます。また糖はRNAがリボース、DNAがデオキシリボースと異なります。さらにRNAは一本鎖、DNAは二本鎖です。"
-  },
-  {
-    "q": "転写はどこで行われるか。",
-    "c": [
-      "リボソーム",
-      "細胞膜",
-      "核",
-      "ミトコンドリア"
-    ],
-    "a": 2,
-    "e": "転写は核の中で行われます。一方、翻訳は細胞質のリボソームで行われます。"
-  },
-  {
-    "q": "だ腺染色体に見られる膨らんだ部位を何というか。",
-    "c": [
-      "ヌクレオソーム",
-      "コドン",
-      "パフ",
-      "テロメア"
-    ],
-    "a": 2,
-    "e": "パフはショウジョウバエなどのだ腺染色体に見られ、その部位でDNAが活発に転写されていることを示します。"
-  },
-  {
-    "q": "パフが示しているのはどのようなことか。",
-    "c": [
-      "DNAが複製されている",
-      "RNAが分解されている",
-      "遺伝子が発現している",
-      "タンパク質が核に蓄積している"
-    ],
-    "a": 2,
-    "e": "パフの存在は、その部位で転写（遺伝子発現）が活発に行われていることを示します。発生段階や細胞の種類によってパフの位置が変わることから、遺伝子発現は時間・場所によって調節されていることがわかります。"
-  }
+  {q:'RNAを構成する糖はどれか。',opts:['デオキシリボース','グルコース','リボース','フルクトース'],ans:2,ex:'RNAの糖はリボース。DNAの糖はデオキシリボースです。「R」NAと「リ」ボースで結びつけると覚えやすいです。'},
+  {q:'転写が行われる細胞内の場所として正しいものはどれか。',opts:['核の中','リボソーム','ミトコンドリア','細胞膜'],ans:0,ex:'転写はDNAのある核の中で起こります。できたmRNAが核外へ出て、細胞質のリボソームで翻訳されます。'},
+  {q:'翻訳が行われる場所として正しいものはどれか。',opts:['核の中','ゴルジ体','細胞膜','リボソーム'],ans:3,ex:'翻訳（mRNA→タンパク質）はリボソームで行われます。転写は核の中で行われる点との違いに注意しましょう。'},
+  {q:'DNAの塩基配列が「A G C T」のとき、転写でできるmRNAの塩基配列はどれか。',opts:['U C G T','U C G A','A G C U','T C G A'],ans:1,ex:'A→U、G→C、C→G、T→A。TのかわりにUを使うので「U C G A」が正解です。'},
+  {q:'mRNAでアデニン(A)と対になる塩基はどれか。',opts:['T（チミン）','G（グアニン）','U（ウラシル）','C（シトシン）'],ans:2,ex:'RNAにはTがなく、かわりにU（ウラシル）があります。だからAの相手はUです。G–Cの組合せは DNAと同じです。'},
+  {q:'アミノ酸をリボソームまで運ぶRNAはどれか。',opts:['tRNA','mRNA','リボソームRNA','DNA'],ans:0,ex:'tRNA（運搬RNA）がアミノ酸を運びます。mRNAは設計図のコピー、DNAは原本です。'},
+  {q:'翻訳で、アミノ酸どうしをつなぐ結合を何というか。',opts:['水素結合','イオン結合','相補結合','ペプチド結合'],ans:3,ex:'アミノ酸どうしはペプチド結合でつながり、タンパク質になります。水素結合は塩基対、相補性は塩基の対応の話です。'},
+  {q:'mRNAの塩基何個1組で、1つのアミノ酸が指定されるか。',opts:['2つ','3つ','4つ','1つ'],ans:1,ex:'mRNAの塩基3つ1組（コドン）で1つのアミノ酸が決まります。これが翻訳の基本ルールです。'},
+  {q:'だ腺染色体のパフの部分でさかんに行われている過程はどれか。',opts:['DNAの複製','細胞分裂','転写','受精'],ans:2,ex:'パフはDNAがほどけて転写（mRNA合成）が活発な部分で、遺伝子が発現している場所です。'}
 ];
-let score=0,answered=0;
 
-function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b;}
+let answered=new Array(QS.length).fill(false);
+let correct=new Array(QS.length).fill(false);
 
-function init(){
-  const area=document.getElementById('q-area');
-  QS.forEach((q,qi)=>{
-    const order=shuffle([0,1,2,3]);
-    let html=`<div class="question" id="q${qi}">
-      <div class="q-header">問${qi+1} / ${QS.length}</div>
-      <div class="q-body">
-        <div class="q-text">${q.q}</div>
-        <div class="choices" id="ch${qi}">`;
-    order.forEach(ci=>{
-      html+=`<label class="choice" id="c${qi}_${ci}">
-        <input type="radio" name="q${qi}" value="${ci}" onchange="answer(${qi},${ci},${q.a})">
-        ${q.c[ci]}
-      </label>`;
-    });
-    html+=`</div>
-        <div class="exp-box" id="exp${qi}">${q.e}</div>
-        <div class="result-box" id="res${qi}"></div>
-      </div>
-    </div>`;
-    area.innerHTML+=html;
+function build(){
+  const list=document.getElementById('qlist');list.innerHTML='';
+  const labels=['ア','イ','ウ','エ'];
+  QS.forEach((q,i)=>{
+    const card=document.createElement('div');card.className='q-card';card.id=`qcard${i}`;
+    card.innerHTML=`<div class="q-hd"><span class="q-badge">Q${i+1}</span><div class="q-text">${q.q}</div></div>
+    <div class="opts">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${i},${j})"><span class="opt-lbl">${labels[j]}</span>${o}</button>`).join('')}</div>
+    <div class="explain" id="ex${i}"></div>`;
+    list.appendChild(card);
   });
+  const panel=document.createElement('div');panel.className='final-panel';panel.id='final-panel';
+  panel.innerHTML=`<div class="final-score" id="final-score">0</div><div class="final-total">/ ${QS.length} 問正解</div><div class="final-msg" id="final-msg"></div><button class="final-btn" onclick="retry()">もう一度挑戦</button>`;
+  list.appendChild(panel);
 }
 
-function answer(qi,ci,ans){
-  const radios=document.querySelectorAll(`input[name="q${qi}"]`);
-  radios.forEach(r=>r.disabled=true);
-  const correct=(ci===ans);
-  if(correct){
-    score++;answered++;
-    document.getElementById(`c${qi}_${ci}`).classList.add('correct-mark');
-  }else{
-    answered++;
-    document.getElementById(`c${qi}_${ci}`).classList.add('wrong-mark');
-    document.getElementById(`c${qi}_${ans}`).classList.add('correct-mark');
-  }
-  document.getElementById(`exp${qi}`).classList.add('show');
-  const res=document.getElementById(`res${qi}`);
-  res.classList.add('show');
-  res.style.color=correct?COLOR_DARK:'#dc2626';
-  res.textContent=correct?'✅ 正解！':'❌ 不正解';
-  document.getElementById('score-num').textContent=score;
-  document.getElementById('prog').style.width=(answered/QS.length*100)+'%';
-  if(answered===QS.length&&score===QS.length)confetti();
+function pick(qi,oi){
+  if(answered[qi])return;
+  answered[qi]=true;correct[qi]=(oi===QS[qi].ans);
+  document.querySelectorAll(`#qcard${qi} .opt`).forEach((o,j)=>{
+    o.disabled=true;
+    if(j===QS[qi].ans)o.classList.add('correct');
+    else if(j===oi)o.classList.add('wrong');
+  });
+  const ex=document.getElementById('ex'+qi);
+  ex.innerHTML=QS[qi].ex;ex.className='explain show '+(correct[qi]?'ok-ex':'ng-ex');
+  updateProg();if(answered.every(Boolean))showFinal();
 }
-
-function confetti(){
-  const cv=document.getElementById('cv');
-  cv.width=innerWidth;cv.height=innerHeight;cv.style.display='block';
-  const ctx=cv.getContext('2d');
-  const pts=Array.from({length:120},()=>[Math.random()*cv.width,-10,Math.random()*4+1,Math.random()*3-1.5,`hsl(${Math.random()*360},90%,55%)`,Math.random()*8+4]);
-  let f=0;
-  (function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p[1]+=p[2];p[0]+=p[3];ctx.fillStyle=p[4];ctx.fillRect(p[0],p[1],p[5],p[5]*.6)});f++;if(f<200)requestAnimationFrame(loop);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}})();
+function updateProg(){
+  const done=answered.filter(Boolean).length;const ok=correct.filter(Boolean).length;
+  document.getElementById('prog-text').textContent=`${done} / ${QS.length} 問回答済み`;
+  document.getElementById('score-text').textContent=done?`正解 ${ok} 問`:'';
+  document.getElementById('prog-fill').style.width=(done/QS.length*100)+'%';
 }
-init();
+function showFinal(){
+  const ok=correct.filter(Boolean).length;
+  document.getElementById('final-panel').className='final-panel show';
+  document.getElementById('final-score').textContent=ok;
+  const msgs=[[QS.length,'🎉 全問正解！完璧です！'],[Math.floor(QS.length*.8),'👏 よくできました！'],[Math.floor(QS.length*.5),'✅ もう少し！解説を読んで再挑戦。'],[0,'📚 解説ページで復習しましょう。']];
+  document.getElementById('final-msg').textContent=msgs.find(([t])=>ok>=t)[1];
+  if(ok===QS.length)fireConfetti();
+}
+function retry(){answered.fill(false);correct.fill(false);build();updateProg();window.scrollTo({top:0,behavior:'smooth'});}
+function fireConfetti(){
+  const cv=document.getElementById('confetti');cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
+  const ctx=cv.getContext('2d');const cols=['#fecdd3','#fda4af','#fb7185','#f472b6','#ec4899','#ffe4e6'];const pts=[];
+  for(let i=0;i<140;i++)pts.push({x:Math.random()*cv.width,y:-Math.random()*cv.height*.4,s:Math.random()*7+4,c:cols[i%cols.length],sp:2+Math.random()*2.5,vx:(Math.random()-.5)*2});
+  let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';})();
+}
+build();updateProg();
 </script>
 </body>
 </html>

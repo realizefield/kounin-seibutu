@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BL09 確認テスト — 体内環境と血液</title>
 <style>
-:root{--pri:#c0392b;--pri-l:#fecdd3;--pri-ll:#fff1f2;--ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;--ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;--bg:#fdf2f2;--radius:12px;--shadow:0 2px 12px rgba(0,0,0,.07);}
+:root{--pri:#c0392b;--pri-l:#e0e7ff;--pri-ll:#f5f7ff;--ok:#16a34a;--ok-bg:#dcfce7;--ng:#dc2626;--ng-bg:#fee2e2;--ink:#1f2937;--gray:#6b7280;--gray-l:#f3f4f6;--border:#e5e7eb;--bg:#f7f8fc;--radius:12px;--shadow:0 2px 12px rgba(0,0,0,.07);}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;min-height:100vh;padding-bottom:60px;}
 .page-hd{background:linear-gradient(135deg,#c0392b,#e74c3c,#e67e22);color:#fff;padding:26px 16px 22px;text-align:center;position:relative;overflow:hidden;}
@@ -17,7 +17,7 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;ba
 .prog-wrap{background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;position:sticky;top:0;z-index:100;}
 .prog-info{display:flex;justify-content:space-between;font-size:.78rem;color:var(--gray);margin-bottom:5px;}
 .prog-bar{height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--pri),#e67e22);width:0%;transition:width .4s;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--pri),#06b6d4);width:0%;transition:width .4s;}
 .wrap{max-width:700px;margin:0 auto;padding:20px 16px;}
 .q-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;box-shadow:var(--shadow);}
 .q-hd{padding:14px 16px 10px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
@@ -40,8 +40,16 @@ body{font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;ba
 .final-score{font-size:2.6rem;font-weight:800;color:var(--pri);}
 .final-total{font-size:.95rem;color:var(--gray);margin:4px 0 14px;}
 .final-msg{font-size:.95rem;margin-bottom:18px;}
-.final-btn{background:linear-gradient(135deg,var(--pri),#e67e22);color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
+.final-btn{background:linear-gradient(135deg,var(--pri),#0284c7);color:#fff;border:none;padding:11px 28px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;}
 canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none;}
+.page-nav{display:flex;gap:6px;background:#fff;border-bottom:1px solid var(--border);
+  padding:8px 12px;position:sticky;top:0;z-index:200;flex-wrap:wrap;}
+.pnav-btn{flex:1;min-width:60px;padding:6px 4px;border:1.5px solid var(--border);
+  border-radius:8px;font-size:.75rem;font-weight:700;text-align:center;
+  text-decoration:none;color:var(--ink);background:#fff;cursor:pointer;
+  transition:all .15s;white-space:nowrap;}
+.pnav-btn:hover{border-color:var(--pri);background:var(--pri-ll);}
+.pnav-btn.active{background:var(--pri);color:#fff;border-color:var(--pri);}
 </style>
 </head>
 <body>
@@ -50,25 +58,24 @@ canvas#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-event
   <a class="back-btn" href="BL09.html">← 解説へ</a>
   <div class="hd-label">BL-09 確認テスト</div>
   <div class="hd-title">体内環境と血液</div>
-  <div class="hd-sub">全10問 — 選んで答えよう</div>
+  <div class="hd-sub">全9問 — 選んで答えよう</div>
 </div>
 <div class="prog-wrap">
-  <div class="prog-info"><span id="prog-text">0 / 10 問回答済み</span><span id="score-text"></span></div>
+  <div class="prog-info"><span id="prog-text">0 / 9 問回答済み</span><span id="score-text"></span></div>
   <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
 </div>
 <div class="wrap" id="qlist"></div>
 <script>
 const QS=[
-  {q:'赤血球の主な働きはどれか。',opts:['細菌などの異物を取り込んで分解する','血管が傷ついたとき血液を固める','ヘモグロビンで酸素を運搬する','栄養分・ホルモンを全身に運ぶ'],ans:2,ex:'<b>赤血球</b>は表面のヘモグロビン（鉄を含む赤色タンパク質）で<b>酸素を運搬</b>します。酸素圧が高い肺で酸素と結合し、酸素圧が低い組織で放出します。寿命は約120日。'},
-  {q:'白血球の特徴として正しいのはどれか。',opts:['核なし・円盤形で酸素を運ぶ','核あり・アメーバ状で食作用により免疫に関わる','核なし・不規則な小片で血液凝固に関わる','液体成分で老廃物を腎臓へ運ぶ'],ans:1,ex:'<b>白血球</b>は核をもつアメーバ状の血球。好中球・マクロファージなどが含まれ、細菌などを取り込む<b>食作用</b>で免疫の主役を担います。寿命は約2週間。'},
-  {q:'血小板の主な働きはどれか。',opts:['血管が傷ついたとき血液凝固に関わり傷をふさぐ','酸素圧の高い肺で酸素と結合する','細菌などを取り込んで分解する食作用','栄養分・酸素・ホルモンを運ぶ液体成分'],ans:0,ex:'<b>血小板</b>は核をもたない不規則な小片で、血管が傷ついたときに最初に集まり<b>血液凝固</b>に関わります。寿命は約10日。'},
-  {q:'血漿（血しょう）の説明として正しいのはどれか。',opts:['ヘモグロビンを含む赤色のタンパク質','核をもつアメーバ状の細胞','フィブリンと血球が絡み合ったかたまり','91%が水分で、アルブミンや凝固因子などのタンパク質を含む液体'],ans:3,ex:'<b>血漿</b>は血液の液体成分。91%が水分、約9%がアルブミン・免疫グロブリン・血液凝固因子などのタンパク質。栄養・ホルモンを運び、老廃物を肺や腎臓へ運びます。'},
-  {q:'各血液成分の寿命の組み合わせとして正しいのはどれか。',opts:['赤血球：約10日、白血球：約120日、血小板：約2週間','赤血球：約2週間、白血球：約10日、血小板：約120日','赤血球：約120日、白血球：約2週間、血小板：約10日','赤血球：約120日、白血球：約10日、血小板：約2週間'],ans:2,ex:'寿命：<b>赤血球≈120日、白血球≈2週間、血小板≈10日</b>。赤血球が最も長く、血小板が最も短い。'},
-  {q:'血液凝固の正しい順序はどれか。',opts:['赤血球→フィブリン→血餅→血小板','血小板→プロトロンビン→フィブリン→血餅','血漿→血餅→フィブリノーゲン→血小板','白血球→トロンビン→血清→フィブリン'],ans:1,ex:'正しい順序：<b>血小板が集まる → 血液凝固因子+Ca²⁺ → プロトロンビン→トロンビン → フィブリノーゲン→フィブリン → フィブリン+血球＝血餅</b>。'},
-  {q:'フィブリノーゲンをフィブリンに変える酵素はどれか。',opts:['プロトロンビン','トロンビン','フィブリン','アルブミン'],ans:1,ex:'<b>トロンビン</b>（酵素）が血漿中のフィブリノーゲン（タンパク質）を繊維状の<b>フィブリン</b>に変えます。プロトロンビンはトロンビンの前駆体です。'},
-  {q:'血漿が毛細血管からしみ出たものを何というか。',opts:['リンパ液','組織液','血清','体液'],ans:1,ex:'血漿の一部が毛細血管壁を通ってしみ出したものを<b>組織液</b>といいます。組織液がリンパ管に入ると<b>リンパ液</b>になります。'},
-  {q:'赤血球（ア）と白血球（イ）の働きの正しい組合せはどれか。',opts:['ア：血液凝固、イ：免疫','ア：血液凝固、イ：酸素運搬','ア：免疫、イ：血液凝固','ア：酸素運搬、イ：免疫'],ans:3,ex:'<b>赤血球（ア）</b>はヘモグロビンで<b>酸素を運搬</b>、<b>白血球（イ）</b>は食作用で<b>免疫</b>を担当。血液凝固は血小板の役割です。'},
-  {q:'血液凝固について正しいのはどれか。',opts:['血管が傷つくとまず白血球が集まる','トロンビンはプロトロンビンに変化して凝固を進める','フィブリノーゲンがトロンビンの作用でフィブリンに変わる','血液を放置すると上澄みに血餅ができる'],ans:2,ex:'<b>フィブリノーゲン</b>（血漿中のタンパク質）がトロンビンの作用で繊維状の<b>フィブリン</b>に変わります。①は血小板、②は逆（プロトロンビン→トロンビン）、④は上澄みが血清で下に血餅。'},
+  {q:'ホメオスタシスとはどのような働きか。',opts:['体外環境が変化しても体内環境を一定に保つ働き','体内環境が変化しても体外環境を一定に保つ働き','体内の老廃物をすべて体外に排出する働き','体外環境と体内環境を常に同じ状態にする働き'],ans:0,ex:'ホメオスタシス（恒常性）は、体外環境（気温・湿度・光など）が変化しても、体内環境（体液の温度・pH・成分など）を一定に保つ働きです。'},
+  {q:'次のうち体内環境（内部環境）にあたるものはどれか。',opts:['気温','血液中のグルコース濃度','湿度','光の強さ'],ans:1,ex:'体内環境は体液の温度・pH・成分などのこと。気温・湿度・光は体外環境（外部環境）です。'},
+  {q:'赤血球の特徴として正しいものはどれか。',opts:['核をもちアメーバ状で食作用をもつ','血液凝固に関わる不規則な小片','血漿の主成分でタンパク質を含む','核がなく円盤形でヘモグロビンにより酸素を運ぶ'],ans:3,ex:'赤血球は核をもたない円盤形の細胞で、ヘモグロビン（鉄を含む赤色タンパク質）により酸素を運搬します。寿命は約120日です。'},
+  {q:'白血球の特徴として正しいものはどれか。',opts:['核をもちアメーバ状で食作用により異物を分解する','核がなく円盤形で酸素を運ぶ','不規則な小片で血液凝固に関わる','液体成分で栄養分を運ぶ'],ans:0,ex:'白血球は核をもつアメーバ状の血球で、細菌などの異物を取り込んで分解する食作用をもち、免疫の主役です。'},
+  {q:'血小板の特徴として正しいものはどれか。',opts:['核をもち食作用をもつ','円盤形で酸素を運ぶ','核をもたない不規則な小片で血液凝固に関わる','91%が水分の液体成分'],ans:2,ex:'血小板は核をもたない不規則な小片で、血管が傷ついたときに血液凝固に関わり傷をふさぎます。寿命は約10日です。'},
+  {q:'赤血球・白血球・血小板の寿命の組合せとして正しいものはどれか。',opts:['赤血球約10日・白血球約120日・血小板約2週間','赤血球約120日・白血球約2週間・血小板約10日','赤血球約2週間・白血球約10日・血小板約120日','赤血球約120日・白血球約10日・血小板約2週間'],ans:1,ex:'赤血球：約120日、白血球：約2週間、血小板：約10日です。赤血球が最も長く、血小板が最も短いと覚えましょう。'},
+  {q:'血管が傷ついたとき、最初に集まって血液凝固因子を放出するのはどれか。',opts:['赤血球','白血球','リンパ球','血小板'],ans:3,ex:'血管が傷つくと、まず血小板が集まって血液凝固因子を放出し、血液凝固のきっかけをつくります。'},
+  {q:'フィブリノーゲンをフィブリンに変える酵素はどれか。',opts:['プロトロンビン','カルシウムイオン','トロンビン','血液凝固因子'],ans:2,ex:'酵素トロンビンがフィブリノーゲンを繊維状のフィブリンに変えます。プロトロンビンはトロンビンの前駆体です。'},
+  {q:'血液を放置したときにできる、フィブリノーゲンを除いた上澄みの液体を何というか。',opts:['血漿','血清','組織液','リンパ液'],ans:1,ex:'血液を放置すると、上澄みに血清（フィブリノーゲンを除いた血漿）ができ、下にはフィブリンと血球からなる血餅が沈みます。'}
 ];
 
 let answered=new Array(QS.length).fill(false);
@@ -111,14 +118,14 @@ function showFinal(){
   const ok=correct.filter(Boolean).length;
   document.getElementById('final-panel').className='final-panel show';
   document.getElementById('final-score').textContent=ok;
-  const msgs=[[10,'🎉 全問正解！完璧です！'],[8,'👏 よくできました！'],[5,'✅ もう少し！解説を読んで再挑戦。'],[0,'📚 解説ページで復習しましょう。']];
+  const msgs=[[QS.length,'🎉 全問正解！完璧です！'],[Math.floor(QS.length*.8),'👏 よくできました！'],[Math.floor(QS.length*.5),'✅ もう少し！解説を読んで再挑戦。'],[0,'📚 解説ページで復習しましょう。']];
   document.getElementById('final-msg').textContent=msgs.find(([t])=>ok>=t)[1];
   if(ok===QS.length)fireConfetti();
 }
 function retry(){answered.fill(false);correct.fill(false);build();updateProg();window.scrollTo({top:0,behavior:'smooth'});}
 function fireConfetti(){
   const cv=document.getElementById('confetti');cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.display='block';
-  const ctx=cv.getContext('2d');const cols=['#e74c3c','#e67e22','#f1c40f','#2ecc71','#3498db','#9b59b6','#fff'];const pts=[];
+  const ctx=cv.getContext('2d');const cols=['#fecdd3','#fda4af','#fb7185','#f472b6','#ec4899','#ffe4e6'];const pts=[];
   for(let i=0;i<140;i++)pts.push({x:Math.random()*cv.width,y:-Math.random()*cv.height*.4,s:Math.random()*7+4,c:cols[i%cols.length],sp:2+Math.random()*2.5,vx:(Math.random()-.5)*2});
   let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';})();
 }
