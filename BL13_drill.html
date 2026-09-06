@@ -179,7 +179,7 @@ function checkAll(){
     document.getElementById('final-msg').textContent='満点達成！💯';fireConfetti();
   }else{
     res.textContent=`${ok}/${TOTAL} 問正解。赤い空欄を確認しましょう。`;res.className='result-box show ng';
-    document.getElementById('final-msg').textContent=ok>=10?'もう少し！':'解説ページで復習しよう。';
+    document.getElementById('final-msg').textContent=ok>=Math.floor(TOTAL*.8)?'もう少し！':'解説ページで復習しよう。';
   }
   document.getElementById('score-text').textContent=`正解 ${ok} 問`;
 }
