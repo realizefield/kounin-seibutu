@@ -357,6 +357,10 @@ function toggleAudio() {
     else { audio.pause(); upUI(false); }
 }
 audio.onended = () => upUI(false);
+audio.onerror = () => {
+    const area = document.querySelector(".audio-summary-area");
+    if (area) area.style.display = "none";
+};
 function upUI(p) {
     document.getElementById('btnIcon').innerText = p ? "⏸" : "📢";
     document.getElementById('btnText').innerText = p ? "停止中" : "解説を聴く";

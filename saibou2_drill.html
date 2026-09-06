@@ -207,7 +207,7 @@ nav span.current { color: #fff; font-weight: bold; }
 </div>
 <script>
 
-const UNITS = {"1": {"blanks": ["u1_1", "u1_2", "u1_3", "u1_4", "u1_5"], "words": ["核膜", "リボソーム", "DNA", "細胞壁", "真核細胞"]}, "2": {"blanks": ["u2_1", "u2_2", "u2_3", "u2_4", "u2_5", "u2_6", "u2_7"], "words": ["原核細胞", "動物細胞", "植物細胞", "ある", "ない", "共通", "リボソーム"]}};
+const UNITS = {"1": {"blanks": ["u1_1", "u1_2", "u1_3", "u1_4", "u1_5"], "words": ["核膜", "リボソーム", "DNA", "原核細胞", "真核細胞"]}, "2": {"blanks": ["u2_1", "u2_2", "u2_3", "u2_4", "u2_5", "u2_6", "u2_7"], "words": ["原核細胞", "動物細胞", "動物細胞", "植物細胞", "ない", "ない", "リボソーム"]}};
 let scores = {};
 const TOTAL = 12;
 Object.keys(UNITS).forEach(k => { scores[k]=0; });

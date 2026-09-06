@@ -208,9 +208,9 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
             <li>細胞の大きさの計算（μm換算）</li>
           </ul></div>
           <div class="sc-btn-row">
-            <a class="sc-btn" href="kenbi.html">解説</a>
-            <a class="sc-btn sc-btn-drill" href="kenbi_drill.html">練習</a>
-            <a class="sc-btn sc-btn-check" href="kenbi_check.html">確認問題</a>
+            <a class="sc-btn" href="kenbi1.html">解説</a>
+            <a class="sc-btn sc-btn-drill" href="kenbi2.html">練習</a>
+            <a class="sc-btn sc-btn-check" href="kenbi3.html">確認問題</a>
           </div>
           <div class="abc-row">
             <button class="abc-btn abc-a" onclick="setABC('kenbi','a',this)">A OK</button>
@@ -421,7 +421,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
           <div class="sc-body"><ul class="sc-topics"><li>恒常性・体液の種類</li><li>赤血球・白血球・血小板</li><li>血しょう・組織液・リンパ液</li><li>拡散とガス交換・血液凝固</li></ul></div>
           <div class="sc-btn-row">
             <a href="BL09_intro.html" class="sc-btn">📖 intro</a>
-            <a href="BL09_exam.html" class="sc-btn">📝 確認問題</a>
+            <a href="BL09_check.html" class="sc-btn">📝 確認問題</a>
           </div>
           <div class="abc-row"><button class="abc-btn abc-a" onclick="setABC('BL09','a',this)">A OK</button><button class="abc-btn abc-b" onclick="setABC('BL09','b',this)">B 復習</button><button class="abc-btn abc-c" onclick="setABC('BL09','c',this)">C もう一度</button></div>
         </div>
@@ -552,27 +552,6 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
           </div>
         </div>
 
-        <!-- BL17 -->
-        <div class="sec-card" data-id="BL17">
-          <div class="sc-hd"><span class="sc-num">BL-17</span><span class="sc-title">エネルギーの流れ</span><span class="sc-stars">★★☆</span></div>
-          <div class="sc-body"><ul class="sc-topics">
-            <li>総生産量・純生産量・呼吸量</li>
-            <li>同化量・被食量・枯死量</li>
-            <li>エネルギー効率の計算</li>
-          </ul></div>
-          <div class="sc-btn-row">
-            <a class="sc-btn" href="BL17.html">解説</a>
-            <a class="sc-btn sc-btn-drill" href="BL17_drill.html">練習</a>
-            <a class="sc-btn sc-btn-check" href="BL17_check.html">確認問題</a>
-            <a class="sc-btn sc-btn-exam" href="BL17_exam.html">過去問</a>
-          </div>
-          <div class="abc-row">
-            <button class="abc-btn abc-a" onclick="setABC('BL17','a',this)">A OK</button>
-            <button class="abc-btn abc-b" onclick="setABC('BL17','b',this)">B 復習</button>
-            <button class="abc-btn abc-c" onclick="setABC('BL17','c',this)">C もう一度</button>
-          </div>
-        </div>
-
         <!-- BL18 -->
         <div class="sec-card" data-id="BL18">
           <div class="sc-hd"><span class="sc-num">BL-18</span><span class="sc-title">生態系のバランスと保全</span><span class="sc-stars">★★☆</span></div>
@@ -582,6 +561,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
             <li>生態系サービス・地球温暖化</li>
           </ul></div>
           <div class="sc-btn-row">
+            <a class="sc-btn" href="BL18.html">解説</a>
             <a class="sc-btn sc-btn-drill" href="BL18_drill.html">練習</a>
             <a class="sc-btn sc-btn-check" href="BL18_check.html">確認問題</a>
             <a class="sc-btn sc-btn-exam" href="BL18_exam.html">過去問</a>
@@ -622,8 +602,8 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
 
 <script>
 const STORAGE_KEY = 'gamba_bl_status_v2';
-const ACTIVE_IDS = ['saibou1','saibou2','saibou3','kenbi','BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13','BL14','BL15','BL16','BL17','BL18'];
-const ALL_IDS = ['saibou1','saibou2','saibou3','kenbi','BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13','BL14','BL15','BL16','BL17','BL18'];
+const ACTIVE_IDS = ['saibou1','saibou2','saibou3','kenbi','BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13','BL14','BL15','BL16','BL18'];
+const ALL_IDS = ['saibou1','saibou2','saibou3','kenbi','BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13','BL14','BL15','BL16','BL18'];
 let status = {};
 try { const s = localStorage.getItem(STORAGE_KEY); if(s) status = JSON.parse(s); } catch(e){}
 

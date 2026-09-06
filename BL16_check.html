@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BL16 確認テスト</title>
+<style>
+
+
+:root{
+  --pri:#16a34a;--pri-dark:#15803d;--pri-light:#dcfce7;--pri-mid:#bbf7d0;
+  --acc:#f59e0b;--acc-light:#fef3c7;
+  --text:#1e293b;--sub:#475569;--border:#e2e8f0;
+  --bg:#f8fafc;--white:#ffffff;
+  --red:#dc2626;--red-bg:#fee2e2;
+  --blue:#2563eb;--blue-bg:#dbeafe;
+  --purple:#7c3aed;--purple-bg:#ede9fe;
+  --orange:#ea580c;--orange-bg:#ffedd5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Kaku Gothic ProN','Meiryo',sans-serif;background:var(--bg);color:var(--text);line-height:1.9;font-size:16px}
+
+/* ヘッダー */
+.page-header{background:linear-gradient(135deg,var(--pri) 0%,var(--pri-dark) 100%);color:#fff;padding:2.2rem 1.5rem 1.8rem;text-align:center}
+.page-header .unit-label{font-size:.85rem;opacity:.8;margin-bottom:.4rem;letter-spacing:.1em}
+.page-header h1{font-size:1.9rem;font-weight:800;margin-bottom:.5rem}
+.page-header p{font-size:.95rem;opacity:.85}
+
+/* ナビ */
+.nav-bar{background:var(--white);border-bottom:3px solid var(--pri);padding:.7rem 1rem;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.nav-bar a{text-decoration:none;color:var(--pri);font-size:.82rem;font-weight:700;padding:.3rem .75rem;border-radius:999px;border:2px solid var(--pri);transition:all .2s;white-space:nowrap}
+.nav-bar a:hover{background:var(--pri);color:#fff}
+
+.container{max-width:880px;margin:0 auto;padding:2rem 1rem 3rem}
+
+.page-nav{display:flex;justify-content:space-between;align-items:center;margin:2rem 0 1rem;gap:1rem;flex-wrap:wrap}
+.pnav-btn{display:inline-flex;align-items:center;padding:.6rem 1.2rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:.9rem;transition:all .2s;border:2px solid var(--pri);color:var(--pri);background:var(--white)}
+.pnav-btn:hover{background:var(--pri);color:#fff}
+.pnav-prev{margin-right:auto}
+.pnav-next{margin-left:auto;background:var(--pri);color:#fff}
+.pnav-next:hover{background:var(--pri-dark)}
+
+/* 下部ナビ */
+.nav-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:2.5rem;padding-bottom:1rem}
+.nav-links a{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.4rem;border-radius:10px;font-weight:700;text-decoration:none;font-size:.92rem;transition:all .2s}
+.btn-drill{background:var(--pri-light);color:var(--pri-dark);border:2px solid var(--pri)}
+.btn-check{background:var(--acc-light);color:#92400e;border:2px solid var(--acc)}
+.btn-exam{background:var(--blue-bg);color:#1e40af;border:2px solid var(--blue)}
+.btn-drill:hover{background:var(--pri);color:#fff}
+.btn-check:hover{background:var(--acc);color:#fff}
+.btn-exam:hover{background:var(--blue);color:#fff}
+
+/* 花吹雪 */
+.confetti-piece{position:fixed;width:10px;height:10px;top:-10px;border-radius:2px;opacity:0;animation:confetti-fall linear forwards;pointer-events:none;z-index:9999}
+@keyframes confetti-fall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+.quiz-card{background:var(--white);border-radius:14px;border:1px solid var(--border);margin-bottom:2rem;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.quiz-card-header{background:linear-gradient(90deg,var(--pri),var(--pri-dark));color:#fff;padding:.8rem 1.4rem;display:flex;align-items:center;gap:.8rem}
+.q-badge{background:rgba(255,255,255,.25);border-radius:6px;padding:.15rem .6rem;font-size:.82rem;font-weight:800}
+.q-num-label{font-weight:800;font-size:1rem}
+.quiz-card-body{padding:1.5rem}
+.quiz-q{font-size:1.05rem;font-weight:700;margin-bottom:1.2rem;line-height:1.8;color:var(--text)}
+.options{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.2rem}
+.option-label{display:flex;align-items:flex-start;gap:.7rem;cursor:pointer;padding:.7rem 1rem;border:2px solid var(--border);border-radius:10px;transition:all .2s;line-height:1.6}
+.option-label:hover{border-color:var(--pri);background:var(--pri-light)}
+.option-label input{margin-top:.25rem;flex-shrink:0;accent-color:var(--pri)}
+.correct-opt{border-color:#16a34a !important;background:#dcfce7 !important}
+.wrong-opt{border-color:#dc2626 !important;background:#fee2e2 !important}
+.btn-submit{background:var(--pri);color:#fff;border:none;border-radius:8px;padding:.6rem 1.6rem;font-size:.95rem;font-weight:800;cursor:pointer;transition:all .2s}
+.btn-submit:hover{background:var(--pri-dark)}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed}
+.feedback-box{margin-top:1rem;border-radius:10px;overflow:hidden}
+.fb-ok{background:#dcfce7;border:2px solid #16a34a;color:#15803d;font-weight:800;padding:.6rem 1rem;border-radius:8px 8px 0 0}
+.fb-ng{background:#fee2e2;border:2px solid #dc2626;color:#dc2626;font-weight:800;padding:.6rem 1rem;border-radius:8px 8px 0 0}
+.fb-exp{background:var(--pri-light);border:2px solid var(--pri);border-top:none;padding:.8rem 1rem;font-size:.95rem;line-height:1.8;border-radius:0 0 8px 8px}
+.prog-bar-wrap{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.5rem}
+.prog-label{font-size:.85rem;color:var(--sub);margin-bottom:.5rem}
+.prog-bar-bg{background:var(--border);border-radius:999px;height:10px;overflow:hidden}
+.prog-bar-fg{background:var(--pri);height:10px;width:0%;border-radius:999px;transition:width .3s}
+.result-box{display:none;background:linear-gradient(135deg,var(--pri),var(--pri-dark));color:#fff;border-radius:16px;padding:2.5rem 1.5rem;text-align:center;margin-top:2rem}
+.result-score{font-size:3rem;font-weight:900;margin-bottom:.5rem}
+.result-msg{font-size:1.1rem;margin-bottom:1.5rem}
+.btn-retry{background:#fff;color:var(--pri);border:none;border-radius:8px;padding:.7rem 2rem;font-size:1rem;font-weight:800;cursor:pointer}
+
+@media(max-width:600px){
+  .page-header h1{font-size:1.4rem}
+}
+
+</style>
+</head>
+<body>
+<header class="page-header">
+  <div class="unit-label">高認GAMBA 生物基礎 ｜ BL16　確認テスト</div>
+  <h1>✅ 確認テスト</h1>
+  <p>生態系・食物連鎖・物質循環　全10問</p>
+</header>
+<nav class="nav-bar">
+  <a href="BL16.html">📖 解説に戻る</a>
+  <a href="BL16_drill.html">📝 穴埋めドリル</a>
+  <a href="BL16_exam.html">📋 過去問演習</a>
+</nav>
+<div class="container">
+<div class="page-nav">
+  <a href="BL16_drill.html" class="pnav-btn pnav-prev">◀ 穴埋めドリル</a>
+  <a href="BL16_exam.html" class="pnav-btn pnav-next">過去問演習へ ▶</a>
+</div>
+
+<div class="prog-bar-wrap">
+  <div class="prog-label" id="prog-text">0 / 10 問完了</div>
+  <div class="prog-bar-bg"><div class="prog-bar-fg" id="prog-bar"></div></div>
+</div>
+
+<div class="quiz-card" id="qcard-1">
+  <div class="quiz-card-header">
+    <span class="q-badge">第1節</span>
+    <span class="q-num-label">問1</span>
+  </div>
+  <div class="quiz-card-body">
+    <p class="quiz-q">ある地域に生きるすべての生物と、それを取り巻く無機的環境（気温・光・水・土壌など）のまとまりを何というか。</p>
+    <div class="options"><label class="option-label" id="opt-1-1">
+  <input type="radio" name="q1" value="1">
+  <span class="option-text">生態系</span>
+</label><label class="option-label" id="opt-1-2">
+  <input type="radio" name="q1" value="2">
+  <span class="option-text">食物連鎖</span>
+</label><label class="option-label" id="opt-1-3">
+  <input type="radio" name="q1" value="3">
+  <span class="option-text">バイオーム</span>
+</label><label class="option-label" id="opt-1-4">
+  <input type="radio" name="q1" value="4">
+  <span class="option-text">生産者</span>
+</label></div>
+    <button class="btn-submit" onclick="submitQ(1, '1')" id="btn-1">答え合わせ</button>
+    <div class="feedback-box" id="fb-1" style="display:none"></div>
+  </div>
+</div>
+<div class="quiz-card" id="qcard-2">
+  <div class="quiz-card-header">
+    <span class="q-badge">第1節</span>
+    <span class="q-num-label">問2</span>
+  </div>
+  <div class="quiz-card-body">
+    <p class="quiz-q">水・CO₂・O₂のように、炭素を含まない化合物を何というか。</p>
+    <div class="options"><label class="option-label" id="opt-2-1">
+  <input type="radio" name="q2" value="1">
+  <span class="option-text">有機物</span>
+</label><label class="option-label" id="opt-2-2">
+  <input type="radio" name="q2" value="2">
+  <span class="option-text">バイオーム</span>
+</label><label class="option-label" id="opt-2-3">
+  <input type="radio" name="q2" value="3">
+  <span class="option-text">無機物</span>
+</label><label class="option-label" id="opt-2-4">
+  <input type="radio" name="q2" value="4">
+  <span class="option-text">生態系</span>
+</label></div>
+    <button class="btn-submit" onclick="submitQ(2, '3')" id="btn-2">答え合わせ</button>
+    <div class="feedback-box" id="fb-2" style="display:none"></div>
+  </div>
+</div>
+<div class="quiz-card" id="qcard-3">
+  <div class="quiz-card-header">
+    <span class="q-badge">第2節</span>
+    <span class="q-num-label">問3</span>
+  </div>
+  <div class="quiz-card-body">
+    <p class="quiz-q">生産者や他の消費者がつくった有機物を食べて生活する生物を何というか。</p>
+    <div class="options"><label class="option-label" id="opt-3-1">
+  <input type="radio" name="q3" value="1">
+  <span class="option-text">生産者</span>
+</label><label class="option-label" id="opt-3-2">
+  <input type="radio" name="q3" value="2">
+  <span class="option-text">消費者</span>
+</label><label class="option-label" id="opt-3-3">
+  <input type="radio" name="q3" value="3">
+  <span class="option-text">分解者</span>
+</label><label class="option-label" id="opt-3-4">
+  <input type="radio" name="q3" value="4">
+  <span class="option-text">生態系</span>
+</label></div>
+    <button class="btn-submit" onclick="submitQ(3, '2')" id="btn-3">答え合わせ</button>
+    <div class="feedback-box" id="fb-3" style="display:none"></div>
+  </div>
+</div>
+<div class="quiz-card" id="qcard-4">
+  <div class="quiz-card-header">
+    <span class="q-badge">第2節</span>
+    <span class="q-num-label">問4</span>
+  </div>
+  <div class="quiz-card-body">
+    <p class="quiz-q">生物の死骸や排出物（有機物）を無機物に分解する、菌類・細菌類などの生物を何というか。</p>
+    <div class="options"><label class="option-label" id="opt-4-1">
+  <input type="radio" name="q4" value="1">
+  <span class="option-text">生産者</span>
+</label><label class="option-label" id="opt-4-2">
+  <input type="radio" name="q4" value="2">
+  <span class="option-text">消費者</span>
+</label><label class="option-label" id="opt-4-3">
+  <input type="radio" name="q4" value="3">
+  <span class="option-text">生態系</span>
+</label><label class="option-label" id="opt-4-4">
+  <input type="radio" name="q4" value="4">
+  <span class="option-text">分解者</span>
+</label></div>
+    <button class="btn-submit" onclick="submitQ(4, '4')" id="btn-4">答え合わせ</button>
+    <div class="feedback-box" id="fb-4" style="display:none"></div>
+  </div>
+</div>
+<div class="quiz-card" id="qcard-5">
+  <div class="quiz-card-header">
+    <span class="q-badge">第2節</span>
+    <span class="q-num-label">問5</span>
+  </div>
+  <div class="quiz-card-body">
+    <p class="quiz-q">植物→バッタ→カエル→ヘビのような「食べる・食べられる」の一連のつながりを何というか。</p>
+    <div class="options"><label class="option-label" id="opt-5-1">
+  <input type="radio" name="q5" value="1">
+  <span class="option-text">食物連鎖</span>
+</label><label class="option-label" id="opt-5-2">
+  <input type="radio" name="q5" value="2">
+  <span class="option-text">食物網</span>
+</label><label class="option-label" id="opt-5-3">
+  <input type="radio" name="q5" value="3">
+  <span class="option-text">生態系</span>
+</label><label class="option-label" id="opt-5-4">
+  <input type="radio" name="q5" value="4">
+  <span class="option-text">生態ピラミッド</span>
+</label></div>
+    <button class="btn-submit" onclick="submitQ(5, '1')" id="btn-5">答え合わせ</button>
+    <div class="feedback-box" id="fb-5" style="display:none"></div>
+  </div>
+</div>
+<div class="quiz-card" id="qcard-6">
+  <div class="quiz-card-header">
+    <span class="q-badge">第3節</span>
+    <span class="q-num-label">問6</span>
+  </div>
+  <div class="quiz-card-body">
+    <p class="quiz-q">生態ピラミッドにおいて、通常もっとも個体数（量）が多く、ピラミッドの最下段（土台）になるのはどれか。</p>
+    <div class="options"><label class="option-label" id="opt-6-1">
+  <input type="radio" name="q6" value="1">
+  <span class="option-text">第三次消費者</span>
+</label><label class="option-label" id="opt-6-2">
+  <input type="radio" name="q6" value="2">
+  <span class="option-text">第一次消費者</span>
+</label><label class="option-label" id="opt-6-3">
+  <input type="radio" name="q6" value="3">
+  <span class="option-text">生産者</span>
+</label><label class="option-label" id="opt-6-4">
+  <input type="radio" name="q6" value="4">
+  <span class="option-text">第二次消費者</span>
+</label></div>
+    <button class="btn-submit" onclick="submitQ(6, '3')" id="btn-6">答え合わせ</button>
+    <div class="feedback-box" id="fb-6" style="display:none"></div>
+  </div>
+</div>
+<div class="quiz-card" id="qcard-7">
+  <div class="quiz-card-header">
+    <span class="q-badge">第3節</span>
+    <span class="q-num-label">問7</span>
+  </div>
+  <div class="quiz-card-body">
+    <p class="quiz-q">農薬によって第一次消費者（草食動物）の個体数が減ると、それを餌にしている第二次消費者の個体数は一時的にどうなるか。</p>
+    <div class="options"><label class="option-label" id="opt-7-1">
+  <input type="radio" name="q7" value="1">
+  <span class="option-text">増える</span>
+</label><label class="option-label" id="opt-7-2">
+  <input type="radio" name="q7" value="2">
+  <span class="option-text">減る</span>
+</label><label class="option-label" id="opt-7-3">
+  <input type="radio" name="q7" value="3">
+  <span class="option-text">変わらない</span>
+</label><label class="option-label" id="opt-7-4">
+  <input type="radio" name="q7" value="4">
+  <span class="option-text">ただちに絶滅する</span>
+</label></div>
+    <button class="btn-submit" onclick="submitQ(7, '2')" id="btn-7">答え合わせ</button>
+    <div class="feedback-box" id="fb-7" style="display:none"></div>
+  </div>
+</div>
+<div class="quiz-card" id="qcard-8">
+  <div class="quiz-card-header">
+    <span class="q-badge">第4節</span>
+    <span class="q-num-label">問8</span>
+  </div>
+  <div class="quiz-card-body">
+    <p class="quiz-q">生産者・消費者・分解者のすべてが行い、有機物を分解してCO₂を大気中に放出するはたらきを何というか。</p>
+    <div class="options"><label class="option-label" id="opt-8-1">
+  <input type="radio" name="q8" value="1">
+  <span class="option-text">光合成</span>
+</label><label class="option-label" id="opt-8-2">
+  <input type="radio" name="q8" value="2">
+  <span class="option-text">窒素固定</span>
+</label><label class="option-label" id="opt-8-3">
+  <input type="radio" name="q8" value="3">
+  <span class="option-text">硝化</span>
+</label><label class="option-label" id="opt-8-4">
+  <input type="radio" name="q8" value="4">
+  <span class="option-text">呼吸</span>
+</label></div>
+    <button class="btn-submit" onclick="submitQ(8, '4')" id="btn-8">答え合わせ</button>
+    <div class="feedback-box" id="fb-8" style="display:none"></div>
+  </div>
+</div>
+<div class="quiz-card" id="qcard-9">
+  <div class="quiz-card-header">
+    <span class="q-badge">第5節</span>
+    <span class="q-num-label">問9</span>
+  </div>
+  <div class="quiz-card-body">
+    <p class="quiz-q">マメ科植物の根に共生し、大気中のN₂をアンモニウム塩に変える（窒素固定を行う）細菌を何というか。</p>
+    <div class="options"><label class="option-label" id="opt-9-1">
+  <input type="radio" name="q9" value="1">
+  <span class="option-text">根粒菌</span>
+</label><label class="option-label" id="opt-9-2">
+  <input type="radio" name="q9" value="2">
+  <span class="option-text">亜硝酸菌</span>
+</label><label class="option-label" id="opt-9-3">
+  <input type="radio" name="q9" value="3">
+  <span class="option-text">硝酸菌</span>
+</label><label class="option-label" id="opt-9-4">
+  <input type="radio" name="q9" value="4">
+  <span class="option-text">脱窒素細菌</span>
+</label></div>
+    <button class="btn-submit" onclick="submitQ(9, '1')" id="btn-9">答え合わせ</button>
+    <div class="feedback-box" id="fb-9" style="display:none"></div>
+  </div>
+</div>
+<div class="quiz-card" id="qcard-10">
+  <div class="quiz-card-header">
+    <span class="q-badge">第5節</span>
+    <span class="q-num-label">問10</span>
+  </div>
+  <div class="quiz-card-body">
+    <p class="quiz-q">土壌中の硝酸塩を窒素ガス（N₂）に変えて大気中に戻す細菌のはたらきを何というか。</p>
+    <div class="options"><label class="option-label" id="opt-10-1">
+  <input type="radio" name="q10" value="1">
+  <span class="option-text">窒素固定</span>
+</label><label class="option-label" id="opt-10-2">
+  <input type="radio" name="q10" value="2">
+  <span class="option-text">硝化</span>
+</label><label class="option-label" id="opt-10-3">
+  <input type="radio" name="q10" value="3">
+  <span class="option-text">脱窒</span>
+</label><label class="option-label" id="opt-10-4">
+  <input type="radio" name="q10" value="4">
+  <span class="option-text">窒素同化</span>
+</label></div>
+    <button class="btn-submit" onclick="submitQ(10, '3')" id="btn-10">答え合わせ</button>
+    <div class="feedback-box" id="fb-10" style="display:none"></div>
+  </div>
+</div>
+
+<div class="result-box" id="result-box"></div>
+
+<div class="page-nav" style="margin-top:2rem">
+  <a href="BL16_drill.html" class="pnav-btn pnav-prev">◀ 穴埋めドリル</a>
+  <a href="BL16_exam.html" class="pnav-btn pnav-next">過去問演習へ ▶</a>
+</div>
+<div class="nav-links">
+  <a href="BL16.html" class="btn-drill">📖 解説に戻る</a>
+  <a href="BL16_drill.html" class="btn-check">📝 穴埋めドリル</a>
+  <a href="BL16_exam.html" class="btn-exam">📋 過去問演習</a>
+</div>
+</div>
+<script>
+const EXP = {"1": "ある地域のすべての生物と、それを取り巻く無機的環境（気温・光・水・土壌など）のまとまりを<strong>生態系</strong>といいます。", "2": "<strong>無機物</strong>とは炭素を含まない化合物のことです（水・CO₂・O₂・窒素・ミネラルなど）。炭素を含む化合物（タンパク質・脂肪・糖など）は有機物です。", "3": "<strong>消費者</strong>は生産者や他の消費者がつくった有機物を食べて生活する生物です。草食動物・肉食動物などが該当します。", "4": "<strong>分解者</strong>は生物の死骸や排出物（有機物）を無機物に分解する生物で、菌類（カビ・キノコ）や細菌類が該当します。", "5": "<strong>食物連鎖</strong>は「食べる・食べられる」の一連のつながりです。実際の自然界では複数の生物が絡み合った食物網を形成します。", "6": "生態ピラミッドは通常、下ほど個体数（量）が多く上ほど少ないピラミッド形になります。最下段（土台）には最も個体数の多い<strong>生産者</strong>が位置します。", "7": "第一次消費者（草食動物）が減ると、それを餌にする第二次消費者は食物が減るため、一時的に個体数が<strong>減り</strong>ます。このように生態系の一部の変化は連鎖的に他の段階へ影響します。", "8": "<strong>呼吸</strong>は生産者・消費者・分解者すべての生物が行うはたらきで、有機物を分解してエネルギーを取り出す際にCO₂を大気中に放出します。光合成はCO₂を吸収する逆のはたらきです。", "9": "<strong>根粒菌</strong>はマメ科植物の根に共生し、大気中のN₂をアンモニウム塩に変える窒素固定を行います。工業的にはハーバー・ボッシュ法で同様の反応が行われています。", "10": "硝酸塩をN₂として大気中に戻すはたらきを<strong>脱窒</strong>といい、脱窒素細菌が行います。植物が無機窒素を吸収してタンパク質などを合成するはたらきは窒素同化で、これとは異なります。"};
+let score = 0, answered = 0;
+const total = 10;
+
+function submitQ(n, ans) {
+  const radios = document.querySelectorAll(`input[name="q${n}"]`);
+  let chosen = '';
+  radios.forEach(r => { if (r.checked) chosen = r.value; });
+  if (!chosen) { alert('選択肢を選んでください'); return; }
+
+  radios.forEach(r => r.disabled = true);
+  document.getElementById('btn-'+n).disabled = true;
+
+  const fb = document.getElementById('fb-'+n);
+  fb.style.display = 'block';
+
+  // 全選択肢に色付け
+  for (let i = 1; i <= 4; i++) {
+    const lbl = document.getElementById('opt-'+n+'-'+i);
+    if (i == ans) lbl.classList.add('correct-opt');
+    else if (i == chosen && i != ans) lbl.classList.add('wrong-opt');
+  }
+
+  const isOK = chosen === ans;
+  if (isOK) score++;
+  answered++;
+
+  fb.innerHTML = (isOK
+    ? '<div class="fb-ok">⭕ 正解！</div>'
+    : `<div class="fb-ng">❌ 不正解（正解は選択肢 ${ans}）</div>`)
+    + `<div class="fb-exp">${EXP[n]}</div>`;
+
+  // 進捗更新
+  document.getElementById('prog-text').textContent = `${answered} / ${total} 問完了　得点：${score}`;
+  const pct = Math.round(answered / total * 100);
+  document.getElementById('prog-bar').style.width = pct + '%';
+
+  if (answered === total) {
+    showResult();
+  }
+}
+
+function showResult() {
+  const box = document.getElementById('result-box');
+  box.style.display = 'block';
+  const pct = Math.round(score / total * 100);
+  let msg = pct === 100 ? '🎉 満点！完璧です！' : pct >= 70 ? '👍 よくできました！' : '📖 解説ページで復習しましょう。';
+  box.innerHTML = `<div class="result-inner"><div class="result-score">${score} / ${total}</div><div class="result-msg">${msg}</div><button class="btn-retry" onclick="retryAll()">🔄 もう一度</button></div>`;
+  if (pct === 100) launchConfetti();
+}
+
+function launchConfetti() {
+  const colors=['#fecdd3','#fda4af','#fb7185','#f472b6','#ec4899','#ffe4e6'];
+  for (let i = 0; i < 120; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.width = (8 + Math.random() * 10) + 'px';
+    el.style.height = (8 + Math.random() * 10) + 'px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+    el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    el.style.animationDelay = (Math.random() * 1) + 's';
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+
+function retryAll() {
+  score = 0; answered = 0;
+  document.querySelectorAll('input[type=radio]').forEach(r => { r.checked = false; r.disabled = false; });
+  document.querySelectorAll('.btn-submit').forEach(b => b.disabled = false);
+  document.querySelectorAll('.feedback-box').forEach(f => { f.style.display='none'; f.innerHTML=''; });
+  document.querySelectorAll('.option-label').forEach(l => l.classList.remove('correct-opt','wrong-opt'));
+  document.getElementById('prog-text').textContent = '0 / ' + total + ' 問完了';
+  document.getElementById('prog-bar').style.width = '0%';
+  document.getElementById('result-box').style.display = 'none';
+}
+
+</script>
+</body>
+</html>
