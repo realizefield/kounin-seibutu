@@ -133,7 +133,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
     <div class="unit-hd" style="background:linear-gradient(90deg,#0f766e,#0d9488);">
       <span class="unit-num">補足</span>
       <span class="unit-title">細胞のしくみ・顕微鏡</span>
-      <span class="unit-badge">saibou1〜3・kenbi</span>
+      <span class="unit-badge">saibou1〜3</span>
     </div>
     <div class="unit-body">
       <div class="group-label">🔬 細胞構造・代謝・顕微鏡操作</div>
@@ -199,25 +199,7 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
           </div>
         </div>
 
-        <!-- kenbi -->
-        <div class="sec-card" data-id="kenbi">
-          <div class="sc-hd"><span class="sc-num">顕微鏡</span><span class="sc-title">顕微鏡の操作とミクロメーター</span><span class="sc-stars">★★☆</span></div>
-          <div class="sc-body"><ul class="sc-topics">
-            <li>顕微鏡各部の名称とはたらき</li>
-            <li>接眼ミクロメーター・対物ミクロメーターの使い方</li>
-            <li>細胞の大きさの計算（μm換算）</li>
-          </ul></div>
-          <div class="sc-btn-row">
-            <a class="sc-btn" href="kenbi1.html">解説</a>
-            <a class="sc-btn sc-btn-drill" href="kenbi2.html">練習</a>
-            <a class="sc-btn sc-btn-check" href="kenbi3.html">確認問題</a>
-          </div>
-          <div class="abc-row">
-            <button class="abc-btn abc-a" onclick="setABC('kenbi','a',this)">A OK</button>
-            <button class="abc-btn abc-b" onclick="setABC('kenbi','b',this)">B 復習</button>
-            <button class="abc-btn abc-c" onclick="setABC('kenbi','c',this)">C もう一度</button>
-          </div>
-        </div>
+
 
       </div>
     </div>
@@ -602,8 +584,8 @@ canvas#cnf{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:
 
 <script>
 const STORAGE_KEY = 'gamba_bl_status_v2';
-const ACTIVE_IDS = ['saibou1','saibou2','saibou3','kenbi','BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13','BL14','BL15','BL16','BL18'];
-const ALL_IDS = ['saibou1','saibou2','saibou3','kenbi','BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13','BL14','BL15','BL16','BL18'];
+const ACTIVE_IDS = ['saibou1','saibou2','saibou3','BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13','BL14','BL15','BL16','BL18'];
+const ALL_IDS = ['saibou1','saibou2','saibou3','BL01','BL02','BL03','BL04','BL05','BL06','BL07','BL08','BL09','BL10','BL11','BL12','BL13','BL14','BL15','BL16','BL18'];
 let status = {};
 try { const s = localStorage.getItem(STORAGE_KEY); if(s) status = JSON.parse(s); } catch(e){}
 
