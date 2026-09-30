@@ -359,5 +359,6 @@ function confetti(){
   let f=0;(function loop(){ctx.clearRect(0,0,W,H);ps.forEach(q=>{q.vy+=.18;q.sw+=.06;q.x+=q.vx+Math.sin(q.sw)*1.4;q.y+=q.vy;q.rot+=q.vr;ctx.save();ctx.translate(q.x,q.y);ctx.rotate(q.rot);ctx.fillStyle=q.c;if(q.shape==='p'){ctx.beginPath();ctx.ellipse(0,0,q.s,q.s*.55,0,0,7);ctx.fill();}else ctx.fillRect(-q.s/2,-q.s/2,q.s,q.s);ctx.restore();});f++;if(f<360)requestAnimationFrame(loop);else{ctx.clearRect(0,0,W,H);cv.style.display='none';}})();
 }
 </script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>

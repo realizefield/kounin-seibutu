@@ -284,5 +284,6 @@ function fireConfetti(){
   let f=0;(function loop(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.y+=p.sp;p.x+=p.vx;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);if(p.y>cv.height)p.y=-20;});f++;if(f<320)requestAnimationFrame(loop);else cv.style.display='none';})();
 }
 </script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>
